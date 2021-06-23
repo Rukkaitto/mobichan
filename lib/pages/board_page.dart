@@ -47,6 +47,7 @@ class _BoardPageState extends State<BoardPage> {
                   child: PostWidget(
                     post: op,
                     board: widget.args.board,
+                    height: 150,
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(

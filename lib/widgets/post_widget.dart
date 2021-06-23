@@ -9,15 +9,17 @@ class PostWidget extends StatelessWidget {
   final Post post;
   final String board;
   final Function? onTap;
+  final double? height;
 
-  const PostWidget({required this.post, required this.board, this.onTap});
+  const PostWidget(
+      {required this.post, required this.board, this.onTap, this.height});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onTap?.call(),
       child: Container(
-        height: 150,
+        height: height,
         decoration: BoxDecoration(
           color: Colors.grey.shade50,
           boxShadow: [
