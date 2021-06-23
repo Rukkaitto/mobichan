@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobichan/widgets/my_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -11,18 +12,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Mobichan"),
       ),
-      drawer: Drawer(
-        child: SafeArea(
-          child: ListView(
-            children: [
-              ListTile(
-                title: Text("Boards"),
-                onTap: () => Navigator.pushNamed(context, '/boards'),
-              )
-            ],
-          ),
-        ),
-      ),
+      drawer: MyDrawer(),
       body: Container(),
     );
   }

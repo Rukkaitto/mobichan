@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mobichan/classes/board.dart';
+import 'package:mobichan/classes/models/board.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobichan/constants.dart';
 

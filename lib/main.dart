@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/views/home_page.dart';
-import 'package:mobichan/views/boards_page.dart';
+import 'package:mobichan/pages/board_page.dart';
+import 'package:mobichan/pages/home_page.dart';
+import 'package:mobichan/pages/boards_list_page.dart';
+
+import 'constants.dart';
 
 void main() {
   runApp(App());
@@ -15,10 +18,10 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mobichan',
+      title: APP_TITLE,
       initialRoute: '/',
       routes: {
-        '/boards': (context) => BoardsPage(),
+        BoardsListPage.routeName: (context) => BoardsListPage(),
       },
       home: HomePage(),
     );

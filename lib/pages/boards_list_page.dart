@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/board.dart';
+import 'package:mobichan/classes/models/board.dart';
+import 'package:mobichan/classes/board_page_arguments.dart';
+import 'package:mobichan/constants.dart';
+import 'package:mobichan/pages/board_page.dart';
 
-class BoardsPage extends StatefulWidget {
-  const BoardsPage({Key? key}) : super(key: key);
+class BoardsListPage extends StatefulWidget {
+  static const routeName = BOARDS_LIST_ROUTE;
+  const BoardsListPage({Key? key}) : super(key: key);
 
   @override
-  _BoardsPageState createState() => _BoardsPageState();
+  _BoardsListPageState createState() => _BoardsListPageState();
 }
 
-class _BoardsPageState extends State<BoardsPage> {
+class _BoardsListPageState extends State<BoardsListPage> {
   late Future<List<Board>> futureBoards;
 
   @override
@@ -34,6 +38,14 @@ class _BoardsPageState extends State<BoardsPage> {
                 Board board = snapshot.data![index];
                 return ListTile(
                   title: Text('/${board.board}/ - ${board.title}'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BoardPage(
+                        args: BoardPageArguments(board.board, board.title),
+                      ),
+                    ),
+                  ),
                 );
               },
             );
