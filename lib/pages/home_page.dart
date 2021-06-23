@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/widgets/my_drawer.dart';
+import 'package:mobichan/widgets/drawer_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
