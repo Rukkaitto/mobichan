@@ -19,10 +19,11 @@ void main() {
     await postsFuture.then((ops) {
       expect(ops.isEmpty, false);
 
-      Post op = ops.first;
-      expect(op.no > 0, true);
-      expect(op.com == '', false);
-      expect(op.resto == 0, true);
+      ops.forEach((op) {
+        expect(op.no > 0, true);
+        expect(op.com == '', false);
+        expect(op.resto == 0, true);
+      });
     });
   });
 
@@ -31,9 +32,10 @@ void main() {
     await postsFuture.then((posts) {
       expect(posts.isEmpty, false);
 
-      Post post = posts.first;
-      expect(post.no > 0, true);
-      expect(post.com == '', false);
+      posts.forEach((post) {
+        expect(post.no > 0, true);
+        expect(post.com == '', false);
+      });
     });
   });
 }
