@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/models/board.dart';
-import 'package:mobichan/classes/board_page_arguments.dart';
+import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/board_page.dart';
+import 'package:mobichan/utils/utils.dart';
 
 class BoardsListPage extends StatefulWidget {
   static const routeName = BOARDS_LIST_ROUTE;
@@ -38,14 +39,19 @@ class _BoardsListPageState extends State<BoardsListPage> {
                 Board board = snapshot.data![index];
                 return ListTile(
                   title: Text('/${board.board}/ - ${board.title}'),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BoardPage(
-                        args: BoardPageArguments(board.board, board.title),
+                  onTap: () {
+                    Utils.saveLastVisitedBoard(
+                        board: board.board, title: board.title);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BoardPage(
+                          args: BoardPageArguments(
+                              board: board.board, title: board.title),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             );

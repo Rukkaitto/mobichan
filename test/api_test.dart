@@ -21,7 +21,6 @@ void main() {
 
       ops.forEach((op) {
         expect(op.no > 0, true);
-        expect(op.com == '', false);
         expect(op.resto == 0, true);
       });
     });

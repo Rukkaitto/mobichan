@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobichan/classes/arguments/board_page_arguments.dart';
+import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/pages/board_page.dart';
-import 'package:mobichan/pages/home_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/utils/utils.dart';
 
 import 'constants.dart';
 
@@ -16,6 +18,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: APP_TITLE,
@@ -23,7 +30,12 @@ class _AppState extends State<App> {
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
       },
-      home: HomePage(),
+      home: BoardPage(
+        args: BoardPageArguments(
+          board: 'a',
+          title: 'Anime & Manga',
+        ),
+      ),
     );
   }
 }
