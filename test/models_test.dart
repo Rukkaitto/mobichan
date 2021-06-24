@@ -45,7 +45,7 @@ void main() {
   });
 
   group('Post', () {
-    test('should parse Json correctly', () {
+    test('should parse an image post correctly', () {
       const json = <String, dynamic>{
         "no": 570368,
         "sticky": 1,
@@ -98,6 +98,25 @@ void main() {
       expect(post.replies, 2);
       expect(post.images, 2);
       expect(post.uniqueIps, 1);
+    });
+
+    test('should parse a text post correctly', () {
+      const json = <String, dynamic>{
+        "no": 224459788,
+        "now": "06/24/21(Thu)06:17:20",
+        "name": "Anonymous",
+        "com": "Test com",
+        "time": 1624529840,
+        "resto": 224459710
+      };
+
+      Post post = Post.fromJson(json);
+      expect(post.no, 224459788);
+      expect(post.now, '06/24/21(Thu)06:17:20');
+      expect(post.name, 'Anonymous');
+      expect(post.com, 'Test com');
+      expect(post.time, 1624529840);
+      expect(post.resto, 224459710);
     });
   });
 }

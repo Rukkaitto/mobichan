@@ -5,6 +5,9 @@ import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
+import 'package:mobichan/widgets/form/thread_form_widget.dart';
+import 'package:mobichan/widgets/post_action_button_widget.dart';
+import 'package:mobichan/widgets/form/post_form_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 
 class BoardPage extends StatefulWidget {
@@ -18,58 +21,84 @@ class BoardPage extends StatefulWidget {
 
 class _BoardPageState extends State<BoardPage> {
   late Future<List<Post>> futureOPs;
+  bool postFormIsOpen = false;
 
   @override
   void initState() {
-    futureOPs = fetchOPs(board: widget.args.board);
     super.initState();
+    _refresh();
+  }
+
+  void onPressPostActionButton() {
+    setState(() {
+      postFormIsOpen = !postFormIsOpen;
+    });
+  }
+
+  Future<void> _refresh() async {
+    setState(() {
+      futureOPs = fetchOPs(board: widget.args.board);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerWidget(),
+      floatingActionButton: PostActionButton(
+        onPressed: onPressPostActionButton,
+      ),
       appBar: AppBar(
         title: Text('/${widget.args.board}/ - ${widget.args.title}'),
       ),
-      body: FutureBuilder<List<Post>>(
-        future: futureOPs,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                Post op = snapshot.data![index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PostWidget(
-                    post: op,
-                    board: widget.args.board,
-                    height: 150,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ThreadPage(
-                          args: ThreadPageArguments(
-                            board: widget.args.board,
-                            thread: op.no,
-                            title: op.sub ?? op.com ?? '',
+      body: Stack(
+        children: [
+          RefreshIndicator(
+            onRefresh: _refresh,
+            child: FutureBuilder<List<Post>>(
+              future: futureOPs,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      Post op = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: PostWidget(
+                          post: op,
+                          board: widget.args.board,
+                          height: 150,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ThreadPage(
+                                args: ThreadPageArguments(
+                                  board: widget.args.board,
+                                  thread: op.no,
+                                  title: op.sub ?? op.com ?? '',
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
               },
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+            ),
+          ),
+          postFormIsOpen
+              ? ThreadFormWidget(board: widget.args.board)
+              : Container(),
+        ],
       ),
     );
   }

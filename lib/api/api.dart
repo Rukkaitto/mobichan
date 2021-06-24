@@ -52,3 +52,56 @@ Future<List<Post>> fetchOPs({required String board}) async {
     throw Exception('Failed to load OPs.');
   }
 }
+
+void sendPost(
+    {required String board,
+    required String captchaResponse,
+    required Function(String response) onPost,
+    String? name,
+    String? com,
+    required int resto}) async {
+  String url = "https://sys.4channel.org/$board/post";
+  const mode = "regist";
+
+  Map<String, String> headers = {
+    "origin": "https://board.4channel.org",
+    "referer": "https://board.4channel.org/",
+  };
+  Map<String, String> body = {
+    "name": name ?? '',
+    "com": com ?? '',
+    "mode": mode,
+    "resto": resto.toString(),
+    "g-recaptcha-response": captchaResponse
+  };
+  await http
+      .post(Uri.parse(url), headers: headers, body: body)
+      .then((response) => onPost(response.body));
+}
+
+void sendThread({
+  required String board,
+  required String captchaResponse,
+  required Function(String response) onPost,
+  String? name,
+  String? subject,
+  required String com,
+}) async {
+  String url = "https://sys.4channel.org/$board/post";
+  const mode = "regist";
+
+  Map<String, String> headers = {
+    "origin": "https://board.4channel.org",
+    "referer": "https://board.4channel.org/",
+  };
+  Map<String, String> body = {
+    "name": name ?? '',
+    "sub": subject ?? '',
+    "com": com,
+    "mode": mode,
+    "g-recaptcha-response": captchaResponse
+  };
+  await http
+      .post(Uri.parse(url), headers: headers, body: body)
+      .then((response) => onPost(response.body));
+}

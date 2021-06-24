@@ -1,53 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:http/http.dart' as http;
 
 import '../constants.dart';
 
-class Captcha extends StatefulWidget {
-  const Captcha({Key? key}) : super(key: key);
-
-  @override
-  _CaptchaState createState() => _CaptchaState();
-}
-
-class _CaptchaState extends State<Captcha> {
-  String captchaResponse = "";
-
-  sendPost() async {
-    const url = "https://sys.4channel.org/b/post";
-    const resto = "857469340";
-    const com = "no";
-    const mode = "regist";
-
-    Map<String, String> headers = {
-      "origin": "https://board.4channel.org",
-      "referer": "https://board.4channel.org/",
-    };
-    Map<String, String> body = {
-      "com": com,
-      "mode": mode,
-      "resto": resto,
-      "g-recaptcha-response": captchaResponse
-    };
-    await http
-        .post(Uri.parse(url), headers: headers, body: body)
-        .then((response) => print(response.body));
-  }
+class CaptchaWidget extends StatelessWidget {
+  final Function(String response) captchaCallback;
+  const CaptchaWidget({Key? key, required this.captchaCallback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Captcha test'),
-        ),
-        body: InAppWebView(
-          initialData: InAppWebViewInitialData(data: """
+    return InAppWebView(
+      initialData: InAppWebViewInitialData(data: """
             <!DOCTYPE html>
             <html>
             <head>
@@ -80,7 +44,6 @@ class _CaptchaState extends State<Captcha> {
                 grecaptcha.render('captcha-container', {
                     'sitekey': '$CAPTCHA_SITE_KEY',
                     'theme': 'light',
-                    'size': 'compact',
                     'callback': globalOnCaptchaEntered
                 });
                 document.getElementById('captcha-loading').style.display = 'none';
@@ -98,17 +61,13 @@ class _CaptchaState extends State<Captcha> {
             </body>
             </html>
           """, baseUrl: Uri.https("boards.4channel.org", '/')),
-          onWebViewCreated: (InAppWebViewController webViewController) {
-            webViewController.addJavaScriptHandler(
-                handlerName: "captchaCallback",
-                callback: (args) {
-                  setState(() {
-                    captchaResponse = args.first;
-                  });
-                });
-          },
-        ),
-      ),
+      onWebViewCreated: (InAppWebViewController webViewController) {
+        webViewController.addJavaScriptHandler(
+            handlerName: "captchaCallback",
+            callback: (args) {
+              captchaCallback(args.first);
+            });
+      },
     );
   }
 }
