@@ -78,7 +78,7 @@ class _CaptchaState extends State<Captcha> {
 
             window.globalOnCaptchaLoaded = function() {
                 grecaptcha.render('captcha-container', {
-                    'sitekey': '${CAPTCHA_SITE_KEY}',
+                    'sitekey': '$CAPTCHA_SITE_KEY',
                     'theme': 'light',
                     'size': 'compact',
                     'callback': globalOnCaptchaEntered
