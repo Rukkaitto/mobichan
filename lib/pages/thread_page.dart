@@ -79,10 +79,11 @@ class _ThreadPageState extends State<ThreadPage> {
               },
             ),
           ),
-          postFormIsOpen
-              ? PostFormWidget(
-                  board: widget.args.board, thread: widget.args.thread)
-              : Container(),
+          PostFormWidget(
+            board: widget.args.board,
+            thread: widget.args.thread,
+            height: postFormIsOpen ? PostFormWidget.minHeight : 0,
+          ),
         ],
       ),
     );

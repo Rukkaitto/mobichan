@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
@@ -95,9 +96,10 @@ class _BoardPageState extends State<BoardPage> {
               },
             ),
           ),
-          postFormIsOpen
-              ? ThreadFormWidget(board: widget.args.board)
-              : Container(),
+          ThreadFormWidget(
+            board: widget.args.board,
+            height: postFormIsOpen ? ThreadFormWidget.minHeight : 0,
+          ),
         ],
       ),
     );
