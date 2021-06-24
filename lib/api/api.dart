@@ -57,30 +57,45 @@ class Api {
     }
   }
 
-  static void sendPost(
+  static void sendReply(
       {required String board,
       required String captchaResponse,
       required Function(String response) onPost,
       String? name,
       String? com,
-      required int resto}) async {
+      required int resto,
+      PickedFile? pickedFile}) async {
     String url = "https://sys.4channel.org/$board/post";
-    const mode = "regist";
+    var dio = Dio();
+
+    FormData formData = FormData.fromMap({
+      "name": name ?? '',
+      "com": com ?? '',
+      "mode": 'regist',
+      "resto": resto.toString(),
+      "g-recaptcha-response": captchaResponse
+    });
+
+    if (pickedFile != null) {
+      File file = File(pickedFile!.path);
+      formData.files.add(MapEntry(
+        "upfile",
+        await MultipartFile.fromFile(file.path, filename: file.name),
+      ));
+    }
 
     Map<String, String> headers = {
       "origin": "https://board.4channel.org",
       "referer": "https://board.4channel.org/",
     };
-    Map<String, String> body = {
-      "name": name ?? '',
-      "com": com ?? '',
-      "mode": mode,
-      "resto": resto.toString(),
-      "g-recaptcha-response": captchaResponse
-    };
-    await http
-        .post(Uri.parse(url), headers: headers, body: body)
-        .then((response) => onPost(response.body));
+
+    await dio.post(
+      url,
+      data: formData,
+      options: Options(
+        headers: headers,
+      ),
+    );
   }
 
   static void sendThread({
@@ -92,8 +107,8 @@ class Api {
     required String com,
     required PickedFile pickedFile,
   }) async {
-    var dio = Dio();
     String url = "https://sys.4channel.org/$board/post";
+    var dio = Dio();
     File file = File(pickedFile.path);
 
     FormData formData = FormData.fromMap({

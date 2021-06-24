@@ -75,12 +75,13 @@ class _FormWidgetState extends State<FormWidget> {
                   _captchaResponse = response;
                   switch (widget.postType) {
                     case PostType.reply:
-                      Api.sendPost(
+                      Api.sendReply(
                           captchaResponse: _captchaResponse!,
                           board: widget.board,
                           name: _nameFieldController.text,
                           com: _commentFieldController.text,
                           resto: widget.thread!,
+                          pickedFile: _pickedFile,
                           onPost: (response) {
                             print(response);
                           });

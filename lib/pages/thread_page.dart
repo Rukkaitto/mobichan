@@ -5,7 +5,7 @@ import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
-import 'package:mobichan/widgets/form/form_widget.dart';
+import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 
