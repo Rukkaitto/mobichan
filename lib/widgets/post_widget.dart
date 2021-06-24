@@ -34,7 +34,7 @@ class PostWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              post.tim != 0
+              post.tim != null
                   ? Container(
                       width: 150,
                       child: Image.network(
@@ -42,7 +42,7 @@ class PostWidget extends StatelessWidget {
                   : Container(),
               Flexible(
                 child: Html(
-                  data: post.com,
+                  data: post.com ?? '',
                   onAnchorTap: (str, _, __, ___) {
                     print(str);
                   },
