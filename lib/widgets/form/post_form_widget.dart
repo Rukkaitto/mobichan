@@ -84,7 +84,7 @@ class _PostFormWidgetState extends State<PostFormWidget> {
                     IconButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          sendPost(
+                          Api.sendPost(
                               captchaResponse: captchaResponse!,
                               board: widget.board,
                               name: nameFieldController.text,

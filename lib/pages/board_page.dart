@@ -38,7 +38,7 @@ class _BoardPageState extends State<BoardPage> {
 
   Future<void> _refresh() async {
     setState(() {
-      futureOPs = fetchOPs(board: widget.args.board);
+      futureOPs = Api.fetchOPs(board: widget.args.board);
     });
   }
 

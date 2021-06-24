@@ -4,9 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../constants.dart';
 
 class CaptchaWidget extends StatelessWidget {
-  final Function(String response) captchaCallback;
-  const CaptchaWidget({Key? key, required this.captchaCallback})
-      : super(key: key);
+  final Function(String response) onValidate;
+  const CaptchaWidget({Key? key, required this.onValidate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class CaptchaWidget extends StatelessWidget {
         webViewController.addJavaScriptHandler(
             handlerName: "captchaCallback",
             callback: (args) {
-              captchaCallback(args.first);
+              onValidate(args.first);
             });
       },
     );

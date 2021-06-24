@@ -20,7 +20,7 @@ class _BoardsListPageState extends State<BoardsListPage> {
   @override
   void initState() {
     super.initState();
-    futureBoards = fetchBoards();
+    futureBoards = Api.fetchBoards();
   }
 
   @override

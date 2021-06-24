@@ -1,107 +1,123 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
 import 'package:mobichan/classes/models/board.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/extensions/file_extension.dart';
 
-Future<List<Board>> fetchBoards() async {
-  final response = await http.get(Uri.parse(API_BOARDS_URL));
+class Api {
+  static Future<List<Board>> fetchBoards() async {
+    final response = await http.get(Uri.parse(API_BOARDS_URL));
 
-  if (response.statusCode == 200) {
-    List<Board> boards = (jsonDecode(response.body)['boards'] as List)
-        .map((model) => Board.fromJson(model))
-        .toList();
-    return boards;
-  } else {
-    throw Exception('Failed to load boards.');
+    if (response.statusCode == 200) {
+      List<Board> boards = (jsonDecode(response.body)['boards'] as List)
+          .map((model) => Board.fromJson(model))
+          .toList();
+      return boards;
+    } else {
+      throw Exception('Failed to load boards.');
+    }
   }
-}
 
-Future<List<Post>> fetchPosts(
-    {required String board, required int thread}) async {
-  final response =
-      await http.get(Uri.parse('$API_URL/$board/thread/$thread.json'));
+  static Future<List<Post>> fetchPosts(
+      {required String board, required int thread}) async {
+    final response =
+        await http.get(Uri.parse('$API_URL/$board/thread/$thread.json'));
 
-  if (response.statusCode == 200) {
-    List<Post> posts = (jsonDecode(response.body)['posts'] as List)
-        .map((model) => Post.fromJson(model))
-        .toList();
-    return posts;
-  } else {
-    throw Exception('Failed to load posts.');
+    if (response.statusCode == 200) {
+      List<Post> posts = (jsonDecode(response.body)['posts'] as List)
+          .map((model) => Post.fromJson(model))
+          .toList();
+      return posts;
+    } else {
+      throw Exception('Failed to load posts.');
+    }
   }
-}
 
-Future<List<Post>> fetchOPs({required String board}) async {
-  final response = await http.get(Uri.parse('$API_URL/$board/catalog.json'));
+  static Future<List<Post>> fetchOPs({required String board}) async {
+    final response = await http.get(Uri.parse('$API_URL/$board/catalog.json'));
 
-  if (response.statusCode == 200) {
-    List<Post> ops = List.empty(growable: true);
-    List pages = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      List<Post> ops = List.empty(growable: true);
+      List pages = jsonDecode(response.body);
 
-    pages.forEach((page) {
-      List opsInPage = page['threads'];
-      opsInPage.forEach((opInPage) {
-        ops.add(Post.fromJson(opInPage));
+      pages.forEach((page) {
+        List opsInPage = page['threads'];
+        opsInPage.forEach((opInPage) {
+          ops.add(Post.fromJson(opInPage));
+        });
       });
-    });
 
-    return ops;
-  } else {
-    throw Exception('Failed to load OPs.');
+      return ops;
+    } else {
+      throw Exception('Failed to load OPs.');
+    }
   }
-}
 
-void sendPost(
-    {required String board,
+  static void sendPost(
+      {required String board,
+      required String captchaResponse,
+      required Function(String response) onPost,
+      String? name,
+      String? com,
+      required int resto}) async {
+    String url = "https://sys.4channel.org/$board/post";
+    const mode = "regist";
+
+    Map<String, String> headers = {
+      "origin": "https://board.4channel.org",
+      "referer": "https://board.4channel.org/",
+    };
+    Map<String, String> body = {
+      "name": name ?? '',
+      "com": com ?? '',
+      "mode": mode,
+      "resto": resto.toString(),
+      "g-recaptcha-response": captchaResponse
+    };
+    await http
+        .post(Uri.parse(url), headers: headers, body: body)
+        .then((response) => onPost(response.body));
+  }
+
+  static void sendThread({
+    required String board,
     required String captchaResponse,
     required Function(String response) onPost,
     String? name,
-    String? com,
-    required int resto}) async {
-  String url = "https://sys.4channel.org/$board/post";
-  const mode = "regist";
+    String? subject,
+    required String com,
+    required PickedFile pickedFile,
+  }) async {
+    var dio = Dio();
+    String url = "https://sys.4channel.org/$board/post";
+    File file = File(pickedFile.path);
 
-  Map<String, String> headers = {
-    "origin": "https://board.4channel.org",
-    "referer": "https://board.4channel.org/",
-  };
-  Map<String, String> body = {
-    "name": name ?? '',
-    "com": com ?? '',
-    "mode": mode,
-    "resto": resto.toString(),
-    "g-recaptcha-response": captchaResponse
-  };
-  await http
-      .post(Uri.parse(url), headers: headers, body: body)
-      .then((response) => onPost(response.body));
-}
+    FormData formData = FormData.fromMap({
+      "name": name ?? '',
+      "sub": subject ?? '',
+      "pwd": '',
+      "email": '',
+      "com": com,
+      "mode": 'regist',
+      "g-recaptcha-response": captchaResponse,
+      "upfile": await MultipartFile.fromFile(file.path, filename: file.name),
+    });
 
-void sendThread({
-  required String board,
-  required String captchaResponse,
-  required Function(String response) onPost,
-  String? name,
-  String? subject,
-  required String com,
-}) async {
-  String url = "https://sys.4channel.org/$board/post";
-  const mode = "regist";
+    Map<String, String> headers = {
+      "origin": "https://board.4channel.org",
+      "referer": "https://board.4channel.org/",
+    };
 
-  Map<String, String> headers = {
-    "origin": "https://board.4channel.org",
-    "referer": "https://board.4channel.org/",
-  };
-  Map<String, String> body = {
-    "name": name ?? '',
-    "sub": subject ?? '',
-    "com": com,
-    "mode": mode,
-    "g-recaptcha-response": captchaResponse
-  };
-  await http
-      .post(Uri.parse(url), headers: headers, body: body)
-      .then((response) => onPost(response.body));
+    await dio.post(
+      url,
+      data: formData,
+      options: Options(
+        headers: headers,
+      ),
+    );
+  }
 }

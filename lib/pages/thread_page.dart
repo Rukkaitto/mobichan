@@ -28,7 +28,7 @@ class _ThreadPageState extends State<ThreadPage> {
   Future<void> _refresh() async {
     setState(() {
       futurePosts =
-          fetchPosts(board: widget.args.board, thread: widget.args.thread);
+          Api.fetchPosts(board: widget.args.board, thread: widget.args.thread);
     });
   }
 
