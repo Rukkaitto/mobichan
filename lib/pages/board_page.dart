@@ -3,9 +3,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/pages/thread_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 

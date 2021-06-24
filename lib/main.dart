@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
-import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
-import 'package:mobichan/utils/utils.dart';
 
 import 'constants.dart';
 
