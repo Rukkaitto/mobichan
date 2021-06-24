@@ -1,25 +1,25 @@
 class Board {
-  late final String board;
-  late final String title;
-  late final int wsBoard;
-  late final int perPage;
-  late final int pages;
-  late final int maxFileSize;
-  late final int maxWebmFileSize;
-  late final int maxCommentChars;
-  late final int maxWebmDuration;
-  late final int bumpLimit;
-  late final int imageLimit;
-  late final int threadsCooldown;
-  late final int repliesCooldown;
-  late final int imagesCooldown;
-  late final String metaDescription;
-  late int isArchived;
-  late int forcedAnon;
-  late int countryFlags;
-  late int userIds;
-  late int spoilers;
-  late int customSpoilers;
+  final String board;
+  final String title;
+  final int wsBoard;
+  final int perPage;
+  final int pages;
+  final int maxFileSize;
+  final int maxWebmFileSize;
+  final int maxCommentChars;
+  final int maxWebmDuration;
+  final int bumpLimit;
+  final int imageLimit;
+  final int threadsCooldown;
+  final int repliesCooldown;
+  final int imagesCooldown;
+  final String metaDescription;
+  final int? isArchived;
+  final int? forcedAnon;
+  final int? countryFlags;
+  final int? userIds;
+  final int? spoilers;
+  final int? customSpoilers;
 
   Board({
     required this.board,
@@ -37,12 +37,12 @@ class Board {
     required this.repliesCooldown,
     required this.imagesCooldown,
     required this.metaDescription,
-    this.isArchived = 0,
-    this.forcedAnon = 0,
-    this.countryFlags = 0,
-    this.userIds = 0,
-    this.spoilers = 0,
-    this.customSpoilers = 0,
+    this.isArchived,
+    this.forcedAnon,
+    this.countryFlags,
+    this.userIds,
+    this.spoilers,
+    this.customSpoilers,
   });
 
   factory Board.fromJson(Map<String, dynamic> json) {
