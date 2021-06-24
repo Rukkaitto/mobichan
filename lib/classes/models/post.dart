@@ -12,7 +12,7 @@ class Post {
   final int h;
   final int tnW;
   final int tnH;
-  final int tim;
+  final int? tim;
   final int time;
   final String md5;
   final int fsize;
@@ -37,7 +37,7 @@ class Post {
       required this.h,
       required this.tnW,
       required this.tnH,
-      required this.tim,
+      this.tim,
       required this.time,
       required this.md5,
       required this.fsize,
