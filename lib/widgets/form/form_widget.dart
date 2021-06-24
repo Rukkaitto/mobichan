@@ -2,22 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/api/api.dart';
+import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/captcha_widget.dart';
 
-class ThreadFormWidget extends StatefulWidget {
+class FormWidget extends StatefulWidget {
   final String board;
   final double height;
-  static double minHeight = 175;
-  static double maxHeight = 315;
+  final PostType postType;
+  final int? thread;
 
-  ThreadFormWidget({Key? key, required this.board, required this.height})
+  FormWidget(
+      {Key? key,
+      this.thread,
+      required this.board,
+      required this.height,
+      required this.postType})
       : super(key: key);
 
   @override
-  _ThreadFormWidgetState createState() => _ThreadFormWidgetState();
+  _FormWidgetState createState() => _FormWidgetState();
 }
 
-class _ThreadFormWidgetState extends State<ThreadFormWidget> {
+class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
   final _nameFieldController = TextEditingController();
   final _subjectFieldController = TextEditingController();
@@ -41,7 +48,11 @@ class _ThreadFormWidgetState extends State<ThreadFormWidget> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      height: _expanded ? ThreadFormWidget.maxHeight : widget.height,
+      height: _expanded
+          ? (widget.postType == PostType.thread
+              ? THREAD_FORM_MAX_HEIGHT
+              : REPLY_FORM_MAX_HEIGHT)
+          : widget.height,
       duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
@@ -62,14 +73,29 @@ class _ThreadFormWidgetState extends State<ThreadFormWidget> {
             ? CaptchaWidget(onValidate: (response) {
                 setState(() {
                   _captchaResponse = response;
-                  Api.sendThread(
-                      captchaResponse: _captchaResponse!,
-                      board: widget.board,
-                      subject: _subjectFieldController.text,
-                      name: _nameFieldController.text,
-                      com: _commentFieldController.text,
-                      pickedFile: _pickedFile!,
-                      onPost: (response) {});
+                  switch (widget.postType) {
+                    case PostType.reply:
+                      Api.sendPost(
+                          captchaResponse: _captchaResponse!,
+                          board: widget.board,
+                          name: _nameFieldController.text,
+                          com: _commentFieldController.text,
+                          resto: widget.thread!,
+                          onPost: (response) {
+                            print(response);
+                          });
+                      break;
+                    case PostType.thread:
+                      Api.sendThread(
+                          captchaResponse: _captchaResponse!,
+                          board: widget.board,
+                          subject: _subjectFieldController.text,
+                          name: _nameFieldController.text,
+                          com: _commentFieldController.text,
+                          pickedFile: _pickedFile!,
+                          onPost: (response) {});
+                      break;
+                  }
                 });
               })
             : FocusTraversalGroup(
@@ -90,7 +116,7 @@ class _ThreadFormWidgetState extends State<ThreadFormWidget> {
                                     controller: _nameFieldController,
                                   )
                                 : Container(),
-                            _expanded
+                            _expanded && widget.postType == PostType.thread
                                 ? TextFormField(
                                     decoration:
                                         InputDecoration(labelText: 'Subject'),
@@ -113,8 +139,6 @@ class _ThreadFormWidgetState extends State<ThreadFormWidget> {
                                 setState(() {
                                   _showCaptcha = true;
                                 });
-/*
-*/
                               }
                             },
                             icon: Icon(

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
+import 'package:mobichan/widgets/form/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
-import 'package:mobichan/widgets/form/post_form_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 
 class ThreadPage extends StatefulWidget {
@@ -79,10 +81,11 @@ class _ThreadPageState extends State<ThreadPage> {
               },
             ),
           ),
-          PostFormWidget(
+          FormWidget(
+            postType: PostType.reply,
             board: widget.args.board,
             thread: widget.args.thread,
-            height: postFormIsOpen ? PostFormWidget.minHeight : 0,
+            height: postFormIsOpen ? FORM_MIN_HEIGHT : 0,
           ),
         ],
       ),
