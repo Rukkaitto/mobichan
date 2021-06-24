@@ -6,16 +6,16 @@ class Post {
   final String name;
   final String? sub;
   final String? com;
-  final String filename;
-  final String ext;
-  final int w;
-  final int h;
-  final int tnW;
-  final int tnH;
+  final String? filename;
+  final String? ext;
+  final int? w;
+  final int? h;
+  final int? tnW;
+  final int? tnH;
   final int? tim;
   final int time;
-  final String md5;
-  final int fsize;
+  final String? md5;
+  final int? fsize;
   final int resto;
   final String? capcode;
   final String? semanticUrl;
@@ -31,16 +31,16 @@ class Post {
       required this.name,
       this.sub,
       this.com,
-      required this.filename,
-      required this.ext,
-      required this.w,
-      required this.h,
-      required this.tnW,
-      required this.tnH,
+      this.filename,
+      this.ext,
+      this.w,
+      this.h,
+      this.tnW,
+      this.tnH,
       this.tim,
       required this.time,
-      required this.md5,
-      required this.fsize,
+      this.md5,
+      this.fsize,
       required this.resto,
       this.capcode,
       this.semanticUrl,
