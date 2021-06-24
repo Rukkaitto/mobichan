@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/pages/thread_page.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -36,7 +34,7 @@ class PostWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              post.tim != null
+              post.tim != 0
                   ? Container(
                       width: 150,
                       child: Image.network(
