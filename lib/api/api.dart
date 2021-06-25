@@ -77,7 +77,7 @@ class Api {
     });
 
     if (pickedFile != null) {
-      File file = File(pickedFile!.path);
+      File file = File(pickedFile.path);
       formData.files.add(MapEntry(
         "upfile",
         await MultipartFile.fromFile(file.path, filename: file.name),

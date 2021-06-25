@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
@@ -19,7 +18,7 @@ class ThreadPage extends StatefulWidget {
 
 class _ThreadPageState extends State<ThreadPage> {
   late Future<List<Post>> futurePosts;
-  bool postFormIsOpen = false;
+  bool postFormIsOpened = false;
 
   @override
   void initState() {
@@ -36,7 +35,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
   void onPressPostActionButton() {
     setState(() {
-      postFormIsOpen = !postFormIsOpen;
+      postFormIsOpened = !postFormIsOpened;
     });
   }
 
@@ -85,7 +84,12 @@ class _ThreadPageState extends State<ThreadPage> {
             postType: PostType.reply,
             board: widget.args.board,
             thread: widget.args.thread,
-            height: postFormIsOpen ? FORM_MIN_HEIGHT : 0,
+            isOpened: postFormIsOpened,
+            onClose: () {
+              setState(() {
+                postFormIsOpened = false;
+              });
+            },
           ),
         ],
       ),

@@ -3,7 +3,6 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
@@ -22,7 +21,7 @@ class BoardPage extends StatefulWidget {
 
 class _BoardPageState extends State<BoardPage> {
   late Future<List<Post>> futureOPs;
-  bool postFormIsOpen = false;
+  bool postFormIsOpened = false;
 
   @override
   void initState() {
@@ -32,7 +31,7 @@ class _BoardPageState extends State<BoardPage> {
 
   void onPressPostActionButton() {
     setState(() {
-      postFormIsOpen = !postFormIsOpen;
+      postFormIsOpened = !postFormIsOpened;
     });
   }
 
@@ -99,7 +98,12 @@ class _BoardPageState extends State<BoardPage> {
           FormWidget(
             postType: PostType.thread,
             board: widget.args.board,
-            height: postFormIsOpen ? FORM_MIN_HEIGHT : 0,
+            isOpened: postFormIsOpened,
+            onClose: () {
+              setState(() {
+                postFormIsOpened = false;
+              });
+            },
           ),
         ],
       ),
