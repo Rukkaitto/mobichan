@@ -61,6 +61,12 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   Future<bool> _onWillPop() async {
+    if (_showCaptcha) {
+      setState(() {
+        _showCaptcha = false;
+      });
+      return false;
+    }
     if (_expanded) {
       setState(() {
         _expanded = false;
@@ -104,13 +110,25 @@ class _FormWidgetState extends State<FormWidget> {
     }
   }
 
+  double computeHeight(
+      bool expanded, bool showCaptcha, PostType postType, double fullHeight) {
+    double height;
+    if (showCaptcha) {
+      height = fullHeight;
+    } else {
+      height = expanded
+          ? (postType == PostType.thread
+              ? THREAD_FORM_MAX_HEIGHT
+              : REPLY_FORM_MAX_HEIGHT)
+          : FORM_MIN_HEIGHT;
+    }
+    return height;
+  }
+
   @override
   Widget build(BuildContext context) {
-    double height = _expanded
-        ? (widget.postType == PostType.thread
-            ? THREAD_FORM_MAX_HEIGHT
-            : REPLY_FORM_MAX_HEIGHT)
-        : FORM_MIN_HEIGHT;
+    double height = computeHeight(_expanded, _showCaptcha, widget.postType,
+        MediaQuery.of(context).size.height);
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -140,9 +158,6 @@ class _FormWidgetState extends State<FormWidget> {
             child: _showCaptcha
                 ? CaptchaWidget(
                     onValidate: _onValidateCaptcha,
-                    onError: () {
-                      print("error");
-                    },
                   )
                 : FocusTraversalGroup(
                     descendantsAreFocusable: true,

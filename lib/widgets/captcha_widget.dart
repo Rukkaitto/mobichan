@@ -28,7 +28,7 @@ class CaptchaWidget extends StatelessWidget {
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                 <style>
                   * {
-                    transform: scale(1.25);
+                    transform: scale(1.30);
                     transform-origin: 0 0;
                   }
                 </style>
