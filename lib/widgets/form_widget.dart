@@ -138,7 +138,12 @@ class _FormWidgetState extends State<FormWidget> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: _showCaptcha
-                ? CaptchaWidget(onValidate: _onValidateCaptcha)
+                ? CaptchaWidget(
+                    onValidate: _onValidateCaptcha,
+                    onError: () {
+                      print("error");
+                    },
+                  )
                 : FocusTraversalGroup(
                     descendantsAreFocusable: true,
                     child: Form(
