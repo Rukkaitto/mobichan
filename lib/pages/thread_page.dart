@@ -51,8 +51,8 @@ class _ThreadPageState extends State<ThreadPage> {
     await _refresh();
   }
 
-
-  Widget Function(BuildContext, int) _listViewItemBuilder(AsyncSnapshot<List<Post>> snapshot) {
+  Widget Function(BuildContext, int) _listViewItemBuilder(
+      AsyncSnapshot<List<Post>> snapshot) {
     return (context, index) {
       Post post = snapshot.data![index];
       return Padding(
@@ -62,7 +62,7 @@ class _ThreadPageState extends State<ThreadPage> {
           board: widget.args.board,
         ),
       );
-    }
+    };
   }
 
   @override
