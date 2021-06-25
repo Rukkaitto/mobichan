@@ -80,6 +80,13 @@ class _FormWidgetState extends State<FormWidget> {
     return true;
   }
 
+  void _onPost(Response<String> response) {
+    widget.onPost(response);
+    setState(() {
+      _showCaptcha = false;
+    });
+  }
+
   void _onValidateCaptcha(String response) {
     setState(() {
       _captchaResponse = response;
@@ -93,7 +100,7 @@ class _FormWidgetState extends State<FormWidget> {
           com: _commentFieldController.text,
           resto: widget.thread!,
           pickedFile: _pickedFile,
-          onPost: widget.onPost,
+          onPost: _onPost,
         );
         break;
       case PostType.thread:
@@ -104,7 +111,7 @@ class _FormWidgetState extends State<FormWidget> {
           name: _nameFieldController.text,
           com: _commentFieldController.text,
           pickedFile: _pickedFile!,
-          onPost: widget.onPost,
+          onPost: _onPost,
         );
         break;
     }

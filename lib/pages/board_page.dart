@@ -10,6 +10,7 @@ import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';
