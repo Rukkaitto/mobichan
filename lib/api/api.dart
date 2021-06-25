@@ -60,7 +60,7 @@ class Api {
   static void sendReply(
       {required String board,
       required String captchaResponse,
-      required Function(String response) onPost,
+      required Function(String? response) onPost,
       String? name,
       String? com,
       required int resto,
@@ -89,19 +89,20 @@ class Api {
       "referer": "https://board.4channel.org/",
     };
 
-    await dio.post(
+    Response<String> response = await dio.post(
       url,
       data: formData,
       options: Options(
         headers: headers,
       ),
     );
+    onPost(response.data);
   }
 
   static void sendThread({
     required String board,
     required String captchaResponse,
-    required Function(String response) onPost,
+    required Function(String? response) onPost,
     String? name,
     String? subject,
     required String com,
@@ -127,12 +128,13 @@ class Api {
       "referer": "https://board.4channel.org/",
     };
 
-    await dio.post(
+    Response<String> response = await dio.post(
       url,
       data: formData,
       options: Options(
         headers: headers,
       ),
     );
+    onPost(response.data);
   }
 }

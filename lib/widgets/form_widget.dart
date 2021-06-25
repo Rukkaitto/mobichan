@@ -12,6 +12,7 @@ class FormWidget extends StatefulWidget {
   final PostType postType;
   final int? thread;
   final Function() onClose;
+  final Function(String?) onPost;
 
   FormWidget(
       {Key? key,
@@ -19,7 +20,8 @@ class FormWidget extends StatefulWidget {
       required this.board,
       required this.isOpened,
       required this.postType,
-      required this.onClose})
+      required this.onClose,
+      required this.onPost})
       : super(key: key);
 
   @override
@@ -101,25 +103,25 @@ class _FormWidgetState extends State<FormWidget> {
                       switch (widget.postType) {
                         case PostType.reply:
                           Api.sendReply(
-                              captchaResponse: _captchaResponse!,
-                              board: widget.board,
-                              name: _nameFieldController.text,
-                              com: _commentFieldController.text,
-                              resto: widget.thread!,
-                              pickedFile: _pickedFile,
-                              onPost: (response) {
-                                print(response);
-                              });
+                            captchaResponse: _captchaResponse!,
+                            board: widget.board,
+                            name: _nameFieldController.text,
+                            com: _commentFieldController.text,
+                            resto: widget.thread!,
+                            pickedFile: _pickedFile,
+                            onPost: widget.onPost,
+                          );
                           break;
                         case PostType.thread:
                           Api.sendThread(
-                              captchaResponse: _captchaResponse!,
-                              board: widget.board,
-                              subject: _subjectFieldController.text,
-                              name: _nameFieldController.text,
-                              com: _commentFieldController.text,
-                              pickedFile: _pickedFile!,
-                              onPost: (response) {});
+                            captchaResponse: _captchaResponse!,
+                            board: widget.board,
+                            subject: _subjectFieldController.text,
+                            name: _nameFieldController.text,
+                            com: _commentFieldController.text,
+                            pickedFile: _pickedFile!,
+                            onPost: widget.onPost,
+                          );
                           break;
                       }
                     });
@@ -167,6 +169,9 @@ class _FormWidgetState extends State<FormWidget> {
                                     setState(() {
                                       _showCaptcha = true;
                                     });
+                                    // Take away focus to close keyboard
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
                                   }
                                 },
                                 icon: Icon(

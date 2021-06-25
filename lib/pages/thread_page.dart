@@ -17,8 +17,8 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
-  late Future<List<Post>> futurePosts;
-  bool postFormIsOpened = false;
+  late Future<List<Post>> _futurePosts;
+  bool _postFormIsOpened = false;
 
   @override
   void initState() {
@@ -28,15 +28,26 @@ class _ThreadPageState extends State<ThreadPage> {
 
   Future<void> _refresh() async {
     setState(() {
-      futurePosts =
+      _futurePosts =
           Api.fetchPosts(board: widget.args.board, thread: widget.args.thread);
     });
   }
 
   void onPressPostActionButton() {
     setState(() {
-      postFormIsOpened = !postFormIsOpened;
+      _postFormIsOpened = !_postFormIsOpened;
     });
+  }
+
+  void _onCloseForm() {
+    setState(() {
+      _postFormIsOpened = false;
+    });
+  }
+
+  void _onFormPost(String? response) async {
+    _onCloseForm();
+    await _refresh();
   }
 
   @override
@@ -54,7 +65,7 @@ class _ThreadPageState extends State<ThreadPage> {
           RefreshIndicator(
             onRefresh: _refresh,
             child: FutureBuilder<List<Post>>(
-              future: futurePosts,
+              future: _futurePosts,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -84,12 +95,9 @@ class _ThreadPageState extends State<ThreadPage> {
             postType: PostType.reply,
             board: widget.args.board,
             thread: widget.args.thread,
-            isOpened: postFormIsOpened,
-            onClose: () {
-              setState(() {
-                postFormIsOpened = false;
-              });
-            },
+            isOpened: _postFormIsOpened,
+            onClose: _onCloseForm,
+            onPost: _onFormPost,
           ),
         ],
       ),

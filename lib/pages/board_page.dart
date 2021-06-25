@@ -20,8 +20,8 @@ class BoardPage extends StatefulWidget {
 }
 
 class _BoardPageState extends State<BoardPage> {
-  late Future<List<Post>> futureOPs;
-  bool postFormIsOpened = false;
+  late Future<List<Post>> _futureOPs;
+  bool _postFormIsOpened = false;
 
   @override
   void initState() {
@@ -29,16 +29,27 @@ class _BoardPageState extends State<BoardPage> {
     _refresh();
   }
 
-  void onPressPostActionButton() {
+  void _onPressPostActionButton() {
     setState(() {
-      postFormIsOpened = !postFormIsOpened;
+      _postFormIsOpened = !_postFormIsOpened;
     });
   }
 
   Future<void> _refresh() async {
     setState(() {
-      futureOPs = Api.fetchOPs(board: widget.args.board);
+      _futureOPs = Api.fetchOPs(board: widget.args.board);
     });
+  }
+
+  void _onCloseForm() {
+    setState(() {
+      _postFormIsOpened = false;
+    });
+  }
+
+  void _onFormPost(String? response) async {
+    _onCloseForm();
+    await _refresh();
   }
 
   @override
@@ -46,7 +57,7 @@ class _BoardPageState extends State<BoardPage> {
     return Scaffold(
       drawer: DrawerWidget(),
       floatingActionButton: PostActionButton(
-        onPressed: onPressPostActionButton,
+        onPressed: _onPressPostActionButton,
       ),
       appBar: AppBar(
         title: Text('/${widget.args.board}/ - ${widget.args.title}'),
@@ -56,7 +67,7 @@ class _BoardPageState extends State<BoardPage> {
           RefreshIndicator(
             onRefresh: _refresh,
             child: FutureBuilder<List<Post>>(
-              future: futureOPs,
+              future: _futureOPs,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -98,12 +109,9 @@ class _BoardPageState extends State<BoardPage> {
           FormWidget(
             postType: PostType.thread,
             board: widget.args.board,
-            isOpened: postFormIsOpened,
-            onClose: () {
-              setState(() {
-                postFormIsOpened = false;
-              });
-            },
+            isOpened: _postFormIsOpened,
+            onPost: _onFormPost,
+            onClose: _onCloseForm,
           ),
         ],
       ),
