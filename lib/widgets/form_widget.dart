@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +13,7 @@ class FormWidget extends StatefulWidget {
   final PostType postType;
   final int? thread;
   final Function() onClose;
-  final Function(String?) onPost;
+  final Function(Response<String>) onPost;
 
   FormWidget(
       {Key? key,
@@ -49,6 +50,16 @@ class _FormWidgetState extends State<FormWidget> {
     });
   }
 
+  void _onSendIconPress() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _showCaptcha = true;
+      });
+      // Take away focus to close keyboard
+      FocusScope.of(context).requestFocus(FocusNode());
+    }
+  }
+
   Future<bool> _onWillPop() async {
     if (_expanded) {
       setState(() {
@@ -61,6 +72,36 @@ class _FormWidgetState extends State<FormWidget> {
       return false;
     }
     return true;
+  }
+
+  void _onValidateCaptcha(String response) {
+    setState(() {
+      _captchaResponse = response;
+    });
+    switch (widget.postType) {
+      case PostType.reply:
+        Api.sendReply(
+          captchaResponse: _captchaResponse!,
+          board: widget.board,
+          name: _nameFieldController.text,
+          com: _commentFieldController.text,
+          resto: widget.thread!,
+          pickedFile: _pickedFile,
+          onPost: widget.onPost,
+        );
+        break;
+      case PostType.thread:
+        Api.sendThread(
+          captchaResponse: _captchaResponse!,
+          board: widget.board,
+          subject: _subjectFieldController.text,
+          name: _nameFieldController.text,
+          com: _commentFieldController.text,
+          pickedFile: _pickedFile!,
+          onPost: widget.onPost,
+        );
+        break;
+    }
   }
 
   @override
@@ -97,35 +138,7 @@ class _FormWidgetState extends State<FormWidget> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: _showCaptcha
-                ? CaptchaWidget(onValidate: (response) {
-                    setState(() {
-                      _captchaResponse = response;
-                      switch (widget.postType) {
-                        case PostType.reply:
-                          Api.sendReply(
-                            captchaResponse: _captchaResponse!,
-                            board: widget.board,
-                            name: _nameFieldController.text,
-                            com: _commentFieldController.text,
-                            resto: widget.thread!,
-                            pickedFile: _pickedFile,
-                            onPost: widget.onPost,
-                          );
-                          break;
-                        case PostType.thread:
-                          Api.sendThread(
-                            captchaResponse: _captchaResponse!,
-                            board: widget.board,
-                            subject: _subjectFieldController.text,
-                            name: _nameFieldController.text,
-                            com: _commentFieldController.text,
-                            pickedFile: _pickedFile!,
-                            onPost: widget.onPost,
-                          );
-                          break;
-                      }
-                    });
-                  })
+                ? CaptchaWidget(onValidate: _onValidateCaptcha)
                 : FocusTraversalGroup(
                     descendantsAreFocusable: true,
                     child: Form(
@@ -164,16 +177,7 @@ class _FormWidgetState extends State<FormWidget> {
                           Column(
                             children: [
                               IconButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() {
-                                      _showCaptcha = true;
-                                    });
-                                    // Take away focus to close keyboard
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                  }
-                                },
+                                onPressed: _onSendIconPress,
                                 icon: Icon(
                                   Icons.send,
                                   color: Theme.of(context).accentColor,

@@ -60,7 +60,7 @@ class Api {
   static void sendReply(
       {required String board,
       required String captchaResponse,
-      required Function(String? response) onPost,
+      required Function(Response<String> response) onPost,
       String? name,
       String? com,
       required int resto,
@@ -96,13 +96,13 @@ class Api {
         headers: headers,
       ),
     );
-    onPost(response.data);
+    onPost(response);
   }
 
   static void sendThread({
     required String board,
     required String captchaResponse,
-    required Function(String? response) onPost,
+    required Function(Response<String> response) onPost,
     String? name,
     String? subject,
     required String com,
@@ -135,6 +135,6 @@ class Api {
         headers: headers,
       ),
     );
-    onPost(response.data);
+    onPost(response);
   }
 }

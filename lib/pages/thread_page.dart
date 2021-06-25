@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
@@ -45,9 +46,23 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
-  void _onFormPost(String? response) async {
+  void _onFormPost(Response<String> response) async {
     _onCloseForm();
     await _refresh();
+  }
+
+
+  Widget Function(BuildContext, int) _listViewItemBuilder(AsyncSnapshot<List<Post>> snapshot) {
+    return (context, index) {
+      Post post = snapshot.data![index];
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PostWidget(
+          post: post,
+          board: widget.args.board,
+        ),
+      );
+    }
   }
 
   @override
@@ -70,16 +85,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      Post post = snapshot.data![index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PostWidget(
-                          post: post,
-                          board: widget.args.board,
-                        ),
-                      );
-                    },
+                    itemBuilder: _listViewItemBuilder(snapshot),
                   );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");

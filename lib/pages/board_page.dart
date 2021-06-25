@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
@@ -47,9 +48,36 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  void _onFormPost(String? response) async {
+  void _onFormPost(Response<String> response) async {
     _onCloseForm();
     await _refresh();
+  }
+
+  Widget Function(BuildContext, int) _listViewItemBuilder(
+      AsyncSnapshot<List<Post>> snapshot) {
+    return (BuildContext context, int index) {
+      Post op = snapshot.data![index];
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PostWidget(
+          post: op,
+          board: widget.args.board,
+          height: 150,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ThreadPage(
+                args: ThreadPageArguments(
+                  board: widget.args.board,
+                  thread: op.no,
+                  title: op.sub ?? op.com ?? '',
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    };
   }
 
   @override
@@ -72,29 +100,7 @@ class _BoardPageState extends State<BoardPage> {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      Post op = snapshot.data![index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PostWidget(
-                          post: op,
-                          board: widget.args.board,
-                          height: 150,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ThreadPage(
-                                args: ThreadPageArguments(
-                                  board: widget.args.board,
-                                  thread: op.no,
-                                  title: op.sub ?? op.com ?? '',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    itemBuilder: _listViewItemBuilder(snapshot),
                   );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");

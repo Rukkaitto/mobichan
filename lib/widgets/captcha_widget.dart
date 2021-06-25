@@ -7,6 +7,10 @@ class CaptchaWidget extends StatelessWidget {
   final Function(String response) onValidate;
   const CaptchaWidget({Key? key, required this.onValidate}) : super(key: key);
 
+  void _captchaCallback(List args) {
+    onValidate(args.first);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InAppWebView(
@@ -62,10 +66,7 @@ class CaptchaWidget extends StatelessWidget {
           """, baseUrl: Uri.https("boards.4channel.org", '/')),
       onWebViewCreated: (InAppWebViewController webViewController) {
         webViewController.addJavaScriptHandler(
-            handlerName: "captchaCallback",
-            callback: (args) {
-              onValidate(args.first);
-            });
+            handlerName: "captchaCallback", callback: _captchaCallback);
       },
     );
   }
