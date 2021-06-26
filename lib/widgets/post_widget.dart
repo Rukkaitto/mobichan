@@ -41,10 +41,10 @@ class PostWidget extends StatelessWidget {
                   },
                   style: {
                     ".quote": Style(
-                      color: Colors.green,
+                      color: Colors.green.shade300,
                     ),
                     ".quotelink": Style(
-                      color: Colors.red,
+                      color: Theme.of(context).accentColor,
                     ),
                   },
                 ),
