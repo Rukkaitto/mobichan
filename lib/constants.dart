@@ -32,3 +32,18 @@ const threadNumbersTextStyle = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.w400,
 );
+
+TextStyle postNameTextStyle(BuildContext context) {
+  return TextStyle(
+    fontSize: 14,
+    color: Theme.of(context).accentColor,
+    fontWeight: FontWeight.w600,
+  );
+}
+
+TextStyle postNoTextStyle(BuildContext context) {
+  return TextStyle(
+    fontSize: 14,
+    color: Theme.of(context).hintColor,
+  );
+}

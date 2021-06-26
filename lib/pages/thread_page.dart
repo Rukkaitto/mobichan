@@ -58,7 +58,7 @@ class _ThreadPageState extends State<ThreadPage> {
     return (context, index) {
       Post post = snapshot.data![index];
       return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.only(left: 15, top: 15, right: 15),
         child: PostWidget(
           post: post,
           board: widget.args.board,
