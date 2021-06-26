@@ -81,23 +81,7 @@ class _ThreadPageState extends State<ThreadPage> {
         children: [
           RefreshIndicator(
             onRefresh: _refresh,
-            child: FutureBuilder<List<Post>>(
-              future: _futurePosts,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: _listViewItemBuilder(snapshot),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
+            child: buildFutureBuilder(),
           ),
           FormWidget(
             postType: PostType.reply,
@@ -109,6 +93,26 @@ class _ThreadPageState extends State<ThreadPage> {
           ),
         ],
       ),
+    );
+  }
+
+  FutureBuilder<List<Post>> buildFutureBuilder() {
+    return FutureBuilder<List<Post>>(
+      future: _futurePosts,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: _listViewItemBuilder(snapshot),
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

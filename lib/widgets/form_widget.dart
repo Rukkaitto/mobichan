@@ -144,94 +144,134 @@ class _FormWidgetState extends State<FormWidget> {
         curve: Curves.easeInOut,
         top: widget.isOpened ? 0 : -height,
         width: MediaQuery.of(context).size.width,
-        child: AnimatedContainer(
-          height: height,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  color: Colors.black.withOpacity(0.3),
-                ),
-              ]),
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: _showCaptcha
-                ? CaptchaWidget(
-                    onValidate: _onValidateCaptcha,
-                  )
-                : FocusTraversalGroup(
-                    descendantsAreFocusable: true,
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      onChanged: () => Form.of(primaryFocus!.context!)!.save(),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                _expanded
-                                    ? TextFormField(
-                                        decoration:
-                                            InputDecoration(labelText: 'Name'),
-                                        controller: _nameFieldController,
-                                      )
-                                    : Container(),
-                                _expanded && widget.postType == PostType.thread
-                                    ? TextFormField(
-                                        decoration: InputDecoration(
-                                            labelText: 'Subject'),
-                                        controller: _subjectFieldController,
-                                      )
-                                    : Container(),
-                                TextFormField(
-                                  decoration:
-                                      InputDecoration(labelText: 'Comment'),
-                                  controller: _commentFieldController,
-                                  maxLines: 5,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              IconButton(
-                                onPressed: _onSendIconPress,
-                                icon: Icon(
-                                  Icons.send,
-                                  color: Theme.of(context).accentColor,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _onPictureIconPress();
-                                  });
-                                },
-                                icon: Icon(Icons.image),
-                              ),
-                              IconButton(
-                                onPressed: _onExpandIconPress,
-                                icon: Icon(_expanded
-                                    ? Icons.keyboard_arrow_up
-                                    : Icons.keyboard_arrow_down),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+        child: buildAnimatedContainer(height, context),
+      ),
+    );
+  }
+
+  AnimatedContainer buildAnimatedContainer(
+      double height, BuildContext context) {
+    return AnimatedContainer(
+      height: height,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      decoration: BoxDecoration(
+          color: Theme.of(context).canvasColor,
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: Colors.black.withOpacity(0.3),
+            ),
+          ]),
+      child: Padding(
+        padding: EdgeInsets.all(15.0),
+        child: _showCaptcha
+            ? CaptchaWidget(
+                onValidate: _onValidateCaptcha,
+              )
+            : buildForm(context),
+      ),
+    );
+  }
+
+  FocusTraversalGroup buildForm(BuildContext context) {
+    return FocusTraversalGroup(
+      descendantsAreFocusable: true,
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.always,
+        onChanged: () => Form.of(primaryFocus!.context!)!.save(),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FormFields(
+                expanded: _expanded,
+                nameFieldController: _nameFieldController,
+                widget: widget,
+                subjectFieldController: _subjectFieldController,
+                commentFieldController: _commentFieldController),
+            buildIconButtons(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column buildIconButtons(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+          onPressed: _onSendIconPress,
+          icon: Icon(
+            Icons.send,
+            color: Theme.of(context).accentColor,
           ),
         ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _onPictureIconPress();
+            });
+          },
+          icon: Icon(Icons.image),
+        ),
+        IconButton(
+          onPressed: _onExpandIconPress,
+          icon: Icon(
+              _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
+        ),
+      ],
+    );
+  }
+}
+
+class FormFields extends StatelessWidget {
+  const FormFields({
+    Key? key,
+    required bool expanded,
+    required TextEditingController nameFieldController,
+    required this.widget,
+    required TextEditingController subjectFieldController,
+    required TextEditingController commentFieldController,
+  })  : _expanded = expanded,
+        _nameFieldController = nameFieldController,
+        _subjectFieldController = subjectFieldController,
+        _commentFieldController = commentFieldController,
+        super(key: key);
+
+  final bool _expanded;
+  final TextEditingController _nameFieldController;
+  final FormWidget widget;
+  final TextEditingController _subjectFieldController;
+  final TextEditingController _commentFieldController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          _expanded
+              ? TextFormField(
+                  decoration: InputDecoration(labelText: 'Name'),
+                  controller: _nameFieldController,
+                )
+              : Container(),
+          _expanded && widget.postType == PostType.thread
+              ? TextFormField(
+                  decoration: InputDecoration(labelText: 'Subject'),
+                  controller: _subjectFieldController,
+                )
+              : Container(),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Comment'),
+            controller: _commentFieldController,
+            maxLines: 5,
+          ),
+        ],
       ),
     );
   }

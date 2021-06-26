@@ -96,23 +96,7 @@ class _BoardPageState extends State<BoardPage> {
         children: [
           RefreshIndicator(
             onRefresh: _refresh,
-            child: FutureBuilder<List<Post>>(
-              future: _futureOPs,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: _listViewItemBuilder(snapshot),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
+            child: buildFutureBuilder(),
           ),
           FormWidget(
             postType: PostType.thread,
@@ -123,6 +107,26 @@ class _BoardPageState extends State<BoardPage> {
           ),
         ],
       ),
+    );
+  }
+
+  FutureBuilder<List<Post>> buildFutureBuilder() {
+    return FutureBuilder<List<Post>>(
+      future: _futureOPs,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: _listViewItemBuilder(snapshot),
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

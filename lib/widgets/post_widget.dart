@@ -26,15 +26,10 @@ class PostWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 post.tim != null
-                    ? Container(
-                        width: 150,
-                        child: Image.network(
-                          '$API_IMAGES_URL/$board/${post.tim}s.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                    ? PostImage(board: board, post: post)
                     : Container(),
                 Expanded(
+                  flex: 2,
                   child: Padding(
                     padding: EdgeInsets.all(6),
                     child: Column(
@@ -42,34 +37,9 @@ class PostWidget extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 8, left: 8, right: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                post.name,
-                                style: postNameTextStyle(context),
-                              ),
-                              Text(
-                                post.no.toString(),
-                                style: postNoTextStyle(context),
-                              ),
-                            ],
-                          ),
+                          child: PostHeader(post: post),
                         ),
-                        Html(
-                          data: post.com ?? '',
-                          onAnchorTap: (str, _, __, ___) {
-                            print(str);
-                          },
-                          style: {
-                            ".quote": Style(
-                              color: Colors.green.shade300,
-                            ),
-                            ".quotelink": Style(
-                              color: Theme.of(context).accentColor,
-                            ),
-                          },
-                        ),
+                        PostContent(post: post),
                       ],
                     ),
                   ),
@@ -77,6 +47,82 @@ class PostWidget extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PostContent extends StatelessWidget {
+  const PostContent({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Html(
+      data: post.com ?? '',
+      onAnchorTap: (str, _, __, ___) {
+        print(str);
+      },
+      style: {
+        ".quote": Style(
+          color: Colors.green.shade300,
+        ),
+        ".quotelink": Style(
+          color: Theme.of(context).accentColor,
+        ),
+      },
+    );
+  }
+}
+
+class PostHeader extends StatelessWidget {
+  const PostHeader({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          post.name,
+          style: postNameTextStyle(context),
+        ),
+        Text(
+          post.no.toString(),
+          style: postNoTextStyle(context),
+        ),
+      ],
+    );
+  }
+}
+
+class PostImage extends StatelessWidget {
+  const PostImage({
+    Key? key,
+    required this.board,
+    required this.post,
+  }) : super(key: key);
+
+  final String board;
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        child: Image.network(
+          '$API_IMAGES_URL/$board/${post.tim}s.jpg',
+          fit: BoxFit.cover,
         ),
       ),
     );
