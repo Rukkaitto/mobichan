@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/pages/image_viewer_page.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -119,10 +120,21 @@ class PostImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        child: Image.network(
-          '$API_IMAGES_URL/$board/${post.tim}s.jpg',
-          fit: BoxFit.cover,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => ImageViewerPage(board, post),
+            ),
+          );
+        },
+        child: Hero(
+          tag: post.tim.toString(),
+          child: Image.network(
+            '$API_IMAGES_URL/$board/${post.tim}s.jpg',
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
