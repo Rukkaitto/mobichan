@@ -19,14 +19,7 @@ class PostWidget extends StatelessWidget {
       child: Container(
         height: height,
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 3,
-            ),
-          ],
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
