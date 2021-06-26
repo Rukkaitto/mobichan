@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 const String APP_TITLE = "Mobichan";
 const String CAPTCHA_SITE_KEY = "6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
 
@@ -16,3 +19,16 @@ const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
 const double FORM_MIN_HEIGHT = 175;
 const double THREAD_FORM_MAX_HEIGHT = 315;
 const double REPLY_FORM_MAX_HEIGHT = 250;
+
+// Text styles
+const threadTitleTextStyle = TextStyle(
+  fontSize: 26,
+  color: Colors.white,
+  fontWeight: FontWeight.w500,
+);
+
+const threadNumbersTextStyle = TextStyle(
+  fontSize: 24,
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+);

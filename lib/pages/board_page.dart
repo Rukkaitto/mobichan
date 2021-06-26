@@ -5,12 +5,12 @@ import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
-import 'package:mobichan/widgets/post_widget.dart';
-import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/widgets/thread_widget.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';
@@ -59,11 +59,10 @@ class _BoardPageState extends State<BoardPage> {
     return (BuildContext context, int index) {
       Post op = snapshot.data![index];
       return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PostWidget(
+        padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+        child: ThreadWidget(
           post: op,
           board: widget.args.board,
-          height: 150,
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -71,7 +70,9 @@ class _BoardPageState extends State<BoardPage> {
                 args: ThreadPageArguments(
                   board: widget.args.board,
                   thread: op.no,
-                  title: op.sub ?? op.com ?? '',
+                  title: op.sub ??
+                      op.com?.replaceBrWithSpace.removeHtmlTags.unescapeHtml ??
+                      '',
                 ),
               ),
             ),

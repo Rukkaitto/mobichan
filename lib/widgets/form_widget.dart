@@ -149,7 +149,7 @@ class _FormWidgetState extends State<FormWidget> {
           duration: Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
