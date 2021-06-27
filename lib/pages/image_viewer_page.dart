@@ -11,19 +11,19 @@ class ImageViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InteractiveViewer(
-      clipBehavior: Clip.none,
-      child: FittedBox(
-        child: Hero(
-          tag: post.tim.toString(),
+    return Hero(
+      tag: post.tim.toString(),
+      child: InteractiveViewer(
+        clipBehavior: Clip.none,
+        child: FittedBox(
           child: Stack(
             children: [
               Image.network('$API_IMAGES_URL/$board/${post.tim}s.jpg'),
               Image.network('$API_IMAGES_URL/$board/${post.tim}${post.ext}'),
             ],
           ),
+          fit: BoxFit.fitWidth,
         ),
-        fit: BoxFit.fitWidth,
       ),
     );
   }
