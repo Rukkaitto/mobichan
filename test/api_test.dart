@@ -5,7 +5,7 @@ import 'package:mobichan/classes/models/post.dart';
 
 void main() {
   test('should fetch a list of boards', () async {
-    Future<List<Board>> boardsFuture = fetchBoards();
+    Future<List<Board>> boardsFuture = Api.fetchBoards();
     await boardsFuture.then((boards) {
       expect(boards.isEmpty, false);
 
@@ -15,7 +15,7 @@ void main() {
   });
 
   test('should fetch all the OPs in a board', () async {
-    Future<List<Post>> postsFuture = fetchOPs(board: 'a');
+    Future<List<Post>> postsFuture = Api.fetchOPs(board: 'a');
     await postsFuture.then((ops) {
       expect(ops.isEmpty, false);
 
@@ -27,7 +27,8 @@ void main() {
   });
 
   test('should fetch a list of posts in a thread', () async {
-    Future<List<Post>> postsFuture = fetchPosts(board: 'po', thread: 570368);
+    Future<List<Post>> postsFuture =
+        Api.fetchPosts(board: 'po', thread: 570368);
     await postsFuture.then((posts) {
       expect(posts.isEmpty, false);
 

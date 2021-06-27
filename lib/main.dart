@@ -28,6 +28,7 @@ class _AppState extends State<App> {
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
       },
+      darkTheme: ThemeData.dark(),
       home: BoardPage(
         args: BoardPageArguments(
           board: 'a',

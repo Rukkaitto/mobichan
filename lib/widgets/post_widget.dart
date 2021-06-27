@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/pages/image_viewer_page.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -14,49 +16,124 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap?.call(),
-      child: Container(
-        height: height,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 3,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              post.tim != null
-                  ? Container(
-                      width: 150,
-                      child: Image.network(
-                          '$API_IMAGES_URL/$board/${post.tim}s.jpg'))
-                  : Container(),
-              Flexible(
-                child: Html(
-                  data: post.com ?? '',
-                  onAnchorTap: (str, _, __, ___) {
-                    print(str);
-                  },
-                  style: {
-                    ".quote": Style(
-                      color: Colors.green,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: () => onTap?.call(),
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                post.tim != null
+                    ? PostImage(board: board, post: post)
+                    : Container(),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 8, left: 8, right: 8),
+                          child: PostHeader(post: post),
+                        ),
+                        PostContent(post: post),
+                      ],
                     ),
-                    ".quotelink": Style(
-                      color: Colors.red,
-                    ),
-                  },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PostContent extends StatelessWidget {
+  const PostContent({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Html(
+      data: post.com ?? '',
+      onAnchorTap: (str, _, __, ___) {
+        print(str);
+      },
+      style: {
+        ".quote": Style(
+          color: Colors.green.shade300,
+        ),
+        ".quotelink": Style(
+          color: Theme.of(context).accentColor,
+        ),
+      },
+    );
+  }
+}
+
+class PostHeader extends StatelessWidget {
+  const PostHeader({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          post.name ?? post.trip ?? 'Anonymous',
+          style: postNameTextStyle(context),
+        ),
+        Text(
+          post.no.toString(),
+          style: postNoTextStyle(context),
+        ),
+      ],
+    );
+  }
+}
+
+class PostImage extends StatelessWidget {
+  const PostImage({
+    Key? key,
+    required this.board,
+    required this.post,
+  }) : super(key: key);
+
+  final String board;
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => ImageViewerPage(board, post),
+            ),
+          );
+        },
+        child: Hero(
+          tag: post.tim.toString(),
+          child: Image.network(
+            '$API_IMAGES_URL/$board/${post.tim}s.jpg',
+            fit: BoxFit.cover,
           ),
         ),
       ),

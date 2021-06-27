@@ -20,7 +20,7 @@ class _BoardsListPageState extends State<BoardsListPage> {
   @override
   void initState() {
     super.initState();
-    futureBoards = fetchBoards();
+    futureBoards = Api.fetchBoards();
   }
 
   @override
@@ -29,41 +29,57 @@ class _BoardsListPageState extends State<BoardsListPage> {
       appBar: AppBar(
         title: Text('Boards'),
       ),
-      body: FutureBuilder<List<Board>>(
-        future: futureBoards,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                Board board = snapshot.data![index];
-                return ListTile(
-                  title: Text('/${board.board}/ - ${board.title}'),
-                  onTap: () {
-                    Utils.saveLastVisitedBoard(
-                        board: board.board, title: board.title);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BoardPage(
-                          args: BoardPageArguments(
-                              board: board.board, title: board.title),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
+      body: buildFutureBuilder(),
+    );
+  }
 
-          return Center(
-            child: CircularProgressIndicator(),
+  FutureBuilder<List<Board>> buildFutureBuilder() {
+    return FutureBuilder<List<Board>>(
+      future: futureBoards,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              Board board = snapshot.data![index];
+              return BoardListTile(board: board);
+            },
           );
-        },
-      ),
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+}
+
+class BoardListTile extends StatelessWidget {
+  const BoardListTile({
+    Key? key,
+    required this.board,
+  }) : super(key: key);
+
+  final Board board;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('/${board.board}/ - ${board.title}'),
+      onTap: () {
+        Utils.saveLastVisitedBoard(board: board.board, title: board.title);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BoardPage(
+              args: BoardPageArguments(board: board.board, title: board.title),
+            ),
+          ),
+        );
+      },
     );
   }
 }
