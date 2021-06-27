@@ -8,7 +8,6 @@ import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 
 class ThreadPage extends StatefulWidget {
   final ThreadPageArguments args;
@@ -48,7 +47,6 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   void _onFormPost(Response<String> response) async {
-    print(response.data!.errorMsg);
     _onCloseForm();
     await _refresh();
   }

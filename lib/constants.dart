@@ -45,3 +45,9 @@ TextStyle postNoTextStyle(BuildContext context) {
     color: Theme.of(context).hintColor,
   );
 }
+
+TextStyle errorSnackbarTextStyle(BuildContext context) {
+  return TextStyle(
+    color: Theme.of(context).textTheme.bodyText1!.color,
+  );
+}

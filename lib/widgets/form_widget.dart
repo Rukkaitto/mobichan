@@ -6,6 +6,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/captcha_widget.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 
 class FormWidget extends StatefulWidget {
   final String board;
@@ -81,16 +82,40 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   void _onPost(Response<String> response) {
-    widget.onPost(response);
+    if (response.data!.errorMsg != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        buildSnackBar(response),
+      );
+    } else {
+      widget.onPost(response);
+    }
     setState(() {
       _showCaptcha = false;
     });
+  }
+
+  SnackBar buildSnackBar(Response<String> response) {
+    return SnackBar(
+      backgroundColor: Theme.of(context).errorColor,
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      content: Text(
+        response.data!.errorMsg!,
+        style: errorSnackbarTextStyle(context),
+      ),
+    );
   }
 
   void _onValidateCaptcha(String response) {
     setState(() {
       _captchaResponse = response;
     });
+    print(widget.postType);
     switch (widget.postType) {
       case PostType.reply:
         Api.sendReply(
@@ -110,7 +135,7 @@ class _FormWidgetState extends State<FormWidget> {
           subject: _subjectFieldController.text,
           name: _nameFieldController.text,
           com: _commentFieldController.text,
-          pickedFile: _pickedFile!,
+          pickedFile: _pickedFile,
           onPost: _onPost,
         );
         break;

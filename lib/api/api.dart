@@ -106,11 +106,10 @@ class Api {
     String? name,
     String? subject,
     required String com,
-    required PickedFile pickedFile,
+    required PickedFile? pickedFile,
   }) async {
     String url = "https://sys.4channel.org/$board/post";
     var dio = Dio();
-    File file = File(pickedFile.path);
 
     FormData formData = FormData.fromMap({
       "name": name ?? '',
@@ -120,8 +119,15 @@ class Api {
       "com": com,
       "mode": 'regist',
       "g-recaptcha-response": captchaResponse,
-      "upfile": await MultipartFile.fromFile(file.path, filename: file.name),
     });
+
+    if (pickedFile != null) {
+      File file = File(pickedFile.path);
+      formData.files.add(MapEntry(
+        "upfile",
+        await MultipartFile.fromFile(file.path, filename: file.name),
+      ));
+    }
 
     Map<String, String> headers = {
       "origin": "https://board.4channel.org",
