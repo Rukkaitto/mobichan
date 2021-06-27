@@ -2,7 +2,7 @@
     package="com.lucasgoudin.mobichan">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="mobichan"
+        android:label="Mobichan"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
