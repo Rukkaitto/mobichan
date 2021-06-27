@@ -59,7 +59,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Color(0xaa000000),
+        backgroundColor: TRANSPARENT_COLOR,
         body: SafeArea(
           child: Center(
             child: Hero(

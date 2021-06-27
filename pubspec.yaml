@@ -37,6 +37,7 @@ dependencies:
   cached_network_image: ^3.0.0
   html_unescape: ^2.0.0
   video_player: ^2.1.6
+  image_gallery_saver: ^1.6.9
 
 dev_dependencies:
   flutter_test:
