@@ -19,6 +19,7 @@ const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
 const double FORM_MIN_HEIGHT = 175;
 const double THREAD_FORM_MAX_HEIGHT = 315;
 const double REPLY_FORM_MAX_HEIGHT = 250;
+const double IMAGE_PREVIEW_HEIGHT = 120;
 
 // Text styles
 const threadTitleTextStyle = TextStyle(

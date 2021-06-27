@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,11 @@ class _FormWidgetState extends State<FormWidget> {
   bool _showCaptcha = false;
 
   void _onPictureIconPress() async {
-    _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    PickedFile? pickedFile =
+        await _picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _pickedFile = pickedFile;
+    });
   }
 
   void _onExpandIconPress() {
@@ -142,8 +148,8 @@ class _FormWidgetState extends State<FormWidget> {
     }
   }
 
-  double computeHeight(
-      bool expanded, bool showCaptcha, PostType postType, double fullHeight) {
+  double computeHeight(bool expanded, bool showCaptcha, PostType postType,
+      double fullHeight, PickedFile? pickedFile) {
     double height;
     if (showCaptcha) {
       height = fullHeight;
@@ -153,6 +159,9 @@ class _FormWidgetState extends State<FormWidget> {
               ? THREAD_FORM_MAX_HEIGHT
               : REPLY_FORM_MAX_HEIGHT)
           : FORM_MIN_HEIGHT;
+      if (pickedFile != null) {
+        height += IMAGE_PREVIEW_HEIGHT + 10;
+      }
     }
     return height;
   }
@@ -160,7 +169,7 @@ class _FormWidgetState extends State<FormWidget> {
   @override
   Widget build(BuildContext context) {
     double height = computeHeight(_expanded, _showCaptcha, widget.postType,
-        MediaQuery.of(context).size.height);
+        MediaQuery.of(context).size.height, _pickedFile);
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -214,11 +223,18 @@ class _FormWidgetState extends State<FormWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormFields(
-                expanded: _expanded,
-                nameFieldController: _nameFieldController,
-                widget: widget,
-                subjectFieldController: _subjectFieldController,
-                commentFieldController: _commentFieldController),
+              expanded: _expanded,
+              nameFieldController: _nameFieldController,
+              widget: widget,
+              subjectFieldController: _subjectFieldController,
+              commentFieldController: _commentFieldController,
+              pickedFile: _pickedFile,
+              clearPickedFile: () {
+                setState(() {
+                  _pickedFile = null;
+                });
+              },
+            ),
             buildIconButtons(context),
           ],
         ),
@@ -257,15 +273,19 @@ class _FormWidgetState extends State<FormWidget> {
 class FormFields extends StatelessWidget {
   const FormFields({
     Key? key,
+    pickedFile,
     required bool expanded,
     required TextEditingController nameFieldController,
     required this.widget,
     required TextEditingController subjectFieldController,
     required TextEditingController commentFieldController,
+    required Function() clearPickedFile,
   })  : _expanded = expanded,
         _nameFieldController = nameFieldController,
         _subjectFieldController = subjectFieldController,
         _commentFieldController = commentFieldController,
+        _pickedfile = pickedFile,
+        _clearPickedFile = clearPickedFile,
         super(key: key);
 
   final bool _expanded;
@@ -273,29 +293,46 @@ class FormFields extends StatelessWidget {
   final FormWidget widget;
   final TextEditingController _subjectFieldController;
   final TextEditingController _commentFieldController;
+  final PickedFile? _pickedfile;
+  final Function() _clearPickedFile;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          _expanded
-              ? TextFormField(
-                  decoration: InputDecoration(labelText: 'Name'),
-                  controller: _nameFieldController,
-                )
-              : Container(),
-          _expanded && widget.postType == PostType.thread
-              ? TextFormField(
-                  decoration: InputDecoration(labelText: 'Subject'),
-                  controller: _subjectFieldController,
-                )
-              : Container(),
+          if (_expanded)
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Name'),
+              controller: _nameFieldController,
+            ),
+          if (_expanded && widget.postType == PostType.thread)
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Subject'),
+              controller: _subjectFieldController,
+            ),
           TextFormField(
             decoration: InputDecoration(labelText: 'Comment'),
             controller: _commentFieldController,
             maxLines: 5,
           ),
+          if (_pickedfile != null)
+            Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.file(
+                    File(_pickedfile!.path),
+                    height: IMAGE_PREVIEW_HEIGHT,
+                  ),
+                  IconButton(
+                    onPressed: _clearPickedFile,
+                    icon: Icon(Icons.cancel_rounded),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
