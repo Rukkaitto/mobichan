@@ -1,7 +1,7 @@
 class Post {
   final int no;
   final String now;
-  final String name;
+  final String? name;
   final int time;
   final int resto;
   final int? sticky;
@@ -22,31 +22,34 @@ class Post {
   final int? replies;
   final int? images;
   final int? uniqueIps;
+  final String? trip;
 
-  Post(
-      {required this.no,
-      required this.now,
-      required this.name,
-      required this.time,
-      required this.resto,
-      this.sticky,
-      this.closed,
-      this.sub,
-      this.com,
-      this.filename,
-      this.ext,
-      this.w,
-      this.h,
-      this.tnW,
-      this.tnH,
-      this.tim,
-      this.md5,
-      this.fsize,
-      this.capcode,
-      this.semanticUrl,
-      this.replies,
-      this.images,
-      this.uniqueIps});
+  Post({
+    required this.no,
+    required this.now,
+    required this.name,
+    required this.time,
+    required this.resto,
+    this.sticky,
+    this.closed,
+    this.sub,
+    this.com,
+    this.filename,
+    this.ext,
+    this.w,
+    this.h,
+    this.tnW,
+    this.tnH,
+    this.tim,
+    this.md5,
+    this.fsize,
+    this.capcode,
+    this.semanticUrl,
+    this.replies,
+    this.images,
+    this.uniqueIps,
+    this.trip,
+  });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
@@ -73,6 +76,7 @@ class Post {
       replies: json['replies'],
       images: json['images'],
       uniqueIps: json['unique_ips'],
+      trip: json['trip'],
     );
   }
 }

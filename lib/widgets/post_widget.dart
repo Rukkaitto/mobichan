@@ -95,7 +95,7 @@ class PostHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          post.name,
+          post.name ?? post.trip ?? 'Anonymous',
           style: postNameTextStyle(context),
         ),
         Text(

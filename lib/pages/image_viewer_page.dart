@@ -13,9 +13,9 @@ class ImageViewerPage extends StatelessWidget {
     return Center(
       child: InteractiveViewer(
         child: Hero(
-            tag: post.tim.toString(),
-            child:
-                Image.network('$API_IMAGES_URL/$board/${post.tim}${post.ext}')),
+          tag: post.tim.toString(),
+          child: Image.network('$API_IMAGES_URL/$board/${post.tim}${post.ext}'),
+        ),
       ),
     );
   }
