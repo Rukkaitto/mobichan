@@ -31,8 +31,8 @@ class _AppState extends State<App> {
       darkTheme: ThemeData.dark(),
       home: BoardPage(
         args: BoardPageArguments(
-          board: 'a',
-          title: 'Anime & Manga',
+          board: 'g',
+          title: 'Technology',
         ),
       ),
     );

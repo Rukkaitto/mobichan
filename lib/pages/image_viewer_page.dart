@@ -29,23 +29,20 @@ class ImageViewerPage extends StatelessWidget {
           Hero(
             tag: post.tim.toString(),
             child: InteractiveViewer(
-              child: GestureDetector(
-                onVerticalDragEnd: (details) {
-                  if (details.primaryVelocity! < -10) {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Stack(
-                  children: [
-                    Image.network(
-                      '$API_IMAGES_URL/$board/${post.tim}s.jpg',
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    Image.network(
-                        '$API_IMAGES_URL/$board/${post.tim}${post.ext}'),
-                  ],
-                ),
+              clipBehavior: Clip.none,
+              child: Stack(
+                children: [
+                  Image.network(
+                    '$API_IMAGES_URL/$board/${post.tim}s.jpg',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Image.network(
+                    '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ],
               ),
             ),
           ),
