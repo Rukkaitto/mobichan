@@ -112,7 +112,7 @@ class _FormWidgetState extends State<FormWidget> {
       ),
       content: Text(
         response.data!.errorMsg!,
-        style: errorSnackbarTextStyle(context),
+        style: snackbarTextStyle(context),
       ),
     );
   }

@@ -99,11 +99,9 @@ class ThreadOverlay extends StatelessWidget {
       right: 0,
       child: Row(
         children: [
-          post.replies != 0 ? buildReplyCount() : Container(),
-          Container(
-            width: 15,
-          ),
-          post.images != 0 ? buildImageCount() : Container(),
+          if (post.replies != 0) buildReplyCount(),
+          if (post.images != 0) Container(width: 15),
+          if (post.images != 0) buildImageCount(),
         ],
       ),
     );

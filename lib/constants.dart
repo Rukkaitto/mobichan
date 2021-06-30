@@ -49,7 +49,7 @@ TextStyle postNoTextStyle(BuildContext context) {
   );
 }
 
-TextStyle errorSnackbarTextStyle(BuildContext context) {
+TextStyle snackbarTextStyle(BuildContext context) {
   return TextStyle(
     color: Theme.of(context).textTheme.bodyText1!.color,
   );

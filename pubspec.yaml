@@ -38,6 +38,8 @@ dependencies:
   html_unescape: ^2.0.0
   video_player: ^2.1.6
   image_gallery_saver: ^1.6.9
+  permission_handler: ^8.1.2
+  path_provider: ^2.0.2
 
 dev_dependencies:
   flutter_test:
