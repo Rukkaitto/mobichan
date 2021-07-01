@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/image_viewer_page.dart';
+import 'package:mobichan/pages/video_viewer_page.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -122,12 +123,21 @@ class PostImage extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              opaque: false,
-              pageBuilder: (context, _, __) => ImageViewerPage(board, post),
-            ),
-          );
+          if (post.ext == '.webm') {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, _, __) => VideoViewerPage(board, post),
+              ),
+            );
+          } else {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, _, __) => ImageViewerPage(board, post),
+              ),
+            );
+          }
         },
         child: Hero(
           tag: post.tim.toString(),

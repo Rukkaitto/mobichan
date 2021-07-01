@@ -21,6 +21,8 @@ const double THREAD_FORM_MAX_HEIGHT = 315;
 const double REPLY_FORM_MAX_HEIGHT = 250;
 const double IMAGE_PREVIEW_HEIGHT = 120;
 
+const Color TRANSPARENT_COLOR = Color(0xaa000000);
+
 // Text styles
 const threadTitleTextStyle = TextStyle(
   fontSize: 26,
@@ -47,7 +49,7 @@ TextStyle postNoTextStyle(BuildContext context) {
   );
 }
 
-TextStyle errorSnackbarTextStyle(BuildContext context) {
+TextStyle snackbarTextStyle(BuildContext context) {
   return TextStyle(
     color: Theme.of(context).textTheme.bodyText1!.color,
   );

@@ -112,7 +112,7 @@ class _FormWidgetState extends State<FormWidget> {
       ),
       content: Text(
         response.data!.errorMsg!,
-        style: errorSnackbarTextStyle(context),
+        style: snackbarTextStyle(context),
       ),
     );
   }
@@ -172,7 +172,10 @@ class _FormWidgetState extends State<FormWidget> {
         MediaQuery.of(context).size.height, _pickedFile);
 
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () async {
+        FocusScope.of(context).unfocus();
+        return _onWillPop();
+      },
       child: AnimatedPositioned(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,

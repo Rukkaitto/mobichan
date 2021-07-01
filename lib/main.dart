@@ -25,14 +25,16 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: APP_TITLE,
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
       },
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.dark()
+          .copyWith(colorScheme: ColorScheme.dark(primary: Colors.tealAccent)),
       home: BoardPage(
         args: BoardPageArguments(
-          board: 'a',
-          title: 'Anime & Manga',
+          board: 'g',
+          title: 'Technology',
         ),
       ),
     );
