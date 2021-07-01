@@ -95,9 +95,12 @@ class PostHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          post.name ?? post.trip ?? 'Anonymous',
-          style: postNameTextStyle(context),
+        Flexible(
+          child: Text(
+            post.name ?? post.trip ?? 'Anonymous',
+            style: postNameTextStyle(context),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         Text(
           post.no.toString(),

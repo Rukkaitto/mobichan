@@ -108,8 +108,13 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
                             children: [
-                              VideoProgressIndicator(_controller,
-                                  allowScrubbing: true),
+                              VideoProgressIndicator(
+                                _controller,
+                                allowScrubbing: true,
+                                colors: VideoProgressColors(
+                                  playedColor: Theme.of(context).accentColor,
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
