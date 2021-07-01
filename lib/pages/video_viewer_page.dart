@@ -16,6 +16,7 @@ class VideoViewerPage extends StatefulWidget {
 }
 
 class _VideoViewerPageState extends State<VideoViewerPage> {
+  int _timeoutDuration = 3;
   late VideoPlayerController _controller;
   bool _paused = false;
   bool _muted = false;
@@ -31,7 +32,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         setState(() {
           _controller.setLooping(true);
           _controller.play();
-          _timer = startTimeout(seconds: 5);
+          _timer = startTimeout(seconds: _timeoutDuration);
           _controller.addListener(() {
             setState(() {});
           });
@@ -154,7 +155,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
       _showControls = !_showControls;
       if (!_paused) {
         _timer?.cancel();
-        _timer = startTimeout(seconds: 3);
+        _timer = startTimeout(seconds: _timeoutDuration);
       }
     });
   }

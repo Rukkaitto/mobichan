@@ -90,9 +90,12 @@ class _FormWidgetState extends State<FormWidget> {
   void _onPost(Response<String> response) {
     if (response.data!.errorMsg != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar(response),
+        buildSnackBar(response.data!.errorMsg!, Theme.of(context).errorColor),
       );
     } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        buildSnackBar("Post successful!", Theme.of(context).cardColor),
+      );
       widget.onPost(response);
     }
     setState(() {
@@ -100,9 +103,9 @@ class _FormWidgetState extends State<FormWidget> {
     });
   }
 
-  SnackBar buildSnackBar(Response<String> response) {
+  SnackBar buildSnackBar(String text, Color color) {
     return SnackBar(
-      backgroundColor: Theme.of(context).errorColor,
+      backgroundColor: color,
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -111,7 +114,7 @@ class _FormWidgetState extends State<FormWidget> {
         ),
       ),
       content: Text(
-        response.data!.errorMsg!,
+        text,
         style: snackbarTextStyle(context),
       ),
     );
