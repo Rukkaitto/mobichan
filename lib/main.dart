@@ -25,6 +25,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: APP_TITLE,
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
       },
