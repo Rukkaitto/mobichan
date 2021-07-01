@@ -6,6 +6,7 @@ import 'package:mobichan/classes/models/board.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/file_extension.dart';
 
 class Api {
@@ -37,7 +38,8 @@ class Api {
     }
   }
 
-  static Future<List<Post>> fetchOPs({required String board}) async {
+  static Future<List<Post>> fetchOPs(
+      {required String board, Sort? sorting}) async {
     final response = await http.get(Uri.parse('$API_URL/$board/catalog.json'));
 
     if (response.statusCode == 200) {
@@ -50,6 +52,37 @@ class Api {
           ops.add(Post.fromJson(opInPage));
         });
       });
+
+      // Thread sorting
+      if (sorting != null) {
+        switch (sorting) {
+          case Sort.byBumpOrder:
+            ops.sort((a, b) {
+              return a.lastModified!.compareTo(b.lastModified!);
+            });
+            break;
+          case Sort.byReplyCount:
+            ops.sort((a, b) {
+              return b.replies!.compareTo(a.replies!);
+            });
+            break;
+          case Sort.byImagesCount:
+            ops.sort((a, b) {
+              return b.images!.compareTo(a.images!);
+            });
+            break;
+          case Sort.byNewest:
+            ops.sort((a, b) {
+              return b.time.compareTo(a.time);
+            });
+            break;
+          case Sort.byOldest:
+            ops.sort((a, b) {
+              return a.time.compareTo(b.time);
+            });
+            break;
+        }
+      }
 
       return ops;
     } else {

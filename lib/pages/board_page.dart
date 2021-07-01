@@ -26,6 +26,7 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
+  late Sort _sorting = Sort.byBumpOrder;
   late TextEditingController _searchQueryController;
 
   @override
@@ -43,7 +44,7 @@ class _BoardPageState extends State<BoardPage> {
 
   Future<void> _refresh() async {
     setState(() {
-      _futureOPs = Api.fetchOPs(board: widget.args.board);
+      _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: _sorting);
     });
   }
 
@@ -81,7 +82,6 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   void _updateSearchQuery(String newQuery) {
-    print(newQuery);
     setState(() {
       _searchQuery = newQuery;
     });
@@ -92,6 +92,33 @@ class _BoardPageState extends State<BoardPage> {
       return false;
     }
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
+  }
+
+  PopupMenuItem _buildPopupMenuItem(String title, Sort sorting) {
+    return PopupMenuItem(
+      child: Text(title),
+      value: sorting,
+    );
+  }
+
+  PopupMenuButton<dynamic> _buildPopupMenuButton() {
+    return PopupMenuButton(
+      onSelected: (sorting) {
+        setState(() {
+          _sorting = sorting;
+          _refresh();
+        });
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          _buildPopupMenuItem('Sort by bump order', Sort.byBumpOrder),
+          _buildPopupMenuItem('Sort by replies', Sort.byReplyCount),
+          _buildPopupMenuItem('Sort by images', Sort.byImagesCount),
+          _buildPopupMenuItem('Sort by newest', Sort.byNewest),
+          _buildPopupMenuItem('Sort by oldest', Sort.byOldest),
+        ];
+      },
+    );
   }
 
   Widget Function(BuildContext, int) _listViewItemBuilder(
@@ -139,9 +166,7 @@ class _BoardPageState extends State<BoardPage> {
             onPressed: _startSearching,
             icon: Icon(Icons.search_rounded),
           ),
-          PopupMenuButton(itemBuilder: (context) {
-            return <PopupMenuEntry>[];
-          })
+          _buildPopupMenuButton()
         ],
         title: _isSearching
             ? TextField(

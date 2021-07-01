@@ -23,6 +23,7 @@ class Post {
   final int? images;
   final int? uniqueIps;
   final String? trip;
+  final int? lastModified;
 
   Post({
     required this.no,
@@ -49,6 +50,7 @@ class Post {
     this.images,
     this.uniqueIps,
     this.trip,
+    this.lastModified,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class Post {
       images: json['images'],
       uniqueIps: json['unique_ips'],
       trip: json['trip'],
+      lastModified: json['last_modified'],
     );
   }
 }
