@@ -24,10 +24,14 @@ class BoardPage extends StatefulWidget {
 class _BoardPageState extends State<BoardPage> {
   late Future<List<Post>> _futureOPs;
   bool _postFormIsOpened = false;
+  bool _isSearching = false;
+  String _searchQuery = '';
+  late TextEditingController _searchQueryController;
 
   @override
   void initState() {
     super.initState();
+    _searchQueryController = TextEditingController();
     _refresh();
   }
 
@@ -54,31 +58,70 @@ class _BoardPageState extends State<BoardPage> {
     await _refresh();
   }
 
+  void _startSearching() {
+    setState(() {
+      ModalRoute.of(context)!
+          .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+      _isSearching = true;
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearchQuery();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _searchQueryController.clear();
+      _updateSearchQuery('');
+    });
+  }
+
+  void _updateSearchQuery(String newQuery) {
+    print(newQuery);
+    setState(() {
+      _searchQuery = newQuery;
+    });
+  }
+
+  bool _matchesSearchQuery(String? field) {
+    if (field == null) {
+      return false;
+    }
+    return field.toLowerCase().contains(_searchQuery.toLowerCase());
+  }
+
   Widget Function(BuildContext, int) _listViewItemBuilder(
       AsyncSnapshot<List<Post>> snapshot) {
     return (BuildContext context, int index) {
       Post op = snapshot.data![index];
-      return Padding(
-        padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-        child: ThreadWidget(
-          post: op,
-          board: widget.args.board,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ThreadPage(
-                args: ThreadPageArguments(
-                  board: widget.args.board,
-                  thread: op.no,
-                  title: op.sub ??
-                      op.com?.replaceBrWithSpace.removeHtmlTags.unescapeHtml ??
-                      '',
+      return _matchesSearchQuery(op.com) || _matchesSearchQuery(op.sub)
+          ? Padding(
+              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+              child: ThreadWidget(
+                post: op,
+                board: widget.args.board,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ThreadPage(
+                      args: ThreadPageArguments(
+                        board: widget.args.board,
+                        thread: op.no,
+                        title: op.sub ??
+                            op.com?.replaceBrWithSpace.removeHtmlTags
+                                .unescapeHtml ??
+                            '',
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      );
+            )
+          : Container();
     };
   }
 
@@ -90,7 +133,26 @@ class _BoardPageState extends State<BoardPage> {
         onPressed: _onPressPostActionButton,
       ),
       appBar: AppBar(
-        title: Text('/${widget.args.board}/ - ${widget.args.title}'),
+        leading: _isSearching ? BackButton() : null,
+        actions: [
+          IconButton(
+            onPressed: _startSearching,
+            icon: Icon(Icons.search_rounded),
+          ),
+          PopupMenuButton(itemBuilder: (context) {
+            return <PopupMenuEntry>[];
+          })
+        ],
+        title: _isSearching
+            ? TextField(
+                controller: _searchQueryController,
+                onChanged: _updateSearchQuery,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                ),
+                autofocus: true,
+              )
+            : Text('/${widget.args.board}/ - ${widget.args.title}'),
       ),
       body: Stack(
         children: [
