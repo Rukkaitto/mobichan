@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/utils/updater.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'constants.dart';
 
@@ -18,6 +20,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    Updater.checkForUpdates();
   }
 
   @override

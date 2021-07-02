@@ -8,6 +8,8 @@ const String CAPTCHA_SITE_KEY = "6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
 const String API_URL = "https://a.4cdn.org";
 const String API_IMAGES_URL = "https://i.4cdn.org";
 const String API_BOARDS_URL = "https://a.4cdn.org/boards.json";
+const String API_RELEASES_URL =
+    "https://api.github.com/repos/Rukkaitto/mobichan/releases";
 
 // Routes
 const String BOARDS_LIST_ROUTE = "/boards";
