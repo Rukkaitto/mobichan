@@ -7,17 +7,20 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+import 'package:mobichan/constants.dart';
 
 import 'controls_overlay_widget.dart';
 
 class VlcPlayerWithControls extends StatefulWidget {
   final VlcPlayerController controller;
   final bool showControls;
+  final double aspectRatio;
 
   VlcPlayerWithControls({
     Key? key,
     required this.controller,
     this.showControls = true,
+    required this.aspectRatio,
   })  : assert(controller != null, 'You must provide a vlc controller'),
         super(key: key);
 
@@ -57,6 +60,7 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
     super.initState();
     _controller = widget.controller;
     _controller!.addListener(listener);
+    _controller!.setLooping(true);
   }
 
   @override
@@ -112,74 +116,6 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
                     Stack(
                       children: [
                         IconButton(
-                          tooltip: 'Get Subtitle Tracks',
-                          icon: Icon(Icons.closed_caption),
-                          color: Colors.white,
-                          onPressed: _getSubtitleTracks,
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: IgnorePointer(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(1),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 1,
-                                horizontal: 2,
-                              ),
-                              child: Text(
-                                '$numberOfCaptions',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      children: [
-                        IconButton(
-                          tooltip: 'Get Audio Tracks',
-                          icon: Icon(Icons.audiotrack),
-                          color: Colors.white,
-                          onPressed: _getAudioTracks,
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: IgnorePointer(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(1),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 1,
-                                horizontal: 2,
-                              ),
-                              child: Text(
-                                '$numberOfAudioTracks',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      children: [
-                        IconButton(
                           icon: Icon(Icons.timer),
                           color: Colors.white,
                           onPressed: _cyclePlaybackSpeed,
@@ -230,11 +166,9 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
                     children: [
                       Text(
                         'Size: ' +
-                            (_controller!.value.size.width.toInt())
-                                .toString() +
+                            (_controller!.value.size.width.toInt()).toString() +
                             'x' +
-                            (_controller!.value.size.height.toInt())
-                                .toString(),
+                            (_controller!.value.size.height.toInt()).toString(),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.white, fontSize: 10),
@@ -258,14 +192,13 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
         ),
         Expanded(
           child: Container(
-            color: Colors.black,
+            color: TRANSPARENT_COLOR,
             child: Stack(
-              alignment: Alignment.bottomCenter,
               children: <Widget>[
                 Center(
                   child: VlcPlayer(
                     controller: _controller!,
-                    aspectRatio: 16 / 9,
+                    aspectRatio: widget.aspectRatio,
                     placeholder: Center(child: CircularProgressIndicator()),
                   ),
                 ),
@@ -306,7 +239,8 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
                           max: (!validPosition &&
                                   _controller!.value.duration == null)
                               ? 1.0
-                              : _controller!.value.duration.inSeconds.toDouble(),
+                              : _controller!.value.duration.inSeconds
+                                  .toDouble(),
                           onChanged:
                               validPosition ? _onSliderPositionChanged : null,
                         ),
@@ -317,11 +251,6 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
                       ),
                     ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.fullscreen),
-                  color: Colors.white,
-                  onPressed: () {},
                 ),
               ],
             ),
