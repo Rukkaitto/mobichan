@@ -5,6 +5,7 @@ import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/image_viewer_page.dart';
 import 'package:mobichan/pages/video_viewer_page.dart';
+import 'package:mobichan/pages/webm_viewer_page.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -130,7 +131,7 @@ class PostImage extends StatelessWidget {
             Navigator.of(context).push(
               PageRouteBuilder(
                 opaque: false,
-                pageBuilder: (context, _, __) => VideoViewerPage(board, post),
+                pageBuilder: (context, _, __) => WebmViewerPage(board, post),
               ),
             );
           } else {

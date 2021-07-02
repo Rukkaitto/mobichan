@@ -81,6 +81,18 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                       child: VideoPlayer(_controller),
                     ),
                   ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ),
                   if (_showControls)
                     Positioned(
                       top: 0,
