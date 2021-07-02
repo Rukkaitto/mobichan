@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/utils/updater.dart';
 
 import 'constants.dart';
 
@@ -18,6 +19,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    Updater.checkForUpdates();
   }
 
   @override
@@ -29,8 +31,9 @@ class _AppState extends State<App> {
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
       },
-      darkTheme: ThemeData.dark()
-          .copyWith(colorScheme: ColorScheme.dark(primary: Colors.tealAccent)),
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
+      ),
       home: BoardPage(
         args: BoardPageArguments(
           board: 'g',

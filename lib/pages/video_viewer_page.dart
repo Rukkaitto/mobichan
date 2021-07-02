@@ -16,6 +16,7 @@ class VideoViewerPage extends StatefulWidget {
 }
 
 class _VideoViewerPageState extends State<VideoViewerPage> {
+  int _timeoutDuration = 3;
   late VideoPlayerController _controller;
   bool _paused = false;
   bool _muted = false;
@@ -31,7 +32,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         setState(() {
           _controller.setLooping(true);
           _controller.play();
-          _timer = startTimeout(seconds: 5);
+          _timer = startTimeout(seconds: _timeoutDuration);
           _controller.addListener(() {
             setState(() {});
           });
@@ -80,6 +81,18 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                       child: VideoPlayer(_controller),
                     ),
                   ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ),
                   if (_showControls)
                     Positioned(
                       top: 0,
@@ -107,8 +120,13 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
                             children: [
-                              VideoProgressIndicator(_controller,
-                                  allowScrubbing: true),
+                              VideoProgressIndicator(
+                                _controller,
+                                allowScrubbing: true,
+                                colors: VideoProgressColors(
+                                  playedColor: Theme.of(context).accentColor,
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -154,7 +172,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
       _showControls = !_showControls;
       if (!_paused) {
         _timer?.cancel();
-        _timer = startTimeout(seconds: 3);
+        _timer = startTimeout(seconds: _timeoutDuration);
       }
     });
   }
