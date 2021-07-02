@@ -60,7 +60,6 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
     super.initState();
     _controller = widget.controller;
     _controller!.addListener(listener);
-    _controller!.setLooping(true);
   }
 
   @override
