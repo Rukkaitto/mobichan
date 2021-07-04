@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/pages/settings_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -14,10 +15,16 @@ class DrawerWidget extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.list),
+                  leading: Icon(Icons.list_rounded),
                   title: Text("Boards"),
                   onTap: () =>
                       Navigator.pushNamed(context, BoardsListPage.routeName),
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings_rounded),
+                  title: Text("Settings"),
+                  onTap: () =>
+                      Navigator.pushNamed(context, SettingsPage.routeName),
                 ),
               ],
             ),
