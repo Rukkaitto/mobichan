@@ -13,10 +13,13 @@ const String API_RELEASES_URL =
 
 // Routes
 const String BOARDS_LIST_ROUTE = "/boards";
+const String SETTINGS_ROUTE = "/settings";
 
 // Misc
 const String LAST_VISITED_BOARD = 'last_visited_board';
 const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
+const String DEFAULT_BOARD = 'g';
+const String DEFAULT_BOARD_TITLE = 'Technology';
 
 const double FORM_MIN_HEIGHT = 175;
 const double THREAD_FORM_MAX_HEIGHT = 315;

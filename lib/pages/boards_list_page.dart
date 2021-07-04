@@ -15,14 +15,6 @@ class BoardsListPage extends StatefulWidget {
 }
 
 class _BoardsListPageState extends State<BoardsListPage> {
-  late Future<List<Board>> futureBoards;
-
-  @override
-  void initState() {
-    super.initState();
-    futureBoards = Api.fetchBoards();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +27,7 @@ class _BoardsListPageState extends State<BoardsListPage> {
 
   FutureBuilder<List<Board>> buildFutureBuilder() {
     return FutureBuilder<List<Board>>(
-      future: futureBoards,
+      future: Api.fetchBoards(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(

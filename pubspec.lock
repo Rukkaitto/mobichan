@@ -257,9 +257,11 @@ packages:
   install_plugin:
     dependency: "direct main"
     description:
-      name: install_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: e17d03cdc778b0e09ec25ab77c9d4cb85dcfff8b
+      url: "https://github.com/mitchross/flutter_install_plugin.git"
+    source: git
     version: "2.0.1"
   js:
     dependency: transitive
