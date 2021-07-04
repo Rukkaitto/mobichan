@@ -17,16 +17,18 @@ class Updater {
     Version latestVersion = Version.parse(latestRelease.tagName.substring(1));
     Version currentVersion = Version.parse(packageInfo.version);
 
-    print(latestRelease.browserDownloadUrl);
-
     if (latestVersion > currentVersion) {
+      print("Updating...");
       if (await Permission.storage.request().isGranted) {
         Directory? storageDir = await getExternalStorageDirectory();
         String filePath = '${storageDir!.path}/apk-release.apk';
         await Dio().download(latestRelease.browserDownloadUrl, filePath);
 
         if (await Permission.requestInstallPackages.request().isGranted) {
-          await InstallPlugin.installApk(filePath, packageInfo.packageName);
+          print("Installing apk...");
+          InstallPlugin.installApk(filePath, packageInfo.packageName)
+              .then((value) => print("Installed apk $value"))
+              .catchError((error) => print(error));
         }
       }
     }
