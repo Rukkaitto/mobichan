@@ -3,13 +3,27 @@ import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
+import 'package:mobichan/widgets/update_dialog_widget.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
 void main() {
-  runApp(App());
+  runApp(
+    MaterialApp(
+      title: APP_TITLE,
+      initialRoute: '/',
+      routes: {
+        BoardsListPage.routeName: (context) => BoardsListPage(),
+        SettingsPage.routeName: (context) => SettingsPage(),
+      },
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
+      ),
+      home: App(),
+    ),
+  );
 }
 
 class App extends StatefulWidget {
@@ -21,27 +35,19 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    Updater.checkForUpdates();
+    Updater.checkForUpdates().then((needsUpdate) {
+      if (needsUpdate) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => UpdateDialogWidget(),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: APP_TITLE,
-      initialRoute: '/',
-      debugShowCheckedModeBanner: false,
-      routes: {
-        BoardsListPage.routeName: (context) => BoardsListPage(),
-        SettingsPage.routeName: (context) => SettingsPage(),
-      },
-      theme: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
-      ),
-      home: _buildHome(),
-    );
-  }
-
-  FutureBuilder<SharedPreferences> _buildHome() {
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder:
