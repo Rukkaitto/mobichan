@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -19,6 +20,12 @@ class DrawerWidget extends StatelessWidget {
                   title: Text("Boards"),
                   onTap: () =>
                       Navigator.pushNamed(context, BoardsListPage.routeName),
+                ),
+                ListTile(
+                  leading: Icon(Icons.history_rounded),
+                  title: Text("History"),
+                  onTap: () =>
+                      Navigator.pushNamed(context, HistoryPage.routeName),
                 ),
                 ListTile(
                   leading: Icon(Icons.settings_rounded),

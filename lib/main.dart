@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
+import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/widgets/update_dialog_widget.dart';
 import 'package:mobichan/utils/updater.dart';
@@ -17,6 +18,7 @@ void main() {
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
         SettingsPage.routeName: (context) => SettingsPage(),
+        HistoryPage.routeName: (context) => HistoryPage(),
       },
       theme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
