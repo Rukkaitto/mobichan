@@ -22,14 +22,14 @@ class DrawerWidget extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10),
               child: FutureBuilder(
                 future: PackageInfo.fromPlatform(),
                 builder: (BuildContext context,
                     AsyncSnapshot<PackageInfo> snapshot) {
                   if (snapshot.hasData) {
                     return Text(
-                      'Mobichan v${snapshot.data!.version}',
+                      'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
                       style: Theme.of(context).textTheme.caption,
                     );
                   } else {
