@@ -1,0 +1,17 @@
+name: 'Generate Auto Changelog'
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  master:
+    name: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - name: Generate Auto Changelog
+        uses: ahmadawais/action-auto-changelog@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
