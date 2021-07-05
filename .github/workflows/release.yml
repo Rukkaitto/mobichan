@@ -1,8 +1,8 @@
 name: 'Publish Github release'
 on:
-  push:
-    branches:
-      - develop
+  create:
+      tags:
+        - '*'
 jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/')
