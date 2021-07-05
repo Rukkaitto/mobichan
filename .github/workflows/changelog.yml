@@ -12,6 +12,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: Generate Auto Changelog
-        uses: ahmadawais/action-auto-changelog@master
+        uses: ardalanamini/auto-changelog@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
