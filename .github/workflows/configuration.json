@@ -1,0 +1,12 @@
+{
+  "categories": [
+    {
+      "title": "## Features",
+      "labels": ["feature"]
+    },
+    {
+      "title": "## Continuous Integration",
+      "labels": ["ci"]
+    }
+  ]
+}
