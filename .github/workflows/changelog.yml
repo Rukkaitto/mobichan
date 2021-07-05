@@ -17,5 +17,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Print changelog
-        run: echo "The changelog is ${{ steps.generate-changelog.outputs.changelog }}"
+        run: echo "The changelog is ${{ steps.generate-changelog.output.changelog }}"
 
