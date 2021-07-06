@@ -9,6 +9,7 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/widgets/captcha_widget.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/widgets/new_captcha_widget.dart';
 
 class FormWidget extends StatefulWidget {
   final String board;
@@ -210,7 +211,7 @@ class _FormWidgetState extends State<FormWidget> {
       child: Padding(
         padding: EdgeInsets.all(15.0),
         child: _showCaptcha
-            ? CaptchaWidget(
+            ? NewCaptchaWidget(
                 onValidate: _onValidateCaptcha,
               )
             : buildForm(context),

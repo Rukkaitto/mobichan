@@ -1,0 +1,9 @@
+name: 'Publish to Play Store'
+on:
+  push:
+      branch:
+        - 'master'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
