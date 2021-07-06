@@ -38,8 +38,9 @@ class _FormWidgetState extends State<FormWidget> {
   final _nameFieldController = TextEditingController();
   final _subjectFieldController = TextEditingController();
   final _commentFieldController = TextEditingController();
+  final _captchaResponseFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  String? _captchaResponse;
+  String? _captchaChallenge;
   PickedFile? _pickedFile;
   bool _expanded = false;
   bool _showCaptcha = false;
@@ -72,6 +73,7 @@ class _FormWidgetState extends State<FormWidget> {
     if (_showCaptcha) {
       setState(() {
         _showCaptcha = false;
+        _captchaResponseFieldController.clear();
       });
       return false;
     }
@@ -121,15 +123,12 @@ class _FormWidgetState extends State<FormWidget> {
     );
   }
 
-  void _onValidateCaptcha(String response) {
-    setState(() {
-      _captchaResponse = response;
-    });
-    print(widget.postType);
+  void _onSend() {
     switch (widget.postType) {
       case PostType.reply:
         Api.sendReply(
-          captchaResponse: _captchaResponse!,
+          captchaChallenge: _captchaChallenge!,
+          captchaResponse: _captchaResponseFieldController.text,
           board: widget.board,
           name: _nameFieldController.text,
           com: _commentFieldController.text,
@@ -140,7 +139,8 @@ class _FormWidgetState extends State<FormWidget> {
         break;
       case PostType.thread:
         Api.sendThread(
-          captchaResponse: _captchaResponse!,
+          captchaChallenge: _captchaChallenge!,
+          captchaResponse: _captchaResponseFieldController.text,
           board: widget.board,
           subject: _subjectFieldController.text,
           name: _nameFieldController.text,
@@ -150,6 +150,12 @@ class _FormWidgetState extends State<FormWidget> {
         );
         break;
     }
+  }
+
+  void _onReceiveCaptchaChallenge(String challenge) {
+    setState(() {
+      _captchaChallenge = challenge;
+    });
   }
 
   double computeHeight(bool expanded, bool showCaptcha, PostType postType,
@@ -209,10 +215,46 @@ class _FormWidgetState extends State<FormWidget> {
             ),
           ]),
       child: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: _showCaptcha
-            ? NewCaptchaWidget(
-                onValidate: _onValidateCaptcha,
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Container(
+                      height: 160,
+                      child: NewCaptchaWidget(
+                        board: widget.board,
+                        thread: widget.thread,
+                        onReceiveChallenge: _onReceiveCaptchaChallenge,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: TextField(
+                            controller: _captchaResponseFieldController,
+                            decoration: InputDecoration(
+                                hintText: "Type the captcha here"),
+                          ),
+                        ),
+                        Flexible(
+                          child: IconButton(
+                            onPressed: _onSend,
+                            icon: Icon(
+                              Icons.send,
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               )
             : buildForm(context),
       ),

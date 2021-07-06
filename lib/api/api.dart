@@ -106,6 +106,7 @@ class Api {
 
   static void sendReply(
       {required String board,
+      required String captchaChallenge,
       required String captchaResponse,
       required Function(Response<String> response) onPost,
       String? name,
@@ -120,8 +121,12 @@ class Api {
       "com": com ?? '',
       "mode": 'regist',
       "resto": resto.toString(),
-      "g-recaptcha-response": captchaResponse
+      "t-challenge": captchaChallenge,
+      "t-response": captchaResponse,
     });
+
+    print(captchaChallenge);
+    print(captchaResponse);
 
     if (pickedFile != null) {
       File file = File(pickedFile.path);
@@ -148,6 +153,7 @@ class Api {
 
   static void sendThread({
     required String board,
+    required String captchaChallenge,
     required String captchaResponse,
     required Function(Response<String> response) onPost,
     String? name,
@@ -165,7 +171,8 @@ class Api {
       "email": '',
       "com": com,
       "mode": 'regist',
-      "g-recaptcha-response": captchaResponse,
+      "t-challenge": captchaChallenge,
+      "t-response": captchaResponse,
     });
 
     if (pickedFile != null) {
