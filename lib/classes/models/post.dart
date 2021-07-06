@@ -24,6 +24,7 @@ class Post {
   final int? uniqueIps;
   final String? trip;
   final int? lastModified;
+  final String? board;
 
   Post({
     required this.no,
@@ -51,6 +52,7 @@ class Post {
     this.uniqueIps,
     this.trip,
     this.lastModified,
+    this.board,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -80,6 +82,21 @@ class Post {
       uniqueIps: json['unique_ips'],
       trip: json['trip'],
       lastModified: json['last_modified'],
+      board: json['board'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'com': com,
+      'sub': sub,
+      'tim': tim,
+      'no': no,
+      'now': now,
+      'name': name,
+      'time': time,
+      'resto': resto,
+      'board': board,
+    };
   }
 }

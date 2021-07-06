@@ -136,21 +136,24 @@ class _BoardPageState extends State<BoardPage> {
               child: ThreadWidget(
                 post: op,
                 board: widget.args.board,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ThreadPage(
-                      args: ThreadPageArguments(
-                        board: widget.args.board,
-                        thread: op.no,
-                        title: op.sub ??
-                            op.com?.replaceBrWithSpace.removeHtmlTags
-                                .unescapeHtml ??
-                            '',
+                onTap: () {
+                  Utils.addThreadToHistory(op, widget.args.board);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ThreadPage(
+                        args: ThreadPageArguments(
+                          board: widget.args.board,
+                          thread: op.no,
+                          title: op.sub ??
+                              op.com?.replaceBrWithSpace.removeHtmlTags
+                                  .unescapeHtml ??
+                              '',
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             )
           : Container();
