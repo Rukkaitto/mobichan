@@ -265,6 +265,8 @@ class _NewCaptchaWidgetState extends State<NewCaptchaWidget> {
                   },
                   buildFromJson: function (e) {
                     let t = TCaptcha;
+                    window.flutter_inappwebview.callHandler('captchaCallback');
+                    console.log(e.challenge);
                     if (t.node) {
                       if (e.error)
                         return console.log(e.error),
