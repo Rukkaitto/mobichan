@@ -1,16 +1,22 @@
-# mobichan
+# Mobichan
 
-A new Flutter application.
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Rukkaitto/mobichan/graphs/commit-activity)
+[![GitHub release](https://img.shields.io/github/release/Rukkaitto/mobichan.svg)](https://github.com/Rukkaitto/mobichan/releases/latest)
 
-## Getting Started
+<a target="_blank" href="https://play.google.com/store/apps/details?id=com.lucasgoudin.mobichan">
+  <img src="https://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="25%">
+</a>
+  
+A 4chan app made with Flutter.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Browsing boards and threads
+- Creating and responding to threads (with an up to date catpcha)
+- Viewing images
+- Playing webms at different speeds
+- Sorting and searching threads
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Roadmap
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For a detailed roadmap, see [here](https://github.com/Rukkaitto/mobichan/projects/1).
