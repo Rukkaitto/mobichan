@@ -37,7 +37,6 @@ class PostWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           child: IntrinsicHeight(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 post.tim != null
                     ? PostImage(board: board, post: post)
@@ -49,14 +48,21 @@ class PostWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 8, left: 8, right: 8),
-                          child: PostHeader(post: post),
-                        ),
-                        PostContent(
-                          board: board,
-                          post: post,
-                          threadReplies: threadReplies,
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: 8, left: 8, right: 8),
+                                child: PostHeader(post: post),
+                              ),
+                              PostContent(
+                                board: board,
+                                post: post,
+                                threadReplies: threadReplies,
+                              ),
+                            ],
+                          ),
                         ),
                         if (postReplies.length > 0)
                           Padding(
