@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +29,20 @@ class Utils {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(LAST_VISITED_BOARD, board);
     await prefs.setString(LAST_VISITED_BOARD_TITLE, title);
+  }
+
+  static saveLastSortingOrder(Sort sorting) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(LAST_SORTING_ORDER, jsonEncode(sorting.toString()));
+  }
+
+  static Future<Sort> getLastSortingOrder() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? lastSortingOrderString = prefs.getString(LAST_SORTING_ORDER);
+    Sort lastSortingOrder = Utils.getSortFromString(
+            jsonDecode(lastSortingOrderString ?? '') ?? '') ??
+        Sort.byBumpOrder;
+    return lastSortingOrder;
   }
 
   static bool isLocalFilePath(String path) {
@@ -119,5 +134,14 @@ class Utils {
 
   static Post getQuotedPost(List<Post> posts, int no) {
     return posts.firstWhere((post) => post.no == no);
+  }
+
+  static Sort? getSortFromString(String sortAsString) {
+    for (Sort element in Sort.values) {
+      if (element.toString() == sortAsString) {
+        return element;
+      }
+    }
+    return null;
   }
 }

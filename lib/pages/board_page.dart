@@ -27,14 +27,13 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  late Sort _sorting = Sort.byBumpOrder;
   late TextEditingController _searchQueryController;
 
   @override
   void initState() {
     super.initState();
     _searchQueryController = TextEditingController();
-    _refresh();
+    _refresh(Utils.getLastSortingOrder());
     Utils.saveLastVisitedBoard(
       board: widget.args.board,
       title: widget.args.title,
@@ -47,9 +46,13 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  Future<void> _refresh() async {
-    setState(() {
-      _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: _sorting);
+  Future<void> _refresh(Future<Sort> sorting) async {
+    _futureOPs =
+        Api.fetchOPs(board: widget.args.board, sorting: Sort.byBumpOrder);
+    sorting.then((value) {
+      setState(() {
+        _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: value);
+      });
     });
   }
 
@@ -61,7 +64,7 @@ class _BoardPageState extends State<BoardPage> {
 
   void _onFormPost(Response<String> response) async {
     _onCloseForm();
-    await _refresh();
+    await _refresh(Utils.getLastSortingOrder());
   }
 
   void _startSearching() {
@@ -109,9 +112,9 @@ class _BoardPageState extends State<BoardPage> {
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
       onSelected: (sorting) {
+        Utils.saveLastSortingOrder(sorting);
         setState(() {
-          _sorting = sorting;
-          _refresh();
+          _refresh(Future.value(sorting));
         });
       },
       itemBuilder: (context) {
@@ -184,7 +187,7 @@ class _BoardPageState extends State<BoardPage> {
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: _refresh,
+            onRefresh: () => _refresh(Utils.getLastSortingOrder()),
             child: buildFutureBuilder(),
           ),
           FormWidget(
