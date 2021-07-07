@@ -63,7 +63,7 @@ class _ThreadPageState extends State<ThreadPage> {
         child: PostWidget(
           post: post,
           board: widget.args.board,
-          replies: snapshot.data!,
+          threadReplies: snapshot.data!,
         ),
       );
     };

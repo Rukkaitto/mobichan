@@ -116,4 +116,8 @@ class Utils {
     });
     return replies;
   }
+
+  static Post getQuotedPost(List<Post> posts, int no) {
+    return posts.firstWhere((post) => post.no == no);
+  }
 }

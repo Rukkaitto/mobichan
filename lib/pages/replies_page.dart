@@ -40,7 +40,7 @@ class RepliesPage extends StatelessWidget {
               child: PostWidget(
                 post: reply,
                 board: board,
-                replies: threadReplies,
+                threadReplies: threadReplies,
               ),
             );
           },

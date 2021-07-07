@@ -14,17 +14,17 @@ class PostWidget extends StatelessWidget {
   final String board;
   final Function? onTap;
   final double? height;
-  final List<Post> replies;
+  final List<Post> threadReplies;
   late List<Post> postReplies;
 
   PostWidget({
     required this.post,
     required this.board,
-    required this.replies,
+    required this.threadReplies,
     this.onTap,
     this.height,
   }) {
-    postReplies = Utils.getReplies(replies, post);
+    postReplies = Utils.getReplies(threadReplies, post);
   }
 
   @override
@@ -53,14 +53,18 @@ class PostWidget extends StatelessWidget {
                           padding: EdgeInsets.only(top: 8, left: 8, right: 8),
                           child: PostHeader(post: post),
                         ),
-                        PostContent(post: post),
+                        PostContent(
+                          board: board,
+                          post: post,
+                          threadReplies: threadReplies,
+                        ),
                         if (postReplies.length > 0)
                           Padding(
                             padding: EdgeInsets.only(bottom: 8, right: 8),
                             child: PostFooter(
                                 postReplies: postReplies,
                                 board: board,
-                                replies: replies),
+                                threadReplies: threadReplies),
                           ),
                       ],
                     ),
@@ -79,12 +83,12 @@ class PostFooter extends StatelessWidget {
   const PostFooter({
     Key? key,
     required this.postReplies,
-    required this.replies,
+    required this.threadReplies,
     required this.board,
   }) : super(key: key);
 
   final List<Post> postReplies;
-  final List<Post> replies;
+  final List<Post> threadReplies;
   final String board;
 
   @override
@@ -100,11 +104,10 @@ class PostFooter extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               PageRouteBuilder(
-                opaque: false,
                 pageBuilder: (context, _, __) => RepliesPage(
                   postReplies,
                   board: board,
-                  threadReplies: replies,
+                  threadReplies: threadReplies,
                 ),
               ),
             );
@@ -116,11 +119,15 @@ class PostFooter extends StatelessWidget {
 }
 
 class PostContent extends StatelessWidget {
+  final String board;
   final Post post;
+  final List<Post> threadReplies;
 
   const PostContent({
     Key? key,
+    required this.board,
     required this.post,
+    required this.threadReplies,
   }) : super(key: key);
 
   @override
@@ -128,7 +135,18 @@ class PostContent extends StatelessWidget {
     return Html(
       data: post.com ?? '',
       onAnchorTap: (str, _, __, ___) {
-        print(str);
+        int quotedNo = int.parse(str!.substring(2));
+        Post quotedPost = Utils.getQuotedPost(threadReplies, quotedNo);
+
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (context, _, __) => RepliesPage(
+              [quotedPost],
+              board: board,
+              threadReplies: threadReplies,
+            ),
+          ),
+        );
       },
       style: {
         ".quote": Style(
