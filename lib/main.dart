@@ -37,15 +37,18 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    Updater.checkForUpdates().then((needsUpdate) {
-      if (needsUpdate) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) => UpdateDialogWidget(),
-        );
-      }
-    });
+    if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) ==
+        PLAY_STORE) {
+      Updater.checkForUpdates().then((needsUpdate) {
+        if (needsUpdate) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => UpdateDialogWidget(),
+          );
+        }
+      });
+    }
   }
 
   @override
