@@ -37,6 +37,7 @@ class PostWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           child: IntrinsicHeight(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 post.tim != null
                     ? PostImage(board: board, post: post)
