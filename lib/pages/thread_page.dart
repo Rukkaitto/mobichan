@@ -9,7 +9,10 @@ import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 
+import '../constants.dart';
+
 class ThreadPage extends StatefulWidget {
+  static const routeName = THREAD_ROUTE;
   final ThreadPageArguments args;
   const ThreadPage({Key? key, required this.args}) : super(key: key);
 
@@ -60,6 +63,7 @@ class _ThreadPageState extends State<ThreadPage> {
         child: PostWidget(
           post: post,
           board: widget.args.board,
+          replies: snapshot.data!,
         ),
       );
     };

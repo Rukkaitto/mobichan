@@ -99,4 +99,21 @@ class Utils {
     history.add(newThread);
     prefs.setStringList(THREAD_HISTORY, history);
   }
+
+  static List<Post> getReplies(List<Post> posts, Post post) {
+    List<Post> replies = List.empty(growable: true);
+    posts.forEach((otherPost) {
+      final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+      final matches = regExp
+          .allMatches(otherPost.com ?? '')
+          .map((match) => int.parse(match.group(0) ?? ""));
+
+      // if another post quotes this post
+      if (matches.contains(post.no)) {
+        // add other post to replies list
+        replies.add(otherPost);
+      }
+    });
+    return replies;
+  }
 }

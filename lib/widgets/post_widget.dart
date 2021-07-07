@@ -4,17 +4,28 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/image_viewer_page.dart';
-import 'package:mobichan/pages/video_viewer_page.dart';
+import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/pages/webm_viewer_page.dart';
+import 'package:mobichan/utils/utils.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
   final String board;
   final Function? onTap;
   final double? height;
+  final List<Post> replies;
+  late List<Post> postReplies;
 
-  const PostWidget(
-      {required this.post, required this.board, this.onTap, this.height});
+  PostWidget({
+    required this.post,
+    required this.board,
+    required this.replies,
+    this.onTap,
+    this.height,
+  }) {
+    postReplies = Utils.getReplies(replies, post);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +54,14 @@ class PostWidget extends StatelessWidget {
                           child: PostHeader(post: post),
                         ),
                         PostContent(post: post),
+                        if (postReplies.length > 0)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 8, right: 8),
+                            child: PostFooter(
+                                postReplies: postReplies,
+                                board: board,
+                                replies: replies),
+                          ),
                       ],
                     ),
                   ),
@@ -56,13 +75,53 @@ class PostWidget extends StatelessWidget {
   }
 }
 
+class PostFooter extends StatelessWidget {
+  const PostFooter({
+    Key? key,
+    required this.postReplies,
+    required this.replies,
+    required this.board,
+  }) : super(key: key);
+
+  final List<Post> postReplies;
+  final List<Post> replies;
+  final String board;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          child: Text(
+            '${postReplies.length} ${postReplies.length > 1 ? 'replies' : 'reply'}',
+            style: postNoTextStyle(context),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, _, __) => RepliesPage(
+                  postReplies,
+                  board: board,
+                  threadReplies: replies,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
 class PostContent extends StatelessWidget {
+  final Post post;
+
   const PostContent({
     Key? key,
     required this.post,
   }) : super(key: key);
-
-  final Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +157,7 @@ class PostHeader extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            post.name ?? post.trip ?? 'Anonymous',
+            post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
             style: postNameTextStyle(context),
             overflow: TextOverflow.ellipsis,
           ),

@@ -14,6 +14,7 @@ const String API_RELEASES_URL =
 // Routes
 const String BOARDS_LIST_ROUTE = "/boards";
 const String SETTINGS_ROUTE = "/settings";
+const String THREAD_ROUTE = "/thread";
 
 // Misc
 const String LAST_VISITED_BOARD = 'last_visited_board';

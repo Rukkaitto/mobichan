@@ -141,6 +141,7 @@ class _BoardPageState extends State<BoardPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+                      settings: RouteSettings(name: ThreadPage.routeName),
                       builder: (context) => ThreadPage(
                         args: ThreadPageArguments(
                           board: widget.args.board,
