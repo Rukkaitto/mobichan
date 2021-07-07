@@ -18,11 +18,15 @@ class ThreadWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onTap?.call(),
-      child: Stack(
-        children: [
-          ThreadImage(board: board, post: post),
-          ThreadOverlay(post: post),
-        ],
+      child: Material(
+        borderRadius: BorderRadius.circular(15),
+        elevation: 3,
+        child: Stack(
+          children: [
+            ThreadImage(board: board, post: post),
+            ThreadOverlay(post: post),
+          ],
+        ),
       ),
     );
   }
@@ -64,7 +68,7 @@ class ThreadOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
         child: Stack(
           children: [
             post.sticky == 1 ? StickyIcon() : Container(),
@@ -100,7 +104,7 @@ class ThreadOverlay extends StatelessWidget {
       child: Row(
         children: [
           if (post.replies != 0) buildReplyCount(),
-          if (post.images != 0) Container(width: 15),
+          if (post.images != 0) Container(width: 10),
           if (post.images != 0) buildImageCount(),
         ],
       ),
@@ -114,7 +118,7 @@ class ThreadOverlay extends StatelessWidget {
         Icon(
           Icons.image_rounded,
           color: Colors.white,
-          size: 24,
+          size: 16,
         ),
         Text(
           post.images.toString(),
@@ -131,7 +135,7 @@ class ThreadOverlay extends StatelessWidget {
         Icon(
           Icons.reply_rounded,
           color: Colors.white,
-          size: 24,
+          size: 16,
         ),
         Text(
           post.replies.toString(),
@@ -155,6 +159,7 @@ class StickyIcon extends StatelessWidget {
       child: Icon(
         Icons.push_pin_rounded,
         color: Colors.white,
+        size: 16,
       ),
     );
   }

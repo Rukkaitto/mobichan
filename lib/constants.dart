@@ -14,6 +14,7 @@ const String API_RELEASES_URL =
 // Routes
 const String BOARDS_LIST_ROUTE = "/boards";
 const String SETTINGS_ROUTE = "/settings";
+const String THREAD_ROUTE = "/thread";
 
 // Misc
 const String LAST_VISITED_BOARD = 'last_visited_board';
@@ -21,6 +22,7 @@ const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
 const String DEFAULT_BOARD = 'g';
 const String DEFAULT_BOARD_TITLE = 'Technology';
 const String THREAD_HISTORY = 'thread_history';
+const String LAST_SORTING_ORDER = 'last_sorting_order';
 
 const double FORM_MIN_HEIGHT = 175;
 const double THREAD_FORM_MAX_HEIGHT = 315;
@@ -31,13 +33,13 @@ const Color TRANSPARENT_COLOR = Color(0xaa000000);
 
 // Text styles
 const threadTitleTextStyle = TextStyle(
-  fontSize: 26,
+  fontSize: 18,
   color: Colors.white,
   fontWeight: FontWeight.w500,
 );
 
 const threadNumbersTextStyle = TextStyle(
-  fontSize: 24,
+  fontSize: 14,
   color: Colors.white,
   fontWeight: FontWeight.w400,
 );

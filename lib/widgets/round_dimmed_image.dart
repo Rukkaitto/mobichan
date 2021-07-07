@@ -13,7 +13,7 @@ class RoundDimmedImage extends StatelessWidget {
     return Container(
       height: 300,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
           image: imageProvider,
           fit: BoxFit.cover,

@@ -27,14 +27,13 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  late Sort _sorting = Sort.byBumpOrder;
   late TextEditingController _searchQueryController;
 
   @override
   void initState() {
     super.initState();
     _searchQueryController = TextEditingController();
-    _refresh();
+    _refresh(Utils.getLastSortingOrder());
     Utils.saveLastVisitedBoard(
       board: widget.args.board,
       title: widget.args.title,
@@ -47,9 +46,13 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  Future<void> _refresh() async {
-    setState(() {
-      _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: _sorting);
+  Future<void> _refresh(Future<Sort> sorting) async {
+    _futureOPs =
+        Api.fetchOPs(board: widget.args.board, sorting: Sort.byBumpOrder);
+    sorting.then((value) {
+      setState(() {
+        _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: value);
+      });
     });
   }
 
@@ -61,7 +64,7 @@ class _BoardPageState extends State<BoardPage> {
 
   void _onFormPost(Response<String> response) async {
     _onCloseForm();
-    await _refresh();
+    await _refresh(Utils.getLastSortingOrder());
   }
 
   void _startSearching() {
@@ -109,9 +112,9 @@ class _BoardPageState extends State<BoardPage> {
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
       onSelected: (sorting) {
+        Utils.saveLastSortingOrder(sorting);
         setState(() {
-          _sorting = sorting;
-          _refresh();
+          _refresh(Future.value(sorting));
         });
       },
       itemBuilder: (context) {
@@ -126,37 +129,31 @@ class _BoardPageState extends State<BoardPage> {
     );
   }
 
-  Widget Function(BuildContext, int) _listViewItemBuilder(
-      AsyncSnapshot<List<Post>> snapshot) {
+  Widget Function(BuildContext, int) _gridViewItemBuilder(List<Post> threads) {
     return (BuildContext context, int index) {
-      Post op = snapshot.data![index];
-      return _matchesSearchQuery(op.com) || _matchesSearchQuery(op.sub)
-          ? Padding(
-              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-              child: ThreadWidget(
-                post: op,
-                board: widget.args.board,
-                onTap: () {
-                  Utils.addThreadToHistory(op, widget.args.board);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ThreadPage(
-                        args: ThreadPageArguments(
-                          board: widget.args.board,
-                          thread: op.no,
-                          title: op.sub ??
-                              op.com?.replaceBrWithSpace.removeHtmlTags
-                                  .unescapeHtml ??
-                              '',
-                        ),
-                      ),
-                    ),
-                  );
-                },
+      Post op = threads[index];
+      return ThreadWidget(
+        post: op,
+        board: widget.args.board,
+        onTap: () {
+          Utils.addThreadToHistory(op, widget.args.board);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              settings: RouteSettings(name: ThreadPage.routeName),
+              builder: (context) => ThreadPage(
+                args: ThreadPageArguments(
+                  board: widget.args.board,
+                  thread: op.no,
+                  title: op.sub ??
+                      op.com?.replaceBrWithSpace.removeHtmlTags.unescapeHtml ??
+                      '',
+                ),
               ),
-            )
-          : Container();
+            ),
+          );
+        },
+      );
     };
   }
 
@@ -190,7 +187,7 @@ class _BoardPageState extends State<BoardPage> {
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: _refresh,
+            onRefresh: () => _refresh(Utils.getLastSortingOrder()),
             child: buildFutureBuilder(),
           ),
           FormWidget(
@@ -210,9 +207,23 @@ class _BoardPageState extends State<BoardPage> {
       future: _futureOPs,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: _listViewItemBuilder(snapshot),
+          List<Post> filteredThreads = snapshot.data!
+              .where((thread) =>
+                  _matchesSearchQuery(thread.com) ||
+                  _matchesSearchQuery(thread.sub))
+              .toList();
+
+          return Padding(
+            padding: EdgeInsets.all(8),
+            child: GridView.builder(
+                itemCount: filteredThreads.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  crossAxisCount: 2,
+                  childAspectRatio: 4 / 3,
+                ),
+                itemBuilder: _gridViewItemBuilder(filteredThreads)),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
