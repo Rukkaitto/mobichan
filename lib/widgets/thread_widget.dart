@@ -159,6 +159,7 @@ class StickyIcon extends StatelessWidget {
       child: Icon(
         Icons.push_pin_rounded,
         color: Colors.white,
+        size: 16,
       ),
     );
   }
