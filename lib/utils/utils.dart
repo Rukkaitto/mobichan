@@ -67,6 +67,20 @@ class Utils {
     return file;
   }
 
+  static Future<bool> isThreadInHistory(Post thread) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> history;
+    if (prefs.containsKey(THREAD_HISTORY)) {
+      history = prefs.getStringList(THREAD_HISTORY)!;
+    } else {
+      history = List.empty(growable: true);
+    }
+    return history.map((e) {
+      Post pastThread = Post.fromJson(jsonDecode(e));
+      return pastThread.no;
+    }).contains(thread.no);
+  }
+
   static void addThreadToHistory(Post thread, String board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
@@ -78,6 +92,9 @@ class Utils {
       history = prefs.getStringList(THREAD_HISTORY)!;
     } else {
       history = List.empty(growable: true);
+    }
+    if (await isThreadInHistory(thread)) {
+      history.remove(newThread);
     }
     history.add(newThread);
     prefs.setStringList(THREAD_HISTORY, history);
