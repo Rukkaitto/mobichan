@@ -36,7 +36,7 @@ class RepliesPage extends StatelessWidget {
           itemBuilder: (context, index) {
             Post reply = postReplies[index];
             return Padding(
-              padding: EdgeInsets.only(top: 8, right: 8, bottom: 8, left: 16),
+              padding: EdgeInsets.all(8),
               child: PostWidget(
                 post: reply,
                 board: board,

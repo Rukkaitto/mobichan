@@ -32,13 +32,13 @@ const Color TRANSPARENT_COLOR = Color(0xaa000000);
 
 // Text styles
 const threadTitleTextStyle = TextStyle(
-  fontSize: 26,
+  fontSize: 18,
   color: Colors.white,
   fontWeight: FontWeight.w500,
 );
 
 const threadNumbersTextStyle = TextStyle(
-  fontSize: 24,
+  fontSize: 14,
   color: Colors.white,
   fontWeight: FontWeight.w400,
 );
