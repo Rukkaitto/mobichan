@@ -22,6 +22,7 @@ class ThreadPage extends StatefulWidget {
 
 class _ThreadPageState extends State<ThreadPage> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
 
@@ -55,6 +56,10 @@ class _ThreadPageState extends State<ThreadPage> {
     await _refresh();
   }
 
+  void _onPostNoTap(int no) {
+    _commentFieldController.text += ">>$no\n";
+  }
+
   Widget Function(BuildContext, int) _listViewItemBuilder(
       AsyncSnapshot<List<Post>> snapshot) {
     return (context, index) {
@@ -65,6 +70,7 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: snapshot.data!,
+          onPostNoTap: _onPostNoTap,
         ),
       );
     };
@@ -118,6 +124,7 @@ class _ThreadPageState extends State<ThreadPage> {
             isOpened: _postFormIsOpened,
             onPost: _onFormPost,
             onClose: _onCloseForm,
+            commentFieldController: _commentFieldController,
           ),
         ],
       ),

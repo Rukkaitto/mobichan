@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
-import 'package:mobichan/widgets/captcha_widget.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/widgets/new_captcha_widget.dart';
 
@@ -18,6 +17,7 @@ class FormWidget extends StatefulWidget {
   final int? thread;
   final Function() onClose;
   final Function(Response<String>) onPost;
+  final TextEditingController commentFieldController;
 
   FormWidget(
       {Key? key,
@@ -26,7 +26,8 @@ class FormWidget extends StatefulWidget {
       required this.isOpened,
       required this.postType,
       required this.onClose,
-      required this.onPost})
+      required this.onPost,
+      required this.commentFieldController})
       : super(key: key);
 
   @override
@@ -37,7 +38,6 @@ class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
   final _nameFieldController = TextEditingController();
   final _subjectFieldController = TextEditingController();
-  final _commentFieldController = TextEditingController();
   final _captchaResponseFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   String? _captchaChallenge;
@@ -131,7 +131,7 @@ class _FormWidgetState extends State<FormWidget> {
           captchaResponse: _captchaResponseFieldController.text,
           board: widget.board,
           name: _nameFieldController.text,
-          com: _commentFieldController.text,
+          com: widget.commentFieldController.text,
           resto: widget.thread!,
           pickedFile: _pickedFile,
           onPost: _onPost,
@@ -144,7 +144,7 @@ class _FormWidgetState extends State<FormWidget> {
           board: widget.board,
           subject: _subjectFieldController.text,
           name: _nameFieldController.text,
-          com: _commentFieldController.text,
+          com: widget.commentFieldController.text,
           pickedFile: _pickedFile,
           onPost: _onPost,
         );
@@ -261,33 +261,25 @@ class _FormWidgetState extends State<FormWidget> {
     );
   }
 
-  FocusTraversalGroup buildForm(BuildContext context) {
-    return FocusTraversalGroup(
-      descendantsAreFocusable: true,
-      child: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
-        onChanged: () => Form.of(primaryFocus!.context!)!.save(),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FormFields(
-              expanded: _expanded,
-              nameFieldController: _nameFieldController,
-              widget: widget,
-              subjectFieldController: _subjectFieldController,
-              commentFieldController: _commentFieldController,
-              pickedFile: _pickedFile,
-              clearPickedFile: () {
-                setState(() {
-                  _pickedFile = null;
-                });
-              },
-            ),
-            buildIconButtons(context),
-          ],
+  Widget buildForm(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FormFields(
+          expanded: _expanded,
+          nameFieldController: _nameFieldController,
+          widget: widget,
+          subjectFieldController: _subjectFieldController,
+          commentFieldController: widget.commentFieldController,
+          pickedFile: _pickedFile,
+          clearPickedFile: () {
+            setState(() {
+              _pickedFile = null;
+            });
+          },
         ),
-      ),
+        buildIconButtons(context),
+      ],
     );
   }
 
