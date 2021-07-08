@@ -21,6 +21,7 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
+  final ScrollController _scrollController = ScrollController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
 
@@ -69,6 +70,30 @@ class _ThreadPageState extends State<ThreadPage> {
     };
   }
 
+  PopupMenuButton<dynamic> _buildPopupMenuButton() {
+    return PopupMenuButton(
+      onSelected: (position) {
+        _scrollController.animateTo(
+          position,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn,
+        );
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Text('Scroll to top'),
+            value: _scrollController.position.minScrollExtent,
+          ),
+          PopupMenuItem(
+            child: Text('Scroll to bottom'),
+            value: _scrollController.position.maxScrollExtent,
+          ),
+        ];
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +103,7 @@ class _ThreadPageState extends State<ThreadPage> {
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(widget.args.title),
+        actions: [_buildPopupMenuButton()],
       ),
       body: Stack(
         children: [
@@ -104,6 +130,7 @@ class _ThreadPageState extends State<ThreadPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            controller: _scrollController,
             itemCount: snapshot.data!.length,
             itemBuilder: _listViewItemBuilder(snapshot),
           );

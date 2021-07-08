@@ -2,6 +2,7 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Rukkaitto/mobichan/graphs/commit-activity)
 [![GitHub release](https://img.shields.io/github/release/Rukkaitto/mobichan.svg)](https://github.com/Rukkaitto/mobichan/releases/latest)
+[![Github All Releases](https://img.shields.io/github/downloads/Rukkaitto/mobichan/total.svg)]()
 
 <a target="_blank" href="https://play.google.com/store/apps/details?id=com.lucasgoudin.mobichan">
   <img src="https://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="25%">
