@@ -21,6 +21,8 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
 
@@ -54,6 +56,10 @@ class _ThreadPageState extends State<ThreadPage> {
     await _refresh();
   }
 
+  void _onPostNoTap(int no) {
+    _commentFieldController.text += ">>$no\n";
+  }
+
   Widget Function(BuildContext, int) _listViewItemBuilder(
       AsyncSnapshot<List<Post>> snapshot) {
     return (context, index) {
@@ -64,9 +70,34 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: snapshot.data!,
+          onPostNoTap: _onPostNoTap,
         ),
       );
     };
+  }
+
+  PopupMenuButton<dynamic> _buildPopupMenuButton() {
+    return PopupMenuButton(
+      onSelected: (position) {
+        _scrollController.animateTo(
+          position,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn,
+        );
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Text('Scroll to top'),
+            value: _scrollController.position.minScrollExtent,
+          ),
+          PopupMenuItem(
+            child: Text('Scroll to bottom'),
+            value: _scrollController.position.maxScrollExtent,
+          ),
+        ];
+      },
+    );
   }
 
   @override
@@ -78,6 +109,7 @@ class _ThreadPageState extends State<ThreadPage> {
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(widget.args.title),
+        actions: [_buildPopupMenuButton()],
       ),
       body: Stack(
         children: [
@@ -92,6 +124,7 @@ class _ThreadPageState extends State<ThreadPage> {
             isOpened: _postFormIsOpened,
             onPost: _onFormPost,
             onClose: _onCloseForm,
+            commentFieldController: _commentFieldController,
           ),
         ],
       ),
@@ -104,6 +137,7 @@ class _ThreadPageState extends State<ThreadPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            controller: _scrollController,
             itemCount: snapshot.data!.length,
             itemBuilder: _listViewItemBuilder(snapshot),
           );

@@ -196,6 +196,7 @@ class _BoardPageState extends State<BoardPage> {
             isOpened: _postFormIsOpened,
             onPost: _onFormPost,
             onClose: _onCloseForm,
+            commentFieldController: TextEditingController(),
           ),
         ],
       ),
