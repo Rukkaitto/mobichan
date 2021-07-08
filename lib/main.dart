@@ -39,8 +39,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) ==
-        PLAY_STORE) {
+    if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) == GITHUB) {
       Updater.checkForUpdates().then((needsUpdate) {
         if (needsUpdate) {
           showDialog(

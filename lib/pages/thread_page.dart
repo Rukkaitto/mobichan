@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
@@ -23,9 +22,11 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
-  bool _postFormIsOpened = false;
   List<String> imageUrls = [];
+  bool _postFormIsOpened = false;
 
   @override
   void initState() {
@@ -55,6 +56,10 @@ class _ThreadPageState extends State<ThreadPage> {
   void _onFormPost(Response<String> response) async {
     _onCloseForm();
     await _refresh();
+  }
+
+  void _onPostNoTap(int no) {
+    _commentFieldController.text += ">>$no\n";
   }
 
   List<String> _getImageUrls(List<Post> posts) {
@@ -88,9 +93,34 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: snapshot.data!,
+          onPostNoTap: _onPostNoTap,
         ),
       );
     };
+  }
+
+  PopupMenuButton<dynamic> _buildPopupMenuButton() {
+    return PopupMenuButton(
+      onSelected: (position) {
+        _scrollController.animateTo(
+          position,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn,
+        );
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Text('Scroll to top'),
+            value: _scrollController.position.minScrollExtent,
+          ),
+          PopupMenuItem(
+            child: Text('Scroll to bottom'),
+            value: _scrollController.position.maxScrollExtent,
+          ),
+        ];
+      },
+    );
   }
 
   @override
@@ -102,7 +132,8 @@ class _ThreadPageState extends State<ThreadPage> {
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(widget.args.title),
-        actions: <Widget>[
+        actions: [
+          _buildPopupMenuButton(),
           IconButton(onPressed: _gotoGalleryView, icon: Icon(Icons.image))
         ],
       ),
@@ -119,6 +150,7 @@ class _ThreadPageState extends State<ThreadPage> {
             isOpened: _postFormIsOpened,
             onPost: _onFormPost,
             onClose: _onCloseForm,
+            commentFieldController: _commentFieldController,
           ),
         ],
       ),
@@ -132,6 +164,7 @@ class _ThreadPageState extends State<ThreadPage> {
         if (snapshot.hasData) {
           imageUrls = _getImageUrls(snapshot.data!);
           return ListView.builder(
+            controller: _scrollController,
             itemCount: snapshot.data!.length,
             itemBuilder: _listViewItemBuilder(snapshot),
           );

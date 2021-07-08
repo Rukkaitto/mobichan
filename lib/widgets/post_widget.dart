@@ -15,6 +15,7 @@ class PostWidget extends StatelessWidget {
   final Function? onTap;
   final double? height;
   final List<Post> threadReplies;
+  final Function(int)? onPostNoTap;
   late List<Post> postReplies;
 
   PostWidget({
@@ -22,6 +23,7 @@ class PostWidget extends StatelessWidget {
     required this.board,
     required this.threadReplies,
     this.onTap,
+    this.onPostNoTap,
     this.height,
   }) {
     postReplies = Utils.getReplies(threadReplies, post);
@@ -55,7 +57,10 @@ class PostWidget extends StatelessWidget {
                               Padding(
                                 padding:
                                     EdgeInsets.only(top: 8, left: 8, right: 8),
-                                child: PostHeader(post: post),
+                                child: PostHeader(
+                                  post: post,
+                                  onPostNoTap: onPostNoTap,
+                                ),
                               ),
                               PostContent(
                                 board: board,
@@ -170,10 +175,12 @@ class PostContent extends StatelessWidget {
 class PostHeader extends StatelessWidget {
   const PostHeader({
     Key? key,
+    this.onPostNoTap,
     required this.post,
   }) : super(key: key);
 
   final Post post;
+  final Function(int)? onPostNoTap;
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +194,12 @@ class PostHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Text(
-          post.no.toString(),
-          style: postNoTextStyle(context),
+        InkWell(
+          onTap: () => onPostNoTap?.call(post.no),
+          child: Text(
+            post.no.toString(),
+            style: postNoTextStyle(context),
+          ),
         ),
       ],
     );
