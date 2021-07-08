@@ -63,7 +63,7 @@ class _ThreadPageState extends State<ThreadPage> {
     for (Post post in posts) {
       if (post.tim != null) {
         String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}.jpg';
+            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
         imageUrls.add(imageUrl);
       }
     }
