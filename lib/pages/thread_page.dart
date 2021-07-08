@@ -57,6 +57,20 @@ class _ThreadPageState extends State<ThreadPage> {
     await _refresh();
   }
 
+  List<String> _getImageUrls(List<Post> posts) {
+    List<String> imageUrls = [];
+
+    for (Post post in posts) {
+      if (post.tim != null) {
+        String imageUrl =
+            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    return imageUrls;
+  }
+
   void _gotoGalleryView() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
@@ -109,20 +123,6 @@ class _ThreadPageState extends State<ThreadPage> {
         ],
       ),
     );
-  }
-
-  List<String> _getImageUrls(List<Post> posts) {
-    List<String> imageUrls = [];
-
-    for (Post post in posts) {
-      if (post.tim != null) {
-        String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
-        imageUrls.add(imageUrl);
-      }
-    }
-
-    return imageUrls;
   }
 
   FutureBuilder<List<Post>> buildFutureBuilder() {
