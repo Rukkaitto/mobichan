@@ -129,7 +129,6 @@ class _ThreadPageState extends State<ThreadPage> {
       floatingActionButton: PostActionButton(
         onPressed: onPressPostActionButton,
       ),
-      drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(widget.args.title),
         actions: [
