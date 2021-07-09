@@ -137,6 +137,7 @@ class _ThreadPageState extends State<ThreadPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            physics: AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
             itemCount: snapshot.data!.length,
             itemBuilder: _listViewItemBuilder(snapshot),
