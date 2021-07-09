@@ -26,6 +26,7 @@ const String LAST_SORTING_ORDER = 'last_sorting_order';
 const String ENVIRONMENT = 'env';
 const String GITHUB = 'github';
 const String PLAY_STORE = 'play_store';
+const String BOARD_FAVORITES = 'board_favorites';
 
 const double FORM_MIN_HEIGHT = 175;
 const double THREAD_FORM_MAX_HEIGHT = 315;

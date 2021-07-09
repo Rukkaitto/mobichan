@@ -47,16 +47,21 @@ class ThreadImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: getImageUrl(),
-      imageBuilder: (context, imageProvider) => RoundDimmedImage(imageProvider),
-      placeholder: (context, url) => Center(
-        child: RoundDimmedImage(
-          NetworkImage('$API_IMAGES_URL/$board/${post.tim}s.jpg'),
+    if (post.tim != null) {
+      return CachedNetworkImage(
+        imageUrl: getImageUrl(),
+        imageBuilder: (context, imageProvider) =>
+            RoundDimmedImage(imageProvider),
+        placeholder: (context, url) => Center(
+          child: RoundDimmedImage(
+            NetworkImage('$API_IMAGES_URL/$board/${post.tim}s.jpg'),
+          ),
         ),
-      ),
-      fadeInDuration: Duration.zero,
-    );
+        fadeInDuration: Duration.zero,
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
