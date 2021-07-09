@@ -35,7 +35,6 @@ class FormWidget extends StatefulWidget {
 }
 
 class _FormWidgetState extends State<FormWidget> {
-  final _formKey = GlobalKey<FormState>();
   final _nameFieldController = TextEditingController();
   final _subjectFieldController = TextEditingController();
   final _captchaResponseFieldController = TextEditingController();
@@ -60,13 +59,11 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   void _onSendIconPress() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _showCaptcha = true;
-      });
-      // Take away focus to close keyboard
-      FocusScope.of(context).requestFocus(FocusNode());
-    }
+    setState(() {
+      _showCaptcha = true;
+    });
+    // Take away focus to close keyboard
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   Future<bool> _onWillPop() async {
