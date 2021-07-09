@@ -15,6 +15,8 @@ class BoardsListPage extends StatefulWidget {
 }
 
 class _BoardsListPageState extends State<BoardsListPage> {
+  ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +32,20 @@ class _BoardsListPageState extends State<BoardsListPage> {
       future: Api.fetchBoards(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Board board = snapshot.data![index];
-              return BoardListTile(board: board);
-            },
+          return Scrollbar(
+            controller: _scrollController,
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                controller: _scrollController,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  Board board = snapshot.data![index];
+                  return BoardListTile(board: board);
+                },
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
