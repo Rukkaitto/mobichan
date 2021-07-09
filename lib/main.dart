@@ -21,6 +21,10 @@ void main() {
         HistoryPage.routeName: (context) => HistoryPage(),
       },
       theme: ThemeData.dark().copyWith(
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        }),
         colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
       ),
       home: App(),

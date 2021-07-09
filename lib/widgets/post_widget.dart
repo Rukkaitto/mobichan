@@ -10,6 +10,7 @@ import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class PostWidget extends StatelessWidget {
   final Post post;
   final String board;

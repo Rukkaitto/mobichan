@@ -1,10 +1,5 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:mobichan/classes/models/post.dart';
-
-import '../constants.dart';
 
 class NewCaptchaWidget extends StatefulWidget {
   final String board;

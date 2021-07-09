@@ -1,7 +1,4 @@
-/**
- * Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/controls_overlay.dart
- */
-
+/// Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/controls_overlay.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
@@ -117,8 +114,6 @@ class ControlsOverlay extends StatelessWidget {
 
   /// Returns a callback which seeks the video relative to current playing time.
   Future<void> _seekRelative(Duration seekStep) async {
-    if (controller!.value.duration != null) {
-      await controller!.seekTo(controller!.value.position + seekStep);
-    }
+    await controller!.seekTo(controller!.value.position + seekStep);
   }
 }
