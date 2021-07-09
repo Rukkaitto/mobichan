@@ -8,6 +8,7 @@ import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -142,25 +143,51 @@ class PostContent extends StatelessWidget {
     required this.threadReplies,
   }) : super(key: key);
 
+  void openUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
+    } else {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  void openRepliesPage(BuildContext context, String quotelink) {
+    int? quotedNo = int.tryParse(quotelink.substring(2));
+    if (quotedNo == null) {
+      return;
+    }
+    Post quotedPost = Utils.getQuotedPost(threadReplies, quotedNo);
+
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => RepliesPage(
+          [quotedPost],
+          board: board,
+          threadReplies: threadReplies,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Html(
       data: post.com ?? '',
-      onAnchorTap: (str, _, __, ___) {
-        int quotedNo = int.parse(str!.substring(2));
-        Post quotedPost = Utils.getQuotedPost(threadReplies, quotedNo);
-
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, _, __) => RepliesPage(
-              [quotedPost],
-              board: board,
-              threadReplies: threadReplies,
-            ),
-          ),
-        );
+      onAnchorTap: (str, renderContext, attributes, element) {
+        if (attributes['class'] == 'quotelink') {
+          openRepliesPage(context, str!);
+        } else {
+          openUrl(str!);
+        }
       },
       style: {
+        "a": Style(
+          color: Colors.lightBlueAccent,
+        ),
         ".quote": Style(
           color: Colors.green.shade300,
         ),
