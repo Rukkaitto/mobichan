@@ -79,11 +79,7 @@ class _ThreadPageState extends State<ThreadPage> {
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
       onSelected: (position) {
-        _scrollController.animateTo(
-          position,
-          duration: Duration(milliseconds: 500),
-          curve: Curves.fastOutSlowIn,
-        );
+        _scrollController.jumpTo(position);
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
@@ -136,10 +132,16 @@ class _ThreadPageState extends State<ThreadPage> {
       future: _futurePosts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
+          return Scrollbar(
+            isAlwaysShown: true,
             controller: _scrollController,
-            itemCount: snapshot.data!.length,
-            itemBuilder: _listViewItemBuilder(snapshot),
+            child: ListView.builder(
+              addAutomaticKeepAlives: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
+              itemCount: snapshot.data!.length,
+              itemBuilder: _listViewItemBuilder(snapshot),
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");

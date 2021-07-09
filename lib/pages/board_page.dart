@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
+import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
@@ -28,6 +29,7 @@ class _BoardPageState extends State<BoardPage> {
   bool _isSearching = false;
   String _searchQuery = '';
   late TextEditingController _searchQueryController;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -157,6 +159,28 @@ class _BoardPageState extends State<BoardPage> {
     };
   }
 
+  void _addToFavorites() async {
+    setState(() {
+      Utils.addBoardToFavorites(
+        Board(
+          board: widget.args.board,
+          title: widget.args.title,
+        ),
+      );
+    });
+  }
+
+  void _removeFromFavorites() async {
+    setState(() {
+      Utils.removeBoardFromFavorites(
+        Board(
+          board: widget.args.board,
+          title: widget.args.title,
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,6 +194,27 @@ class _BoardPageState extends State<BoardPage> {
           IconButton(
             onPressed: _startSearching,
             icon: Icon(Icons.search_rounded),
+          ),
+          FutureBuilder(
+            future: Utils.isBoardInFavorites(
+              Board(board: widget.args.board, title: widget.args.title),
+            ),
+            builder: (context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData) {
+                final isInFavorites = snapshot.data!;
+                return IconButton(
+                  onPressed:
+                      isInFavorites ? _removeFromFavorites : _addToFavorites,
+                  icon: Icon(
+                    isInFavorites
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_outline_rounded,
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
           _buildPopupMenuButton()
         ],
@@ -214,17 +259,22 @@ class _BoardPageState extends State<BoardPage> {
                   _matchesSearchQuery(thread.sub))
               .toList();
 
-          return Padding(
-            padding: EdgeInsets.all(8),
-            child: GridView.builder(
-                itemCount: filteredThreads.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  crossAxisCount: 2,
-                  childAspectRatio: 4 / 3,
-                ),
-                itemBuilder: _gridViewItemBuilder(filteredThreads)),
+          return Scrollbar(
+            controller: _scrollController,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: GridView.builder(
+                  addAutomaticKeepAlives: true,
+                  controller: _scrollController,
+                  itemCount: filteredThreads.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    crossAxisCount: 2,
+                    childAspectRatio: 4 / 3,
+                  ),
+                  itemBuilder: _gridViewItemBuilder(filteredThreads)),
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");

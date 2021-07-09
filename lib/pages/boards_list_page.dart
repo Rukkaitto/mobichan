@@ -15,6 +15,8 @@ class BoardsListPage extends StatefulWidget {
 }
 
 class _BoardsListPageState extends State<BoardsListPage> {
+  ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +32,20 @@ class _BoardsListPageState extends State<BoardsListPage> {
       future: Api.fetchBoards(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Board board = snapshot.data![index];
-              return BoardListTile(board: board);
-            },
+          return Scrollbar(
+            controller: _scrollController,
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                controller: _scrollController,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  Board board = snapshot.data![index];
+                  return BoardListTile(board: board);
+                },
+              ),
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -49,7 +59,7 @@ class _BoardsListPageState extends State<BoardsListPage> {
   }
 }
 
-class BoardListTile extends StatelessWidget {
+class BoardListTile extends StatefulWidget {
   const BoardListTile({
     Key? key,
     required this.board,
@@ -58,19 +68,68 @@ class BoardListTile extends StatelessWidget {
   final Board board;
 
   @override
+  _BoardListTileState createState() => _BoardListTileState();
+}
+
+class _BoardListTileState extends State<BoardListTile> {
+  void _addToFavorites() async {
+    setState(() {
+      Utils.addBoardToFavorites(
+        Board(
+          board: widget.board.board,
+          title: widget.board.title,
+        ),
+      );
+    });
+  }
+
+  void _removeFromFavorites() async {
+    setState(() {
+      Utils.removeBoardFromFavorites(
+        Board(
+          board: widget.board.board,
+          title: widget.board.title,
+        ),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('/${board.board}/ - ${board.title}'),
-      onTap: () {
-        Utils.saveLastVisitedBoard(board: board.board, title: board.title);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BoardPage(
-              args: BoardPageArguments(board: board.board, title: board.title),
+    return FutureBuilder(
+      future: Utils.isBoardInFavorites(
+        Board(board: widget.board.board, title: widget.board.title),
+      ),
+      builder: (context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          final isInFavorites = snapshot.data!;
+          return ListTile(
+            trailing: IconButton(
+              onPressed: isInFavorites ? _removeFromFavorites : _addToFavorites,
+              icon: Icon(
+                isInFavorites
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_outline_rounded,
+              ),
             ),
-          ),
-        );
+            title: Text('/${widget.board.board}/ - ${widget.board.title}'),
+            onTap: () {
+              Utils.saveLastVisitedBoard(
+                  board: widget.board.board, title: widget.board.title);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BoardPage(
+                    args: BoardPageArguments(
+                        board: widget.board.board, title: widget.board.title),
+                  ),
+                ),
+              );
+            },
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }

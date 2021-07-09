@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
@@ -143,5 +144,56 @@ class Utils {
       }
     }
     return null;
+  }
+
+  static Future<bool> isBoardInFavorites(Board board) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favorites;
+    if (prefs.containsKey(BOARD_FAVORITES)) {
+      favorites = prefs.getStringList(BOARD_FAVORITES)!;
+    } else {
+      favorites = List.empty(growable: true);
+    }
+    final favoriteBoards = favorites.map((e) {
+      Board pastBoard = Board.fromJson(jsonDecode(e));
+      return pastBoard.board;
+    });
+
+    return favoriteBoards.toList().contains(board.board);
+  }
+
+  static void addBoardToFavorites(Board board) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> boardJson = board.toJson();
+    String newBoard = jsonEncode(boardJson);
+
+    List<String> favorites;
+    if (prefs.containsKey(BOARD_FAVORITES)) {
+      favorites = prefs.getStringList(BOARD_FAVORITES)!;
+    } else {
+      favorites = List.empty(growable: true);
+    }
+    if (await isBoardInFavorites(board)) {
+      favorites.remove(newBoard);
+    }
+    favorites.add(newBoard);
+    prefs.setStringList(BOARD_FAVORITES, favorites);
+  }
+
+  static void removeBoardFromFavorites(Board board) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> boardJson = board.toJson();
+    String boardToRemove = jsonEncode(boardJson);
+
+    List<String> favorites;
+    if (prefs.containsKey(BOARD_FAVORITES)) {
+      favorites = prefs.getStringList(BOARD_FAVORITES)!;
+    } else {
+      favorites = List.empty(growable: true);
+    }
+    if (await isBoardInFavorites(board)) {
+      favorites.remove(boardToRemove);
+    }
+    prefs.setStringList(BOARD_FAVORITES, favorites);
   }
 }
