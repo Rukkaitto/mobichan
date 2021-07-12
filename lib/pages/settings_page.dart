@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobichan/constants.dart';
 
 class SettingsPage extends StatelessWidget {
