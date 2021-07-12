@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/pages/gallery_page.dart';
-import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
@@ -28,6 +27,7 @@ class _ThreadPageState extends State<ThreadPage> {
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
   List<String> imageUrls = [];
+  List<String> imageThumbnailUrls = [];
 
   @override
   void initState() {
@@ -69,6 +69,20 @@ class _ThreadPageState extends State<ThreadPage> {
     for (Post post in posts) {
       if (post.tim != null) {
         String imageUrl =
+            '$API_IMAGES_URL/${widget.args.board}/${post.tim}${post.ext}';
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    return imageUrls;
+  }
+
+  List<String> _getImageThumbnailUrls(List<Post> posts) {
+    List<String> imageUrls = [];
+
+    for (Post post in posts) {
+      if (post.tim != null) {
+        String imageUrl =
             '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
         imageUrls.add(imageUrl);
       }
@@ -80,7 +94,10 @@ class _ThreadPageState extends State<ThreadPage> {
   void _gotoGalleryView() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return GalleryPage(imageUrlList: imageUrls);
+      return GalleryPage(
+        imageUrlList: imageUrls,
+        imageThumbnailUrlList: imageThumbnailUrls,
+      );
     }));
   }
 
@@ -130,7 +147,7 @@ class _ThreadPageState extends State<ThreadPage> {
         title: Text(widget.args.title),
         actions: <Widget>[
           IconButton(onPressed: _gotoGalleryView, icon: Icon(Icons.image)),
-    _buildPopupMenuButton(),
+          _buildPopupMenuButton(),
         ],
       ),
       body: Stack(
@@ -159,6 +176,7 @@ class _ThreadPageState extends State<ThreadPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           imageUrls = _getImageUrls(snapshot.data!);
+          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,
