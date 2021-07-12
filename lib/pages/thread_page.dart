@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
+import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/widgets/drawer_widget.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
@@ -25,6 +27,7 @@ class _ThreadPageState extends State<ThreadPage> {
   final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
+  List<String> imageUrls = [];
 
   @override
   void initState() {
@@ -58,6 +61,13 @@ class _ThreadPageState extends State<ThreadPage> {
 
   void _onPostNoTap(int no) {
     _commentFieldController.text += ">>$no\n";
+  }
+
+  void _gotoGalleryView() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return GalleryPage(imageUrlList: imageUrls);
+    }));
   }
 
   Widget Function(BuildContext, int) _listViewItemBuilder(
@@ -105,7 +115,10 @@ class _ThreadPageState extends State<ThreadPage> {
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(widget.args.title),
-        actions: [_buildPopupMenuButton()],
+        actions: <Widget>[
+          IconButton(onPressed: _gotoGalleryView, icon: Icon(Icons.image)),
+    _buildPopupMenuButton(),
+        ],
       ),
       body: Stack(
         children: [
@@ -127,11 +140,26 @@ class _ThreadPageState extends State<ThreadPage> {
     );
   }
 
+  List<String> _getImageUrls(List<Post> posts) {
+    List<String> imageUrls = [];
+
+    for (Post post in posts) {
+      if (post.tim != null) {
+        String imageUrl =
+            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    return imageUrls;
+  }
+
   FutureBuilder<List<Post>> buildFutureBuilder() {
     return FutureBuilder<List<Post>>(
       future: _futurePosts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          imageUrls = _getImageUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,
