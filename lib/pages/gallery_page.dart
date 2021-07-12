@@ -47,7 +47,7 @@ class GalleryPage extends StatelessWidget {
                 child: Hero(
                     tag: "photo$index",
                     child: CachedNetworkImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       imageUrl: imageThumbnailUrlList[index],
                       placeholder: (context, url) => Container(
                         child: Center(

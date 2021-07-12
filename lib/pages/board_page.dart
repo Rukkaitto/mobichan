@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
@@ -186,7 +185,6 @@ class _BoardPageState extends State<BoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerEdgeDragWidth: MediaQuery.of(context).size.width,
       drawer: DrawerWidget(),
       floatingActionButton: PostActionButton(
         onPressed: _onPressPostActionButton,
