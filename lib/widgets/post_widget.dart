@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_viewer_page.dart';
 import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:mobichan/utils/utils.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
@@ -216,10 +216,21 @@ class PostHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: Text(
-            post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
-            style: postNameTextStyle(context),
-            overflow: TextOverflow.ellipsis,
+          child: Row(
+            children: [
+              if (post.country != null)
+                Padding(
+                  padding: EdgeInsets.only(right: 6),
+                  child: Image.network(
+                    '$API_FLAGS_URL/${post.country!.toLowerCase()}.gif',
+                  ),
+                ),
+              Text(
+                post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
+                style: postNameTextStyle(context),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
         InkWell(
