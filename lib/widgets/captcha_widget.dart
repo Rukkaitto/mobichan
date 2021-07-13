@@ -58,7 +58,7 @@ class _CaptchaWidgetState extends State<CaptchaWidget> {
                   Image.memory(base64Decode(snapshot.data!.backgroundImage)),
               foregroundImage:
                   Image.memory(base64Decode(snapshot.data!.foregroundImage)),
-              challenge: snapshot.data!.challenge,
+              captchaChallenge: snapshot.data!,
             );
           }
           return Center(
@@ -71,7 +71,7 @@ class _CaptchaWidgetState extends State<CaptchaWidget> {
 }
 
 class CaptchaSlider extends StatefulWidget {
-  final String challenge;
+  final CaptchaChallenge captchaChallenge;
   final Image backgroundImage;
   final Image foregroundImage;
   final Function(String challenge, String attempt) onValidate;
@@ -81,7 +81,7 @@ class CaptchaSlider extends StatefulWidget {
     required this.backgroundImage,
     required this.foregroundImage,
     required this.onValidate,
-    required this.challenge,
+    required this.captchaChallenge,
   }) : super(key: key);
 
   @override
@@ -95,13 +95,23 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Stack(
           children: [
-            widget.backgroundImage,
+            Positioned.fill(
+                child: Container(
+              color: Color.fromARGB(255, 238, 238, 238),
+            )),
             Positioned(
-              left: _sliderValue * 150,
+              left: _sliderValue * 150 - 50,
+              child: Container(
+                width: widget.captchaChallenge.backgroundImageWidth.toDouble(),
+                child: widget.backgroundImage,
+              ),
+            ),
+            Container(
+              width: widget.captchaChallenge.foregroundImageWidth.toDouble(),
+              height: widget.captchaChallenge.foregroundImageHeight.toDouble(),
               child: widget.foregroundImage,
             ),
           ],
@@ -124,7 +134,7 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
                 color: Theme.of(context).accentColor,
               ),
               onPressed: () => widget.onValidate(
-                widget.challenge,
+                widget.captchaChallenge.challenge,
                 _controller.text,
               ),
             ),
