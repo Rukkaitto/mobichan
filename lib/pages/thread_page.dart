@@ -28,11 +28,50 @@ class _ThreadPageState extends State<ThreadPage> {
   bool _postFormIsOpened = false;
   List<String> imageUrls = [];
   List<String> imageThumbnailUrls = [];
+  bool _isSearching = false;
+  String _searchQuery = '';
+  late TextEditingController _searchQueryController;
 
   @override
   void initState() {
     super.initState();
+    _searchQueryController = TextEditingController();
     _refresh();
+  }
+
+  void _startSearching() {
+    setState(() {
+      ModalRoute.of(context)!
+          .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+      _isSearching = true;
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearchQuery();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _searchQueryController.clear();
+      _updateSearchQuery('');
+    });
+  }
+
+  void _updateSearchQuery(String newQuery) {
+    setState(() {
+      _searchQuery = newQuery;
+    });
+  }
+
+  bool _matchesSearchQuery(String? field) {
+    if (field == null) {
+      return false;
+    }
+    return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }
 
   Future<void> _refresh() async {
@@ -101,16 +140,15 @@ class _ThreadPageState extends State<ThreadPage> {
     }));
   }
 
-  Widget Function(BuildContext, int) _listViewItemBuilder(
-      AsyncSnapshot<List<Post>> snapshot) {
+  Widget Function(BuildContext, int) _listViewItemBuilder(List<Post> replies) {
     return (context, index) {
-      Post post = snapshot.data![index];
+      Post post = replies[index];
       return Padding(
         padding: EdgeInsets.only(left: 15, top: 15, right: 15),
         child: PostWidget(
           post: post,
           board: widget.args.board,
-          threadReplies: snapshot.data!,
+          threadReplies: replies,
           onPostNoTap: _onPostNoTap,
         ),
       );
@@ -144,8 +182,22 @@ class _ThreadPageState extends State<ThreadPage> {
         onPressed: onPressPostActionButton,
       ),
       appBar: AppBar(
-        title: Text(widget.args.title),
+        leading: _isSearching ? BackButton() : null,
+        title: _isSearching
+            ? TextField(
+                controller: _searchQueryController,
+                onChanged: _updateSearchQuery,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                ),
+                autofocus: true,
+              )
+            : Text(widget.args.title),
         actions: <Widget>[
+          IconButton(
+            onPressed: _startSearching,
+            icon: Icon(Icons.search_rounded),
+          ),
           IconButton(onPressed: _gotoGalleryView, icon: Icon(Icons.image)),
           _buildPopupMenuButton(),
         ],
@@ -175,6 +227,9 @@ class _ThreadPageState extends State<ThreadPage> {
       future: _futurePosts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          List<Post> filteredReplies = snapshot.data!
+              .where((post) => _matchesSearchQuery(post.com))
+              .toList();
           imageUrls = _getImageUrls(snapshot.data!);
           imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
@@ -184,8 +239,8 @@ class _ThreadPageState extends State<ThreadPage> {
               addAutomaticKeepAlives: true,
               physics: AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
-              itemCount: snapshot.data!.length,
-              itemBuilder: _listViewItemBuilder(snapshot),
+              itemCount: filteredReplies.length,
+              itemBuilder: _listViewItemBuilder(filteredReplies),
             ),
           );
         } else if (snapshot.hasError) {
