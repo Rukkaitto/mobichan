@@ -5,6 +5,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
@@ -192,7 +193,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 ),
                 autofocus: true,
               )
-            : Text(widget.args.title),
+            : Text(widget.args.title.unescapeHtml),
         actions: <Widget>[
           IconButton(
             onPressed: _startSearching,

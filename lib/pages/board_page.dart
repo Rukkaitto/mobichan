@@ -148,9 +148,8 @@ class _BoardPageState extends State<BoardPage> {
                 args: ThreadPageArguments(
                   board: widget.args.board,
                   thread: op.no,
-                  title: op.sub ??
-                      op.com?.replaceBrWithSpace.removeHtmlTags.unescapeHtml ??
-                      '',
+                  title:
+                      op.sub ?? op.com?.replaceBrWithSpace.removeHtmlTags ?? '',
                 ),
               ),
             ),
