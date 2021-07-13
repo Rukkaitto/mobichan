@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
+import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/utils/utils.dart';
@@ -17,12 +17,72 @@ class BoardsListPage extends StatefulWidget {
 
 class _BoardsListPageState extends State<BoardsListPage> {
   ScrollController _scrollController = ScrollController();
+  bool _isSearching = false;
+  String _searchQuery = '';
+  late TextEditingController _searchQueryController;
+
+  @override
+  void initState() {
+    _searchQueryController = TextEditingController();
+    super.initState();
+  }
+
+  void _startSearching() {
+    setState(() {
+      ModalRoute.of(context)!
+          .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+      _isSearching = true;
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearchQuery();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _searchQueryController.clear();
+      _updateSearchQuery('');
+    });
+  }
+
+  void _updateSearchQuery(String newQuery) {
+    setState(() {
+      _searchQuery = newQuery;
+    });
+  }
+
+  bool _matchesSearchQuery(String? field) {
+    if (field == null) {
+      return false;
+    }
+    return field.toLowerCase().contains(_searchQuery.toLowerCase());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Boards'),
+        title: _isSearching
+            ? TextField(
+                controller: _searchQueryController,
+                onChanged: _updateSearchQuery,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                ),
+                autofocus: true,
+              )
+            : Text('Boards'),
+        leading: _isSearching ? BackButton() : null,
+        actions: [
+          IconButton(
+            onPressed: _startSearching,
+            icon: Icon(Icons.search_rounded),
+          ),
+        ],
       ),
       body: buildFutureBuilder(),
     );
@@ -33,6 +93,11 @@ class _BoardsListPageState extends State<BoardsListPage> {
       future: Api.fetchBoards(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          List<Board> filteredBoards = snapshot.data!
+              .where((board) =>
+                  _matchesSearchQuery(board.board) ||
+                  _matchesSearchQuery(board.title))
+              .toList();
           return Scrollbar(
             controller: _scrollController,
             child: SingleChildScrollView(
@@ -40,10 +105,12 @@ class _BoardsListPageState extends State<BoardsListPage> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 controller: _scrollController,
-                itemCount: snapshot.data!.length,
+                itemCount: filteredBoards.length,
                 itemBuilder: (context, index) {
-                  Board board = snapshot.data![index];
-                  return BoardListTile(board: board);
+                  Board board = filteredBoards[index];
+                  return BoardListTile(
+                    board: board,
+                  );
                 },
               ),
             ),
