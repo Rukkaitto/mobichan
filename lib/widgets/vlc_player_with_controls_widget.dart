@@ -1,6 +1,4 @@
-/**
- * Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/vlc_player_with_controls.dart
- */
+/// Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/vlc_player_with_controls.dart
 
 import 'dart:typed_data';
 
@@ -316,92 +314,6 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
     });
     //convert to Milliseconds since VLC requires MS to set time
     _controller!.setTime(sliderValue.toInt() * 1000);
-  }
-
-  void _getSubtitleTracks() async {
-    if (!_controller!.value.isPlaying) return;
-
-    var subtitleTracks = await _controller!.getSpuTracks();
-    //
-    if (subtitleTracks != null && subtitleTracks.isNotEmpty) {
-      var selectedSubId = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Select Subtitle'),
-            content: Container(
-              width: double.maxFinite,
-              height: 250,
-              child: ListView.builder(
-                itemCount: subtitleTracks.keys.length + 1,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      index < subtitleTracks.keys.length
-                          ? subtitleTracks.values.elementAt(index).toString()
-                          : 'Disable',
-                    ),
-                    onTap: () {
-                      Navigator.pop(
-                        context,
-                        index < subtitleTracks.keys.length
-                            ? subtitleTracks.keys.elementAt(index)
-                            : -1,
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          );
-        },
-      );
-      if (selectedSubId != null) await _controller!.setSpuTrack(selectedSubId);
-    }
-  }
-
-  void _getAudioTracks() async {
-    if (!_controller!.value.isPlaying) return;
-
-    var audioTracks = await _controller!.getAudioTracks();
-    //
-    if (audioTracks != null && audioTracks.isNotEmpty) {
-      var selectedAudioTrackId = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Select Audio'),
-            content: Container(
-              width: double.maxFinite,
-              height: 250,
-              child: ListView.builder(
-                itemCount: audioTracks.keys.length + 1,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      index < audioTracks.keys.length
-                          ? audioTracks.values.elementAt(index).toString()
-                          : 'Disable',
-                    ),
-                    onTap: () {
-                      Navigator.pop(
-                        context,
-                        index < audioTracks.keys.length
-                            ? audioTracks.keys.elementAt(index)
-                            : -1,
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          );
-        },
-      );
-      if (selectedAudioTrackId != null) {
-        await _controller!.setAudioTrack(selectedAudioTrackId);
-      }
-    }
   }
 
   void _getRendererDevices() async {

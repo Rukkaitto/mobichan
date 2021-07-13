@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
@@ -21,6 +25,10 @@ void main() {
         HistoryPage.routeName: (context) => HistoryPage(),
       },
       theme: ThemeData.dark().copyWith(
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        }),
         colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
       ),
       home: App(),
@@ -36,6 +44,9 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   void initState() {
+    if (Platform.isAndroid) {
+      setOptimalDisplayMode();
+    }
     super.initState();
     if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) == GITHUB) {
       Updater.checkForUpdates().then((needsUpdate) {
@@ -48,6 +59,25 @@ class _AppState extends State<App> {
         }
       });
     }
+  }
+
+  Future<void> setOptimalDisplayMode() async {
+    final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+    final DisplayMode active = await FlutterDisplayMode.active;
+
+    final List<DisplayMode> sameResolution = supported
+        .where((DisplayMode m) =>
+            m.width == active.width && m.height == active.height)
+        .toList()
+          ..sort((DisplayMode a, DisplayMode b) =>
+              b.refreshRate.compareTo(a.refreshRate));
+
+    final DisplayMode mostOptimalMode =
+        sameResolution.isNotEmpty ? sameResolution.first : active;
+
+    /// This setting is per session.
+    /// Please ensure this was placed with `initState` of your root widget.
+    await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
   }
 
   @override

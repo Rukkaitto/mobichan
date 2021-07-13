@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/widgets/post_widget.dart';
 

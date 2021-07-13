@@ -8,7 +8,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
-import 'package:mobichan/widgets/new_captcha_widget.dart';
+import 'package:mobichan/widgets/captcha_widget.dart';
 
 class FormWidget extends StatefulWidget {
   final String board;
@@ -120,12 +120,12 @@ class _FormWidgetState extends State<FormWidget> {
     );
   }
 
-  void _onSend() {
+  void _onSend(String challenge, String attempt) {
     switch (widget.postType) {
       case PostType.reply:
         Api.sendReply(
-          captchaChallenge: _captchaChallenge!,
-          captchaResponse: _captchaResponseFieldController.text,
+          captchaChallenge: challenge,
+          captchaResponse: attempt,
           board: widget.board,
           name: _nameFieldController.text,
           com: widget.commentFieldController.text,
@@ -136,8 +136,8 @@ class _FormWidgetState extends State<FormWidget> {
         break;
       case PostType.thread:
         Api.sendThread(
-          captchaChallenge: _captchaChallenge!,
-          captchaResponse: _captchaResponseFieldController.text,
+          captchaChallenge: challenge,
+          captchaResponse: attempt,
           board: widget.board,
           subject: _subjectFieldController.text,
           name: _nameFieldController.text,
@@ -212,43 +212,19 @@ class _FormWidgetState extends State<FormWidget> {
             ),
           ]),
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(15),
         child: _showCaptcha
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Flexible(
+                  Expanded(
                     child: Container(
                       height: 160,
-                      child: NewCaptchaWidget(
+                      child: CaptchaWidget(
                         board: widget.board,
                         thread: widget.thread,
-                        onReceiveChallenge: _onReceiveCaptchaChallenge,
+                        onValidate: _onSend,
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: TextField(
-                            controller: _captchaResponseFieldController,
-                            decoration: InputDecoration(
-                                hintText: "Type the captcha here"),
-                          ),
-                        ),
-                        Flexible(
-                          child: IconButton(
-                            onPressed: _onSend,
-                            icon: Icon(
-                              Icons.send,
-                              color: Theme.of(context).accentColor,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
