@@ -146,11 +146,7 @@ class PostContent extends StatelessWidget {
 
   void openUrl(String url) async {
     if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-      );
+      await launch(url, forceSafariVC: false, universalLinksOnly: true);
     } else {
       throw Exception('Could not launch $url');
     }
@@ -174,10 +170,22 @@ class PostContent extends StatelessWidget {
     );
   }
 
+  String insertATags(String? str) {
+    if (str == null) {
+      return '';
+    }
+    final regExp = RegExp(
+      r'(?<!(href="|>))http[s?]://[^\s<]+(?!</a>)',
+    );
+    return str.removeWbr.replaceAllMapped(regExp, (match) {
+      return '<a href="${match.group(0)}">${match.group(0)}</a>';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Html(
-      data: post.com ?? '',
+      data: insertATags(post.com),
       onAnchorTap: (str, renderContext, attributes, element) {
         if (attributes['class'] == 'quotelink') {
           openRepliesPage(context, str!);
@@ -225,10 +233,12 @@ class PostHeader extends StatelessWidget {
                     '$API_FLAGS_URL/${post.country!.toLowerCase()}.gif',
                   ),
                 ),
-              Text(
-                post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
-                style: postNameTextStyle(context),
-                overflow: TextOverflow.ellipsis,
+              Flexible(
+                child: Text(
+                  post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
+                  style: postNameTextStyle(context),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
