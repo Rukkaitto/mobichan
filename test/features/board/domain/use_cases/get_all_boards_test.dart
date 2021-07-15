@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobichan/core/use_cases/usecase.dart';
 import 'package:mobichan/features/board/domain/entities/board.dart';
 import 'package:mobichan/features/board/domain/repositories/board_repository.dart';
 import 'package:mobichan/features/board/domain/use_cases/get_all_boards.dart';
@@ -26,7 +27,7 @@ void main() {
       when(mockBoardRepository.getAllBoards())
           .thenAnswer((_) async => Right(tBoards));
 
-      final result = await usecase();
+      final result = await usecase(NoParams());
 
       expect(result, Right(tBoards));
 

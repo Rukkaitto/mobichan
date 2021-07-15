@@ -5,5 +5,5 @@ import '../entities/board.dart';
 
 abstract class BoardRepository {
   Future<Either<Failure, List<Board>>> getAllBoards();
-  Future<Either<Failure, List<Board>>> getFilteredBoards(String searchQuery);
+  Future<Either<Failure, Board>> getBoard(String code);
 }

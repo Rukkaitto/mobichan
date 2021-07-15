@@ -1,0 +1,21 @@
+{
+  "board": "g",
+  "title": "Technology",
+  "ws_board": 1,
+  "per_page": 15,
+  "pages": 10,
+  "max_filesize": 4194304,
+  "max_webm_filesize": 3145728,
+  "max_comment_chars": 2000,
+  "max_webm_duration": 120,
+  "bump_limit": 310,
+  "image_limit": 150,
+  "cooldowns": {
+    "threads": 600,
+    "replies": 60,
+    "images": 60
+  },
+  "meta_description": "&quot;/g/ - Technology&quot; is 4chan's imageboard for discussing computer hardware and software, programming, and general technology.",
+  "is_archived": 1,
+  "code_tags": 1
+}
