@@ -103,7 +103,7 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
               color: Color.fromARGB(255, 238, 238, 238),
             )),
             Positioned(
-              left: _sliderValue * 150 - 50,
+              left: _sliderValue * 200 - 50,
               child: Container(
                 width: widget.captchaChallenge.backgroundImageWidth.toDouble(),
                 child: widget.backgroundImage,

@@ -16,7 +16,6 @@ import 'package:mobichan/extensions/file_extension.dart';
 class Api {
   static Future<CaptchaChallenge> fetchCaptchaChallenge(
       String board, int? thread) async {
-    print('Fetching challenge');
     String url = '$API_CAPTCHA_URL?board=$board';
     if (thread != null) {
       url += '&thread_id=$thread';

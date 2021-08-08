@@ -24,6 +24,7 @@ class Post {
   final int? uniqueIps;
   final String? trip;
   final int? lastModified;
+  final String? country;
   final String? board;
 
   Post({
@@ -52,6 +53,7 @@ class Post {
     this.uniqueIps,
     this.trip,
     this.lastModified,
+    this.country,
     this.board,
   });
 
@@ -82,6 +84,7 @@ class Post {
       uniqueIps: json['unique_ips'],
       trip: json['trip'],
       lastModified: json['last_modified'],
+      country: json['country'],
       board: json['board'],
     );
   }

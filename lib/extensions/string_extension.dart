@@ -25,11 +25,15 @@ extension StringExtension on String {
     return unescape.convert(this);
   }
 
+  String get removeWbr {
+    return this.replaceAll('<wbr>', '');
+  }
+
   String get replaceBrWithSpace {
     return this.replaceAll('<br>', ' ');
   }
 
   String get replaceBrWithNewline {
-    return this.replaceAll('<br>', '\n');
+    return this.replaceAll('<br>', ' \n');
   }
 }

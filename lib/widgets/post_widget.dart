@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_viewer_page.dart';
 import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:mobichan/utils/utils.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
@@ -146,11 +146,7 @@ class PostContent extends StatelessWidget {
 
   void openUrl(String url) async {
     if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-      );
+      await launch(url, forceSafariVC: false, universalLinksOnly: true);
     } else {
       throw Exception('Could not launch $url');
     }
@@ -174,10 +170,22 @@ class PostContent extends StatelessWidget {
     );
   }
 
+  String insertATags(String? str) {
+    if (str == null) {
+      return '';
+    }
+    final regExp = RegExp(
+      r'(?<!(href="|>))http[s?]://[^\s<]+(?!</a>)',
+    );
+    return str.removeWbr.replaceAllMapped(regExp, (match) {
+      return '<a href="${match.group(0)}">${match.group(0)}</a>';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Html(
-      data: post.com ?? '',
+      data: insertATags(post.com),
       onAnchorTap: (str, renderContext, attributes, element) {
         if (attributes['class'] == 'quotelink') {
           openRepliesPage(context, str!);
@@ -216,10 +224,23 @@ class PostHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: Text(
-            post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
-            style: postNameTextStyle(context),
-            overflow: TextOverflow.ellipsis,
+          child: Row(
+            children: [
+              if (post.country != null)
+                Padding(
+                  padding: EdgeInsets.only(right: 6),
+                  child: Image.network(
+                    '$API_FLAGS_URL/${post.country!.toLowerCase()}.gif',
+                  ),
+                ),
+              Flexible(
+                child: Text(
+                  post.name?.unescapeHtml ?? post.trip ?? 'Anonymous',
+                  style: postNameTextStyle(context),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
         ),
         InkWell(

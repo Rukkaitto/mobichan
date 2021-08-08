@@ -11,6 +11,7 @@ const String API_BOARDS_URL = "https://a.4cdn.org/boards.json";
 const String API_RELEASES_URL =
     "https://api.github.com/repos/Rukkaitto/mobichan/releases";
 const String API_CAPTCHA_URL = "https://sys.4channel.org/captcha";
+const String API_FLAGS_URL = "https://s.4cdn.org/image/country";
 
 // Routes
 const String BOARDS_LIST_ROUTE = "/boards";
