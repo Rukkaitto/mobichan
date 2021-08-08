@@ -70,7 +70,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
   bool _matchesSearchQuery(String? field) {
     if (field == null) {
-      return false;
+      return true;
     }
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }

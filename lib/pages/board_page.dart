@@ -100,7 +100,7 @@ class _BoardPageState extends State<BoardPage> {
 
   bool _matchesSearchQuery(String? field) {
     if (field == null) {
-      return false;
+      return true;
     }
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }
