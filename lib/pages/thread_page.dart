@@ -104,6 +104,9 @@ class _ThreadPageState extends State<ThreadPage> {
 
   void _onPostNoTap(int no) {
     _commentFieldController.text += ">>$no\n";
+    setState(() {
+      _postFormIsOpened = true;
+    });
   }
 
   List<String> _getImageUrls(List<Post> posts) {
