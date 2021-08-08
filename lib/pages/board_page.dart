@@ -99,8 +99,11 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   bool _matchesSearchQuery(String? field) {
-    if (field == null) {
+    if (_searchQuery == "") {
       return true;
+    }
+    if (field == null) {
+      return false;
     }
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }
