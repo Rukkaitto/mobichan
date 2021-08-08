@@ -174,8 +174,9 @@ class PostContent extends StatelessWidget {
     if (str == null) {
       return '';
     }
+    print(str.removeWbr);
     final regExp = RegExp(
-      r'(?<!(href="|>))http[s?]://[^\s<]+(?!</a>)',
+      r'(?<!(href="))http[s?]:\/\/[^\s<]+(?!<\/a>)',
     );
     return str.removeWbr.replaceAllMapped(regExp, (match) {
       return '<a href="${match.group(0)}">${match.group(0)}</a>';
