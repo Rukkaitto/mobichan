@@ -7,9 +7,11 @@ import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/gallery_page.dart';
+import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget.dart';
 import 'package:mobichan/widgets/post_action_button_widget.dart';
 import 'package:mobichan/widgets/post_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
@@ -211,10 +213,23 @@ class _ThreadPageState extends State<ThreadPage> {
       ),
       body: Stack(
         children: [
-          RefreshIndicator(
-            onRefresh: _refresh,
-            child: buildFutureBuilder(),
-          ),
+          FutureBuilder(
+              future: SharedPreferences.getInstance(),
+              builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
+                if (snapshot.hasData) {
+                  final prefs = snapshot.data!;
+                  return RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: !prefs.containsKey("SHOW_NESTED_REPLIES")
+                        ? buildNestedFutureBuilder()
+                        : (prefs.getString("SHOW_NESTED_REPLIES")!.parseBool()
+                            ? buildNestedFutureBuilder()
+                            : buildFutureBuilder()),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
           FormWidget(
             postType: PostType.reply,
             board: widget.args.board,
@@ -226,6 +241,82 @@ class _ThreadPageState extends State<ThreadPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget recursiveWidget(Post post, List<Post> posts) {
+    List<Post> replies = Utils.getReplies(posts, post);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+          child: PostWidget(
+            post: post,
+            board: widget.args.board,
+            threadReplies: posts,
+            showReplies: false,
+            onPostNoTap: _onPostNoTap,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: replies.length,
+            itemBuilder: (context, index) {
+              Post reply = replies[index];
+              List<int> replyingTo = Utils.replyingTo(posts, reply);
+              if (replies.isEmpty) {
+                return Container();
+              }
+              if (replyingTo.isEmpty || replyingTo.first != post.no) {
+                return Container();
+              }
+              return recursiveWidget(reply, posts);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  FutureBuilder<List<Post>> buildNestedFutureBuilder() {
+    return FutureBuilder<List<Post>>(
+      future: _futurePosts,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Post> filteredReplies = snapshot.data!
+              .where((post) => _matchesSearchQuery(post.com))
+              .toList();
+          List<Post> replies = filteredReplies
+              .where((element) => Utils.isRootPost(element))
+              .toList();
+          imageUrls = _getImageUrls(snapshot.data!);
+          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
+          return Scrollbar(
+            isAlwaysShown: true,
+            controller: _scrollController,
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              physics: AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
+              itemCount: replies.length,
+              itemBuilder: (context, index) {
+                final post = replies[index];
+                return recursiveWidget(post, filteredReplies);
+              },
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 

@@ -19,6 +19,7 @@ class PostWidget extends StatelessWidget {
   final List<Post> threadReplies;
   final Function(int)? onPostNoTap;
   late List<Post> postReplies;
+  final bool? showReplies;
 
   PostWidget({
     required this.post,
@@ -27,6 +28,7 @@ class PostWidget extends StatelessWidget {
     this.onTap,
     this.onPostNoTap,
     this.height,
+    this.showReplies,
   }) {
     postReplies = Utils.getReplies(threadReplies, post);
   }
@@ -72,7 +74,7 @@ class PostWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        if (postReplies.length > 0)
+                        if (showReplies != false && postReplies.length > 0)
                           Padding(
                             padding: EdgeInsets.only(bottom: 8, right: 8),
                             child: PostFooter(
@@ -174,7 +176,6 @@ class PostContent extends StatelessWidget {
     if (str == null) {
       return '';
     }
-    print(str.removeWbr);
     final regExp = RegExp(
       r'(?<!(href="))http[s?]:\/\/[^\s<]+(?!<\/a>)',
     );

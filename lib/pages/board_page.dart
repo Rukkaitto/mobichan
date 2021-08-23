@@ -29,7 +29,7 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  late Sort _sortingOrder;
+  Sort _sortingOrder = Sort.byBumpOrder;
   late TextEditingController _searchQueryController;
   final ScrollController _scrollController = ScrollController();
 
