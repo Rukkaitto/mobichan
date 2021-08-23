@@ -146,6 +146,7 @@ class _BoardListTileState extends State<BoardListTile> {
         Board(
           board: widget.board.board,
           title: widget.board.title,
+          wsBoard: widget.board.wsBoard,
         ),
       );
     });
@@ -157,6 +158,7 @@ class _BoardListTileState extends State<BoardListTile> {
         Board(
           board: widget.board.board,
           title: widget.board.title,
+          wsBoard: widget.board.wsBoard,
         ),
       );
     });
@@ -166,7 +168,10 @@ class _BoardListTileState extends State<BoardListTile> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Utils.isBoardInFavorites(
-        Board(board: widget.board.board, title: widget.board.title),
+        Board(
+            board: widget.board.board,
+            title: widget.board.title,
+            wsBoard: widget.board.wsBoard),
       ),
       builder: (context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
@@ -183,13 +188,17 @@ class _BoardListTileState extends State<BoardListTile> {
             title: Text('/${widget.board.board}/ - ${widget.board.title}'),
             onTap: () {
               Utils.saveLastVisitedBoard(
-                  board: widget.board.board, title: widget.board.title);
+                  board: widget.board.board,
+                  title: widget.board.title,
+                  wsBoard: widget.board.wsBoard);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => BoardPage(
                     args: BoardPageArguments(
-                        board: widget.board.board, title: widget.board.title),
+                        board: widget.board.board,
+                        title: widget.board.title,
+                        wsBoard: widget.board.wsBoard),
                   ),
                 ),
               );

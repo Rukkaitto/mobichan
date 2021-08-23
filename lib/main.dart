@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
+import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_dialog_widget.dart';
@@ -43,6 +45,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool _nsfwWarningDismissed = false;
+
   @override
   void initState() {
     if (Platform.isAndroid) {
@@ -81,6 +85,12 @@ class _AppState extends State<App> {
     await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
   }
 
+  void _dismissNsfwWarning() {
+    setState(() {
+      _nsfwWarningDismissed = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -88,16 +98,30 @@ class _AppState extends State<App> {
       builder:
           (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
         if (snapshot.hasData) {
-          return BoardPage(
-            args: BoardPageArguments(
-              board: snapshot.data!.containsKey(LAST_VISITED_BOARD)
-                  ? snapshot.data!.getString(LAST_VISITED_BOARD)!
-                  : DEFAULT_BOARD,
-              title: snapshot.data!.containsKey(LAST_VISITED_BOARD_TITLE)
-                  ? snapshot.data!.getString(LAST_VISITED_BOARD_TITLE)!
-                  : DEFAULT_BOARD_TITLE,
-            ),
-          );
+          final prefs = snapshot.data!;
+          int wsBoard = 1;
+          if (prefs.containsKey(LAST_VISITED_BOARD_WS)) {
+            wsBoard = prefs.getInt(LAST_VISITED_BOARD_WS)!;
+          }
+          bool showWarning = true;
+          if (prefs.containsKey("SHOW_NSFW_WARNING")) {
+            showWarning = prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
+          }
+          return showWarning && (wsBoard == 0 && !_nsfwWarningDismissed)
+              ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
+              : BoardPage(
+                  args: BoardPageArguments(
+                    board: prefs.containsKey(LAST_VISITED_BOARD)
+                        ? prefs.getString(LAST_VISITED_BOARD)!
+                        : DEFAULT_BOARD,
+                    title: prefs.containsKey(LAST_VISITED_BOARD_TITLE)
+                        ? prefs.getString(LAST_VISITED_BOARD_TITLE)!
+                        : DEFAULT_BOARD_TITLE,
+                    wsBoard: prefs.containsKey(LAST_VISITED_BOARD_WS)
+                        ? prefs.getInt(LAST_VISITED_BOARD_WS)!
+                        : DEFAULT_BOARD_WS,
+                  ),
+                );
         }
         if (snapshot.hasError) {
           return Center(

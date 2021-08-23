@@ -120,7 +120,10 @@ class DrawerFavorites extends StatelessWidget {
                     ),
                     onTap: () {
                       Utils.saveLastVisitedBoard(
-                          board: board.board, title: board.title);
+                        board: board.board,
+                        title: board.title,
+                        wsBoard: board.wsBoard,
+                      );
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -128,6 +131,7 @@ class DrawerFavorites extends StatelessWidget {
                             args: BoardPageArguments(
                               board: board.board,
                               title: board.title,
+                              wsBoard: board.wsBoard,
                             ),
                           ),
                         ),

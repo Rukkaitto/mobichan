@@ -174,8 +174,9 @@ class PostContent extends StatelessWidget {
     if (str == null) {
       return '';
     }
+    print(str.removeWbr);
     final regExp = RegExp(
-      r'(?<!(href="|>))http[s?]://[^\s<]+(?!</a>)',
+      r'(?<!(href="))http[s?]:\/\/[^\s<]+(?!<\/a>)',
     );
     return str.removeWbr.replaceAllMapped(regExp, (match) {
       return '<a href="${match.group(0)}">${match.group(0)}</a>';
@@ -243,12 +244,46 @@ class PostHeader extends StatelessWidget {
             ],
           ),
         ),
-        InkWell(
-          onTap: () => onPostNoTap?.call(post.no),
-          child: Text(
-            post.no.toString(),
-            style: postNoTextStyle(context),
-          ),
+        Row(
+          children: [
+            InkWell(
+              onTap: () => onPostNoTap?.call(post.no),
+              child: Text(
+                post.no.toString(),
+                style: postNoTextStyle(context),
+              ),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 22,
+                maxWidth: 22,
+              ),
+              child: PopupMenuButton(
+                padding: EdgeInsets.zero,
+                onSelected: (selection) {
+                  switch (selection) {
+                    case 'quote':
+                      onPostNoTap?.call(post.no);
+                      break;
+                    default:
+                      break;
+                  }
+                },
+                itemBuilder: (context) {
+                  return <PopupMenuEntry>[
+                    PopupMenuItem(
+                      child: Text('Quote'),
+                      value: 'quote',
+                    ),
+                  ];
+                },
+                iconSize: 18,
+              ),
+            ),
+          ],
         ),
       ],
     );

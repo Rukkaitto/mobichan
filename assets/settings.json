@@ -1,0 +1,8 @@
+[
+  {
+    "type": "toggle",
+    "label": "Show warning for NSFW boards",
+    "key": "SHOW_NSFW_WARNING",
+    "value": "true"
+  }
+]
