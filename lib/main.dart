@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
@@ -102,7 +103,11 @@ class _AppState extends State<App> {
           if (prefs.containsKey(LAST_VISITED_BOARD_WS)) {
             wsBoard = prefs.getInt(LAST_VISITED_BOARD_WS)!;
           }
-          return wsBoard == 0 && !_nsfwWarningDismissed
+          bool showWarning = true;
+          if (prefs.containsKey("SHOW_NSFW_WARNING")) {
+            showWarning = prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
+          }
+          return showWarning && (wsBoard == 0 && !_nsfwWarningDismissed)
               ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
               : BoardPage(
                   args: BoardPageArguments(

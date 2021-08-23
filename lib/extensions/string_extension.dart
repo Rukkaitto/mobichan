@@ -36,4 +36,8 @@ extension StringExtension on String {
   String get replaceBrWithNewline {
     return this.replaceAll('<br>', ' \n');
   }
+
+  bool parseBool() {
+    return this.toLowerCase() == 'true';
+  }
 }
