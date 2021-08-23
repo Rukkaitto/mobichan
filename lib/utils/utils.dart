@@ -141,6 +141,24 @@ class Utils {
     return replies;
   }
 
+  static List<int> replyingTo(List<Post> posts, Post post) {
+    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+    final matches = regExp
+        .allMatches(post.com ?? '')
+        .map((match) => int.parse(match.group(0) ?? ""))
+        .toList();
+    return matches;
+  }
+
+  static bool isRootPost(Post post) {
+    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+    final matches = regExp
+        .allMatches(post.com ?? '')
+        .map((match) => int.parse(match.group(0) ?? ""))
+        .toList();
+    return matches.isEmpty;
+  }
+
   static Post getQuotedPost(List<Post> posts, int no) {
     return posts.firstWhere((post) => post.no == no);
   }

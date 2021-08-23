@@ -4,5 +4,11 @@
     "label": "Show warning for NSFW boards",
     "key": "SHOW_NSFW_WARNING",
     "value": "true"
+  },
+  {
+    "type": "toggle",
+    "label": "Show nested replies",
+    "key": "SHOW_NESTED_REPLIES",
+    "value": "true"
   }
 ]

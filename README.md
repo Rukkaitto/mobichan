@@ -17,6 +17,13 @@ A 4chan app made with Flutter.
 - Viewing images
 - Playing webms at different speeds
 - Sorting and searching threads
+- Gallery mode
+- Threading
+
+## Screenshots
+
+<img src="./screenshots/board_page.png" width="50%">
+<img src="./screenshots/thread_page.png" width="50%">
 
 ## Roadmap
 
