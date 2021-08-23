@@ -284,8 +284,11 @@ class _ThreadPageState extends State<ThreadPage> {
                 left: 0,
                 bottom: 0,
                 child: Container(
-                  color: Theme.of(context).dividerColor,
-                  width: 1,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  width: 2,
                 ),
               ),
             ],
