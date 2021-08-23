@@ -21,8 +21,10 @@ const String THREAD_ROUTE = "/thread";
 // Misc
 const String LAST_VISITED_BOARD = 'last_visited_board';
 const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
+const String LAST_VISITED_BOARD_WS = "last_visited_board_ws";
 const String DEFAULT_BOARD = 'g';
 const String DEFAULT_BOARD_TITLE = 'Technology';
+const int DEFAULT_BOARD_WS = 1;
 const String THREAD_HISTORY = 'thread_history';
 const String LAST_SORTING_ORDER = 'last_sorting_order';
 const String ENVIRONMENT = 'env';

@@ -1,7 +1,7 @@
 class Board {
   final String board;
   final String title;
-  final int? wsBoard;
+  final int wsBoard;
   final int? perPage;
   final int? pages;
   final int? maxFileSize;
@@ -24,7 +24,7 @@ class Board {
   Board({
     required this.board,
     required this.title,
-    this.wsBoard,
+    required this.wsBoard,
     this.perPage,
     this.pages,
     this.maxFileSize,
@@ -75,6 +75,7 @@ class Board {
     return {
       'board': board,
       'title': title,
+      'ws_board': wsBoard,
     };
   }
 }

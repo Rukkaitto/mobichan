@@ -40,6 +40,7 @@ class _BoardPageState extends State<BoardPage> {
     Utils.saveLastVisitedBoard(
       board: widget.args.board,
       title: widget.args.title,
+      wsBoard: widget.args.wsBoard,
     );
   }
 
@@ -168,6 +169,7 @@ class _BoardPageState extends State<BoardPage> {
         Board(
           board: widget.args.board,
           title: widget.args.title,
+          wsBoard: widget.args.wsBoard,
         ),
       );
     });
@@ -179,6 +181,7 @@ class _BoardPageState extends State<BoardPage> {
         Board(
           board: widget.args.board,
           title: widget.args.title,
+          wsBoard: widget.args.wsBoard,
         ),
       );
     });
@@ -200,7 +203,11 @@ class _BoardPageState extends State<BoardPage> {
           ),
           FutureBuilder(
             future: Utils.isBoardInFavorites(
-              Board(board: widget.args.board, title: widget.args.title),
+              Board(
+                board: widget.args.board,
+                title: widget.args.title,
+                wsBoard: widget.args.wsBoard,
+              ),
             ),
             builder: (context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {

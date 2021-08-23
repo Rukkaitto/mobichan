@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   static getLastVisitedBoard() async {
@@ -18,18 +18,26 @@ class Utils {
     String lastVisitedBoard = prefs.getString(LAST_VISITED_BOARD) ?? '';
     String lastVisitedBoardTitle =
         prefs.getString(LAST_VISITED_BOARD_TITLE) ?? '';
+    int lastVisitedBoardWs = prefs.getInt(LAST_VISITED_BOARD_WS) ?? 1;
 
-    BoardSharedPrefs boardSharedPrefs =
-        BoardSharedPrefs(board: lastVisitedBoard, title: lastVisitedBoardTitle);
+    BoardSharedPrefs boardSharedPrefs = BoardSharedPrefs(
+      board: lastVisitedBoard,
+      title: lastVisitedBoardTitle,
+      wsBoard: lastVisitedBoardWs,
+    );
 
     return boardSharedPrefs;
   }
 
-  static saveLastVisitedBoard(
-      {required String board, required String title}) async {
+  static saveLastVisitedBoard({
+    required String board,
+    required String title,
+    required int wsBoard,
+  }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(LAST_VISITED_BOARD, board);
     await prefs.setString(LAST_VISITED_BOARD_TITLE, title);
+    await prefs.setInt(LAST_VISITED_BOARD_WS, wsBoard);
   }
 
   static saveLastSortingOrder(Sort sorting) async {
