@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobichan/widgets/drawer_widget.dart';
 
 class NsfwWarningPage extends StatelessWidget {
   final Function() onDismiss;
@@ -7,12 +8,16 @@ class NsfwWarningPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('NSFW Warning'),
+      ),
+      drawer: DrawerWidget(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This board is marked as NSFW.'),
-            ElevatedButton(onPressed: onDismiss, child: Text('Enter')),
+            Text('This board is marked as NSFW'),
+            ElevatedButton(onPressed: onDismiss, child: Text('Enter anyway')),
           ],
         ),
       ),
