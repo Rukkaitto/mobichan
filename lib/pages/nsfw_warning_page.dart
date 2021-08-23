@@ -16,7 +16,7 @@ class NsfwWarningPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This board is marked as NSFW'),
+            Text('This board contains Not Safe For Work content.'),
             ElevatedButton(onPressed: onDismiss, child: Text('Enter anyway')),
           ],
         ),
