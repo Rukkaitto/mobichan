@@ -260,22 +260,35 @@ class _ThreadPageState extends State<ThreadPage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 15),
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: replies.length,
-            itemBuilder: (context, index) {
-              Post reply = replies[index];
-              List<int> replyingTo = Utils.replyingTo(posts, reply);
-              if (replies.isEmpty) {
-                return Container();
-              }
-              if (replyingTo.isEmpty || replyingTo.first != post.no) {
-                return Container();
-              }
-              return recursiveWidget(reply, posts);
-            },
+          padding: EdgeInsets.only(left: 20),
+          child: Stack(
+            children: [
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: replies.length,
+                itemBuilder: (context, index) {
+                  Post reply = replies[index];
+                  List<int> replyingTo = Utils.replyingTo(posts, reply);
+                  if (replies.isEmpty) {
+                    return Container();
+                  }
+                  if (replyingTo.isEmpty || replyingTo.first != post.no) {
+                    return Container();
+                  }
+                  return recursiveWidget(reply, posts);
+                },
+              ),
+              Positioned(
+                top: 15,
+                left: 0,
+                bottom: 0,
+                child: Container(
+                  color: Theme.of(context).dividerColor,
+                  width: 1,
+                ),
+              ),
+            ],
           ),
         ),
       ],
