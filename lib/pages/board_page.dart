@@ -29,6 +29,7 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
+  late Sort _sortingOrder;
   late TextEditingController _searchQueryController;
   final ScrollController _scrollController = ScrollController();
 
@@ -56,6 +57,7 @@ class _BoardPageState extends State<BoardPage> {
     sorting.then((value) {
       setState(() {
         _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: value);
+        _sortingOrder = value;
       });
     });
   }
@@ -111,7 +113,17 @@ class _BoardPageState extends State<BoardPage> {
 
   PopupMenuItem _buildPopupMenuItem(String title, Sort sorting) {
     return PopupMenuItem(
-      child: Text(title),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title),
+          if (sorting == _sortingOrder)
+            Icon(
+              Icons.check_rounded,
+              size: 20,
+            ),
+        ],
+      ),
       value: sorting,
     );
   }
