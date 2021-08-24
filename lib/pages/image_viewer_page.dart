@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/utils/utils.dart';
 
 class ImageViewerPage extends StatelessWidget {
   final Post post;
@@ -25,39 +28,23 @@ class ImageViewerPage extends StatelessWidget {
           ),
         ),
         content: Text(
-          isSuccess ? 'Image saved successfully.' : 'Error saving image.',
+          isSuccess ? 'Image saved to Gallery.' : 'Error saving image.',
           style: snackbarTextStyle(context),
         ),
       );
     }
 
     void _saveImage() async {
-      // if (await Permission.storage.request().isGranted) {
-      //   // var response = await Dio().get(
-      //   //     '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
-      //   //     options: Options(responseType: ResponseType.bytes));
-      //   // final result = await ImageGallerySaver.saveImage(
-      //   //     Uint8List.fromList(response.data),
-      //   //     quality: 100,
-      //   //     name: '${post.filename}${post.ext}');
-      //   var appDocDir = await getExternalStorageDirectory();
-      //   String saveDirPath = '${appDocDir!.path}/Mobichan';
-      //   final saveDir = await Directory(saveDirPath).create();
-      //   String savePath = '${saveDir.path}/${post.filename}${post.ext}';
-      //   print(savePath);
-      //   await Dio().download(
-      //       "$API_IMAGES_URL/$board/${post.tim}${post.ext}", savePath);
-      //   final result = await ImageGallerySaver.saveFile(savePath);
-
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     buildSnackBar(result['isSuccess']),
-      //   );
-      // }
-      bool? result = await Utils.saveImage(
-        '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
-        albumName: 'Mobichan',
+      var response = await Dio().get(
+          '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
+          options: Options(responseType: ResponseType.bytes));
+      final result = await ImageGallerySaver.saveImage(
+          Uint8List.fromList(response.data),
+          quality: 100,
+          name: '${post.filename}${post.ext}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        buildSnackBar(result!['isSuccess']),
       );
-      ScaffoldMessenger.of(context).showSnackBar(buildSnackBar(result!),);
     }
 
     return Scaffold(

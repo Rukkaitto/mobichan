@@ -6,6 +6,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
 
 import 'components/form_fields.dart';
@@ -90,34 +91,19 @@ class _FormWidgetState extends State<FormWidget> {
   void _onPost(Response<String> response) {
     if (response.data!.errorMsg != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar(response.data!.errorMsg!, Theme.of(context).errorColor),
+        Utils.buildSnackBar(
+            context, response.data!.errorMsg!, Theme.of(context).errorColor),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        buildSnackBar("Post successful!", Theme.of(context).cardColor),
+        Utils.buildSnackBar(
+            context, "Post successful!", Theme.of(context).cardColor),
       );
       widget.onPost(response);
     }
     setState(() {
       _showCaptcha = false;
     });
-  }
-
-  SnackBar buildSnackBar(String text, Color color) {
-    return SnackBar(
-      backgroundColor: color,
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      content: Text(
-        text,
-        style: snackbarTextStyle(context),
-      ),
-    );
   }
 
   void _onSend(String challenge, String attempt) {

@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/post_widget/components/post_content.dart';
 import 'package:mobichan/widgets/post_widget/components/post_footer.dart';
 import 'package:mobichan/widgets/post_widget/components/post_header.dart';
 import 'package:mobichan/widgets/post_widget/components/post_image.dart';
+import 'package:screenshot/screenshot.dart';
 
 // ignore: must_be_immutable
-class PostWidget extends StatelessWidget {
+class PostWidget extends StatefulWidget {
   final Post post;
   final String board;
   final Function? onTap;
@@ -31,59 +33,97 @@ class PostWidget extends StatelessWidget {
   }
 
   @override
+  _PostWidgetState createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
+  ScreenshotController _screenshotController = ScreenshotController();
+
+  void onSave() async {
+    final image = await _screenshotController.capture();
+    final result = await ImageGallerySaver.saveImage(
+      image!,
+      name: "post_${widget.post.no}",
+      quality: 60,
+    );
+    if (result['isSuccess'] == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Utils.buildSnackBar(
+          context,
+          "Post saved to gallery.",
+          Theme.of(context).cardColor,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Utils.buildSnackBar(
+          context,
+          "Could not save post to gallery.",
+          Theme.of(context).errorColor,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        onTap: () => onTap?.call(),
-        child: Container(
-          color: Theme.of(context).cardColor,
-          child: IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                post.tim != null
-                    ? PostImage(board: board, post: post)
-                    : Container(),
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: 8, left: 8, right: 8),
-                                child: PostHeader(
-                                  post: post,
-                                  onPostNoTap: onPostNoTap,
+    return Screenshot(
+      controller: _screenshotController,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          onTap: () => widget.onTap?.call(),
+          child: Container(
+            color: Theme.of(context).cardColor,
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  widget.post.tim != null
+                      ? PostImage(board: widget.board, post: widget.post)
+                      : Container(),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.all(6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 8, left: 8, right: 8),
+                                  child: PostHeader(
+                                    post: widget.post,
+                                    onPostNoTap: widget.onPostNoTap,
+                                    onSave: onSave,
+                                  ),
                                 ),
-                              ),
-                              PostContent(
-                                board: board,
-                                post: post,
-                                threadReplies: threadReplies,
-                              ),
-                            ],
+                                PostContent(
+                                  board: widget.board,
+                                  post: widget.post,
+                                  threadReplies: widget.threadReplies,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        if (showReplies != false && postReplies.length > 0)
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 8, right: 8),
-                            child: PostFooter(
-                                postReplies: postReplies,
-                                board: board,
-                                threadReplies: threadReplies),
-                          ),
-                      ],
+                          if (widget.showReplies != false &&
+                              widget.postReplies.length > 0)
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 8, right: 8),
+                              child: PostFooter(
+                                  postReplies: widget.postReplies,
+                                  board: widget.board,
+                                  threadReplies: widget.threadReplies),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

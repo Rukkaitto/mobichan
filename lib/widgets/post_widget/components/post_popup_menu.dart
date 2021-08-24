@@ -5,10 +5,12 @@ class PostPopupMenu extends StatelessWidget {
   const PostPopupMenu({
     Key? key,
     required this.onPostNoTap,
+    required this.onSave,
     required this.post,
   }) : super(key: key);
 
   final Function(int no)? onPostNoTap;
+  final Function() onSave;
   final Post post;
 
   @override
@@ -20,6 +22,9 @@ class PostPopupMenu extends StatelessWidget {
           case 'quote':
             onPostNoTap?.call(post.no);
             break;
+          case 'save':
+            onSave();
+            break;
           default:
             break;
         }
@@ -29,6 +34,10 @@ class PostPopupMenu extends StatelessWidget {
           PopupMenuItem(
             child: Text('Quote'),
             value: 'quote',
+          ),
+          PopupMenuItem(
+            child: Text('Save to Gallery'),
+            value: 'save',
           ),
         ];
       },

@@ -9,11 +9,13 @@ class PostHeader extends StatelessWidget {
   const PostHeader({
     Key? key,
     this.onPostNoTap,
+    required this.onSave,
     required this.post,
   }) : super(key: key);
 
   final Post post;
   final Function(int)? onPostNoTap;
+  final Function() onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,11 @@ class PostHeader extends StatelessWidget {
                 maxHeight: 22,
                 maxWidth: 22,
               ),
-              child: PostPopupMenu(onPostNoTap: onPostNoTap, post: post),
+              child: PostPopupMenu(
+                onPostNoTap: onPostNoTap,
+                onSave: onSave,
+                post: post,
+              ),
             ),
           ],
         ),

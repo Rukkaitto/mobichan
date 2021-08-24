@@ -1,22 +1,22 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
-import 'package:video_player/video_player.dart';
 import 'package:mobichan/extensions/duration_extension.dart';
+import 'package:video_player/video_player.dart';
 
-class VideoViewerPage extends StatefulWidget {
+class GalleryImagePage extends StatefulWidget {
   final String board;
   final Post post;
-  const VideoViewerPage(this.board, this.post, {Key? key}) : super(key: key);
+  const GalleryImagePage(this.board, this.post, {Key? key}) : super(key: key);
 
   @override
-  _VideoViewerPageState createState() => _VideoViewerPageState();
+  _GalleryImagePageState createState() => _GalleryImagePageState();
 }
 
-class _VideoViewerPageState extends State<VideoViewerPage> {
+class _GalleryImagePageState extends State<GalleryImagePage> {
   int _timeoutDuration = 3;
   late VideoPlayerController _controller;
   bool _paused = false;
