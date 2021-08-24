@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -7,7 +9,9 @@ import 'package:mobichan/widgets/post_widget/components/post_content.dart';
 import 'package:mobichan/widgets/post_widget/components/post_footer.dart';
 import 'package:mobichan/widgets/post_widget/components/post_header.dart';
 import 'package:mobichan/widgets/post_widget/components/post_image.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class PostWidget extends StatefulWidget {
@@ -39,13 +43,28 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   ScreenshotController _screenshotController = ScreenshotController();
 
-  void onSave() async {
+  dynamic convertPostToImage() async {
     final image = await _screenshotController.capture();
     final result = await ImageGallerySaver.saveImage(
       image!,
       name: "post_${widget.post.no}",
       quality: 60,
     );
+    return result;
+  }
+
+  void onShare() async {
+    final image = await _screenshotController.capture();
+    if (image != null) {
+      final directory = await getTemporaryDirectory();
+      final imagePath = await File('${directory.path}/image.png').create();
+      await imagePath.writeAsBytes(image);
+      await Share.shareFiles([imagePath.path]);
+    }
+  }
+
+  void onSave() async {
+    final result = await convertPostToImage();
     if (result['isSuccess'] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
@@ -67,12 +86,12 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Screenshot(
-      controller: _screenshotController,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: InkWell(
-          onTap: () => widget.onTap?.call(),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: () => widget.onTap?.call(),
+        child: Screenshot(
+          controller: _screenshotController,
           child: Container(
             color: Theme.of(context).cardColor,
             child: IntrinsicHeight(
@@ -99,6 +118,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     post: widget.post,
                                     onPostNoTap: widget.onPostNoTap,
                                     onSave: onSave,
+                                    onShare: onShare,
                                   ),
                                 ),
                                 PostContent(

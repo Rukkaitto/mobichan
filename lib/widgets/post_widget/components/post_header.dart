@@ -10,12 +10,14 @@ class PostHeader extends StatelessWidget {
     Key? key,
     this.onPostNoTap,
     required this.onSave,
+    required this.onShare,
     required this.post,
   }) : super(key: key);
 
   final Post post;
   final Function(int)? onPostNoTap;
   final Function() onSave;
+  final Function() onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class PostHeader extends StatelessWidget {
               child: PostPopupMenu(
                 onPostNoTap: onPostNoTap,
                 onSave: onSave,
+                onShare: onShare,
                 post: post,
               ),
             ),

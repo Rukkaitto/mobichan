@@ -33,6 +33,7 @@ dependencies:
       url: https://github.com/mitchross/flutter_install_plugin.git
   url_launcher: ^6.0.9
   screenshot: ^1.2.3
+  share: ^2.0.4
 
 dev_dependencies:
   flutter_test:
