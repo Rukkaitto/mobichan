@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
@@ -188,19 +189,19 @@ class _ThreadPageState extends State<ThreadPage> {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Refresh'),
+            child: Text('refresh').tr(),
             value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text('Share link'),
+            child: Text('share_link').tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text('Go to top'),
+            child: Text('go_top').tr(),
             value: 'top',
           ),
           PopupMenuItem(
-            child: Text('Go to bottom'),
+            child: Text('go_bottom').tr(),
             value: 'bottom',
           ),
         ];
@@ -222,7 +223,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: 'search'.tr(),
                 ),
                 autofocus: true,
               )

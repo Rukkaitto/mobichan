@@ -1,13 +1,13 @@
 [
   {
     "type": "toggle",
-    "label": "Show warning for NSFW boards",
+    "label": "show_nsfw_warning",
     "key": "SHOW_NSFW_WARNING",
     "value": "true"
   },
   {
     "type": "toggle",
-    "label": "Show nested replies",
+    "label": "show_threaded_replies",
     "key": "SHOW_NESTED_REPLIES",
     "value": "true"
   }

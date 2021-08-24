@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
 
                       return ListTile(
-                        title: Text(setting.label),
+                        title: Text(setting.label).tr(),
                         trailing: trailing,
                       );
                     },

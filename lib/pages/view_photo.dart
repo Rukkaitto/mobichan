@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -37,7 +37,7 @@ class _ViewPhotosState extends State<ViewPhotos> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          "${currentIndex! + 1} out of ${widget.imageList!.length}",
+          "${currentIndex! + 1} ${'out_of'.tr()} ${widget.imageList!.length}",
           style: TextStyle(color: Colors.white),
         ),
         actions: [

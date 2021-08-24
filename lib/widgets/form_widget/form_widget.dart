@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -97,7 +98,7 @@ class _FormWidgetState extends State<FormWidget> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
-            context, "Post successful!", Theme.of(context).cardColor),
+            context, "post_successful".tr(), Theme.of(context).cardColor),
       );
       widget.onPost(response);
     }
@@ -133,12 +134,6 @@ class _FormWidgetState extends State<FormWidget> {
         );
         break;
     }
-  }
-
-  void _onReceiveCaptchaChallenge(String challenge) {
-    setState(() {
-      _captchaChallenge = challenge;
-    });
   }
 
   double computeHeight(bool expanded, bool showCaptcha, PostType postType,

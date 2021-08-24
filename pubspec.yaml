@@ -34,6 +34,7 @@ dependencies:
   url_launcher: ^6.0.9
   screenshot: ^1.2.3
   share: ^2.0.4
+  easy_localization: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +43,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/translations/
     - assets/settings.json
     - assets/
     - files/

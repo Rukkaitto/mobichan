@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -69,7 +70,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          "Post saved to gallery.",
+          "save_post_success".tr(),
           Theme.of(context).cardColor,
         ),
       );
@@ -77,7 +78,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          "Could not save post to gallery.",
+          "save_post_error".tr(),
           Theme.of(context).errorColor,
         ),
       );

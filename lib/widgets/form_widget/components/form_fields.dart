@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/enums/enums.dart';
@@ -40,16 +41,16 @@ class FormFields extends StatelessWidget {
         children: [
           if (_expanded)
             TextFormField(
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(labelText: 'name'.tr()),
               controller: _nameFieldController,
             ),
           if (_expanded && _postType == PostType.thread)
             TextFormField(
-              decoration: InputDecoration(labelText: 'Subject'),
+              decoration: InputDecoration(labelText: 'subject'.tr()),
               controller: _subjectFieldController,
             ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Comment'),
+            decoration: InputDecoration(labelText: 'comment'.tr()),
             controller: _commentFieldController,
             maxLines: 5,
           ),

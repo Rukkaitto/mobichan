@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/post.dart';
 
@@ -37,15 +38,15 @@ class PostPopupMenu extends StatelessWidget {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Quote'),
+            child: Text('quote').tr(),
             value: 'quote',
           ),
           PopupMenuItem(
-            child: Text('Share'),
+            child: Text('share').tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text('Save to Gallery'),
+            child: Text('save_to_gallery').tr(),
             value: 'save',
           ),
         ];

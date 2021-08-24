@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -31,9 +32,9 @@ class ImageViewerPage extends StatelessWidget {
           ),
         ),
         content: Text(
-          isSuccess ? 'Image saved to Gallery.' : 'Error saving image.',
+          isSuccess ? 'save_to_gallery_success' : 'save_to_gallery_error',
           style: snackbarTextStyle(context),
-        ),
+        ).tr(),
       );
     }
 
