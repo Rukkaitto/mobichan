@@ -19,7 +19,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final String appBarTitle = 'Settings';
+  final String appBarTitle = 'settings';
 
   void onChanged(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle),
+        title: Text(appBarTitle).tr(),
       ),
       body: FutureBuilder(
         future: rootBundle.loadString('assets/settings.json'),

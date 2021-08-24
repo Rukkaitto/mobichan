@@ -76,7 +76,7 @@ class _BoardsListPageState extends State<BoardsListPage> {
                 ),
                 autofocus: true,
               )
-            : Text('Boards'),
+            : Text('boards').tr(),
         leading: _isSearching ? BackButton() : null,
         actions: [
           IconButton(
