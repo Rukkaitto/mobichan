@@ -10,6 +10,7 @@ import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/post_widget/post_widget.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
@@ -170,6 +171,10 @@ class _ThreadPageState extends State<ThreadPage> {
           case 'refresh':
             _refresh();
             break;
+          case 'share':
+            Share.share(
+                'https://boards.4channel.org/${widget.args.board}/thread/${widget.args.thread}');
+            break;
           case 'top':
             _scrollController
                 .jumpTo(_scrollController.position.minScrollExtent);
@@ -185,6 +190,10 @@ class _ThreadPageState extends State<ThreadPage> {
           PopupMenuItem(
             child: Text('Refresh'),
             value: 'refresh',
+          ),
+          PopupMenuItem(
+            child: Text('Share link'),
+            value: 'share',
           ),
           PopupMenuItem(
             child: Text('Go to top'),
