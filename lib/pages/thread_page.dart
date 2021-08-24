@@ -8,9 +8,8 @@ import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/utils/utils.dart';
-import 'package:mobichan/widgets/form_widget.dart';
-import 'package:mobichan/widgets/post_action_button_widget.dart';
-import 'package:mobichan/widgets/post_widget.dart';
+import 'package:mobichan/widgets/form_widget/form_widget.dart';
+import 'package:mobichan/widgets/post_widget/post_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
@@ -203,7 +202,8 @@ class _ThreadPageState extends State<ThreadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: PostActionButton(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.edit_rounded),
         onPressed: onPressPostActionButton,
       ),
       appBar: AppBar(

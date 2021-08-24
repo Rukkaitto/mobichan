@@ -9,14 +9,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class UpdateDialogWidget extends StatefulWidget {
-  const UpdateDialogWidget({Key? key}) : super(key: key);
+class UpdateWidget extends StatefulWidget {
+  const UpdateWidget({Key? key}) : super(key: key);
 
   @override
-  _UpdateDialogWidgetState createState() => _UpdateDialogWidgetState();
+  _UpdateWidgetState createState() => _UpdateWidgetState();
 }
 
-class _UpdateDialogWidgetState extends State<UpdateDialogWidget> {
+class _UpdateWidgetState extends State<UpdateWidget> {
   bool _isDownloading = false;
   int _downloadReceived = 0;
   int _downloadTotal = 0;

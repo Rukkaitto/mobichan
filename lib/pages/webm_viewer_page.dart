@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/widgets/vlc_player_with_controls_widget.dart';
+import 'package:mobichan/widgets/video_player_widget/video_player_widget.dart';
 
 class WebmViewerPage extends StatefulWidget {
   final String board;
@@ -44,7 +44,7 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
               tag: widget.post.tim.toString(),
               child: Stack(
                 children: [
-                  VlcPlayerWithControls(
+                  VideoPlayerWidget(
                       controller: _videoPlayerController,
                       aspectRatio: widget.post.w! / widget.post.h!),
                   Positioned(

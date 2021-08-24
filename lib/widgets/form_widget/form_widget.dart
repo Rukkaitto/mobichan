@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,9 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
-import 'package:mobichan/widgets/captcha_widget.dart';
+import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
+
+import 'components/form_fields.dart';
 
 class FormWidget extends StatefulWidget {
   final String board;
@@ -241,7 +241,7 @@ class _FormWidgetState extends State<FormWidget> {
         FormFields(
           expanded: _expanded,
           nameFieldController: _nameFieldController,
-          widget: widget,
+          postType: widget.postType,
           subjectFieldController: _subjectFieldController,
           commentFieldController: widget.commentFieldController,
           pickedFile: _pickedFile,
@@ -280,75 +280,6 @@ class _FormWidgetState extends State<FormWidget> {
               _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
         ),
       ],
-    );
-  }
-}
-
-class FormFields extends StatelessWidget {
-  const FormFields({
-    Key? key,
-    pickedFile,
-    required bool expanded,
-    required TextEditingController nameFieldController,
-    required this.widget,
-    required TextEditingController subjectFieldController,
-    required TextEditingController commentFieldController,
-    required Function() clearPickedFile,
-  })  : _expanded = expanded,
-        _nameFieldController = nameFieldController,
-        _subjectFieldController = subjectFieldController,
-        _commentFieldController = commentFieldController,
-        _pickedfile = pickedFile,
-        _clearPickedFile = clearPickedFile,
-        super(key: key);
-
-  final bool _expanded;
-  final TextEditingController _nameFieldController;
-  final FormWidget widget;
-  final TextEditingController _subjectFieldController;
-  final TextEditingController _commentFieldController;
-  final PickedFile? _pickedfile;
-  final Function() _clearPickedFile;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          if (_expanded)
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Name'),
-              controller: _nameFieldController,
-            ),
-          if (_expanded && widget.postType == PostType.thread)
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Subject'),
-              controller: _subjectFieldController,
-            ),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Comment'),
-            controller: _commentFieldController,
-            maxLines: 5,
-          ),
-          if (_pickedfile != null)
-            Padding(
-              padding: EdgeInsets.only(top: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.file(
-                    File(_pickedfile!.path),
-                    height: IMAGE_PREVIEW_HEIGHT,
-                  ),
-                  IconButton(
-                    onPressed: _clearPickedFile,
-                    icon: Icon(Icons.cancel_rounded),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

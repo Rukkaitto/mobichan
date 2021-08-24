@@ -10,10 +10,9 @@ import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/utils/utils.dart';
-import 'package:mobichan/widgets/drawer_widget.dart';
-import 'package:mobichan/widgets/form_widget.dart';
-import 'package:mobichan/widgets/post_action_button_widget.dart';
-import 'package:mobichan/widgets/thread_widget.dart';
+import 'package:mobichan/widgets/drawer_widget/drawer_widget.dart';
+import 'package:mobichan/widgets/form_widget/form_widget.dart';
+import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';
@@ -203,7 +202,8 @@ class _BoardPageState extends State<BoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerWidget(),
-      floatingActionButton: PostActionButton(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.edit_rounded),
         onPressed: _onPressPostActionButton,
       ),
       appBar: AppBar(

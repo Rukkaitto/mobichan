@@ -11,7 +11,7 @@ import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/utils/updater.dart';
-import 'package:mobichan/widgets/update_dialog_widget.dart';
+import 'package:mobichan/widgets/update_widget/update_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
@@ -59,7 +59,7 @@ class _AppState extends State<App> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (BuildContext context) => UpdateDialogWidget(),
+            builder: (BuildContext context) => UpdateWidget(),
           );
         }
       });
