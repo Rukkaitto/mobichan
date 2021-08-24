@@ -262,31 +262,47 @@ class PostHeader extends StatelessWidget {
                 maxHeight: 22,
                 maxWidth: 22,
               ),
-              child: PopupMenuButton(
-                padding: EdgeInsets.zero,
-                onSelected: (selection) {
-                  switch (selection) {
-                    case 'quote':
-                      onPostNoTap?.call(post.no);
-                      break;
-                    default:
-                      break;
-                  }
-                },
-                itemBuilder: (context) {
-                  return <PopupMenuEntry>[
-                    PopupMenuItem(
-                      child: Text('Quote'),
-                      value: 'quote',
-                    ),
-                  ];
-                },
-                iconSize: 18,
-              ),
+              child: PopupMenuWidget(onPostNoTap: onPostNoTap, post: post),
             ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class PopupMenuWidget extends StatelessWidget {
+  const PopupMenuWidget({
+    Key? key,
+    required this.onPostNoTap,
+    required this.post,
+  }) : super(key: key);
+
+  final Function(int no)? onPostNoTap;
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      padding: EdgeInsets.zero,
+      onSelected: (selection) {
+        switch (selection) {
+          case 'quote':
+            onPostNoTap?.call(post.no);
+            break;
+          default:
+            break;
+        }
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Text('Quote'),
+            value: 'quote',
+          ),
+        ];
+      },
+      iconSize: 18,
     );
   }
 }

@@ -166,18 +166,34 @@ class _ThreadPageState extends State<ThreadPage> {
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
-      onSelected: (position) {
-        _scrollController.jumpTo(position);
+      onSelected: (selection) {
+        switch (selection) {
+          case 'refresh':
+            _refresh();
+            break;
+          case 'top':
+            _scrollController
+                .jumpTo(_scrollController.position.minScrollExtent);
+            break;
+          case 'bottom':
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+            break;
+        }
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Scroll to top'),
-            value: _scrollController.position.minScrollExtent,
+            child: Text('Refresh'),
+            value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text('Scroll to bottom'),
-            value: _scrollController.position.maxScrollExtent,
+            child: Text('Go to top'),
+            value: 'top',
+          ),
+          PopupMenuItem(
+            child: Text('Go to bottom'),
+            value: 'bottom',
           ),
         ];
       },
