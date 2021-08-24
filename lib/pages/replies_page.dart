@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/post.dart';
@@ -17,7 +18,7 @@ class RepliesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${postReplies.length} ${postReplies.length > 1 ? 'replies' : 'reply'}',
+          'reply'.plural(postReplies.length),
         ),
         actions: [
           IconButton(

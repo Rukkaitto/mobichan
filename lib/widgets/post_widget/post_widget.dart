@@ -89,62 +89,59 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        onTap: () => widget.onTap?.call(),
-        child: Screenshot(
-          controller: _screenshotController,
-          child: Container(
-            color: Theme.of(context).cardColor,
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  widget.post.tim != null
-                      ? PostImage(board: widget.board, post: widget.post)
-                      : Container(),
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 8, left: 8, right: 8),
-                                  child: PostHeader(
-                                    post: widget.post,
-                                    onPostNoTap: widget.onPostNoTap,
-                                    onSave: onSave,
-                                    onShare: onShare,
-                                  ),
-                                ),
-                                PostContent(
-                                  board: widget.board,
+      child: Screenshot(
+        controller: _screenshotController,
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                widget.post.tim != null
+                    ? PostImage(board: widget.board, post: widget.post)
+                    : Container(),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: 8, left: 8, right: 8),
+                                child: PostHeader(
                                   post: widget.post,
-                                  threadReplies: widget.threadReplies,
+                                  onPostNoTap: widget.onPostNoTap,
+                                  onSave: onSave,
+                                  onShare: onShare,
                                 ),
-                              ],
-                            ),
+                              ),
+                              PostContent(
+                                board: widget.board,
+                                post: widget.post,
+                                threadReplies: widget.threadReplies,
+                              ),
+                            ],
                           ),
-                          if (widget.showReplies != false &&
-                              widget.postReplies.length > 0)
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 8, right: 8),
-                              child: PostFooter(
-                                  postReplies: widget.postReplies,
-                                  board: widget.board,
-                                  threadReplies: widget.threadReplies),
-                            ),
-                        ],
-                      ),
+                        ),
+                        if (widget.showReplies != false &&
+                            widget.postReplies.length > 0)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 8, right: 8),
+                            child: PostFooter(
+                                postReplies: widget.postReplies,
+                                board: widget.board,
+                                threadReplies: widget.threadReplies),
+                          ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

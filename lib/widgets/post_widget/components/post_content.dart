@@ -58,26 +58,29 @@ class PostContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Html(
-      data: insertATags(post.com),
-      onAnchorTap: (str, renderContext, attributes, element) {
-        if (attributes['class'] == 'quotelink') {
-          openRepliesPage(context, str!);
-        } else {
-          openUrl(str!);
-        }
-      },
-      style: {
-        "a": Style(
-          color: Colors.lightBlueAccent,
-        ),
-        ".quote": Style(
-          color: Colors.green.shade300,
-        ),
-        ".quotelink": Style(
-          color: Theme.of(context).accentColor,
-        ),
-      },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SelectableHtml(
+        data: insertATags(post.com),
+        onAnchorTap: (str, renderContext, attributes, element) {
+          if (attributes['class'] == 'quotelink') {
+            openRepliesPage(context, str!);
+          } else {
+            openUrl(str!);
+          }
+        },
+        style: {
+          "a": Style(
+            color: Colors.lightBlueAccent,
+          ),
+          ".quote": Style(
+            color: Colors.green.shade300,
+          ),
+          ".quotelink": Style(
+            color: Theme.of(context).accentColor,
+          ),
+        },
+      ),
     );
   }
 }
