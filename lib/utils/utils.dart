@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobichan/classes/models/board.dart';
@@ -221,5 +222,23 @@ class Utils {
       favorites.remove(boardToRemove);
     }
     prefs.setStringList(BOARD_FAVORITES, favorites);
+  }
+
+  static SnackBar buildSnackBar(
+      BuildContext context, String text, Color color) {
+    return SnackBar(
+      backgroundColor: color,
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      content: Text(
+        text,
+        style: snackbarTextStyle(context),
+      ),
+    );
   }
 }

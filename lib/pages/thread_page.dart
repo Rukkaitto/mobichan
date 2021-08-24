@@ -8,9 +8,9 @@ import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/utils/utils.dart';
-import 'package:mobichan/widgets/form_widget.dart';
-import 'package:mobichan/widgets/post_action_button_widget.dart';
-import 'package:mobichan/widgets/post_widget.dart';
+import 'package:mobichan/widgets/form_widget/form_widget.dart';
+import 'package:mobichan/widgets/post_widget/post_widget.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
@@ -166,18 +166,42 @@ class _ThreadPageState extends State<ThreadPage> {
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
-      onSelected: (position) {
-        _scrollController.jumpTo(position);
+      onSelected: (selection) {
+        switch (selection) {
+          case 'refresh':
+            _refresh();
+            break;
+          case 'share':
+            Share.share(
+                'https://boards.4channel.org/${widget.args.board}/thread/${widget.args.thread}');
+            break;
+          case 'top':
+            _scrollController
+                .jumpTo(_scrollController.position.minScrollExtent);
+            break;
+          case 'bottom':
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+            break;
+        }
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Scroll to top'),
-            value: _scrollController.position.minScrollExtent,
+            child: Text('Refresh'),
+            value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text('Scroll to bottom'),
-            value: _scrollController.position.maxScrollExtent,
+            child: Text('Share link'),
+            value: 'share',
+          ),
+          PopupMenuItem(
+            child: Text('Go to top'),
+            value: 'top',
+          ),
+          PopupMenuItem(
+            child: Text('Go to bottom'),
+            value: 'bottom',
           ),
         ];
       },
@@ -187,7 +211,8 @@ class _ThreadPageState extends State<ThreadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: PostActionButton(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.edit_rounded),
         onPressed: onPressPostActionButton,
       ),
       appBar: AppBar(

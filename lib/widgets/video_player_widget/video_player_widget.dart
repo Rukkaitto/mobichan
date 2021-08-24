@@ -1,5 +1,4 @@
 /// Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/vlc_player_with_controls.dart
-
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,14 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:mobichan/constants.dart';
 
-import 'controls_overlay_widget.dart';
+import 'components/video_player_controls.dart';
 
-class VlcPlayerWithControls extends StatefulWidget {
+class VideoPlayerWidget extends StatefulWidget {
   final VlcPlayerController controller;
   final bool showControls;
   final double aspectRatio;
 
-  VlcPlayerWithControls({
+  VideoPlayerWidget({
     Key? key,
     required this.controller,
     this.showControls = true,
@@ -23,10 +22,10 @@ class VlcPlayerWithControls extends StatefulWidget {
         super(key: key);
 
   @override
-  VlcPlayerWithControlsState createState() => VlcPlayerWithControlsState();
+  VideoPlayerWidgetState createState() => VideoPlayerWidgetState();
 }
 
-class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
+class VideoPlayerWidgetState extends State<VideoPlayerWidget>
     with AutomaticKeepAliveClientMixin {
   static const _playerControlsBgColor = Colors.black87;
 
@@ -199,7 +198,7 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls>
                     placeholder: Center(child: CircularProgressIndicator()),
                   ),
                 ),
-                ControlsOverlay(controller: _controller),
+                VideoPlayerControls(controller: _controller),
               ],
             ),
           ),

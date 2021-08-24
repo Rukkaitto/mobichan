@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/widgets/drawer_widget.dart';
+import 'package:mobichan/widgets/drawer_widget/drawer_widget.dart';
 
 class NsfwWarningPage extends StatelessWidget {
   final Function() onDismiss;

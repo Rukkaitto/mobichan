@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class RoundDimmedImage extends StatelessWidget {
+class ThreadRoundDimmedImage extends StatelessWidget {
   final ImageProvider imageProvider;
 
-  const RoundDimmedImage(
+  const ThreadRoundDimmedImage(
     this.imageProvider, {
     Key? key,
   }) : super(key: key);
