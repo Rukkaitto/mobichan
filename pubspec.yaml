@@ -38,6 +38,7 @@ dependencies:
   share: ^2.0.4
   easy_localization: ^3.0.0
   html: ^0.15.0
+  connectivity_plus: ^1.1.0
 
 dev_dependencies:
   flutter_test:

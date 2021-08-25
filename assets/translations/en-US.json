@@ -38,5 +38,6 @@
     "other": "{} replies"
   },
   "quote": "Quote",
-  "high_resolution_thumbnails": "High resolution thumbnails"
+  "high_resolution_thumbnails_mobile": "High resolution thumbnails when using mobile data",
+  "high_resolution_thumbnails_wifi": "High resolution thumbnails when connected to WiFi"
 }
