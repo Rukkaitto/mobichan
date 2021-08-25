@@ -42,15 +42,18 @@ class FormFields extends StatelessWidget {
         children: [
           if (_expanded)
             TextFormField(
+              enableInteractiveSelection: true,
               decoration: InputDecoration(labelText: name.tr()),
               controller: _nameFieldController,
             ),
           if (_expanded && _postType == PostType.thread)
             TextFormField(
+              enableInteractiveSelection: true,
               decoration: InputDecoration(labelText: subject.tr()),
               controller: _subjectFieldController,
             ),
           TextFormField(
+            enableInteractiveSelection: true,
             decoration: InputDecoration(labelText: comment.tr()),
             controller: _commentFieldController,
             maxLines: 5,
