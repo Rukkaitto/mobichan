@@ -278,8 +278,9 @@ class _ThreadPageState extends State<ThreadPage> {
     );
   }
 
-  Widget recursiveWidget(Post post, List<Post> posts) {
+  Widget recursiveWidget(Post post, List<Post> posts, int depth) {
     List<Post> replies = Utils.getReplies(posts, post);
+    final maxDepth = 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -289,7 +290,7 @@ class _ThreadPageState extends State<ThreadPage> {
             post: post,
             board: widget.args.board,
             threadReplies: posts,
-            showReplies: false,
+            showReplies: depth > maxDepth,
             onPostNoTap: _onPostNoTap,
             onPostQuote: _onPostQuote,
           ),
@@ -305,13 +306,13 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemBuilder: (context, index) {
                   Post reply = replies[index];
                   List<int> replyingTo = Utils.replyingTo(posts, reply);
-                  if (replies.isEmpty) {
+                  if (replies.isEmpty ||
+                      replyingTo.isEmpty ||
+                      replyingTo.first != post.no ||
+                      depth > maxDepth) {
                     return Container();
                   }
-                  if (replyingTo.isEmpty || replyingTo.first != post.no) {
-                    return Container();
-                  }
-                  return recursiveWidget(reply, posts);
+                  return recursiveWidget(reply, posts, depth + 1);
                 },
               ),
               Positioned(
@@ -356,7 +357,7 @@ class _ThreadPageState extends State<ThreadPage> {
               itemCount: replies.length,
               itemBuilder: (context, index) {
                 final post = replies[index];
-                return recursiveWidget(post, filteredReplies);
+                return recursiveWidget(post, filteredReplies, 0);
               },
             ),
           );
