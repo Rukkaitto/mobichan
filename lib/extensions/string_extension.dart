@@ -29,6 +29,10 @@ extension StringExtension on String {
     return this.replaceAll('<wbr>', '');
   }
 
+  String get replaceWbrWithNewline {
+    return this.replaceAll('<wbr>', ' \n');
+  }
+
   String get replaceBrWithSpace {
     return this.replaceAll('<br>', ' ');
   }

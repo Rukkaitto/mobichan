@@ -113,6 +113,13 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
+  void _onPostQuote(String quote) {
+    _commentFieldController.text += ">$quote\n";
+    setState(() {
+      _postFormIsOpened = true;
+    });
+  }
+
   List<String> _getImageUrls(List<Post> posts) {
     List<String> imageUrls = [];
 
@@ -284,6 +291,7 @@ class _ThreadPageState extends State<ThreadPage> {
             threadReplies: posts,
             showReplies: false,
             onPostNoTap: _onPostNoTap,
+            onPostQuote: _onPostQuote,
           ),
         ),
         Padding(

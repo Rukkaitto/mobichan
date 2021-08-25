@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/utils/utils.dart';
+import 'package:mobichan/widgets/post_widget/components/post_text_selection_controls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PostContent extends StatelessWidget {
   final String board;
   final Post post;
   final List<Post> threadReplies;
+  final Function(String quote)? onPostQuote;
 
   const PostContent({
     Key? key,
     required this.board,
     required this.post,
     required this.threadReplies,
+    this.onPostQuote,
   }) : super(key: key);
 
   void openUrl(String url) async {
@@ -56,11 +60,26 @@ class PostContent extends StatelessWidget {
     });
   }
 
+  void onQuote(int start, int end) {
+    final html = insertATags(post.com!
+        .replaceAll(RegExp(r'\>\s+\<'), '><')
+        .replaceAll('<br>', '\n'));
+    final document = parse(html);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text.unescapeHtml;
+
+    final String quote = parsedString.substring(start, end);
+    onPostQuote?.call(quote);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SelectableHtml(
+        selectionControls: PostTextSelectionControls(
+          customButton: onQuote,
+        ),
         data: insertATags(post.com),
         onAnchorTap: (str, renderContext, attributes, element) {
           if (attributes['class'] == 'quotelink') {

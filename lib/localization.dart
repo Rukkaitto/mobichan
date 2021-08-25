@@ -30,3 +30,4 @@ const String save_post_error = 'save_post_error';
 const String no_display_device = 'no_display_device';
 const String type_captcha_here = 'type_captcha_here';
 const String reply = 'reply';
+const String quote = 'quote';

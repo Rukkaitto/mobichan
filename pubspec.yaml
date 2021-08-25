@@ -14,7 +14,9 @@ dependencies:
   flutter_inappwebview: ^5.3.2
   http: ^0.13.3
   shared_preferences: ^2.0.6
-  flutter_html: ^2.1.0
+  flutter_html:
+    git:
+      url: https://github.com/Rukkaitto/flutter_html.git
   dio: ^4.0.0
   image_picker: ^0.8.1
   cached_network_image: ^3.0.0
@@ -35,6 +37,7 @@ dependencies:
   screenshot: ^1.2.3
   share: ^2.0.4
   easy_localization: ^3.0.0
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

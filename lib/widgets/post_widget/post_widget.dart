@@ -22,7 +22,8 @@ class PostWidget extends StatefulWidget {
   final Function? onTap;
   final double? height;
   final List<Post> threadReplies;
-  final Function(int)? onPostNoTap;
+  final Function(int no)? onPostNoTap;
+  final Function(String quote)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
 
@@ -32,6 +33,7 @@ class PostWidget extends StatefulWidget {
     required this.threadReplies,
     this.onTap,
     this.onPostNoTap,
+    this.onPostQuote,
     this.height,
     this.showReplies,
   }) {
@@ -125,6 +127,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 board: widget.board,
                                 post: widget.post,
                                 threadReplies: widget.threadReplies,
+                                onPostQuote: widget.onPostQuote,
                               ),
                             ],
                           ),

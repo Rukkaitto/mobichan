@@ -36,5 +36,6 @@
     "two": "{} replies",
     "many": "{} replies",
     "other": "{} replies"
-  }
+  },
+  "quote": "Quote"
 }
