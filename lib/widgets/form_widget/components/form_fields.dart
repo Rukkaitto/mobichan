@@ -32,7 +32,7 @@ class FormFields extends StatelessWidget {
   final PostType _postType;
   final TextEditingController _subjectFieldController;
   final TextEditingController _commentFieldController;
-  final PickedFile? _pickedfile;
+  final XFile? _pickedfile;
   final Function() _clearPickedFile;
 
   @override
@@ -64,9 +64,11 @@ class FormFields extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.file(
-                    File(_pickedfile!.path),
-                    height: IMAGE_PREVIEW_HEIGHT,
+                  Flexible(
+                    child: Image.file(
+                      File(_pickedfile!.path),
+                      height: IMAGE_PREVIEW_HEIGHT,
+                    ),
                   ),
                   IconButton(
                     onPressed: _clearPickedFile,

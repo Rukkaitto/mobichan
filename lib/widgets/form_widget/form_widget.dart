@@ -42,13 +42,12 @@ class _FormWidgetState extends State<FormWidget> {
   final _subjectFieldController = TextEditingController();
   final _captchaResponseFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  PickedFile? _pickedFile;
+  XFile? _pickedFile;
   bool _expanded = false;
   bool _showCaptcha = false;
 
   void _onPictureIconPress() async {
-    PickedFile? pickedFile =
-        await _picker.getImage(source: ImageSource.gallery);
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _pickedFile = pickedFile;
     });
@@ -101,10 +100,12 @@ class _FormWidgetState extends State<FormWidget> {
             context, post_successful.tr(), Theme.of(context).cardColor),
       );
       widget.onPost(response);
+      setState(() {
+        widget.commentFieldController.clear();
+      });
     }
     setState(() {
       _showCaptcha = false;
-      widget.commentFieldController.clear();
     });
   }
 
@@ -138,7 +139,7 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   double computeHeight(bool expanded, bool showCaptcha, PostType postType,
-      double fullHeight, PickedFile? pickedFile) {
+      double fullHeight, XFile? pickedFile) {
     double height;
     if (showCaptcha) {
       height = fullHeight;
