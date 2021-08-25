@@ -42,7 +42,6 @@ class _FormWidgetState extends State<FormWidget> {
   final _subjectFieldController = TextEditingController();
   final _captchaResponseFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  String? _captchaChallenge;
   PickedFile? _pickedFile;
   bool _expanded = false;
   bool _showCaptcha = false;
@@ -105,6 +104,7 @@ class _FormWidgetState extends State<FormWidget> {
     }
     setState(() {
       _showCaptcha = false;
+      widget.commentFieldController.clear();
     });
   }
 
