@@ -9,6 +9,7 @@ import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer_widget/drawer_widget.dart';
@@ -246,7 +247,7 @@ class _BoardPageState extends State<BoardPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'search'.tr(),
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )

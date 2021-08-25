@@ -5,6 +5,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/utils/utils.dart';
 
@@ -72,11 +73,11 @@ class _BoardsListPageState extends State<BoardsListPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'search'.tr(),
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )
-            : Text('boards').tr(),
+            : Text(boards).tr(),
         leading: _isSearching ? BackButton() : null,
         actions: [
           IconButton(

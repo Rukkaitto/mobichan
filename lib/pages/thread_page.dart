@@ -7,6 +7,7 @@ import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
@@ -189,19 +190,19 @@ class _ThreadPageState extends State<ThreadPage> {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('refresh').tr(),
+            child: Text(refresh).tr(),
             value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text('share_link').tr(),
+            child: Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text('go_top').tr(),
+            child: Text(go_top).tr(),
             value: 'top',
           ),
           PopupMenuItem(
-            child: Text('go_bottom').tr(),
+            child: Text(go_bottom).tr(),
             value: 'bottom',
           ),
         ];
@@ -223,7 +224,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'search'.tr(),
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )

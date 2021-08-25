@@ -7,6 +7,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
 
@@ -98,7 +99,7 @@ class _FormWidgetState extends State<FormWidget> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
-            context, "post_successful".tr(), Theme.of(context).cardColor),
+            context, post_successful.tr(), Theme.of(context).cardColor),
       );
       widget.onPost(response);
     }

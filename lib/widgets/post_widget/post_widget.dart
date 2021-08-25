@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/post_widget/components/post_content.dart';
 import 'package:mobichan/widgets/post_widget/components/post_footer.dart';
@@ -70,7 +71,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          "save_post_success".tr(),
+          save_post_success.tr(),
           Theme.of(context).cardColor,
         ),
       );
@@ -78,7 +79,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          "save_post_error".tr(),
+          save_post_error.tr(),
           Theme.of(context).errorColor,
         ),
       );

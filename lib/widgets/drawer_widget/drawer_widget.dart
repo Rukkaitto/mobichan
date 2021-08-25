@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
@@ -28,20 +29,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               children: [
                 ListTile(
                   leading: Icon(Icons.list_rounded),
-                  title: Text("boards").tr(),
+                  title: Text(boards).tr(),
                   onTap: () =>
                       Navigator.pushNamed(context, BoardsListPage.routeName)
                           .then((_) => setState(() {})),
                 ),
                 ListTile(
                   leading: Icon(Icons.history_rounded),
-                  title: Text("history").tr(),
+                  title: Text(history).tr(),
                   onTap: () =>
                       Navigator.pushNamed(context, HistoryPage.routeName),
                 ),
                 ListTile(
                   leading: Icon(Icons.settings_rounded),
-                  title: Text("settings").tr(),
+                  title: Text(settings).tr(),
                   onTap: () =>
                       Navigator.pushNamed(context, SettingsPage.routeName),
                 ),
