@@ -137,7 +137,7 @@ class Api {
       String? name,
       String? com,
       required int resto,
-      PickedFile? pickedFile}) async {
+      XFile? pickedFile}) async {
     String url = "https://sys.4channel.org/$board/post";
     var dio = Dio();
 
@@ -184,7 +184,7 @@ class Api {
     String? name,
     String? subject,
     required String com,
-    required PickedFile? pickedFile,
+    required XFile? pickedFile,
   }) async {
     String url = "https://sys.4channel.org/$board/post";
     var dio = Dio();

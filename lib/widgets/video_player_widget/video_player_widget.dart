@@ -1,11 +1,13 @@
 /// Open source credits and use from https://github.com/solid-software/flutter_vlc_player/blob/master/flutter_vlc_player/example/lib/vlc_player_with_controls.dart
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:mobichan/constants.dart';
 
+import '../../localization.dart';
 import 'components/video_player_controls.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -354,7 +356,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
       await _controller!.castToRenderer(selectedCastDeviceName);
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('No Display Device Found!')));
+          .showSnackBar(SnackBar(content: Text(no_display_device).tr()));
     }
   }
 

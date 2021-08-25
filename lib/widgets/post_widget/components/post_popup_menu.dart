@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/localization.dart';
 
 class PostPopupMenu extends StatelessWidget {
   const PostPopupMenu({
@@ -21,7 +23,7 @@ class PostPopupMenu extends StatelessWidget {
       padding: EdgeInsets.zero,
       onSelected: (selection) {
         switch (selection) {
-          case 'quote':
+          case 'reply':
             onPostNoTap?.call(post.no);
             break;
           case 'share':
@@ -37,15 +39,15 @@ class PostPopupMenu extends StatelessWidget {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Quote'),
-            value: 'quote',
+            child: Text(reply_to_post).tr(),
+            value: 'reply',
           ),
           PopupMenuItem(
-            child: Text('Share'),
+            child: Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text('Save to Gallery'),
+            child: Text(save_to_gallery).tr(),
             value: 'save',
           ),
         ];

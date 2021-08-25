@@ -1,14 +1,26 @@
 [
   {
     "type": "toggle",
-    "label": "Show warning for NSFW boards",
+    "label": "show_nsfw_warning",
     "key": "SHOW_NSFW_WARNING",
     "value": "true"
   },
   {
     "type": "toggle",
-    "label": "Show nested replies",
+    "label": "show_threaded_replies",
     "key": "SHOW_NESTED_REPLIES",
+    "value": "true"
+  },
+  {
+    "type": "toggle",
+    "label": "high_resolution_thumbnails_mobile",
+    "key": "HIGH_RESOLUTION_THUMBNAILS_MOBILE",
+    "value": "false"
+  },
+  {
+    "type": "toggle",
+    "label": "high_resolution_thumbnails_wifi",
+    "key": "HIGH_RESOLUTION_THUMBNAILS_WIFI",
     "value": "true"
   }
 ]

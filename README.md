@@ -19,11 +19,20 @@ A 4chan app made with Flutter.
 - Sorting and searching threads
 - Gallery mode
 - Threading
+- Localization
 
 ## Screenshots
 
 <img src="./screenshots/board_page.png" width="50%">
 <img src="./screenshots/thread_page.png" width="50%">
+
+## Contributing
+
+### Localization
+
+- You can add a missing language by creating a json file in `assets/translations`.
+- The json file must be named `{languageCode}-{countryCode}.json`.
+- For further documentation, read [this](https://pub.dev/packages/easy_localization).
 
 ## Roadmap
 

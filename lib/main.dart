@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -16,9 +17,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   runApp(
-    MaterialApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en', 'US'),
+      child: App(),
+    ),
+  );
+}
+
+class App extends StatelessWidget {
+  const App({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       title: APP_TITLE,
       initialRoute: '/',
@@ -34,17 +60,17 @@ void main() {
         }),
         colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
       ),
-      home: App(),
-    ),
-  );
+      home: Home(),
+    );
+  }
 }
 
-class App extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _AppState createState() => _AppState();
+  _HomeState createState() => _HomeState();
 }
 
-class _AppState extends State<App> {
+class _HomeState extends State<Home> {
   bool _nsfwWarningDismissed = false;
 
   @override

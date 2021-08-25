@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
@@ -8,6 +9,7 @@ import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer_widget/drawer_widget.dart';
@@ -115,7 +117,7 @@ class _BoardPageState extends State<BoardPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title),
+          Text(title).tr(),
           if (sorting == _sortingOrder)
             Icon(
               Icons.check_rounded,
@@ -137,11 +139,11 @@ class _BoardPageState extends State<BoardPage> {
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
-          _buildPopupMenuItem('Sort by bump order', Sort.byBumpOrder),
-          _buildPopupMenuItem('Sort by replies', Sort.byReplyCount),
-          _buildPopupMenuItem('Sort by images', Sort.byImagesCount),
-          _buildPopupMenuItem('Sort by newest', Sort.byNewest),
-          _buildPopupMenuItem('Sort by oldest', Sort.byOldest),
+          _buildPopupMenuItem('sort_bump_order', Sort.byBumpOrder),
+          _buildPopupMenuItem('sort_replies', Sort.byReplyCount),
+          _buildPopupMenuItem('sort_images', Sort.byImagesCount),
+          _buildPopupMenuItem('sort_newest', Sort.byNewest),
+          _buildPopupMenuItem('sort_oldest', Sort.byOldest),
         ];
       },
     );
@@ -245,7 +247,7 @@ class _BoardPageState extends State<BoardPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )

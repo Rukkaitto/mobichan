@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final String appBarTitle = 'Settings';
+  final String appBarTitle = 'settings';
 
   void onChanged(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle),
+        title: Text(appBarTitle).tr(),
       ),
       body: FutureBuilder(
         future: rootBundle.loadString('assets/settings.json'),
@@ -69,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
 
                       return ListTile(
-                        title: Text(setting.label),
+                        title: Text(setting.label).tr(),
                         trailing: trailing,
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/pages/replies_page.dart';
@@ -23,7 +24,7 @@ class PostFooter extends StatelessWidget {
       children: [
         InkWell(
           child: Text(
-            '${postReplies.length} ${postReplies.length > 1 ? 'replies' : 'reply'}',
+            'reply'.plural(postReplies.length),
             style: postNoTextStyle(context),
           ),
           onTap: () {

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,6 +7,7 @@ import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
 
@@ -40,14 +42,12 @@ class _FormWidgetState extends State<FormWidget> {
   final _subjectFieldController = TextEditingController();
   final _captchaResponseFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  String? _captchaChallenge;
-  PickedFile? _pickedFile;
+  XFile? _pickedFile;
   bool _expanded = false;
   bool _showCaptcha = false;
 
   void _onPictureIconPress() async {
-    PickedFile? pickedFile =
-        await _picker.getImage(source: ImageSource.gallery);
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _pickedFile = pickedFile;
     });
@@ -97,9 +97,12 @@ class _FormWidgetState extends State<FormWidget> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
-            context, "Post successful!", Theme.of(context).cardColor),
+            context, post_successful.tr(), Theme.of(context).cardColor),
       );
       widget.onPost(response);
+      setState(() {
+        widget.commentFieldController.clear();
+      });
     }
     setState(() {
       _showCaptcha = false;
@@ -135,14 +138,8 @@ class _FormWidgetState extends State<FormWidget> {
     }
   }
 
-  void _onReceiveCaptchaChallenge(String challenge) {
-    setState(() {
-      _captchaChallenge = challenge;
-    });
-  }
-
   double computeHeight(bool expanded, bool showCaptcha, PostType postType,
-      double fullHeight, PickedFile? pickedFile) {
+      double fullHeight, XFile? pickedFile) {
     double height;
     if (showCaptcha) {
       height = fullHeight;

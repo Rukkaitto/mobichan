@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
@@ -6,6 +7,7 @@ import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/gallery_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
@@ -111,6 +113,13 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
+  void _onPostQuote(String quote) {
+    _commentFieldController.text += ">$quote\n";
+    setState(() {
+      _postFormIsOpened = true;
+    });
+  }
+
   List<String> _getImageUrls(List<Post> posts) {
     List<String> imageUrls = [];
 
@@ -188,19 +197,19 @@ class _ThreadPageState extends State<ThreadPage> {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text('Refresh'),
+            child: Text(refresh).tr(),
             value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text('Share link'),
+            child: Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text('Go to top'),
+            child: Text(go_top).tr(),
             value: 'top',
           ),
           PopupMenuItem(
-            child: Text('Go to bottom'),
+            child: Text(go_bottom).tr(),
             value: 'bottom',
           ),
         ];
@@ -222,7 +231,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )
@@ -269,8 +278,9 @@ class _ThreadPageState extends State<ThreadPage> {
     );
   }
 
-  Widget recursiveWidget(Post post, List<Post> posts) {
+  Widget recursiveWidget(Post post, List<Post> posts, int depth) {
     List<Post> replies = Utils.getReplies(posts, post);
+    final maxDepth = 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -280,8 +290,9 @@ class _ThreadPageState extends State<ThreadPage> {
             post: post,
             board: widget.args.board,
             threadReplies: posts,
-            showReplies: false,
+            showReplies: depth > maxDepth,
             onPostNoTap: _onPostNoTap,
+            onPostQuote: _onPostQuote,
           ),
         ),
         Padding(
@@ -295,13 +306,13 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemBuilder: (context, index) {
                   Post reply = replies[index];
                   List<int> replyingTo = Utils.replyingTo(posts, reply);
-                  if (replies.isEmpty) {
+                  if (replies.isEmpty ||
+                      replyingTo.isEmpty ||
+                      replyingTo.first != post.no ||
+                      depth > maxDepth) {
                     return Container();
                   }
-                  if (replyingTo.isEmpty || replyingTo.first != post.no) {
-                    return Container();
-                  }
-                  return recursiveWidget(reply, posts);
+                  return recursiveWidget(reply, posts, depth + 1);
                 },
               ),
               Positioned(
@@ -346,7 +357,7 @@ class _ThreadPageState extends State<ThreadPage> {
               itemCount: replies.length,
               itemBuilder: (context, index) {
                 final post = replies[index];
-                return recursiveWidget(post, filteredReplies);
+                return recursiveWidget(post, filteredReplies, 0);
               },
             ),
           );

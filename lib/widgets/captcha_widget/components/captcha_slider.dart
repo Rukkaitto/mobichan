@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/models/captcha_challenge.dart';
+import 'package:mobichan/localization.dart';
 
 class CaptchaSlider extends StatefulWidget {
   final CaptchaChallenge captchaChallenge;
@@ -58,7 +60,7 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
-            hintText: 'Type captcha here',
+            hintText: type_captcha_here.tr(),
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.send_rounded,

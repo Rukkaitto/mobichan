@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/utils/utils.dart';
 
@@ -71,11 +73,11 @@ class _BoardsListPageState extends State<BoardsListPage> {
                 controller: _searchQueryController,
                 onChanged: _updateSearchQuery,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: search.tr(),
                 ),
                 autofocus: true,
               )
-            : Text('Boards'),
+            : Text(boards).tr(),
         leading: _isSearching ? BackButton() : null,
         actions: [
           IconButton(
