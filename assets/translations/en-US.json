@@ -21,7 +21,7 @@
   "nsfw_warning": "NSFW Warning",
   "nsfw_warning_message": "This board contains Not Safe For Work content.",
   "nsfw_warning_enter": "Enter anyway",
-  "show_threaded_replies": "Show threaded replies",
+  "show_threaded_replies": "Show threaded replies (Can be laggy)",
   "post_successful": "Post successful!",
   "save_to_gallery": "Save to Gallery",
   "save_to_gallery_success": "Image saved to gallery.",

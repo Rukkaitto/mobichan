@@ -21,7 +21,7 @@
   "nsfw_warning": "Attention NSFW",
   "nsfw_warning_message": "Ce board contient du contenu sensible (NSFW)",
   "nsfw_warning_enter": "Continuer",
-  "show_threaded_replies": "Montrer les réponses en cascade",
+  "show_threaded_replies": "Montrer les réponses en cascade (peut ramer)",
   "post_successful": "Posté avec succès !",
   "save_to_gallery": "Enregistrer dans la gallerie",
   "save_to_gallery_success": "Enregistré dans la gallerie.",

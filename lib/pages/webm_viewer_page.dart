@@ -32,8 +32,9 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        _videoPlayerController.seekTo(Duration.zero);
-        _videoPlayerController.pause();
+        //_videoPlayerController.seekTo(Duration.zero);
+        //_videoPlayerController.pause();
+        _videoPlayerController.dispose();
         return true;
       },
       child: Scaffold(

@@ -255,7 +255,7 @@ class _ThreadPageState extends State<ThreadPage> {
                   return RefreshIndicator(
                     onRefresh: _refresh,
                     child: !prefs.containsKey("SHOW_NESTED_REPLIES")
-                        ? buildNestedFutureBuilder()
+                        ? buildFutureBuilder()
                         : (prefs.getString("SHOW_NESTED_REPLIES")!.parseBool()
                             ? buildNestedFutureBuilder()
                             : buildFutureBuilder()),
@@ -301,6 +301,7 @@ class _ThreadPageState extends State<ThreadPage> {
             children: [
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
+                primary: false,
                 shrinkWrap: true,
                 itemCount: replies.length,
                 itemBuilder: (context, index) {
@@ -351,7 +352,6 @@ class _ThreadPageState extends State<ThreadPage> {
             isAlwaysShown: true,
             controller: _scrollController,
             child: ListView.builder(
-              addAutomaticKeepAlives: false,
               physics: AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemCount: replies.length,
