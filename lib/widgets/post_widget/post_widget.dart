@@ -23,7 +23,7 @@ class PostWidget extends StatefulWidget {
   final double? height;
   final List<Post> threadReplies;
   final Function(int no)? onPostNoTap;
-  final Function(String quote)? onPostQuote;
+  final Function(String quote, int postId)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
 

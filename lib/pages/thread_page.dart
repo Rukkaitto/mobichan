@@ -113,7 +113,10 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
-  void _onPostQuote(String quote) {
+  void _onPostQuote(String quote, int postId) {
+    if(_commentFieldController.text.isEmpty) {
+      _commentFieldController.text += ">>$postId\n";
+    }
     _commentFieldController.text += ">$quote\n";
     setState(() {
       _postFormIsOpened = true;
