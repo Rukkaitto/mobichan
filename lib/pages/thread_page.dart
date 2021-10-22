@@ -162,7 +162,7 @@ class _ThreadPageState extends State<ThreadPage> {
     return (context, index) {
       Post post = replies[index];
       return Padding(
-        padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+        padding: EdgeInsets.only(left: 8, top: 8, right: 8),
         child: PostWidget(
           post: post,
           board: widget.args.board,
@@ -285,7 +285,7 @@ class _ThreadPageState extends State<ThreadPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+          padding: EdgeInsets.only(left: 8, top: 8, right: 8),
           child: PostWidget(
             post: post,
             board: widget.args.board,
@@ -295,11 +295,11 @@ class _ThreadPageState extends State<ThreadPage> {
             onPostQuote: _onPostQuote,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Stack(
-            children: [
-              ListView.builder(
+        Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
@@ -316,20 +316,20 @@ class _ThreadPageState extends State<ThreadPage> {
                   return recursiveWidget(reply, posts, depth + 1);
                 },
               ),
-              Positioned(
-                top: 15,
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  width: 2,
+            ),
+            Positioned(
+              top: 10,
+              left: 9,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).dividerColor,
+                  borderRadius: BorderRadius.circular(100),
                 ),
+                width: 2,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
