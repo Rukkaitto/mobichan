@@ -12,7 +12,7 @@ class PostContent extends StatelessWidget {
   final String board;
   final Post post;
   final List<Post> threadReplies;
-  final Function(String quote)? onPostQuote;
+  final Function(String quote, int postId)? onPostQuote;
 
   const PostContent({
     Key? key,
@@ -69,7 +69,7 @@ class PostContent extends StatelessWidget {
         parse(document.body!.text).documentElement!.text.unescapeHtml;
 
     final String quote = parsedString.substring(start, end);
-    onPostQuote?.call(quote);
+    onPostQuote?.call(quote, post.no);
   }
 
   @override

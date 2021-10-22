@@ -113,7 +113,10 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
-  void _onPostQuote(String quote) {
+  void _onPostQuote(String quote, int postId) {
+    if(_commentFieldController.text.isEmpty) {
+      _commentFieldController.text += ">>$postId\n";
+    }
     _commentFieldController.text += ">$quote\n";
     setState(() {
       _postFormIsOpened = true;
@@ -162,7 +165,7 @@ class _ThreadPageState extends State<ThreadPage> {
     return (context, index) {
       Post post = replies[index];
       return Padding(
-        padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+        padding: EdgeInsets.only(left: 8, top: 8, right: 8),
         child: PostWidget(
           post: post,
           board: widget.args.board,
@@ -255,7 +258,7 @@ class _ThreadPageState extends State<ThreadPage> {
                   return RefreshIndicator(
                     onRefresh: _refresh,
                     child: !prefs.containsKey("SHOW_NESTED_REPLIES")
-                        ? buildNestedFutureBuilder()
+                        ? buildFutureBuilder()
                         : (prefs.getString("SHOW_NESTED_REPLIES")!.parseBool()
                             ? buildNestedFutureBuilder()
                             : buildFutureBuilder()),
@@ -285,7 +288,7 @@ class _ThreadPageState extends State<ThreadPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+          padding: EdgeInsets.only(left: 8, top: 8, right: 8),
           child: PostWidget(
             post: post,
             board: widget.args.board,
@@ -295,12 +298,13 @@ class _ThreadPageState extends State<ThreadPage> {
             onPostQuote: _onPostQuote,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Stack(
-            children: [
-              ListView.builder(
+        Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
+                primary: false,
                 shrinkWrap: true,
                 itemCount: replies.length,
                 itemBuilder: (context, index) {
@@ -315,20 +319,20 @@ class _ThreadPageState extends State<ThreadPage> {
                   return recursiveWidget(reply, posts, depth + 1);
                 },
               ),
-              Positioned(
-                top: 15,
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  width: 2,
+            ),
+            Positioned(
+              top: 10,
+              left: 9,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).dividerColor,
+                  borderRadius: BorderRadius.circular(100),
                 ),
+                width: 2,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -351,7 +355,6 @@ class _ThreadPageState extends State<ThreadPage> {
             isAlwaysShown: true,
             controller: _scrollController,
             child: ListView.builder(
-              addAutomaticKeepAlives: false,
               physics: AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemCount: replies.length,

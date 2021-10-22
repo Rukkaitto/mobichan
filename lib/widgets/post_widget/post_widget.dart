@@ -23,7 +23,7 @@ class PostWidget extends StatefulWidget {
   final double? height;
   final List<Post> threadReplies;
   final Function(int no)? onPostNoTap;
-  final Function(String quote)? onPostQuote;
+  final Function(String quote, int postId)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
 
@@ -91,7 +91,7 @@ class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(

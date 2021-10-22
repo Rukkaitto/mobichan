@@ -18,7 +18,7 @@ class ThreadWidget extends StatelessWidget {
     return InkWell(
       onTap: () => onTap?.call(),
       child: Material(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         elevation: 3,
         child: Stack(
           children: [
