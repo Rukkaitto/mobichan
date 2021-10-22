@@ -20,7 +20,6 @@ class _ViewPhotosState extends State<ViewPhotos> {
   int? currentIndex;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentIndex = widget.imageIndex;
     pageController = PageController(initialPage: widget.imageIndex);

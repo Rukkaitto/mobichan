@@ -17,7 +17,6 @@ class App extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      debugShowCheckedModeBanner: false,
       title: APP_TITLE,
       initialRoute: '/',
       routes: {
@@ -36,3 +35,4 @@ class App extends StatelessWidget {
     );
   }
 }
+

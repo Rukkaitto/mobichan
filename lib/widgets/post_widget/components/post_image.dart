@@ -121,12 +121,24 @@ class _PostImageState extends State<PostImage> {
           future: _getImageUrl(widget.post, widget.board, _connectionStatus),
           builder: (context, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
-              return Hero(
-                tag: widget.post.tim.toString(),
-                child: Image.network(
-                  snapshot.data!,
-                  fit: BoxFit.cover,
-                ),
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  Hero(
+                    tag: widget.post.tim.toString(),
+                    child: Image.network(
+                      snapshot.data!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  if (widget.post.ext == '.webm')
+                    Center(
+                      child: Icon(
+                        Icons.play_circle_outline_rounded,
+                        size: 50,
+                      ),
+                    ),
+                ],
               );
             } else {
               return Container();
