@@ -27,8 +27,7 @@ class _GalleryImagePageState extends State<GalleryImagePage> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        '$API_IMAGES_URL/${widget.board}/${widget.post.tim}${widget.post.ext}')
+    _controller = VideoPlayerController.network(widget.post.getImageUrl(widget.board))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);
