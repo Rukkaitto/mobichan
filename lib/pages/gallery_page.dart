@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/pages/view_photo.dart';
+import 'package:mobichan/pages/image_carousel_page.dart';
 
 class GalleryPage extends StatelessWidget {
   final List<String> imageUrlList;
@@ -34,7 +34,7 @@ class GalleryPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (_) {
-                          return ViewPhotos(
+                          return ImageCarouselPage(
                             imageIndex: index,
                             imageList: imageUrlList,
                             heroTitle: "image$index",

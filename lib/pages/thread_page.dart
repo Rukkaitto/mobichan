@@ -128,9 +128,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
     for (Post post in posts) {
       if (post.tim != null) {
-        String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}${post.ext}';
-        imageUrls.add(imageUrl);
+        imageUrls.add(post.getImageUrl(widget.args.board));
       }
     }
 
@@ -142,9 +140,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
     for (Post post in posts) {
       if (post.tim != null) {
-        String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
-        imageUrls.add(imageUrl);
+        imageUrls.add(post.getThumbnailUrl(widget.args.board));
       }
     }
 
@@ -170,6 +166,8 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: replies,
+          imageUrls: imageUrls,
+          imageIndex: imageUrls.indexOf(post.getImageUrl(widget.args.board)),
           onPostNoTap: _onPostNoTap,
         ),
       );
@@ -296,6 +294,8 @@ class _ThreadPageState extends State<ThreadPage> {
             showReplies: depth > maxDepth,
             onPostNoTap: _onPostNoTap,
             onPostQuote: _onPostQuote,
+            imageIndex: imageUrls.indexOf(post.getImageUrl(widget.args.board)),
+            imageUrls: imageUrls,
           ),
         ),
         Stack(

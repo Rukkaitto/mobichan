@@ -26,6 +26,8 @@ class PostWidget extends StatefulWidget {
   final Function(String quote, int postId)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
+  final int? imageIndex;
+  final List<String>? imageUrls;
 
   PostWidget({
     required this.post,
@@ -36,6 +38,8 @@ class PostWidget extends StatefulWidget {
     this.onPostQuote,
     this.height,
     this.showReplies,
+    this.imageIndex,
+    this.imageUrls,
   }) {
     postReplies = Utils.getReplies(threadReplies, post);
   }
@@ -101,7 +105,12 @@ class _PostWidgetState extends State<PostWidget> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 widget.post.tim != null
-                    ? PostImage(board: widget.board, post: widget.post)
+                    ? PostImage(
+                        board: widget.board,
+                        post: widget.post,
+                        imageUrls: widget.imageUrls,
+                        imageIndex: widget.imageIndex,
+                      )
                     : Container(),
                 Expanded(
                   flex: 2,

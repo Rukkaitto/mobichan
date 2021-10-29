@@ -5,17 +5,17 @@ import 'package:mobichan/localization.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
-class ViewPhotos extends StatefulWidget {
+class ImageCarouselPage extends StatefulWidget {
   final String heroTitle;
   final imageIndex;
-  final List<dynamic>? imageList;
-  ViewPhotos({this.imageIndex, this.imageList, this.heroTitle = "img"});
+  final List<String>? imageList;
+  ImageCarouselPage({this.imageIndex, this.imageList, this.heroTitle = "img"});
 
   @override
-  _ViewPhotosState createState() => _ViewPhotosState();
+  _ImageCarouselPageState createState() => _ImageCarouselPageState();
 }
 
-class _ViewPhotosState extends State<ViewPhotos> {
+class _ImageCarouselPageState extends State<ImageCarouselPage> {
   late PageController pageController;
   int? currentIndex;
   @override

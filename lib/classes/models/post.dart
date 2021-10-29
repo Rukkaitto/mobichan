@@ -1,3 +1,5 @@
+import 'package:mobichan/constants.dart';
+
 class Post {
   final int no;
   final String now;
@@ -101,5 +103,13 @@ class Post {
       'resto': resto,
       'board': board,
     };
+  }
+
+  String getImageUrl(String board) {
+    return '$API_IMAGES_URL/$board/$tim$ext';
+  }
+
+  String getThumbnailUrl(String board) {
+    return '$API_IMAGES_URL/$board/${tim}s.jpg';
   }
 }
