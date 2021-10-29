@@ -3,16 +3,19 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
 
 class GalleryPage extends StatelessWidget {
-  final List<String> imageUrlList;
+  final List<Post> imagePosts;
   final List<String> imageThumbnailUrlList;
   final int crossAxisCount;
+  final String board;
   const GalleryPage(
       {Key? key,
-      required this.imageUrlList,
+      required this.imagePosts,
       required this.imageThumbnailUrlList,
+      required this.board,
       this.crossAxisCount = 3});
 
   @override
@@ -22,7 +25,7 @@ class GalleryPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-          itemCount: imageUrlList.length,
+          itemCount: imagePosts.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8.0,
@@ -36,7 +39,8 @@ class GalleryPage extends StatelessWidget {
                         builder: (_) {
                           return ImageCarouselPage(
                             imageIndex: index,
-                            imageList: imageUrlList,
+                            posts: imagePosts,
+                            board: board,
                             heroTitle: "image$index",
                           );
                         },

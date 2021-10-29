@@ -27,14 +27,12 @@ class PostWidget extends StatefulWidget {
   late List<Post> postReplies;
   final bool? showReplies;
   final int imageIndex;
-  final List<String> imageUrls;
 
   PostWidget({
     required this.post,
     required this.board,
     required this.threadReplies,
     required this.imageIndex,
-    required this.imageUrls,
     this.onTap,
     this.onPostNoTap,
     this.onPostQuote,
@@ -108,7 +106,9 @@ class _PostWidgetState extends State<PostWidget> {
                     ? PostImage(
                         board: widget.board,
                         post: widget.post,
-                        imageUrls: widget.imageUrls,
+                        imagePosts: widget.threadReplies
+                            .where((post) => post.filename != null)
+                            .toList(),
                         imageIndex: widget.imageIndex,
                       )
                     : Container(),

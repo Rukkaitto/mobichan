@@ -31,7 +31,7 @@ class _ThreadPageState extends State<ThreadPage> {
   final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
-  List<String> imageUrls = [];
+  List<Post> imagePosts = [];
   List<String> imageThumbnailUrls = [];
   bool _isSearching = false;
   String _searchQuery = '';
@@ -114,13 +114,25 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   void _onPostQuote(String quote, int postId) {
-    if(_commentFieldController.text.isEmpty) {
+    if (_commentFieldController.text.isEmpty) {
       _commentFieldController.text += ">>$postId\n";
     }
     _commentFieldController.text += ">$quote\n";
     setState(() {
       _postFormIsOpened = true;
     });
+  }
+
+  List<Post> _getImagePosts(List<Post> posts) {
+    List<Post> images = [];
+
+    for (Post post in posts) {
+      if (post.tim != null) {
+        images.add(post);
+      }
+    }
+
+    return images;
   }
 
   List<String> _getImageUrls(List<Post> posts) {
@@ -151,7 +163,8 @@ class _ThreadPageState extends State<ThreadPage> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return GalleryPage(
-        imageUrlList: imageUrls,
+        imagePosts: imagePosts,
+        board: widget.args.board,
         imageThumbnailUrlList: imageThumbnailUrls,
       );
     }));
@@ -166,8 +179,7 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: replies,
-          imageUrls: imageUrls,
-          imageIndex: imageUrls.indexOf(post.getImageUrl(widget.args.board)),
+          imageIndex: imagePosts.indexOf(post),
           onPostNoTap: _onPostNoTap,
         ),
       );
@@ -294,8 +306,7 @@ class _ThreadPageState extends State<ThreadPage> {
             showReplies: depth > maxDepth,
             onPostNoTap: _onPostNoTap,
             onPostQuote: _onPostQuote,
-            imageIndex: imageUrls.indexOf(post.getImageUrl(widget.args.board)),
-            imageUrls: imageUrls,
+            imageIndex: imagePosts.indexOf(post),
           ),
         ),
         Stack(
@@ -349,7 +360,7 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> replies = filteredReplies
               .where((element) => Utils.isRootPost(element))
               .toList();
-          imageUrls = _getImageUrls(snapshot.data!);
+          imagePosts = _getImagePosts(snapshot.data!);
           imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
@@ -383,7 +394,7 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> filteredReplies = snapshot.data!
               .where((post) => _matchesSearchQuery(post.com))
               .toList();
-          imageUrls = _getImageUrls(snapshot.data!);
+          imagePosts = _getImagePosts(snapshot.data!);
           imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,

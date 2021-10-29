@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/localization.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,10 +17,12 @@ import 'package:share/share.dart';
 class ImageCarouselPage extends StatefulWidget {
   final String heroTitle;
   final int imageIndex;
-  final List<String> imageList;
+  final String board;
+  final List<Post> posts;
   ImageCarouselPage(
       {required this.imageIndex,
-      required this.imageList,
+      required this.board,
+      required this.posts,
       this.heroTitle = "img"});
 
   @override
@@ -42,6 +45,14 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
     });
   }
 
+  String get imageUrl {
+    return currentPost.getImageUrl(widget.board);
+  }
+
+  Post get currentPost {
+    return widget.posts[currentIndex];
+  }
+
   SnackBar buildSnackBar(bool isSuccess) {
     return SnackBar(
       backgroundColor: isSuccess
@@ -62,10 +73,8 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   }
 
   void _saveImage() async {
-    String imageUrl = widget.imageList[currentIndex];
-
     var response = await Dio().get(
-      widget.imageList[widget.imageIndex],
+      imageUrl,
       options: Options(responseType: ResponseType.bytes),
     );
 
@@ -80,11 +89,11 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   }
 
   void _shareImage() async {
-    String imageUrl = widget.imageList[currentIndex];
     var response = await Dio().get(
       imageUrl,
       options: Options(responseType: ResponseType.bytes),
     );
+
     final directory = await getTemporaryDirectory();
     final imagePath = await File('${directory.path}/image.png').create();
     await imagePath.writeAsBytes(response.data);
@@ -97,7 +106,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          filenameRegExp.stringMatch(widget.imageList[currentIndex]) ?? "",
+          '${currentPost.filename}${currentPost.ext}',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -120,13 +129,14 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               pageController: pageController,
               builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
-                  imageProvider: NetworkImage(widget.imageList[index]),
+                  imageProvider: NetworkImage(
+                      widget.posts[index].getImageUrl(widget.board)),
                   heroAttributes:
                       PhotoViewHeroAttributes(tag: "photo${widget.imageIndex}"),
                 );
               },
               onPageChanged: onPageChanged,
-              itemCount: widget.imageList!.length,
+              itemCount: widget.posts.length,
               loadingBuilder: (context, progress) => Center(
                 child: Container(
                   width: 60.0,

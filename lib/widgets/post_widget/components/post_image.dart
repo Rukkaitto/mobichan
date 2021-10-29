@@ -15,13 +15,13 @@ class PostImage extends StatefulWidget {
     required this.board,
     required this.post,
     required this.imageIndex,
-    required this.imageUrls,
+    required this.imagePosts,
   }) : super(key: key);
 
   final String board;
   final Post post;
   final int imageIndex;
-  final List<String> imageUrls;
+  final List<Post> imagePosts;
 
   @override
   _PostImageState createState() => _PostImageState();
@@ -115,7 +115,8 @@ class _PostImageState extends State<PostImage> {
                 opaque: false,
                 pageBuilder: (context, _, __) => ImageCarouselPage(
                   imageIndex: widget.imageIndex,
-                  imageList: widget.imageUrls,
+                  board: widget.board,
+                  posts: widget.imagePosts,
                   heroTitle: "photo${widget.imageIndex}",
                 ),
               ),

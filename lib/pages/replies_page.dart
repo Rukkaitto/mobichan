@@ -57,7 +57,6 @@ class RepliesPage extends StatelessWidget {
                 board: board,
                 threadReplies: threadReplies,
                 imageIndex: imageUrls.indexOf(reply.getImageUrl(board)),
-                imageUrls: imageUrls,
               ),
             );
           },
