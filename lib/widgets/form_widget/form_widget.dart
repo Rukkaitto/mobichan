@@ -246,7 +246,7 @@ class _FormWidgetState extends State<FormWidget> {
           onPressed: _onSendIconPress,
           icon: Icon(
             Icons.send,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         IconButton(

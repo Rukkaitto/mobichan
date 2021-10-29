@@ -96,7 +96,7 @@ class PostContent extends StatelessWidget {
             color: Colors.green.shade300,
           ),
           ".quotelink": Style(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         },
       ),

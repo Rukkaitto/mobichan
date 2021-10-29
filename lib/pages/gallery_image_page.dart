@@ -124,7 +124,7 @@ class _GalleryImagePageState extends State<GalleryImagePage> {
                                 _controller,
                                 allowScrubbing: true,
                                 colors: VideoProgressColors(
-                                  playedColor: Theme.of(context).accentColor,
+                                  playedColor: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               Row(
