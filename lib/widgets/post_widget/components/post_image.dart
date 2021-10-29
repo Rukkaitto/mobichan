@@ -17,14 +17,14 @@ class PostImage extends StatefulWidget {
     Key? key,
     required this.board,
     required this.post,
-    this.imageIndex,
-    this.imageUrls,
+    required this.imageIndex,
+    required this.imageUrls,
   }) : super(key: key);
 
   final String board;
   final Post post;
-  final int? imageIndex;
-  final List<String>? imageUrls;
+  final int imageIndex;
+  final List<String> imageUrls;
 
   @override
   _PostImageState createState() => _PostImageState();

@@ -26,20 +26,20 @@ class PostWidget extends StatefulWidget {
   final Function(String quote, int postId)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
-  final int? imageIndex;
-  final List<String>? imageUrls;
+  final int imageIndex;
+  final List<String> imageUrls;
 
   PostWidget({
     required this.post,
     required this.board,
     required this.threadReplies,
+    required this.imageIndex,
+    required this.imageUrls,
     this.onTap,
     this.onPostNoTap,
     this.onPostQuote,
     this.height,
     this.showReplies,
-    this.imageIndex,
-    this.imageUrls,
   }) {
     postReplies = Utils.getReplies(threadReplies, post);
   }
