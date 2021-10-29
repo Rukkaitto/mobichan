@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "title": "## Features",
+      "labels": ["feature"]
+    },
+    {
+      "title": "## Fixes",
+      "labels": ["fix"]
+    }
+  ],
+  "ignore_labels": [
+    "ignore"
+  ],
+  "sort": "ASC",
+  "template": "",
+  "pr_template": "- ${{TITLE}}",
+  "empty_template": "- Minor fixes",
+  "label_extractor": [
+    {
+      "pattern": "(.) (.+)",
+      "target": "$1",
+      "flags": "gu"
+    },
+    {
+      "pattern": "\\[Issue\\]",
+      "on_property": "title",
+      "method": "match"
+    }
+  ],
+  "duplicate_filter": {
+    "pattern": "\\[ABC-....\\]",
+    "on_property": "title",
+    "method": "match"
+  },
+  "transformers": [
+    {
+      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
+      "target": "- $4\n  - $6"
+    }
+  ],
+  "max_tags_to_fetch": 200,
+  "max_pull_requests": 200,
+  "max_back_track_time_days": 365,
+  "exclude_merge_branches": [
+    "Owner/qa"
+  ],
+  "tag_resolver": {
+    "method": "semver"
+  },
+  "base_branches": [
+    "dev"
+  ]
+}
