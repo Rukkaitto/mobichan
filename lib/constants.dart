@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 const String APP_TITLE = "Mobichan";
 const String CAPTCHA_SITE_KEY = "6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
 
+// RegExps
+RegExp filenameRegExp = RegExp(r"[^/\\&\?]+\.\w{3,4}(?=([\?&].*$|$))");
+
 // Api endpoints
 const String API_URL = "https://a.4cdn.org";
 const String API_IMAGES_URL = "https://i.4cdn.org";
