@@ -30,6 +30,10 @@ jobs:
       - name: Pub Get Packages
         run: flutter pub get
 
+      - name: Get App Version
+        id: get_version
+        run: echo "::set-output name=VERSION::v$(flutter pub run cider version | grep -o "[0-9]\.[0-9]\.[0-9]")"
+
       - name: Build APK
         run: flutter build apk --split-per-abi --release
 
@@ -47,8 +51,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: ${{ steps.get_version.outputs.VERSION }}
           body: ${{ steps.build_changelog.outputs.changelog }}
           draft: false
           prerelease: false
@@ -60,5 +64,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
-          asset_name: mobichan${{ github.ref }}.apk
+          asset_name: mobichan${{ steps.get_version.outputs.VERSION }}.apk
           asset_content_type: application/vnd.android.package-archive
