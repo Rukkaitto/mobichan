@@ -27,17 +27,18 @@ class _GalleryImagePageState extends State<GalleryImagePage> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.post.getImageUrl(widget.board))
-      ..initialize().then((_) {
-        setState(() {
-          _controller.setLooping(true);
-          _controller.play();
-          _timer = startTimeout(seconds: _timeoutDuration);
-          _controller.addListener(() {
-            setState(() {});
+    _controller =
+        VideoPlayerController.network(widget.post.getImageUrl(widget.board))
+          ..initialize().then((_) {
+            setState(() {
+              _controller.setLooping(true);
+              _controller.play();
+              _timer = startTimeout(seconds: _timeoutDuration);
+              _controller.addListener(() {
+                setState(() {});
+              });
+            });
           });
-        });
-      });
   }
 
   void handleTimeout() {
@@ -124,7 +125,8 @@ class _GalleryImagePageState extends State<GalleryImagePage> {
                                 _controller,
                                 allowScrubbing: true,
                                 colors: VideoProgressColors(
-                                  playedColor: Theme.of(context).colorScheme.primary,
+                                  playedColor:
+                                      Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               Row(

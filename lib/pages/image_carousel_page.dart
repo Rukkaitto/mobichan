@@ -103,7 +103,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: TRANSPARENT_COLOR,
       appBar: AppBar(
         title: Text(
           '${currentPost.filename}${currentPost.ext}',
@@ -119,7 +119,6 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
             icon: Icon(Icons.save_rounded),
           ),
         ],
-        backgroundColor: Colors.black,
       ),
       body: Container(
         child: Stack(
@@ -132,7 +131,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                   imageProvider: NetworkImage(
                       widget.posts[index].getImageUrl(widget.board)),
                   heroAttributes:
-                      PhotoViewHeroAttributes(tag: "photo${widget.imageIndex}"),
+                      PhotoViewHeroAttributes(tag: "image${widget.imageIndex}"),
                 );
               },
               onPageChanged: onPageChanged,

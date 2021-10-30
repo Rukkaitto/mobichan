@@ -117,7 +117,7 @@ class _PostImageState extends State<PostImage> {
                   imageIndex: widget.imageIndex,
                   board: widget.board,
                   posts: widget.imagePosts,
-                  heroTitle: "photo${widget.imageIndex}",
+                  heroTitle: "image${widget.imageIndex}",
                 ),
               ),
             );
@@ -131,7 +131,7 @@ class _PostImageState extends State<PostImage> {
                 fit: StackFit.expand,
                 children: [
                   Hero(
-                    tag: widget.post.tim.toString(),
+                    tag: 'image${widget.imageIndex}',
                     child: Image.network(
                       snapshot.data!,
                       fit: BoxFit.cover,
