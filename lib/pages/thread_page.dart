@@ -135,30 +135,6 @@ class _ThreadPageState extends State<ThreadPage> {
     return images;
   }
 
-  List<String> _getImageUrls(List<Post> posts) {
-    List<String> imageUrls = [];
-
-    for (Post post in posts) {
-      if (post.tim != null) {
-        imageUrls.add(post.getImageUrl(widget.args.board));
-      }
-    }
-
-    return imageUrls;
-  }
-
-  List<String> _getImageThumbnailUrls(List<Post> posts) {
-    List<String> imageUrls = [];
-
-    for (Post post in posts) {
-      if (post.tim != null) {
-        imageUrls.add(post.getThumbnailUrl(widget.args.board));
-      }
-    }
-
-    return imageUrls;
-  }
-
   void _gotoGalleryView() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
@@ -361,7 +337,6 @@ class _ThreadPageState extends State<ThreadPage> {
               .where((element) => Utils.isRootPost(element))
               .toList();
           imagePosts = _getImagePosts(snapshot.data!);
-          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,
@@ -395,7 +370,6 @@ class _ThreadPageState extends State<ThreadPage> {
               .where((post) => _matchesSearchQuery(post.com))
               .toList();
           imagePosts = _getImagePosts(snapshot.data!);
-          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,

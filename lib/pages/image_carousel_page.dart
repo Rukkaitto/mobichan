@@ -81,7 +81,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
     final result = await ImageGallerySaver.saveImage(
       Uint8List.fromList(response.data),
       quality: 100,
-      name: filenameRegExp.stringMatch(imageUrl),
+      name: '${currentPost.filename}${currentPost.ext}',
     );
     ScaffoldMessenger.of(context).showSnackBar(
       buildSnackBar(result!['isSuccess']),
