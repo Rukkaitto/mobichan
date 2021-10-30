@@ -31,7 +31,7 @@ class _ThreadPageState extends State<ThreadPage> {
   final TextEditingController _commentFieldController = TextEditingController();
   late Future<List<Post>> _futurePosts;
   bool _postFormIsOpened = false;
-  List<String> imageUrls = [];
+  List<Post> imagePosts = [];
   List<String> imageThumbnailUrls = [];
   bool _isSearching = false;
   String _searchQuery = '';
@@ -114,7 +114,7 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   void _onPostQuote(String quote, int postId) {
-    if(_commentFieldController.text.isEmpty) {
+    if (_commentFieldController.text.isEmpty) {
       _commentFieldController.text += ">>$postId\n";
     }
     _commentFieldController.text += ">$quote\n";
@@ -123,42 +123,29 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
-  List<String> _getImageUrls(List<Post> posts) {
-    List<String> imageUrls = [];
+  List<Post> _getImagePosts(List<Post> posts) {
+    List<Post> images = [];
 
     for (Post post in posts) {
       if (post.tim != null) {
-        String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}${post.ext}';
-        imageUrls.add(imageUrl);
+        images.add(post);
       }
     }
 
-    return imageUrls;
-  }
-
-  List<String> _getImageThumbnailUrls(List<Post> posts) {
-    List<String> imageUrls = [];
-
-    for (Post post in posts) {
-      if (post.tim != null) {
-        String imageUrl =
-            '$API_IMAGES_URL/${widget.args.board}/${post.tim}s.jpg';
-        imageUrls.add(imageUrl);
-      }
-    }
-
-    return imageUrls;
+    return images;
   }
 
   void _gotoGalleryView() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return GalleryPage(
-        imageUrlList: imageUrls,
-        imageThumbnailUrlList: imageThumbnailUrls,
-      );
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return GalleryPage(
+            imagePosts: imagePosts,
+            board: widget.args.board,
+          );
+        },
+      ),
+    );
   }
 
   Widget Function(BuildContext, int) _listViewItemBuilder(List<Post> replies) {
@@ -170,6 +157,7 @@ class _ThreadPageState extends State<ThreadPage> {
           post: post,
           board: widget.args.board,
           threadReplies: replies,
+          imageIndex: imagePosts.indexOf(post),
           onPostNoTap: _onPostNoTap,
         ),
       );
@@ -296,6 +284,7 @@ class _ThreadPageState extends State<ThreadPage> {
             showReplies: depth > maxDepth,
             onPostNoTap: _onPostNoTap,
             onPostQuote: _onPostQuote,
+            imageIndex: imagePosts.indexOf(post),
           ),
         ),
         Stack(
@@ -349,8 +338,7 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> replies = filteredReplies
               .where((element) => Utils.isRootPost(element))
               .toList();
-          imageUrls = _getImageUrls(snapshot.data!);
-          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
+          imagePosts = _getImagePosts(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,
@@ -383,8 +371,7 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> filteredReplies = snapshot.data!
               .where((post) => _matchesSearchQuery(post.com))
               .toList();
-          imageUrls = _getImageUrls(snapshot.data!);
-          imageThumbnailUrls = _getImageThumbnailUrls(snapshot.data!);
+          imagePosts = _getImagePosts(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,
             controller: _scrollController,

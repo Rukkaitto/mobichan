@@ -20,8 +20,7 @@ class VideoPlayerWidget extends StatefulWidget {
     required this.controller,
     this.showControls = true,
     required this.aspectRatio,
-  })  : assert(controller != null, 'You must provide a vlc controller'),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   VideoPlayerWidgetState createState() => VideoPlayerWidgetState();
@@ -73,21 +72,19 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
     if (_controller!.value.isInitialized) {
       var oPosition = _controller!.value.position;
       var oDuration = _controller!.value.duration;
-      if (oPosition != null && oDuration != null) {
-        if (oDuration.inHours == 0) {
-          var strPosition = oPosition.toString().split('.')[0];
-          var strDuration = oDuration.toString().split('.')[0];
-          position =
-              "${strPosition.split(':')[1]}:${strPosition.split(':')[2]}";
-          duration =
-              "${strDuration.split(':')[1]}:${strDuration.split(':')[2]}";
-        } else {
-          position = oPosition.toString().split('.')[0];
-          duration = oDuration.toString().split('.')[0];
-        }
-        validPosition = oDuration.compareTo(oPosition) >= 0;
-        sliderValue = validPosition ? oPosition.inSeconds.toDouble() : 0;
+      if (oDuration.inHours == 0) {
+        var strPosition = oPosition.toString().split('.')[0];
+        var strDuration = oDuration.toString().split('.')[0];
+        position =
+            "${strPosition.split(':')[1]}:${strPosition.split(':')[2]}";
+        duration =
+            "${strDuration.split(':')[1]}:${strDuration.split(':')[2]}";
+      } else {
+        position = oPosition.toString().split('.')[0];
+        duration = oDuration.toString().split('.')[0];
       }
+      validPosition = oDuration.compareTo(oPosition) >= 0;
+      sliderValue = validPosition ? oPosition.inSeconds.toDouble() : 0;
       numberOfCaptions = _controller!.value.spuTracksCount;
       numberOfAudioTracks = _controller!.value.audioTracksCount;
       //
@@ -234,8 +231,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                           inactiveColor: Colors.white70,
                           value: sliderValue,
                           min: 0.0,
-                          max: (!validPosition &&
-                                  _controller!.value.duration == null)
+                          max: (!validPosition)
                               ? 1.0
                               : _controller!.value.duration.inSeconds
                                   .toDouble(),
@@ -320,7 +316,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
   void _getRendererDevices() async {
     var castDevices = await _controller!.getRendererDevices();
     //
-    if (castDevices != null && castDevices.isNotEmpty) {
+    if (castDevices.isNotEmpty) {
       var selectedCastDeviceName = await showDialog(
         context: context,
         builder: (BuildContext context) {

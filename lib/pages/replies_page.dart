@@ -13,8 +13,22 @@ class RepliesPage extends StatelessWidget {
       {Key? key, required this.board, required this.threadReplies})
       : super(key: key);
 
+  List<String> _getImageUrls(List<Post> posts) {
+    List<String> imageUrls = [];
+
+    for (Post post in posts) {
+      if (post.tim != null) {
+        imageUrls.add(post.getImageUrl(this.board));
+      }
+    }
+
+    return imageUrls;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<String> imageUrls = _getImageUrls(this.threadReplies);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -42,6 +56,7 @@ class RepliesPage extends StatelessWidget {
                 post: reply,
                 board: board,
                 threadReplies: threadReplies,
+                imageIndex: imageUrls.indexOf(reply.getImageUrl(board)),
               ),
             );
           },
