@@ -107,7 +107,6 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
       appBar: AppBar(
         title: Text(
           '${currentPost.filename}${currentPost.ext}',
-          style: TextStyle(color: Colors.white),
         ),
         actions: [
           IconButton(
