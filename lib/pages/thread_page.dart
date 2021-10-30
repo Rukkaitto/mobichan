@@ -136,14 +136,16 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   void _gotoGalleryView() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return GalleryPage(
-        imagePosts: imagePosts,
-        board: widget.args.board,
-        imageThumbnailUrlList: imageThumbnailUrls,
-      );
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return GalleryPage(
+            imagePosts: imagePosts,
+            board: widget.args.board,
+          );
+        },
+      ),
+    );
   }
 
   Widget Function(BuildContext, int) _listViewItemBuilder(List<Post> replies) {
