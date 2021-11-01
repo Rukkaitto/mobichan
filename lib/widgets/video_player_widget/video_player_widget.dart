@@ -62,8 +62,9 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
 
   @override
   void dispose() {
-    _controller!.removeListener(listener);
     super.dispose();
+    _controller!.removeListener(listener);
+    _controller!.dispose();
   }
 
   void listener() async {
@@ -75,10 +76,8 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
       if (oDuration.inHours == 0) {
         var strPosition = oPosition.toString().split('.')[0];
         var strDuration = oDuration.toString().split('.')[0];
-        position =
-            "${strPosition.split(':')[1]}:${strPosition.split(':')[2]}";
-        duration =
-            "${strDuration.split(':')[1]}:${strDuration.split(':')[2]}";
+        position = "${strPosition.split(':')[1]}:${strPosition.split(':')[2]}";
+        duration = "${strDuration.split(':')[1]}:${strDuration.split(':')[2]}";
       } else {
         position = oPosition.toString().split('.')[0];
         duration = oDuration.toString().split('.')[0];

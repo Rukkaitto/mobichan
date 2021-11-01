@@ -101,27 +101,17 @@ class _PostImageState extends State<PostImage> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          if (widget.post.ext == '.webm') {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) =>
-                    WebmViewerPage(widget.board, widget.post),
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => ImageCarouselPage(
+                imageIndex: widget.imageIndex,
+                board: widget.board,
+                posts: widget.imagePosts,
+                heroTitle: "image${widget.imageIndex}",
               ),
-            );
-          } else {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) => ImageCarouselPage(
-                  imageIndex: widget.imageIndex,
-                  board: widget.board,
-                  posts: widget.imagePosts,
-                  heroTitle: "image${widget.imageIndex}",
-                ),
-              ),
-            );
-          }
+            ),
+          );
         },
         child: FutureBuilder(
           future: _getImageUrl(widget.post, widget.board, _connectionStatus),

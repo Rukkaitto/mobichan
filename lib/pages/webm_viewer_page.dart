@@ -30,39 +30,27 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        //_videoPlayerController.seekTo(Duration.zero);
-        //_videoPlayerController.pause();
-        _videoPlayerController.dispose();
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: TRANSPARENT_COLOR,
-        body: SafeArea(
-          child: Center(
-            child: Hero(
-              tag: widget.post.tim.toString(),
-              child: Stack(
-                children: [
-                  VideoPlayerWidget(
-                      controller: _videoPlayerController,
-                      aspectRatio: widget.post.w! / widget.post.h!),
-                  Positioned(
-                    top: 50,
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      icon: Icon(Icons.close),
-                    ),
-                  ),
-                ],
+    return Scaffold(
+      backgroundColor: TRANSPARENT_COLOR,
+      body: SafeArea(
+        child: Center(
+          child: Stack(
+            children: [
+              VideoPlayerWidget(
+                controller: _videoPlayerController,
+                aspectRatio: widget.post.w! / widget.post.h!,
               ),
-            ),
+              Positioned(
+                top: 50,
+                left: 0,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.close),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/localization.dart';
+import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -126,11 +127,18 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               scrollPhysics: const BouncingScrollPhysics(),
               pageController: pageController,
               builder: (BuildContext context, int index) {
-                return PhotoViewGalleryPageOptions(
-                  imageProvider: NetworkImage(
-                      widget.posts[index].getImageUrl(widget.board)),
-                  heroAttributes:
-                      PhotoViewHeroAttributes(tag: "image${widget.imageIndex}"),
+                return PhotoViewGalleryPageOptions.customChild(
+                  child: currentPost.ext == '.webm'
+                      ? WebmViewerPage(
+                          widget.board,
+                          currentPost,
+                        )
+                      : Image.network(
+                          currentPost.getImageUrl(widget.board),
+                        ),
+                  heroAttributes: PhotoViewHeroAttributes(
+                    tag: 'image${widget.imageIndex}',
+                  ),
                 );
               },
               onPageChanged: onPageChanged,
