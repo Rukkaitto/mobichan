@@ -251,7 +251,7 @@ class _BoardPageState extends State<BoardPage> {
                 ),
                 autofocus: true,
               )
-            : Text('/${widget.args.board}/ - ${widget.args.title}'),
+            : Text('${widget.args.title}'),
       ),
       body: Stack(
         children: [
