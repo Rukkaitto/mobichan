@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
@@ -14,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share/share.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ImageCarouselPage extends StatefulWidget {
   final String heroTitle;
@@ -32,16 +34,23 @@ class ImageCarouselPage extends StatefulWidget {
 
 class _ImageCarouselPageState extends State<ImageCarouselPage> {
   late PageController pageController;
+  late CarouselController carouselController;
+  late Map<int, VlcPlayerController> videoPlayerControllers;
   late int currentIndex;
   @override
   void initState() {
     super.initState();
     currentIndex = widget.imageIndex;
     pageController = PageController(initialPage: widget.imageIndex);
+    carouselController = CarouselController();
+    videoPlayerControllers = {};
   }
 
-  void onPageChanged(int index) {
+  void onPageChanged(int index, CarouselPageChangedReason reason) {
     setState(() {
+      videoPlayerControllers[currentIndex]?.seekTo(Duration.zero);
+      videoPlayerControllers[currentIndex]?.pause();
+      videoPlayerControllers[currentIndex]?.dispose();
       currentIndex = index;
     });
   }
@@ -120,44 +129,34 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
           ),
         ],
       ),
-      body: Container(
-        child: Stack(
-          children: [
-            PhotoViewGallery.builder(
-              scrollPhysics: const BouncingScrollPhysics(),
-              pageController: pageController,
-              builder: (BuildContext context, int index) {
-                return PhotoViewGalleryPageOptions.customChild(
-                  child: currentPost.ext == '.webm'
-                      ? WebmViewerPage(
-                          widget.board,
-                          currentPost,
-                        )
-                      : Image.network(
-                          currentPost.getImageUrl(widget.board),
-                        ),
-                  heroAttributes: PhotoViewHeroAttributes(
-                    tag: 'image${widget.imageIndex}',
-                  ),
-                );
-              },
-              onPageChanged: onPageChanged,
-              itemCount: widget.posts.length,
-              loadingBuilder: (context, progress) => Center(
-                child: Container(
-                  width: 60.0,
-                  height: 60.0,
-                  child:
-                      (progress == null || progress.expectedTotalBytes == null)
-                          ? CircularProgressIndicator()
-                          : CircularProgressIndicator(
-                              value: progress.cumulativeBytesLoaded /
-                                  progress.expectedTotalBytes!,
-                            ),
-                ),
-              ),
-            ),
-          ],
+      body: CarouselSlider.builder(
+        carouselController: carouselController,
+        itemCount: widget.posts.length,
+        itemBuilder: (context, itemIndex, pageViewIndex) {
+          Post currentPost = widget.posts[itemIndex];
+          if (videoPlayerControllers[itemIndex] == null) {
+            videoPlayerControllers[itemIndex] = VlcPlayerController.network(
+              '$API_IMAGES_URL/${widget.board}/${currentPost.tim}${currentPost.ext}',
+              hwAcc: HwAcc.AUTO,
+              autoPlay: true,
+              options: VlcPlayerOptions(),
+            );
+          }
+
+          return currentPost.ext == '.webm'
+              ? WebmViewerPage(
+                  widget.board,
+                  currentPost,
+                  videoPlayerControllers[itemIndex],
+                )
+              : Image.network(currentPost.getImageUrl(widget.board));
+        },
+        options: CarouselOptions(
+          viewportFraction: 1.0,
+          height: double.infinity,
+          initialPage: widget.imageIndex,
+          onPageChanged: onPageChanged,
+          scrollPhysics: BouncingScrollPhysics(),
         ),
       ),
     );
