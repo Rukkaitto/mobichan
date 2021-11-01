@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.3.4+18
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -12,33 +12,33 @@ dependencies:
 
   cupertino_icons: ^1.0.3
   flutter_inappwebview: ^5.3.2
-  http: ^0.13.3
-  shared_preferences: ^2.0.6
+  http: ^0.13.4
+  shared_preferences: ^2.0.8
   flutter_html:
     git:
       url: https://github.com/Rukkaitto/flutter_html.git
-  dio: ^4.0.0
-  image_picker: ^0.8.3+3
+  dio: ^4.0.1
+  image_picker: ^0.8.4+4
   cached_network_image: ^3.1.0
   html_unescape: ^2.0.0
-  video_player: ^2.1.14
-  image_gallery_saver: ^1.6.9
-  permission_handler: ^8.1.4+2
-  path_provider: ^2.0.2
-  flutter_vlc_player: ^6.0.4
-  package_info_plus: ^1.0.6
+  video_player: ^2.2.6
+  image_gallery_saver: ^1.7.1
+  permission_handler: ^8.2.5
+  path_provider: ^2.0.6
+  flutter_vlc_player: ^6.0.5
+  package_info_plus: ^1.3.0
   flutter_displaymode: ^0.3.2
   version: ^2.0.0
   photo_view: ^0.13.0
   install_plugin:
     git:
       url: https://github.com/mitchross/flutter_install_plugin.git
-  url_launcher: ^6.0.9
+  url_launcher: ^6.0.12
   screenshot: ^1.2.3
   share: ^2.0.4
   easy_localization: ^3.0.0
   html: ^0.15.0
-  connectivity_plus: ^1.1.0 
+  connectivity_plus: ^1.4.0
   cider: ^0.1.0
 
 dev_dependencies:
