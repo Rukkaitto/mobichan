@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
+import 'package:mobichan/routes/routes.router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'components/drawer_favorites.dart';
@@ -30,9 +30,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ListTile(
                   leading: Icon(Icons.list_rounded),
                   title: Text(boards).tr(),
-                  onTap: () =>
-                      Navigator.pushNamed(context, BoardsListPage.routeName)
-                          .then((_) => setState(() {})),
+                  onTap: () => Navigator.pushNamed(context, Routes.boardsView)
+                      .then((_) => setState(() {})),
                 ),
                 ListTile(
                   leading: Icon(Icons.history_rounded),

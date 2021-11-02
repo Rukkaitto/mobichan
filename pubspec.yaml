@@ -39,11 +39,15 @@ dependencies:
   easy_localization: ^3.0.0
   html: ^0.15.0
   connectivity_plus: ^1.4.0
-  cider: ^0.1.0
+  stacked: ^2.2.7
+  stacked_services: ^0.8.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  cider: ^0.1.0
+  build_runner: ^2.1.4
+  stacked_generator: ^0.5.5
 
 flutter:
   uses-material-design: true
