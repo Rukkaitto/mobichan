@@ -2,10 +2,11 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/home.dart';
 import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
+import 'package:mobichan/routes/routes.router.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -19,7 +20,9 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: APP_TITLE,
-      initialRoute: '/',
+      navigatorKey: StackedService.navigatorKey,
+      initialRoute: Routes.home,
+      onGenerateRoute: StackedRouter().onGenerateRoute,
       routes: {
         BoardsListPage.routeName: (context) => BoardsListPage(),
         SettingsPage.routeName: (context) => SettingsPage(),
@@ -32,8 +35,6 @@ class App extends StatelessWidget {
         }),
         colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
       ),
-      home: Home(),
     );
   }
 }
-
