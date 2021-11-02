@@ -9,6 +9,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/localization.dart';
+import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -47,6 +48,10 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
 
   String get imageUrl {
     return currentPost.getImageUrl(widget.board);
+  }
+
+  bool isWebM(String url) {
+    return url.contains(".webm");
   }
 
   Post get currentPost {
@@ -126,12 +131,17 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               scrollPhysics: const BouncingScrollPhysics(),
               pageController: pageController,
               builder: (BuildContext context, int index) {
-                return PhotoViewGalleryPageOptions(
-                  imageProvider: NetworkImage(
-                      widget.posts[index].getImageUrl(widget.board)),
-                  heroAttributes:
-                      PhotoViewHeroAttributes(tag: "image${widget.imageIndex}"),
-                );
+                if (isWebM(widget.posts[index].getImageUrl(widget.board))) {
+                  return PhotoViewGalleryPageOptions.customChild(
+                      child: WebmViewerPage(widget.board, widget.posts[index]));
+                } else {
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(
+                        widget.posts[index].getImageUrl(widget.board)),
+                    heroAttributes: PhotoViewHeroAttributes(
+                        tag: "image${widget.imageIndex}"),
+                  );
+                }
               },
               onPageChanged: onPageChanged,
               itemCount: widget.posts.length,
