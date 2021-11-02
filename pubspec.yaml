@@ -39,6 +39,7 @@ dependencies:
   easy_localization: ^3.0.0
   html: ^0.15.0
   connectivity_plus: ^1.4.0
+  cider: ^0.1.0
   stacked: ^2.2.7
   stacked_services: ^0.8.15
 
