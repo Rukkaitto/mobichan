@@ -6,8 +6,8 @@ import 'package:mobichan/utils/utils.dart';
 import 'package:stacked/stacked.dart';
 
 class BoardTileViewModel extends FutureViewModel<bool> {
+  final Board _board;
   bool _isFavorite = false;
-  late Board _board;
 
   BoardTileViewModel(this._board);
 

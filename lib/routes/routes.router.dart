@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 
 import '../home.dart';
 import '../pages/boards/boards_view.dart';
