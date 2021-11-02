@@ -2,7 +2,6 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/pages/boards_list_page.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/routes/routes.router.dart';
@@ -24,7 +23,6 @@ class App extends StatelessWidget {
       initialRoute: Routes.home,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       routes: {
-        BoardsListPage.routeName: (context) => BoardsListPage(),
         SettingsPage.routeName: (context) => SettingsPage(),
         HistoryPage.routeName: (context) => HistoryPage(),
       },
