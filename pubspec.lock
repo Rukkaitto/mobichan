@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.1"
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -156,7 +163,7 @@ packages:
     source: hosted
     version: "1.2.0"
   cider:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: cider
       url: "https://pub.dartlang.org"
@@ -335,6 +342,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.1.0"
   flutter_blurhash:
     dependency: transitive
     description:
