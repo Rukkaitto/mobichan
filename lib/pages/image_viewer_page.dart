@@ -41,7 +41,7 @@ class ImageViewerPage extends StatelessWidget {
 
     void _saveImage() async {
       var response = await Dio().get(
-          '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
+          post.getImageUrl(board),
           options: Options(responseType: ResponseType.bytes));
       final result = await ImageGallerySaver.saveImage(
           Uint8List.fromList(response.data),
@@ -54,7 +54,7 @@ class ImageViewerPage extends StatelessWidget {
 
     void _shareImage() async {
       var response = await Dio().get(
-          '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
+          post.getImageUrl(board),
           options: Options(responseType: ResponseType.bytes));
       final directory = await getTemporaryDirectory();
       final imagePath = await File('${directory.path}/image.png').create();
@@ -87,12 +87,12 @@ class ImageViewerPage extends StatelessWidget {
               child: Stack(
                 children: [
                   Image.network(
-                    '$API_IMAGES_URL/$board/${post.tim}s.jpg',
+                    post.getThumbnailUrl(board),
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                   Image.network(
-                    '$API_IMAGES_URL/$board/${post.tim}${post.ext}',
+                    post.getImageUrl(board),
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),

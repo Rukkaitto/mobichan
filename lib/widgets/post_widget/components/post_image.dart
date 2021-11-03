@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
-import 'package:mobichan/pages/image_viewer_page.dart';
-import 'package:mobichan/pages/webm_viewer_page.dart';
+import 'package:mobichan/pages/image_carousel_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../constants.dart';
 
 class PostImage extends StatefulWidget {
   const PostImage({
     Key? key,
     required this.board,
     required this.post,
+    required this.imageIndex,
+    required this.imagePosts,
   }) : super(key: key);
 
   final String board;
   final Post post;
+  final int imageIndex;
+  final List<Post> imagePosts;
 
   @override
   _PostImageState createState() => _PostImageState();
@@ -88,9 +89,9 @@ class _PostImageState extends State<PostImage> {
             (connectivityStatus == ConnectivityResult.mobile &&
                 highResolutionThumbnailsMobile)) &&
         !isWebm) {
-      return '$API_IMAGES_URL/$board/${post.tim}${post.ext}';
+      return post.getImageUrl(board);
     } else {
-      return '$API_IMAGES_URL/$board/${post.tim}s.jpg';
+      return post.getThumbnailUrl(board);
     }
   }
 
@@ -99,23 +100,17 @@ class _PostImageState extends State<PostImage> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          if (widget.post.ext == '.webm') {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) =>
-                    WebmViewerPage(widget.board, widget.post),
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => ImageCarouselPage(
+                imageIndex: widget.imageIndex,
+                board: widget.board,
+                posts: widget.imagePosts,
+                heroTitle: "image${widget.imageIndex}",
               ),
-            );
-          } else {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) =>
-                    ImageViewerPage(widget.board, widget.post),
-              ),
-            );
-          }
+            ),
+          );
         },
         child: FutureBuilder(
           future: _getImageUrl(widget.post, widget.board, _connectionStatus),
@@ -125,7 +120,7 @@ class _PostImageState extends State<PostImage> {
                 fit: StackFit.expand,
                 children: [
                   Hero(
-                    tag: widget.post.tim.toString(),
+                    tag: 'image${widget.imageIndex}',
                     child: Image.network(
                       snapshot.data!,
                       fit: BoxFit.cover,

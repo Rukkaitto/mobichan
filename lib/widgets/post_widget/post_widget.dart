@@ -26,11 +26,13 @@ class PostWidget extends StatefulWidget {
   final Function(String quote, int postId)? onPostQuote;
   late List<Post> postReplies;
   final bool? showReplies;
+  final int imageIndex;
 
   PostWidget({
     required this.post,
     required this.board,
     required this.threadReplies,
+    required this.imageIndex,
     this.onTap,
     this.onPostNoTap,
     this.onPostQuote,
@@ -101,7 +103,14 @@ class _PostWidgetState extends State<PostWidget> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 widget.post.tim != null
-                    ? PostImage(board: widget.board, post: widget.post)
+                    ? PostImage(
+                        board: widget.board,
+                        post: widget.post,
+                        imagePosts: widget.threadReplies
+                            .where((post) => post.filename != null)
+                            .toList(),
+                        imageIndex: widget.imageIndex,
+                      )
                     : Container(),
                 Expanded(
                   flex: 2,

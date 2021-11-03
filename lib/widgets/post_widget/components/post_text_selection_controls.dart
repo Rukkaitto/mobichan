@@ -47,7 +47,7 @@ class PostTextSelectionControls extends MaterialTextSelectionControls {
       anchorAbove: anchorAbove,
       anchorBelow: anchorBelow,
       clipboardStatus: clipboardStatus,
-      handleCopy: canCopy(delegate) && handleCopy != null
+      handleCopy: canCopy(delegate)
           ? () => handleCopy(delegate, clipboardStatus)
           : null,
 
@@ -55,22 +55,18 @@ class PostTextSelectionControls extends MaterialTextSelectionControls {
       customButton: () {
         customButton(delegate.textEditingValue.selection.start,
             delegate.textEditingValue.selection.end);
-        delegate.textEditingValue = delegate.textEditingValue.copyWith(
+        TextEditingValue textEditingValue = delegate.textEditingValue.copyWith(
           selection: TextSelection.collapsed(
             offset: delegate.textEditingValue.selection.baseOffset,
           ),
         );
+        delegate.userUpdateTextEditingValue(textEditingValue, SelectionChangedCause.tap);
         delegate.hideToolbar();
       },
-      handleCut: canCut(delegate) && handleCut != null
-          ? () => handleCut(delegate)
-          : null,
-      handlePaste: canPaste(delegate) && handlePaste != null
-          ? () => handlePaste(delegate)
-          : null,
-      handleSelectAll: canSelectAll(delegate) && handleSelectAll != null
-          ? () => handleSelectAll(delegate)
-          : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+      handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
+      handleSelectAll:
+          canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
     );
   }
 }

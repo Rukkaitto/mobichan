@@ -3,26 +3,32 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/pages/view_photo.dart';
+import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/localization.dart';
+import 'package:mobichan/pages/image_carousel_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GalleryPage extends StatelessWidget {
-  final List<String> imageUrlList;
-  final List<String> imageThumbnailUrlList;
+  final List<Post> imagePosts;
   final int crossAxisCount;
+  final String board;
   const GalleryPage(
       {Key? key,
-      required this.imageUrlList,
-      required this.imageThumbnailUrlList,
+      required this.imagePosts,
+      required this.board,
       this.crossAxisCount = 3});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(gallery).tr(),
+      ),
       backgroundColor: Theme.of(context).canvasColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-          itemCount: imageUrlList.length,
+          itemCount: imagePosts.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8.0,
@@ -34,9 +40,10 @@ class GalleryPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (_) {
-                          return ViewPhotos(
+                          return ImageCarouselPage(
                             imageIndex: index,
-                            imageList: imageUrlList,
+                            posts: imagePosts,
+                            board: board,
                             heroTitle: "image$index",
                           );
                         },
@@ -45,10 +52,10 @@ class GalleryPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Hero(
-                    tag: "photo$index",
+                    tag: "image$index",
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: imageThumbnailUrlList[index],
+                      imageUrl: imagePosts[index].getThumbnailUrl(board),
                       placeholder: (context, url) => Container(
                         child: Center(
                           child: Platform.isAndroid

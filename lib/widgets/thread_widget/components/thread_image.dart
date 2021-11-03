@@ -13,9 +13,9 @@ class ThreadImage extends StatelessWidget {
 
   String getImageUrl() {
     if (post.ext == '.webm') {
-      return '$API_IMAGES_URL/$board/${post.tim}s.jpg';
+      return post.getThumbnailUrl(board);
     }
-    return '$API_IMAGES_URL/$board/${post.tim}${post.ext}';
+    return post.getImageUrl(board);
   }
 
   @override
