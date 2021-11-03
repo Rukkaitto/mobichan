@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
@@ -32,17 +33,21 @@ class ImageCarouselPage extends StatefulWidget {
 
 class _ImageCarouselPageState extends State<ImageCarouselPage> {
   late PageController pageController;
+  late Map<int, VlcPlayerController> videoPlayerControllers;
   late int currentIndex;
   @override
   void initState() {
     super.initState();
     currentIndex = widget.imageIndex;
     pageController = PageController(initialPage: widget.imageIndex);
+    videoPlayerControllers = {};
   }
 
   void onPageChanged(int index) {
     setState(() {
+      videoPlayerControllers[currentIndex]?.stop();
       currentIndex = index;
+      videoPlayerControllers[currentIndex]?.play();
     });
   }
 
@@ -131,15 +136,34 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               scrollPhysics: const BouncingScrollPhysics(),
               pageController: pageController,
               builder: (BuildContext context, int index) {
-                if (isWebM(widget.posts[index].getImageUrl(widget.board))) {
+                Post currentPost = widget.posts[index];
+                if (isWebM(currentPost.getImageUrl(widget.board))) {
+                  if (videoPlayerControllers[index] == null) {
+                    videoPlayerControllers[index] = VlcPlayerController.network(
+                      '$API_IMAGES_URL/${widget.board}/${currentPost.tim}${currentPost.ext}',
+                      hwAcc: HwAcc.FULL,
+                      autoPlay: true,
+                      options: VlcPlayerOptions(),
+                    );
+                  }
                   return PhotoViewGalleryPageOptions.customChild(
-                      child: WebmViewerPage(widget.board, widget.posts[index]));
+                    heroAttributes: PhotoViewHeroAttributes(
+                      tag: 'image$index}',
+                    ),
+                    child: WebmViewerPage(
+                      widget.board,
+                      currentPost,
+                      videoPlayerControllers[index],
+                    ),
+                  );
                 } else {
                   return PhotoViewGalleryPageOptions(
                     imageProvider: NetworkImage(
-                        widget.posts[index].getImageUrl(widget.board)),
+                      widget.posts[index].getImageUrl(widget.board),
+                    ),
                     heroAttributes: PhotoViewHeroAttributes(
-                        tag: "image${widget.imageIndex}"),
+                      tag: "image$index",
+                    ),
                   );
                 }
               },

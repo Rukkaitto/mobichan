@@ -8,58 +8,44 @@ import 'package:mobichan/widgets/video_player_widget/video_player_widget.dart';
 class WebmViewerPage extends StatefulWidget {
   final String board;
   final Post post;
-  const WebmViewerPage(this.board, this.post, {Key? key}) : super(key: key);
+  final VlcPlayerController? videoPlayerController;
+  const WebmViewerPage(this.board, this.post, this.videoPlayerController,
+      {Key? key})
+      : super(key: key);
 
   @override
   _VideoViewerPageState createState() => _VideoViewerPageState();
 }
 
 class _VideoViewerPageState extends State<WebmViewerPage> {
-  late VlcPlayerController _videoPlayerController;
   @override
   void initState() {
     super.initState();
-
-    _videoPlayerController = VlcPlayerController.network(
-      '$API_IMAGES_URL/${widget.board}/${widget.post.tim}${widget.post.ext}',
-      hwAcc: HwAcc.FULL,
-      autoPlay: true,
-      options: VlcPlayerOptions(),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: TRANSPARENT_COLOR,
-        body: SafeArea(
-          child: Center(
-            child: Hero(
-              tag: widget.post.tim.toString(),
-              child: Stack(
-                children: [
-                  VideoPlayerWidget(
-                      controller: _videoPlayerController,
-                      aspectRatio: widget.post.w! / widget.post.h!),
-                  Positioned(
-                    top: 50,
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      icon: Icon(Icons.close),
-                    ),
-                  ),
-                ],
+    return Scaffold(
+      backgroundColor: TRANSPARENT_COLOR,
+      body: SafeArea(
+        child: Center(
+          child: Stack(
+            children: [
+              VideoPlayerWidget(
+                controller: widget.videoPlayerController!,
+                aspectRatio: widget.post.w! / widget.post.h!,
               ),
-            ),
+              Positioned(
+                top: 50,
+                left: 0,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.close),
+                ),
+              ),
+            ],
           ),
         ),
       ),

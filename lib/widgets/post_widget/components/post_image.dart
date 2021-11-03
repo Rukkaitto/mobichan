@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
-import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostImage extends StatefulWidget {
@@ -101,27 +100,17 @@ class _PostImageState extends State<PostImage> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          if (widget.post.ext == '.webm') {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) =>
-                    WebmViewerPage(widget.board, widget.post),
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => ImageCarouselPage(
+                imageIndex: widget.imageIndex,
+                board: widget.board,
+                posts: widget.imagePosts,
+                heroTitle: "image${widget.imageIndex}",
               ),
-            );
-          } else {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (context, _, __) => ImageCarouselPage(
-                  imageIndex: widget.imageIndex,
-                  board: widget.board,
-                  posts: widget.imagePosts,
-                  heroTitle: "image${widget.imageIndex}",
-                ),
-              ),
-            );
-          }
+            ),
+          );
         },
         child: FutureBuilder(
           future: _getImageUrl(widget.post, widget.board, _connectionStatus),
