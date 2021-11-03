@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
-import 'package:mobichan/pages/webm_viewer_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostImage extends StatefulWidget {
