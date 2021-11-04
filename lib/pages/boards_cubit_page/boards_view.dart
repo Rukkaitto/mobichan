@@ -37,7 +37,6 @@ class BoardsViewBloc extends StatelessWidget {
       title: state is NotSearching
           ? Text(boards).tr()
           : buildTextField(searchCubit),
-      leading: state is Searching ? BackButton() : null,
       actions: [
         IconButton(
           onPressed: () => searchCubit.startSearching(context),
