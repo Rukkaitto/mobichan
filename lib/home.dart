@@ -12,6 +12,8 @@ import 'package:mobichan/widgets/update_widget/update_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
+  static String routeName = HOME_ROUTE;
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -46,8 +48,8 @@ class _HomeState extends State<Home> {
         .where((DisplayMode m) =>
             m.width == active.width && m.height == active.height)
         .toList()
-          ..sort((DisplayMode a, DisplayMode b) =>
-              b.refreshRate.compareTo(a.refreshRate));
+      ..sort((DisplayMode a, DisplayMode b) =>
+          b.refreshRate.compareTo(a.refreshRate));
 
     final DisplayMode mostOptimalMode =
         sameResolution.isNotEmpty ? sameResolution.first : active;

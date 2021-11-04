@@ -12,6 +12,7 @@ import 'package:mobichan/classes/models/release.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/file_extension.dart';
+import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 
 class Api {
   static Future<CaptchaChallenge> fetchCaptchaChallenge(
@@ -58,7 +59,7 @@ class Api {
           .toList();
       return boards;
     } else {
-      throw Exception('Failed to load boards.');
+      throw NetworkException();
     }
   }
 

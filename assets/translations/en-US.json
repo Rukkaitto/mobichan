@@ -40,5 +40,6 @@
   "quote": "Quote",
   "high_resolution_thumbnails_mobile": "High resolution thumbnails when using mobile data",
   "high_resolution_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "boards_loading_error": "Couldn't fetch boards. Is the device online?"
 }
