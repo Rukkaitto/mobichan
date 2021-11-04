@@ -23,7 +23,6 @@ class BoardsCubit extends Cubit<BoardsState> {
     if (input == "") {
       emit(BoardsLoaded(boards));
     } else {
-      print(boards);
       final filteredBoards = boards
           .where((board) =>
               board.board.contains(input.toLowerCase().trim()) ||
