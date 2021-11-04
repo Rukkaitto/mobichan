@@ -41,7 +41,6 @@ dependencies:
   connectivity_plus: ^1.4.0
   stacked: ^2.2.7
   stacked_services: ^0.8.15
-  bloc: ^7.2.1
   flutter_bloc: ^7.1.0
 
 dev_dependencies:
