@@ -15,6 +15,12 @@ class BoardsViewBloc extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(boards).tr(),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.search_rounded),
+            ),
+          ],
         ),
         body: BoardList(),
       ),

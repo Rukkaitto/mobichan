@@ -1,15 +1,21 @@
 part of 'boards_cubit.dart';
 
-abstract class BoardsState {
+abstract class BoardsState extends Equatable {
   const BoardsState();
 }
 
 class BoardsInitial extends BoardsState {
   const BoardsInitial();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class BoardsLoading extends BoardsState {
   const BoardsLoading();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class BoardsLoaded extends BoardsState {
@@ -17,14 +23,7 @@ class BoardsLoaded extends BoardsState {
   const BoardsLoaded(this.boards);
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is BoardsLoaded && o.boards == boards;
-  }
-
-  @override
-  int get hashCode => boards.hashCode;
+  List<Object?> get props => [boards];
 }
 
 class BoardsError extends BoardsState {
@@ -32,12 +31,5 @@ class BoardsError extends BoardsState {
   const BoardsError(this.message);
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is BoardsError && o.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
+  List<Object?> get props => [message];
 }

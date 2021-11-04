@@ -42,6 +42,7 @@ dependencies:
   stacked: ^2.2.7
   stacked_services: ^0.8.15
   flutter_bloc: ^7.1.0
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:

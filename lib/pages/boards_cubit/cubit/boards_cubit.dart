@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/models/board.dart';
 part 'boards_state.dart';
