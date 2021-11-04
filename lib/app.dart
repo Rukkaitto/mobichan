@@ -3,6 +3,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
+import 'package:mobichan/pages/boards/view/boards_view.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
         Home.routeName: (context) => Home(),
         SettingsPage.routeName: (context) => SettingsPage(),
         HistoryPage.routeName: (context) => HistoryPage(),
+        BoardsView.routeName: (context) => BoardsView(),
       },
       theme: ThemeData.dark().copyWith(
         pageTransitionsTheme: PageTransitionsTheme(builders: {
