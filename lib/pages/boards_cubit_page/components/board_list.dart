@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/classes/models/board.dart';
+import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/boards_cubit_page/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards_cubit_page/cubit/search_cubit/search_cubit.dart';
 
@@ -9,7 +10,14 @@ class BoardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BoardsCubit, BoardsState>(
+    return BlocConsumer<BoardsCubit, BoardsState>(
+      listener: (context, state) {
+        if (state is BoardsError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            buildSnackBar(context, state),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is BoardsInitial) {
           return Container();
@@ -21,6 +29,23 @@ class BoardList extends StatelessWidget {
           return Container();
         }
       },
+    );
+  }
+
+  SnackBar buildSnackBar(BuildContext context, BoardsError state) {
+    return SnackBar(
+      backgroundColor: Theme.of(context).errorColor,
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      content: Text(
+        state.message,
+        style: snackbarTextStyle(context),
+      ),
     );
   }
 

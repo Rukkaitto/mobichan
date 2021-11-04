@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/models/board.dart';
+import 'package:mobichan/localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 part 'boards_state.dart';
 
 class BoardsCubit extends Cubit<BoardsState> {
@@ -15,7 +17,7 @@ class BoardsCubit extends Cubit<BoardsState> {
       boards = await Api.fetchBoards();
       emit(BoardsLoaded(boards));
     } on NetworkException {
-      emit(BoardsError("Couldn't fetch boards. Is the device online?"));
+      emit(BoardsError(boards_loading_error.tr()));
     }
   }
 

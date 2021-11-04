@@ -32,3 +32,4 @@ const String type_captcha_here = 'type_captcha_here';
 const String reply = 'reply';
 const String quote = 'quote';
 const String gallery = 'gallery';
+const String boards_loading_error = 'boards_loading_error';

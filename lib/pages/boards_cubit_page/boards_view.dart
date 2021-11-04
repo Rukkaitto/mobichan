@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/pages/boards_cubit_page/components/board_list_view.dart';
+import 'package:mobichan/pages/boards_cubit_page/components/board_list.dart';
 import 'package:mobichan/pages/boards_cubit_page/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards_cubit_page/cubit/search_cubit/search_cubit.dart';
 

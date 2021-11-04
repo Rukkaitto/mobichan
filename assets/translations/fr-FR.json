@@ -40,5 +40,6 @@
   "quote": "Citer",
   "high_resolution_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
   "high_resolution_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
-  "gallery": "Gallerie"
+  "gallery": "Gallerie",
+  "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à internet ?"
 }
