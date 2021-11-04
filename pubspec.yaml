@@ -39,8 +39,6 @@ dependencies:
   easy_localization: ^3.0.0
   html: ^0.15.0
   connectivity_plus: ^1.4.0
-  stacked: ^2.2.7
-  stacked_services: ^0.8.15
   flutter_bloc: ^7.1.0
   equatable: ^2.0.3
 

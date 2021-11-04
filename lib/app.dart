@@ -2,9 +2,9 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/home.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
-import 'package:mobichan/routes/routes.router.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class App extends StatelessWidget {
@@ -20,9 +20,9 @@ class App extends StatelessWidget {
       locale: context.locale,
       title: APP_TITLE,
       navigatorKey: StackedService.navigatorKey,
-      initialRoute: Routes.home,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
+      initialRoute: '/',
       routes: {
+        Home.routeName: (context) => Home(),
         SettingsPage.routeName: (context) => SettingsPage(),
         HistoryPage.routeName: (context) => HistoryPage(),
       },

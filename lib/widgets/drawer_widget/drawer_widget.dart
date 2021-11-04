@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/pages/boards_cubit_page/boards_view.dart';
+import 'package:mobichan/pages/boards/view/boards_view.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -37,7 +37,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BoardsViewBloc(),
+                        builder: (context) => BoardsView(),
                       ),
                     );
                   },

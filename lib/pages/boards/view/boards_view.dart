@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/pages/boards_cubit_page/components/board_list.dart';
-import 'package:mobichan/pages/boards_cubit_page/cubit/boards_cubit/boards_cubit.dart';
-import 'package:mobichan/pages/boards_cubit_page/cubit/search_cubit/search_cubit.dart';
+import 'package:mobichan/pages/boards/view/board_list.dart';
+import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
+import 'package:mobichan/pages/boards/cubit/search_cubit/search_cubit.dart';
 
-class BoardsViewBloc extends StatelessWidget {
-  const BoardsViewBloc({Key? key}) : super(key: key);
+class BoardsView extends StatelessWidget {
+  const BoardsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

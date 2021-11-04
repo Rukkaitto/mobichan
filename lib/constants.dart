@@ -17,6 +17,7 @@ const String API_CAPTCHA_URL = "https://sys.4channel.org/captcha";
 const String API_FLAGS_URL = "https://s.4cdn.org/image/country";
 
 // Routes
+const String HOME_ROUTE = "/";
 const String BOARDS_LIST_ROUTE = "/boards";
 const String SETTINGS_ROUTE = "/settings";
 const String THREAD_ROUTE = "/thread";

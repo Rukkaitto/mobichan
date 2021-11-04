@@ -457,13 +457,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
-  get:
-    dependency: transitive
-    description:
-      name: get
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.3.8"
   get_it:
     dependency: transitive
     description:
@@ -990,7 +983,7 @@ packages:
     source: hosted
     version: "1.10.0"
   stacked:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: stacked
       url: "https://pub.dartlang.org"
@@ -1003,13 +996,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.6"
-  stacked_services:
-    dependency: "direct main"
-    description:
-      name: stacked_services
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.15"
   stream_channel:
     dependency: transitive
     description:
