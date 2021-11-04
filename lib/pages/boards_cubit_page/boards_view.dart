@@ -25,14 +25,19 @@ class BoardsViewBloc extends StatelessWidget {
           final searchCubit = context.read<SearchCubit>();
           return Scaffold(
             appBar: AppBar(
-              title: state is SearchInitial
+              title: state is NotSearching
                   ? Text(boards).tr()
                   : TextField(
                       onChanged: (input) => searchCubit.updateInput(input),
+                      decoration: InputDecoration(
+                        hintText: search.tr(),
+                      ),
+                      autofocus: true,
                     ),
+              leading: state is Searching ? BackButton() : null,
               actions: [
                 IconButton(
-                  onPressed: () => searchCubit.startSearching(),
+                  onPressed: () => searchCubit.startSearching(context),
                   icon: Icon(Icons.search_rounded),
                 ),
               ],
@@ -77,6 +82,9 @@ class BoardList extends StatelessWidget {
         final boardsCubit = context.read<BoardsCubit>();
         if (state is Searching) {
           boardsCubit.search(state.input);
+        }
+        if (state is NotSearching) {
+          boardsCubit.search('');
         }
       },
       child: ListView.builder(

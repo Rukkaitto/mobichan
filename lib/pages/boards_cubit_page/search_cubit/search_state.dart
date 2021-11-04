@@ -4,8 +4,8 @@ abstract class SearchState extends Equatable {
   const SearchState();
 }
 
-class SearchInitial extends SearchState {
-  const SearchInitial();
+class NotSearching extends SearchState {
+  const NotSearching();
 
   @override
   List<Object?> get props => [];
