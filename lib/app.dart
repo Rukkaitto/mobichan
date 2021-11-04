@@ -5,7 +5,6 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
 import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -19,7 +18,6 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: APP_TITLE,
-      navigatorKey: StackedService.navigatorKey,
       initialRoute: '/',
       routes: {
         Home.routeName: (context) => Home(),
