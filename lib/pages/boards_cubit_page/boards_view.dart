@@ -22,30 +22,38 @@ class BoardsViewBloc extends StatelessWidget {
       ],
       child: BlocBuilder<SearchCubit, SearchState>(
         builder: (context, state) {
-          final searchCubit = context.read<SearchCubit>();
           return Scaffold(
-            appBar: AppBar(
-              title: state is NotSearching
-                  ? Text(boards).tr()
-                  : TextField(
-                      onChanged: (input) => searchCubit.updateInput(input),
-                      decoration: InputDecoration(
-                        hintText: search.tr(),
-                      ),
-                      autofocus: true,
-                    ),
-              leading: state is Searching ? BackButton() : null,
-              actions: [
-                IconButton(
-                  onPressed: () => searchCubit.startSearching(context),
-                  icon: Icon(Icons.search_rounded),
-                ),
-              ],
-            ),
+            appBar: buildAppBar(context, state),
             body: BoardList(),
           );
         },
       ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context, SearchState state) {
+    final searchCubit = context.read<SearchCubit>();
+    return AppBar(
+      title: state is NotSearching
+          ? Text(boards).tr()
+          : buildTextField(searchCubit),
+      leading: state is Searching ? BackButton() : null,
+      actions: [
+        IconButton(
+          onPressed: () => searchCubit.startSearching(context),
+          icon: Icon(Icons.search_rounded),
+        ),
+      ],
+    );
+  }
+
+  TextField buildTextField(SearchCubit searchCubit) {
+    return TextField(
+      onChanged: (input) => searchCubit.updateInput(input),
+      decoration: InputDecoration(
+        hintText: search.tr(),
+      ),
+      autofocus: true,
     );
   }
 }
@@ -87,19 +95,23 @@ class BoardList extends StatelessWidget {
           boardsCubit.search('');
         }
       },
-      child: ListView.builder(
-        itemCount: boards.length,
-        itemBuilder: (context, index) {
-          Board board = boards[index];
-          return ListTile(
-            title: Text(board.fullTitle),
-            trailing: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.favorite_outline_rounded),
-            ),
-          );
-        },
-      ),
+      child: buildListView(boards),
+    );
+  }
+
+  ListView buildListView(List<Board> boards) {
+    return ListView.builder(
+      itemCount: boards.length,
+      itemBuilder: (context, index) {
+        Board board = boards[index];
+        return ListTile(
+          title: Text(board.fullTitle),
+          trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.favorite_outline_rounded),
+          ),
+        );
+      },
     );
   }
 }
