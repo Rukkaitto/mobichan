@@ -10,12 +10,14 @@ class BoardsViewBloc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(boards).tr(),
+    return BlocProvider(
+      create: (context) => BoardsCubit()..getBoards(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(boards).tr(),
+        ),
+        body: BoardList(),
       ),
-      body: BoardList()
     );
   }
 }
@@ -25,7 +27,6 @@ class BoardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<BoardsCubit, BoardsState>(
       builder: (context, state) {
         if (state is BoardsInitial) {
@@ -53,7 +54,11 @@ class BoardList extends StatelessWidget {
       itemBuilder: (context, index) {
         Board board = boards[index];
         return ListTile(
-          title: Text('/${board.board}/ - ${board.title}'),
+          title: Text(board.fullTitle),
+          trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.favorite_outline_rounded),
+          ),
         );
       },
     );

@@ -45,6 +45,10 @@ class Board {
     this.customSpoilers,
   });
 
+  String get fullTitle {
+    return '/$board/ - $title';
+  }
+
   factory Board.fromJson(Map<String, dynamic> json) {
     return Board(
       board: json['board'],
