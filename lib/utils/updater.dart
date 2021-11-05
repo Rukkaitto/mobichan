@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:release_repository/release_repository.dart';
 import 'package:version/version.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

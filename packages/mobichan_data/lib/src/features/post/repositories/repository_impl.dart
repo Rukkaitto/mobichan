@@ -45,6 +45,9 @@ class PostRepositoryImpl implements PostRepository {
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       resto: resto,
+      name: name,
+      com: com,
+      filePath: filePath,
     );
   }
 
@@ -62,6 +65,9 @@ class PostRepositoryImpl implements PostRepository {
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       com: com,
+      name: name,
+      subject: subject,
+      filePath: filePath,
     );
   }
 }

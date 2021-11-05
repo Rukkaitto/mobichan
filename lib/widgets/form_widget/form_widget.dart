@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobichan/api/api.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan/extensions/string_extension.dart';
 
 import 'components/form_fields.dart';
 
@@ -19,7 +19,7 @@ class FormWidget extends StatefulWidget {
   final PostType postType;
   final int? thread;
   final Function() onClose;
-  final Function(Response<String>) onPost;
+  final Function(String) onPost;
   final TextEditingController commentFieldController;
 
   FormWidget(
@@ -88,11 +88,11 @@ class _FormWidgetState extends State<FormWidget> {
     return true;
   }
 
-  void _onPost(Response<String> response) {
-    if (response.data!.errorMsg != null) {
+  void _onPost(String response) {
+    if (response.errorMsg != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
-            context, response.data!.errorMsg!, Theme.of(context).errorColor),
+            context, response.errorMsg!, Theme.of(context).errorColor),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -110,30 +110,33 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   void _onSend(String challenge, String attempt) {
+    final postRepository = context.read<PostRepository>();
     switch (widget.postType) {
       case PostType.reply:
-        Api.sendReply(
-          captchaChallenge: challenge,
-          captchaResponse: attempt,
-          board: widget.board,
-          name: _nameFieldController.text,
-          com: widget.commentFieldController.text,
-          resto: widget.thread!,
-          pickedFile: _pickedFile,
-          onPost: _onPost,
-        );
+        postRepository
+            .postReply(
+              captchaChallenge: challenge,
+              captchaResponse: attempt,
+              board: widget.board,
+              name: _nameFieldController.text,
+              com: widget.commentFieldController.text,
+              resto: widget.thread!,
+              filePath: _pickedFile?.path,
+            )
+            .then((errorMsg) => _onPost(errorMsg));
         break;
       case PostType.thread:
-        Api.sendThread(
-          captchaChallenge: challenge,
-          captchaResponse: attempt,
-          board: widget.board,
-          subject: _subjectFieldController.text,
-          name: _nameFieldController.text,
-          com: widget.commentFieldController.text,
-          pickedFile: _pickedFile,
-          onPost: _onPost,
-        );
+        postRepository
+            .postThread(
+              captchaChallenge: challenge,
+              captchaResponse: attempt,
+              board: widget.board,
+              subject: _subjectFieldController.text,
+              name: _nameFieldController.text,
+              com: widget.commentFieldController.text,
+              filePath: _pickedFile?.path,
+            )
+            .then((errorMsg) => _onPost(errorMsg));
         break;
     }
   }

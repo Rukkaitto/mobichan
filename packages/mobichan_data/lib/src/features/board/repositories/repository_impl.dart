@@ -13,7 +13,7 @@ class BoardRepositoryImpl extends BoardRepository {
 
   @override
   Future<void> addBoardToFavorites(Board board) async {
-    return localDataSource.addBoardToFavorites(board as BoardModel);
+    return localDataSource.addBoardToFavorites(BoardModel.fromEntity(board));
   }
 
   @override

@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
@@ -13,6 +12,7 @@ import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardPage extends StatefulWidget {
@@ -52,11 +52,17 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   Future<void> _refresh(Future<Sort> sorting) async {
-    _futureOPs =
-        Api.fetchOPs(board: widget.args.board, sorting: Sort.byBumpOrder);
+    final postRepository = context.read<PostRepository>();
+    _futureOPs = postRepository.getThreads(
+      board: widget.args.board,
+      sorting: Sort.byBumpOrder,
+    );
     sorting.then((value) {
       setState(() {
-        _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: value);
+        _futureOPs = postRepository.getThreads(
+          board: widget.args.board,
+          sorting: value,
+        );
         _sortingOrder = value;
       });
     });
@@ -68,7 +74,7 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  void _onFormPost(Response<String> response) async {
+  void _onFormPost(String response) async {
     _onCloseForm();
     await _refresh(Utils.getLastSortingOrder());
   }
@@ -155,7 +161,7 @@ class _BoardPageState extends State<BoardPage> {
         post: op,
         board: widget.args.board,
         onTap: () {
-          Utils.addThreadToHistory(op, widget.args.board);
+          Utils.addThreadToHistory(PostModel.fromEntity(op), widget.args.board);
           Navigator.push(
             context,
             MaterialPageRoute(

@@ -4,15 +4,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_data/mobichan_data.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/enums/enums.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
+  // TODO: move this to repository
   static getLastVisitedBoard() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String lastVisitedBoard = prefs.getString(LAST_VISITED_BOARD) ?? '';
@@ -29,6 +30,7 @@ class Utils {
     return boardSharedPrefs;
   }
 
+  // TODO: move this to repository
   static saveLastVisitedBoard({
     required String board,
     required String title,
@@ -40,6 +42,7 @@ class Utils {
     await prefs.setInt(LAST_VISITED_BOARD_WS, wsBoard);
   }
 
+  // TODO: make a sort repository and move this in there
   static saveLastSortingOrder(Sort sorting) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(LAST_SORTING_ORDER, jsonEncode(sorting.toString()));
@@ -100,12 +103,12 @@ class Utils {
       history = List.empty(growable: true);
     }
     return history.map((e) {
-      Post pastThread = Post.fromJson(jsonDecode(e));
+      Post pastThread = PostModel.fromJson(jsonDecode(e));
       return pastThread.no;
     }).contains(thread.no);
   }
 
-  static void addThreadToHistory(Post thread, String board) async {
+  static void addThreadToHistory(PostModel thread, String board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
     threadJson['board'] = board;

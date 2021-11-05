@@ -45,10 +45,6 @@ dependencies:
     path: packages/mobichan_domain
   mobichan_data:
     path: packages/mobichan_data
-  post_repository:
-    path: packages/post_repository
-  release_repository:
-    path: packages/release_repository
 
 dev_dependencies:
   flutter_test:

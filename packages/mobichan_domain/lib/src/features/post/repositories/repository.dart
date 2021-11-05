@@ -15,14 +15,15 @@ abstract class PostRepository {
     String? filePath,
   });
 
-  Future<String> postReply(
-      {required String board,
-      required String captchaChallenge,
-      required String captchaResponse,
-      required int resto,
-      String? name,
-      String? com,
-      String? filePath});
+  Future<String> postReply({
+    required String board,
+    required String captchaChallenge,
+    required String captchaResponse,
+    required int resto,
+    String? name,
+    String? com,
+    String? filePath,
+  });
 
   Future<void> addThreadToHistory(Post thread, String board);
 }

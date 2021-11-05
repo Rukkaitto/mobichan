@@ -25,7 +25,9 @@ void main() async {
           localDatasource: PostLocalDatasourceImpl(),
           remoteDatasource: PostRemoteDatasourceImpl(),
         ),
-        releaseRepository: ReleaseRepository(),
+        releaseRepository: ReleaseRepositoryImpl(
+          remoteDatasource: ReleaseRemoteDatasourceImpl(),
+        ),
       ),
     ),
   );

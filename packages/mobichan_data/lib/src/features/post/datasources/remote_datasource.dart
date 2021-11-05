@@ -141,7 +141,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           headers: headers,
         ),
       );
-      return response.data ?? '';
+      return response.data!;
     } on Exception {
       throw NetworkException();
     }
@@ -195,7 +195,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           headers: headers,
         ),
       );
-      return response.data ?? '';
+      return response.data!;
     } on Exception {
       throw NetworkException();
     }
