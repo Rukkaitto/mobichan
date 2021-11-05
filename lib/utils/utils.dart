@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,16 +15,17 @@ class Utils {
   // TODO: make a sort repository and move this in there
   static saveLastSortingOrder(Sort sorting) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(LAST_SORTING_ORDER, jsonEncode(sorting.toString()));
+    await prefs.setString(LAST_SORTING_ORDER, sorting.toString());
   }
 
+  // TODO: make a sort repository and move this in there
   static Future<Sort> getLastSortingOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? lastSortingOrderString = prefs.getString(LAST_SORTING_ORDER);
-    Sort lastSortingOrder = Utils.getSortFromString(
-            jsonDecode(lastSortingOrderString ?? '') ?? '') ??
-        Sort.byBumpOrder;
-    return lastSortingOrder;
+    if (lastSortingOrderString != null) {
+      return Utils.getSortFromString(lastSortingOrderString)!;
+    }
+    return Sort.byBumpOrder;
   }
 
   static bool isLocalFilePath(String path) {
@@ -79,10 +79,10 @@ class Utils {
     }).contains(thread.no);
   }
 
-  static void addThreadToHistory(PostModel thread, String board) async {
+  static void addThreadToHistory(PostModel thread, Board board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
-    threadJson['board'] = board;
+    threadJson['board'] = board.toString();
     String newThread = jsonEncode(threadJson);
 
     List<String> history;

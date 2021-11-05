@@ -2,11 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/models.dart';
+import '../../board/models/models.dart';
+import '../../post/models/models.dart';
+
 import '../exceptions/exceptions.dart';
 import '../../../core/exceptions/exceptions.dart';
 
 abstract class CaptchaRemoteDatasource {
-  Future<CaptchaChallengeModel> getCaptchaChallenge(String board, int? thread);
+  Future<CaptchaChallengeModel> getCaptchaChallenge(
+      BoardModel board, PostModel? thread);
 }
 
 class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
@@ -15,8 +19,8 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
 
   @override
   Future<CaptchaChallengeModel> getCaptchaChallenge(
-    String board,
-    int? thread,
+    BoardModel board,
+    PostModel? thread,
   ) async {
     String url = '$apiUrl?board=$board';
     if (thread != null) {

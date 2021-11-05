@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 class GalleryPage extends StatelessWidget {
   final List<Post> imagePosts;
   final int crossAxisCount;
-  final String board;
+  final Board board;
   const GalleryPage(
       {Key? key,
       required this.imagePosts,
@@ -55,7 +55,8 @@ class GalleryPage extends StatelessWidget {
                     tag: "image$index",
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: imagePosts[index].getThumbnailUrl(board),
+                      imageUrl:
+                          imagePosts[index].getThumbnailUrl(board.toString()),
                       placeholder: (context, url) => Container(
                         child: Center(
                           child: Platform.isAndroid

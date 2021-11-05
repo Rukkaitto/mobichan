@@ -14,10 +14,10 @@ import 'package:mobichan/extensions/string_extension.dart';
 import 'components/form_fields.dart';
 
 class FormWidget extends StatefulWidget {
-  final String board;
+  final Board board;
   final bool isOpened;
   final PostType postType;
-  final int? thread;
+  final Post? thread;
   final Function() onClose;
   final Function(String) onPost;
   final TextEditingController commentFieldController;

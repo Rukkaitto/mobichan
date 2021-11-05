@@ -1,8 +1,7 @@
-class BoardPageArguments {
-  final String board;
-  final String title;
-  final int wsBoard;
+import 'package:mobichan_domain/mobichan_domain.dart';
 
-  BoardPageArguments(
-      {required this.board, required this.title, required this.wsBoard});
+class BoardPageArguments {
+  final Board board;
+
+  BoardPageArguments(this.board);
 }

@@ -1,4 +1,6 @@
 import 'package:mobichan_domain/mobichan_domain.dart';
+import '../../board/models/models.dart';
+import '../../post/models/models.dart';
 import '../datasources/datasources.dart';
 
 class CaptchaRepositoryImpl implements CaptchaRepository {
@@ -7,7 +9,10 @@ class CaptchaRepositoryImpl implements CaptchaRepository {
   CaptchaRepositoryImpl({required this.remoteDatasource});
 
   @override
-  Future<CaptchaChallenge> getCaptchaChallenge(String board, int? thread) {
-    return remoteDatasource.getCaptchaChallenge(board, thread);
+  Future<CaptchaChallenge> getCaptchaChallenge(Board board, Post? thread) {
+    return remoteDatasource.getCaptchaChallenge(
+      BoardModel.fromEntity(board),
+      thread != null ? PostModel.fromEntity(thread) : null,
+    );
   }
 }

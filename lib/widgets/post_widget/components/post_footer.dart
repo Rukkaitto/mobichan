@@ -15,7 +15,7 @@ class PostFooter extends StatelessWidget {
 
   final List<Post> postReplies;
   final List<Post> threadReplies;
-  final String board;
+  final Board board;
 
   @override
   Widget build(BuildContext context) {

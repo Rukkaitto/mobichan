@@ -48,8 +48,12 @@ class HistoryPage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => ThreadPage(
                             args: ThreadPageArguments(
-                              board: thread.board!,
-                              thread: thread.no,
+                              board: Board(
+                                board: thread.board!,
+                                title: '',
+                                wsBoard: 1,
+                              ),
+                              thread: thread,
                               title: thread.sub ??
                                   thread.com?.replaceBrWithSpace.removeHtmlTags
                                       .unescapeHtml ??

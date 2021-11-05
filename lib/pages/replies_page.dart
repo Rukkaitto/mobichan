@@ -8,7 +8,7 @@ import 'package:mobichan/widgets/post_widget/post_widget.dart';
 class RepliesPage extends StatelessWidget {
   final List<Post> postReplies;
   final List<Post> threadReplies;
-  final String board;
+  final Board board;
   const RepliesPage(this.postReplies,
       {Key? key, required this.board, required this.threadReplies})
       : super(key: key);
@@ -18,7 +18,7 @@ class RepliesPage extends StatelessWidget {
 
     for (Post post in posts) {
       if (post.tim != null) {
-        imageUrls.add(post.getImageUrl(this.board));
+        imageUrls.add(post.getImageUrl(this.board.toString()));
       }
     }
 
@@ -56,7 +56,8 @@ class RepliesPage extends StatelessWidget {
                 post: reply,
                 board: board,
                 threadReplies: threadReplies,
-                imageIndex: imageUrls.indexOf(reply.getImageUrl(board)),
+                imageIndex:
+                    imageUrls.indexOf(reply.getImageUrl(board.toString())),
               ),
             );
           },

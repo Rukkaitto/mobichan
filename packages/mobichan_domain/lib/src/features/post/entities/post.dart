@@ -64,4 +64,9 @@ class Post {
   String getThumbnailUrl(String board) {
     return 'https://i.4cdn.org/$board/${tim}s.jpg';
   }
+
+  @override
+  String toString() {
+    return no.toString();
+  }
 }

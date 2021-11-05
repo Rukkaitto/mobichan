@@ -17,7 +17,7 @@ class PostImage extends StatefulWidget {
     required this.imagePosts,
   }) : super(key: key);
 
-  final String board;
+  final Board board;
   final Post post;
   final int imageIndex;
   final List<Post> imagePosts;
@@ -74,7 +74,7 @@ class _PostImageState extends State<PostImage> {
   }
 
   Future<String> _getImageUrl(
-      Post post, String board, ConnectivityResult connectivityStatus) async {
+      Post post, Board board, ConnectivityResult connectivityStatus) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final highResolutionThumbnailsMobile =
@@ -89,9 +89,9 @@ class _PostImageState extends State<PostImage> {
             (connectivityStatus == ConnectivityResult.mobile &&
                 highResolutionThumbnailsMobile)) &&
         !isWebm) {
-      return post.getImageUrl(board);
+      return post.getImageUrl(board.toString());
     } else {
-      return post.getThumbnailUrl(board);
+      return post.getThumbnailUrl(board.toString());
     }
   }
 

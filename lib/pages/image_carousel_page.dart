@@ -19,7 +19,7 @@ import 'package:share/share.dart';
 class ImageCarouselPage extends StatefulWidget {
   final String heroTitle;
   final int imageIndex;
-  final String board;
+  final Board board;
   final List<Post> posts;
   ImageCarouselPage(
       {required this.imageIndex,
@@ -52,7 +52,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   }
 
   String get imageUrl {
-    return currentPost.getImageUrl(widget.board);
+    return currentPost.getImageUrl(widget.board.toString());
   }
 
   bool isWebM(String url) {
@@ -137,7 +137,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               pageController: pageController,
               builder: (BuildContext context, int index) {
                 Post currentPost = widget.posts[index];
-                if (isWebM(currentPost.getImageUrl(widget.board))) {
+                if (isWebM(currentPost.getImageUrl(widget.board.toString()))) {
                   if (videoPlayerControllers[index] == null) {
                     videoPlayerControllers[index] = VlcPlayerController.network(
                       '$API_IMAGES_URL/${widget.board}/${currentPost.tim}${currentPost.ext}',
@@ -151,7 +151,6 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                       tag: 'image$index}',
                     ),
                     child: WebmViewerPage(
-                      widget.board,
                       currentPost,
                       videoPlayerControllers[index],
                     ),
@@ -159,7 +158,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                 } else {
                   return PhotoViewGalleryPageOptions(
                     imageProvider: NetworkImage(
-                      widget.posts[index].getImageUrl(widget.board),
+                      widget.posts[index].getImageUrl(widget.board.toString()),
                     ),
                     heroAttributes: PhotoViewHeroAttributes(
                       tag: "image$index",

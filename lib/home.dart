@@ -91,11 +91,7 @@ class _HomeState extends State<Home> {
                               !_nsfwWarningDismissed)
                       ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
                       : BoardPage(
-                          args: BoardPageArguments(
-                            board: lastVisitedBoard.board,
-                            title: lastVisitedBoard.title,
-                            wsBoard: lastVisitedBoard.wsBoard,
-                          ),
+                          args: BoardPageArguments(lastVisitedBoard),
                         );
                 }
                 if (boardSnapshot.hasError) {

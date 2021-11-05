@@ -1,5 +1,8 @@
 import 'package:mobichan_domain/mobichan_domain.dart';
+
 import '../models/models.dart';
+import '../../board/models/models.dart';
+
 import '../datasources/datasources.dart';
 
 class PostRepositoryImpl implements PostRepository {
@@ -12,39 +15,45 @@ class PostRepositoryImpl implements PostRepository {
   });
 
   @override
-  Future<void> addThreadToHistory(Post thread, String board) async {
+  Future<void> addThreadToHistory(Post thread, Board board) async {
     return localDatasource.addThreadToHistory(
-        PostModel.fromEntity(thread), board);
-  }
-
-  @override
-  Future<List<Post>> getPosts(
-      {required String board, required int thread}) async {
-    return remoteDatasource.getPosts(
-      board: board,
-      thread: thread,
+      PostModel.fromEntity(thread),
+      BoardModel.fromEntity(board),
     );
   }
 
   @override
-  Future<List<Post>> getThreads({required String board, Sort? sorting}) {
-    return remoteDatasource.getThreads(board: board, sorting: sorting);
+  Future<List<Post>> getPosts(
+      {required Board board, required Post thread}) async {
+    return remoteDatasource.getPosts(
+      board: BoardModel.fromEntity(board),
+      thread: PostModel.fromEntity(thread),
+    );
   }
 
   @override
-  Future<String> postReply(
-      {required String board,
-      required String captchaChallenge,
-      required String captchaResponse,
-      required int resto,
-      String? name,
-      String? com,
-      String? filePath}) {
+  Future<List<Post>> getThreads({required Board board, Sort? sorting}) {
+    return remoteDatasource.getThreads(
+      board: BoardModel.fromEntity(board),
+      sorting: sorting,
+    );
+  }
+
+  @override
+  Future<String> postReply({
+    required Board board,
+    required String captchaChallenge,
+    required String captchaResponse,
+    required Post resto,
+    String? name,
+    String? com,
+    String? filePath,
+  }) {
     return remoteDatasource.postReply(
-      board: board,
+      board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
-      resto: resto,
+      resto: PostModel.fromEntity(resto),
       name: name,
       com: com,
       filePath: filePath,
@@ -53,7 +62,7 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future<String> postThread(
-      {required String board,
+      {required Board board,
       required String captchaChallenge,
       required String captchaResponse,
       required String com,
@@ -61,7 +70,7 @@ class PostRepositoryImpl implements PostRepository {
       String? subject,
       String? filePath}) {
     return remoteDatasource.postThread(
-      board: board,
+      board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       com: com,

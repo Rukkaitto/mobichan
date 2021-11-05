@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/models.dart';
+import '../../board/models/models.dart';
 
 abstract class PostLocalDatasource {
-  Future<void> addThreadToHistory(PostModel thread, String board);
+  Future<void> addThreadToHistory(PostModel thread, BoardModel board);
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -13,7 +14,7 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   final String threadHistoryKey = 'thread_history';
 
   @override
-  Future<void> addThreadToHistory(PostModel thread, String board) async {
+  Future<void> addThreadToHistory(PostModel thread, BoardModel board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
     threadJson['board'] = board;

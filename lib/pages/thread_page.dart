@@ -227,7 +227,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 ),
                 autofocus: true,
               )
-            : Text(widget.args.title.unescapeHtml),
+            : Text(widget.args.board.title.unescapeHtml),
         actions: <Widget>[
           IconButton(
             onPressed: _startSearching,

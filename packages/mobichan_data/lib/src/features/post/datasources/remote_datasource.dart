@@ -5,17 +5,23 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:mobichan_domain/mobichan_domain.dart';
+
 import '../models/models.dart';
+import '../../board/models/models.dart';
+
 import '../../../core/exceptions/exceptions.dart';
 
 abstract class PostRemoteDatasource {
-  Future<List<PostModel>> getPosts(
-      {required String board, required int thread});
+  Future<List<PostModel>> getPosts({
+    required BoardModel board,
+    required PostModel thread,
+  });
 
-  Future<List<PostModel>> getThreads({required String board, Sort? sorting});
+  Future<List<PostModel>> getThreads(
+      {required BoardModel board, Sort? sorting});
 
   Future<String> postThread({
-    required String board,
+    required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
     required String com,
@@ -25,10 +31,10 @@ abstract class PostRemoteDatasource {
   });
 
   Future<String> postReply({
-    required String board,
+    required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
-    required int resto,
+    required PostModel resto,
     String? name,
     String? com,
     String? filePath,
@@ -41,8 +47,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<List<PostModel>> getPosts({
-    required String board,
-    required int thread,
+    required BoardModel board,
+    required PostModel thread,
   }) async {
     final response =
         await http.get(Uri.parse('$apiUrl/$board/thread/$thread.json'));
@@ -63,7 +69,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<List<PostModel>> getThreads({
-    required String board,
+    required BoardModel board,
     Sort? sorting,
   }) async {
     final response = await http.get(Uri.parse('$apiUrl/$board/catalog.json'));
@@ -93,7 +99,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<String> postThread({
-    required String board,
+    required Board board,
     required String captchaChallenge,
     required String captchaResponse,
     required String com,
@@ -149,10 +155,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<String> postReply({
-    required String board,
+    required Board board,
     required String captchaChallenge,
     required String captchaResponse,
-    required int resto,
+    required PostModel resto,
     String? name,
     String? com,
     String? filePath,

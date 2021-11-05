@@ -9,7 +9,7 @@ import 'package:mobichan/widgets/post_widget/components/post_text_selection_cont
 import 'package:url_launcher/url_launcher.dart';
 
 class PostContent extends StatelessWidget {
-  final String board;
+  final Board board;
   final Post post;
   final List<Post> threadReplies;
   final Function(String quote, int postId)? onPostQuote;

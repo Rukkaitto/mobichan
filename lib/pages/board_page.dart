@@ -38,13 +38,7 @@ class _BoardPageState extends State<BoardPage> {
     super.initState();
     _searchQueryController = TextEditingController();
     _refresh(Utils.getLastSortingOrder());
-    context.read<BoardRepository>().saveLastVisitedBoard(
-          Board(
-            board: widget.args.board,
-            title: widget.args.title,
-            wsBoard: widget.args.wsBoard,
-          ),
-        );
+    context.read<BoardRepository>().saveLastVisitedBoard(widget.args.board);
   }
 
   void _onPressPostActionButton() {
@@ -171,7 +165,7 @@ class _BoardPageState extends State<BoardPage> {
               builder: (context) => ThreadPage(
                 args: ThreadPageArguments(
                   board: widget.args.board,
-                  thread: op.no,
+                  thread: op,
                   title:
                       op.sub ?? op.com?.replaceBrWithSpace.removeHtmlTags ?? '',
                 ),
@@ -186,13 +180,7 @@ class _BoardPageState extends State<BoardPage> {
   void _addToFavorites() async {
     setState(
       () {
-        context.read<BoardRepository>().addBoardToFavorites(
-              Board(
-                board: widget.args.board,
-                title: widget.args.title,
-                wsBoard: widget.args.wsBoard,
-              ),
-            );
+        context.read<BoardRepository>().addBoardToFavorites(widget.args.board);
       },
     );
   }
@@ -200,13 +188,9 @@ class _BoardPageState extends State<BoardPage> {
   void _removeFromFavorites() async {
     setState(
       () {
-        context.read<BoardRepository>().removeBoardFromFavorites(
-              Board(
-                board: widget.args.board,
-                title: widget.args.title,
-                wsBoard: widget.args.wsBoard,
-              ),
-            );
+        context
+            .read<BoardRepository>()
+            .removeBoardFromFavorites(widget.args.board);
       },
     );
   }
@@ -227,13 +211,9 @@ class _BoardPageState extends State<BoardPage> {
             icon: Icon(Icons.search_rounded),
           ),
           FutureBuilder(
-            future: context.read<BoardRepository>().isBoardInFavorites(
-                  Board(
-                    board: widget.args.board,
-                    title: widget.args.title,
-                    wsBoard: widget.args.wsBoard,
-                  ),
-                ),
+            future: context
+                .read<BoardRepository>()
+                .isBoardInFavorites(widget.args.board),
             builder: (context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {
                 final isInFavorites = snapshot.data!;
@@ -262,7 +242,7 @@ class _BoardPageState extends State<BoardPage> {
                 ),
                 autofocus: true,
               )
-            : Text('${widget.args.title}'),
+            : Text('${widget.args.board.title}'),
       ),
       body: Stack(
         children: [

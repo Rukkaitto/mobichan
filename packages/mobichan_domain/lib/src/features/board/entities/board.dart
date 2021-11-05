@@ -48,4 +48,9 @@ class Board {
   String get fullTitle {
     return '/$board/ - $title';
   }
+
+  @override
+  String toString() {
+    return board;
+  }
 }

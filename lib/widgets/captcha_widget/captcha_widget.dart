@@ -8,8 +8,8 @@ import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class CaptchaWidget extends StatefulWidget {
-  final String board;
-  final int? thread;
+  final Board board;
+  final Post? thread;
   final Function(String challenge, String attempt) onValidate;
   const CaptchaWidget(
       {Key? key,

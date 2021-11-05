@@ -6,7 +6,7 @@ import 'components/thread_overlay.dart';
 
 class ThreadWidget extends StatelessWidget {
   final Post post;
-  final String board;
+  final Board board;
   final Function? onTap;
 
   const ThreadWidget(

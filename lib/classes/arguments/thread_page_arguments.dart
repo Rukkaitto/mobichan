@@ -1,8 +1,13 @@
-class ThreadPageArguments {
-  final String board;
-  final String title;
-  final int thread;
+import 'package:mobichan_domain/mobichan_domain.dart';
 
-  ThreadPageArguments(
-      {required this.board, required this.title, required this.thread});
+class ThreadPageArguments {
+  final Board board;
+  final Post thread;
+  final String title;
+
+  ThreadPageArguments({
+    required this.board,
+    required this.thread,
+    required this.title,
+  });
 }

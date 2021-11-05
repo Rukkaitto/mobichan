@@ -44,11 +44,7 @@ class DrawerFavorites extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => BoardPage(
-          args: BoardPageArguments(
-            board: board.board,
-            title: board.title,
-            wsBoard: board.wsBoard,
-          ),
+          args: BoardPageArguments(board),
         ),
       ),
     );

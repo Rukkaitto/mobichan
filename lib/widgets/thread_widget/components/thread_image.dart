@@ -6,16 +6,16 @@ import 'package:mobichan/widgets/thread_widget/components/thread_round_dimmed_im
 import '../../../constants.dart';
 
 class ThreadImage extends StatelessWidget {
-  final String board;
+  final Board board;
   final Post post;
   const ThreadImage({Key? key, required this.board, required this.post})
       : super(key: key);
 
   String getImageUrl() {
     if (post.ext == '.webm') {
-      return post.getThumbnailUrl(board);
+      return post.getThumbnailUrl(board.toString());
     }
-    return post.getImageUrl(board);
+    return post.getImageUrl(board.toString());
   }
 
   @override

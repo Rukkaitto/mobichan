@@ -18,7 +18,7 @@ import 'package:share/share.dart';
 // ignore: must_be_immutable
 class PostWidget extends StatefulWidget {
   final Post post;
-  final String board;
+  final Board board;
   final Function? onTap;
   final double? height;
   final List<Post> threadReplies;

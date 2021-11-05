@@ -6,11 +6,9 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/widgets/video_player_widget/video_player_widget.dart';
 
 class WebmViewerPage extends StatefulWidget {
-  final String board;
   final Post post;
   final VlcPlayerController? videoPlayerController;
-  const WebmViewerPage(this.board, this.post, this.videoPlayerController,
-      {Key? key})
+  const WebmViewerPage(this.post, this.videoPlayerController, {Key? key})
       : super(key: key);
 
   @override
