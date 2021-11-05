@@ -10,4 +10,8 @@ abstract class BoardRepository {
   Future<void> addBoardToFavorites(Board board);
 
   Future<void> removeBoardFromFavorites(Board board);
+
+  Future<Board> getLastVisitedBoard();
+
+  Future<void> saveLastVisitedBoard(Board board);
 }

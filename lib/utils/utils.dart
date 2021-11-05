@@ -13,35 +13,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-  // TODO: move this to repository
-  static getLastVisitedBoard() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String lastVisitedBoard = prefs.getString(LAST_VISITED_BOARD) ?? '';
-    String lastVisitedBoardTitle =
-        prefs.getString(LAST_VISITED_BOARD_TITLE) ?? '';
-    int lastVisitedBoardWs = prefs.getInt(LAST_VISITED_BOARD_WS) ?? 1;
-
-    BoardSharedPrefs boardSharedPrefs = BoardSharedPrefs(
-      board: lastVisitedBoard,
-      title: lastVisitedBoardTitle,
-      wsBoard: lastVisitedBoardWs,
-    );
-
-    return boardSharedPrefs;
-  }
-
-  // TODO: move this to repository
-  static saveLastVisitedBoard({
-    required String board,
-    required String title,
-    required int wsBoard,
-  }) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(LAST_VISITED_BOARD, board);
-    await prefs.setString(LAST_VISITED_BOARD_TITLE, title);
-    await prefs.setInt(LAST_VISITED_BOARD_WS, wsBoard);
-  }
-
   // TODO: make a sort repository and move this in there
   static saveLastSortingOrder(Sort sorting) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

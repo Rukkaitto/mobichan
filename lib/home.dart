@@ -9,6 +9,8 @@ import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -68,49 +70,52 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: SharedPreferences.getInstance(),
-      builder:
-          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-        if (snapshot.hasData) {
-          final prefs = snapshot.data!;
-          int wsBoard = 1;
-          if (prefs.containsKey(LAST_VISITED_BOARD_WS)) {
-            wsBoard = prefs.getInt(LAST_VISITED_BOARD_WS)!;
-          }
-          bool showWarning = true;
-          if (prefs.containsKey("SHOW_NSFW_WARNING")) {
-            showWarning = prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
-          }
-          return showWarning && (wsBoard == 0 && !_nsfwWarningDismissed)
-              ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
-              : BoardPage(
-                  args: BoardPageArguments(
-                    board: prefs.containsKey(LAST_VISITED_BOARD)
-                        ? prefs.getString(LAST_VISITED_BOARD)!
-                        : DEFAULT_BOARD,
-                    title: prefs.containsKey(LAST_VISITED_BOARD_TITLE)
-                        ? prefs.getString(LAST_VISITED_BOARD_TITLE)!
-                        : DEFAULT_BOARD_TITLE,
-                    wsBoard: prefs.containsKey(LAST_VISITED_BOARD_WS)
-                        ? prefs.getInt(LAST_VISITED_BOARD_WS)!
-                        : DEFAULT_BOARD_WS,
-                  ),
+        future: SharedPreferences.getInstance(),
+        builder: (BuildContext context,
+            AsyncSnapshot<SharedPreferences> prefsSnapshot) {
+          if (prefsSnapshot.hasData) {
+            SharedPreferences prefs = prefsSnapshot.data!;
+            return FutureBuilder(
+              future: context.read<BoardRepository>().getLastVisitedBoard(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<Board> boardSnapshot) {
+                if (boardSnapshot.hasData) {
+                  Board lastVisitedBoard = boardSnapshot.data!;
+                  bool showWarning = true;
+                  if (prefs.containsKey("SHOW_NSFW_WARNING")) {
+                    showWarning =
+                        prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
+                  }
+                  return showWarning &&
+                          (lastVisitedBoard.wsBoard == 0 &&
+                              !_nsfwWarningDismissed)
+                      ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
+                      : BoardPage(
+                          args: BoardPageArguments(
+                            board: lastVisitedBoard.board,
+                            title: lastVisitedBoard.title,
+                            wsBoard: lastVisitedBoard.wsBoard,
+                          ),
+                        );
+                }
+                if (boardSnapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "${boardSnapshot.error}",
+                      style: TextStyle(
+                        color: Theme.of(context).errorColor,
+                      ),
+                    ),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              "${snapshot.error}",
-              style: TextStyle(
-                color: Theme.of(context).errorColor,
-              ),
-            ),
-          );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+              },
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 }

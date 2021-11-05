@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards/cubit/favorite_cubit/favorite_cubit.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardListTile extends StatelessWidget {
@@ -11,11 +10,7 @@ class BoardListTile extends StatelessWidget {
   const BoardListTile(this.board, {Key? key}) : super(key: key);
 
   void goToBoard(BuildContext context, Board board) {
-    Utils.saveLastVisitedBoard(
-      board: board.board,
-      title: board.title,
-      wsBoard: board.wsBoard,
-    );
+    context.read<BoardRepository>().saveLastVisitedBoard(board);
     Navigator.push(
       context,
       MaterialPageRoute(

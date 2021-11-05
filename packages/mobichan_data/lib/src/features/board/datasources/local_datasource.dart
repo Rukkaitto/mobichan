@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,10 +12,18 @@ abstract class BoardLocalDatasource {
   Future<void> addBoardToFavorites(BoardModel board);
 
   Future<void> removeBoardFromFavorites(BoardModel board);
+
+  Future<BoardModel> getLastVisitedBoard();
+
+  Future<void> saveLastVisitedBoard(BoardModel board);
 }
 
 class BoardLocalDataSourceImpl implements BoardLocalDatasource {
   final String boardFavoritesKey = 'board_favorites';
+  final String lastVisitedBoardKey = 'last_visited_board';
+  final String defaultBoard = 'g';
+  final String defaultBoardTitle = 'Technology';
+  final int defaultBoardWs = 1;
 
   @override
   Future<void> addBoardToFavorites(BoardModel board) async {
@@ -82,5 +91,26 @@ class BoardLocalDataSourceImpl implements BoardLocalDatasource {
       favorites.remove(boardToRemove);
     }
     prefs.setStringList(boardFavoritesKey, favorites);
+  }
+
+  @override
+  Future<BoardModel> getLastVisitedBoard() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? lastVisitedBoardEncoded = prefs.getString(lastVisitedBoardKey);
+    if (lastVisitedBoardEncoded != null) {
+      return BoardModel.fromJson(jsonDecode(lastVisitedBoardEncoded));
+    } else {
+      return BoardModel(
+        board: defaultBoard,
+        title: defaultBoardTitle,
+        wsBoard: defaultBoardWs,
+      );
+    }
+  }
+
+  @override
+  Future<void> saveLastVisitedBoard(BoardModel board) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(lastVisitedBoardKey, jsonEncode(board.toJson()));
   }
 }

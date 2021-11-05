@@ -38,11 +38,13 @@ class _BoardPageState extends State<BoardPage> {
     super.initState();
     _searchQueryController = TextEditingController();
     _refresh(Utils.getLastSortingOrder());
-    Utils.saveLastVisitedBoard(
-      board: widget.args.board,
-      title: widget.args.title,
-      wsBoard: widget.args.wsBoard,
-    );
+    context.read<BoardRepository>().saveLastVisitedBoard(
+          Board(
+            board: widget.args.board,
+            title: widget.args.title,
+            wsBoard: widget.args.wsBoard,
+          ),
+        );
   }
 
   void _onPressPostActionButton() {

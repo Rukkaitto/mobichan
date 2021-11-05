@@ -4,7 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_data/mobichan_data.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
@@ -34,7 +35,7 @@ class HistoryPage extends StatelessWidget {
                 itemExtent: 50,
                 itemCount: history.length,
                 itemBuilder: (context, index) {
-                  Post thread = Post.fromJson(jsonDecode(history[index]));
+                  Post thread = PostModel.fromJson(jsonDecode(history[index]));
                   return ListTile(
                     leading: Text(
                       '/${thread.board!}/',
