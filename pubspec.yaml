@@ -43,6 +43,12 @@ dependencies:
   equatable: ^2.0.3
   board_repository:
     path: packages/board_repository
+  captcha_repository:
+    path: packages/captcha_repository
+  post_repository:
+    path: packages/post_repository
+  release_repository:
+    path: packages/release_repository
 
 dev_dependencies:
   flutter_test:

@@ -127,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  captcha_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/captcha_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   change:
     dependency: transitive
     description:
@@ -823,6 +830,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.0"
+  post_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/post_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   process:
     dependency: transitive
     description:
@@ -865,6 +879,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  release_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/release_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   rfc_6901:
     dependency: transitive
     description:

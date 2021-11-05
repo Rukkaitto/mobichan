@@ -6,15 +6,15 @@ import 'package:board_repository/board_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Thrown if an excepton occurs while decoding the response body.
+/// Thrown if an exception occurs while making an `http` request.
 class NetworkException implements Exception {}
 
 class BoardRepository {
-  final String boardsUrl = 'https://a.4cdn.org/boards.json';
+  final String apiUrl = 'https://a.4cdn.org/boards.json';
   final String boardFavoritesKey = 'board_favorites';
 
   Future<List<Board>> getBoards() async {
-    final response = await http.get(Uri.parse(boardsUrl));
+    final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       List<Board> boards = (jsonDecode(response.body)['boards'] as List)
