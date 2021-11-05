@@ -109,13 +109,17 @@ class PostRepository {
       "referer": "https://board.4channel.org/",
     };
 
-    return dio.post(
-      url,
-      data: formData,
-      options: Options(
-        headers: headers,
-      ),
-    );
+    try {
+      return dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: headers,
+        ),
+      );
+    } on Exception {
+      throw NetworkException();
+    }
   }
 
   Future<Response<String>> postReply({
@@ -157,13 +161,17 @@ class PostRepository {
       "referer": "https://board.4channel.org/",
     };
 
-    return dio.post(
-      url,
-      data: formData,
-      options: Options(
-        headers: headers,
-      ),
-    );
+    try {
+      return dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: headers,
+        ),
+      );
+    } on Exception {
+      throw NetworkException();
+    }
   }
 
   Future<void> addThreadToHistory(Post thread, String board) async {
