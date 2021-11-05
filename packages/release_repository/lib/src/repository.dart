@@ -15,7 +15,7 @@ class ReleaseRepository {
   final String apiUrl =
       'https://api.github.com/repos/Rukkaitto/mobichan/releases';
 
-  Future<Release> fetchLatestRelease() async {
+  Future<Release> getLatestRelease() async {
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {

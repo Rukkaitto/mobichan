@@ -4,50 +4,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:mobichan/classes/exceptions/captcha_challenge_exception.dart';
-import 'package:mobichan/classes/models/captcha_challenge.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:mobichan/classes/models/release.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/file_extension.dart';
 
 class Api {
-  static Future<CaptchaChallenge> fetchCaptchaChallenge(
-      String board, int? thread) async {
-    String url = '$API_CAPTCHA_URL?board=$board';
-    if (thread != null) {
-      url += '&thread_id=$thread';
-    }
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> responseJson = jsonDecode(response.body);
-      if (responseJson.containsKey('error')) {
-        throw CaptchaChallengeException.fromJson(responseJson);
-      } else {
-        CaptchaChallenge captchaChallenge =
-            CaptchaChallenge.fromJson(responseJson);
-        return captchaChallenge;
-      }
-    } else {
-      throw Exception('Failed to get captcha challenge');
-    }
-  }
-
-  static Future<Release> fetchLatestRelease() async {
-    final response = await http.get(Uri.parse("$API_RELEASES_URL"));
-
-    if (response.statusCode == 200) {
-      List<Release> releases = (jsonDecode(response.body) as List)
-          .map((model) => Release.fromJson(model))
-          .toList();
-      return releases.first;
-    } else {
-      throw Exception('Failed to fetch releases');
-    }
-  }
-
   static Future<List<Post>> fetchPosts(
       {required String board, required int thread}) async {
     final response =

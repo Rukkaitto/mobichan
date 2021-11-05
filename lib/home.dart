@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     }
     super.initState();
     if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) == GITHUB) {
-      Updater.checkForUpdates().then((needsUpdate) {
+      Updater.checkForUpdates(context).then((needsUpdate) {
         if (needsUpdate) {
           showDialog(
             context: context,

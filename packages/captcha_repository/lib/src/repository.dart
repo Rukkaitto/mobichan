@@ -11,7 +11,7 @@ class NetworkException implements Exception {}
 /// Thrown if an excepton occurs while decoding the response body.
 class JsonDecodeException implements Exception {}
 
-/// Thrown if an exception occurs when the submitted captcha is wrong.
+/// Thrown if an exception occurs when the challenge is requested repeatedly.
 class CaptchaChallengeException implements Exception {
   final String error;
   final int refreshTime;
@@ -28,8 +28,9 @@ class CaptchaChallengeException implements Exception {
 
 class CaptchaRepository {
   final String apiUrl = 'https://sys.4channel.org/captcha';
+  final String errorKey = 'error';
 
-  Future<CaptchaChallenge> fetchCaptchaChallenge(
+  Future<CaptchaChallenge> getCaptchaChallenge(
     String board,
     int? thread,
   ) async {
@@ -42,7 +43,7 @@ class CaptchaRepository {
     if (response.statusCode == 200) {
       try {
         Map<String, dynamic> responseJson = jsonDecode(response.body);
-        if (responseJson.containsKey('error')) {
+        if (responseJson.containsKey(errorKey)) {
           throw CaptchaChallengeException.fromJson(responseJson);
         } else {
           CaptchaChallenge captchaChallenge =
@@ -53,7 +54,7 @@ class CaptchaRepository {
         throw JsonDecodeException();
       }
     } else {
-      throw Exception('Failed to get captcha challenge');
+      throw NetworkException();
     }
   }
 }
