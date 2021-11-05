@@ -1,3 +1,4 @@
+import 'package:board_repository/board_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,9 @@ void main() async {
       supportedLocales: [Locale('en', 'US'), Locale('fr', 'FR')],
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
-      child: App(),
+      child: App(
+        boardRepository: BoardRepository(),
+      ),
     ),
   );
 }

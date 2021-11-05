@@ -5,14 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/classes/exceptions/captcha_challenge_exception.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/captcha_challenge.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/classes/models/release.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/file_extension.dart';
-import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 
 class Api {
   static Future<CaptchaChallenge> fetchCaptchaChallenge(
@@ -47,19 +45,6 @@ class Api {
       return releases.first;
     } else {
       throw Exception('Failed to fetch releases');
-    }
-  }
-
-  static Future<List<Board>> fetchBoards() async {
-    final response = await http.get(Uri.parse(API_BOARDS_URL));
-
-    if (response.statusCode == 200) {
-      List<Board> boards = (jsonDecode(response.body)['boards'] as List)
-          .map((model) => Board.fromJson(model))
-          .toList();
-      return boards;
-    } else {
-      throw NetworkException();
     }
   }
 

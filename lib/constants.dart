@@ -10,7 +10,6 @@ RegExp filenameRegExp = RegExp(r"[^/\\&\?]+\.\w{3,4}(?=([\?&].*$|$))");
 // Api endpoints
 const String API_URL = "https://a.4cdn.org";
 const String API_IMAGES_URL = "https://i.4cdn.org";
-const String API_BOARDS_URL = "https://a.4cdn.org/boards.json";
 const String API_RELEASES_URL =
     "https://api.github.com/repos/Rukkaitto/mobichan/releases";
 const String API_CAPTCHA_URL = "https://sys.4channel.org/captcha";

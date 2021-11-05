@@ -1,19 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 
 void main() {
-  test('should fetch a list of boards', () async {
-    Future<List<Board>> boardsFuture = Api.fetchBoards();
-    await boardsFuture.then((boards) {
-      expect(boards.isEmpty, false);
-
-      Board board = boards.firstWhere((element) => element.board == 'a');
-      expect(board.title, "Anime & Manga");
-    });
-  });
-
   test('should fetch all the OPs in a board', () async {
     Future<List<Post>> postsFuture = Api.fetchOPs(board: 'a');
     await postsFuture.then((ops) {
