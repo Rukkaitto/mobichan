@@ -1,5 +1,5 @@
-import 'package:board_repository/board_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class FavoriteCubit extends Cubit<bool> {
   final BoardRepository boardRepository;

@@ -14,8 +14,8 @@ import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
-import 'package:board_repository/board_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';

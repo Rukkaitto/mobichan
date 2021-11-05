@@ -1,4 +1,3 @@
-import 'package:board_repository/board_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +8,7 @@ import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/widgets/drawer/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:mobichan/widgets/drawer/cubit/package_info_cubit/package_info_cubit.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_favorites.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);

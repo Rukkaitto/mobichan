@@ -1,4 +1,4 @@
-import 'package:board_repository/board_repository.dart';
+import '../entities/entities.dart';
 
 abstract class BoardRepository {
   Future<List<Board>> getBoards();

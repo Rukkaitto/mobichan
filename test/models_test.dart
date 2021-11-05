@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobichan/classes/models/post.dart';
-import 'package:board_repository/board_repository.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 void main() {
   group('BoardModel', () {

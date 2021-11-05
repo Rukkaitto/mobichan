@@ -1,6 +1,6 @@
-import 'package:board_repository/board_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 part 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {

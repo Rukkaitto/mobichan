@@ -41,8 +41,10 @@ dependencies:
   connectivity_plus: ^1.4.0
   flutter_bloc: ^7.1.0
   equatable: ^2.0.3
-  board_repository:
-    path: packages/board_repository
+  mobichan_domain:
+    path: packages/mobichan_domain
+  mobichan_data:
+    path: packages/mobichan_data
   captcha_repository:
     path: packages/captcha_repository
   post_repository:
