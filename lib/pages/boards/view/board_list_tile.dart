@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:board_repository/board_repository.dart';
-import 'package:mobichan/classes/entities/board.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards/cubit/favorite_cubit/favorite_cubit.dart';
 import 'package:mobichan/utils/utils.dart';

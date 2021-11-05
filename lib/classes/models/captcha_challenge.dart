@@ -1,4 +1,4 @@
-class CaptchaChallengeModel {
+class CaptchaChallenge {
   final String challenge;
   final int expireTime;
   final int refreshTime;
@@ -8,7 +8,7 @@ class CaptchaChallengeModel {
   final String backgroundImage;
   final int backgroundImageWidth;
 
-  CaptchaChallengeModel(
+  CaptchaChallenge(
       {required this.challenge,
       required this.expireTime,
       required this.refreshTime,
@@ -18,8 +18,8 @@ class CaptchaChallengeModel {
       required this.backgroundImage,
       required this.backgroundImageWidth});
 
-  factory CaptchaChallengeModel.fromJson(Map<String, dynamic> json) {
-    return CaptchaChallengeModel(
+  factory CaptchaChallenge.fromJson(Map<String, dynamic> json) {
+    return CaptchaChallenge(
       challenge: json['challenge'],
       expireTime: json['ttl'],
       refreshTime: json['cd'],

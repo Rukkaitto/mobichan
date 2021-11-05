@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobichan/classes/entities/board.dart';
-import 'package:mobichan/classes/entities/post.dart';
-import 'package:post_repository/post_repository.dart';
+import 'package:mobichan/classes/models/board.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/classes/shared_preferences/board_shared_prefs.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,7 +101,7 @@ class Utils {
       history = List.empty(growable: true);
     }
     return history.map((e) {
-      Post pastThread = PostModel.fromJson(jsonDecode(e)) as Post;
+      Post pastThread = Post.fromJson(jsonDecode(e));
       return pastThread.no;
     }).contains(thread.no);
   }

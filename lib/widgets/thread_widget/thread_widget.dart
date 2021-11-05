@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/entities/post.dart';
+import 'package:mobichan/classes/models/post.dart';
 
 import 'components/thread_image.dart';
 import 'components/thread_overlay.dart';

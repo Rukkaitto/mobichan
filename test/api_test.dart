@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/entities/post.dart';
+import 'package:mobichan/classes/models/post.dart';
 
 void main() {
   test('should fetch all the OPs in a board', () async {

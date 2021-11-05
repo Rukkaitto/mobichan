@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:mobichan/classes/entities/post.dart';
-import 'package:post_repository/post_repository.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/file_extension.dart';
 
 class Api {
@@ -17,8 +17,8 @@ class Api {
 
     if (response.statusCode == 200) {
       List<Post> posts = (jsonDecode(response.body)['posts'] as List)
-          .map((model) => PostModel.fromJson(model))
-          .toList() as List<Post>;
+          .map((model) => Post.fromJson(model))
+          .toList();
       return posts;
     } else {
       throw Exception('Failed to load posts.');
@@ -36,7 +36,7 @@ class Api {
       pages.forEach((page) {
         List opsInPage = page['threads'];
         opsInPage.forEach((opInPage) {
-          ops.add(PostModel.fromJson(opInPage) as Post);
+          ops.add(Post.fromJson(opInPage));
         });
       });
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/entities/post.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
 import 'package:easy_localization/easy_localization.dart';

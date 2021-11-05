@@ -18,7 +18,7 @@ class PostRepository {
   final String apiUrl = 'https://a.4cdn.org';
   final String threadHistoryKey = 'thread_history';
 
-  Future<List<PostModel>> getPosts({
+  Future<List<Post>> getPosts({
     required String board,
     required int thread,
   }) async {
@@ -27,8 +27,8 @@ class PostRepository {
 
     if (response.statusCode == 200) {
       try {
-        List<PostModel> posts = (jsonDecode(response.body)['posts'] as List)
-            .map((model) => PostModel.fromJson(model))
+        List<Post> posts = (jsonDecode(response.body)['posts'] as List)
+            .map((model) => Post.fromJson(model))
             .toList();
         return posts;
       } on Exception {
@@ -39,7 +39,7 @@ class PostRepository {
     }
   }
 
-  Future<List<PostModel>> getThreads({
+  Future<List<Post>> getThreads({
     required String board,
     Sort? sorting,
   }) async {
@@ -47,17 +47,17 @@ class PostRepository {
 
     if (response.statusCode == 200) {
       try {
-        List<PostModel> threads = List.empty(growable: true);
+        List<Post> threads = List.empty(growable: true);
         List pages = jsonDecode(response.body);
 
         for (var page in pages) {
           List opsInPage = page['threads'];
           for (var opInPage in opsInPage) {
-            threads.add(PostModel.fromJson(opInPage));
+            threads.add(Post.fromJson(opInPage));
           }
         }
 
-        List<PostModel> sortedThreads = _sortThreads(threads, sorting);
+        List<Post> sortedThreads = _sortThreads(threads, sorting);
 
         return sortedThreads;
       } on Exception {
@@ -174,7 +174,7 @@ class PostRepository {
     }
   }
 
-  Future<void> addThreadToHistory(PostModel thread, String board) async {
+  Future<void> addThreadToHistory(Post thread, String board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
     threadJson['board'] = board;
@@ -193,7 +193,7 @@ class PostRepository {
     prefs.setStringList(threadHistoryKey, history);
   }
 
-  List<PostModel> _sortThreads(List<PostModel> threads, Sort? sorting) {
+  List<Post> _sortThreads(List<Post> threads, Sort? sorting) {
     if (sorting != null) {
       switch (sorting) {
         case Sort.byBumpOrder:
@@ -227,7 +227,7 @@ class PostRepository {
     }
   }
 
-  Future<bool> _isThreadInHistory(PostModel thread) async {
+  Future<bool> _isThreadInHistory(Post thread) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> history;
     if (prefs.containsKey(threadHistoryKey)) {
@@ -236,7 +236,7 @@ class PostRepository {
       history = List.empty(growable: true);
     }
     return history.map((e) {
-      PostModel pastThread = PostModel.fromJson(jsonDecode(e));
+      Post pastThread = Post.fromJson(jsonDecode(e));
       return pastThread.no;
     }).contains(thread.no);
   }

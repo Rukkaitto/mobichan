@@ -13,12 +13,12 @@ class BoardRepository {
   final String apiUrl = 'https://a.4cdn.org/boards.json';
   final String boardFavoritesKey = 'board_favorites';
 
-  Future<List<BoardModel>> getBoards() async {
+  Future<List<Board>> getBoards() async {
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
-      List<BoardModel> boards = (jsonDecode(response.body)['boards'] as List)
-          .map((model) => BoardModel.fromJson(model))
+      List<Board> boards = (jsonDecode(response.body)['boards'] as List)
+          .map((model) => Board.fromJson(model))
           .toList();
       return boards;
     } else {
@@ -26,20 +26,20 @@ class BoardRepository {
     }
   }
 
-  Future<List<BoardModel>> getFavoriteBoards() async {
+  Future<List<Board>> getFavoriteBoards() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<BoardModel> favorites = List.empty();
+    List<Board> favorites = List.empty();
     if (prefs.containsKey(boardFavoritesKey)) {
       favorites = prefs
           .getStringList(boardFavoritesKey)!
-          .map((board) => BoardModel.fromJson(jsonDecode(board)))
+          .map((board) => Board.fromJson(jsonDecode(board)))
           .toList()
         ..sort((a, b) => a.board.compareTo(b.board));
     }
     return favorites;
   }
 
-  Future<bool> isBoardInFavorites(BoardModel board) async {
+  Future<bool> isBoardInFavorites(Board board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favorites;
     if (prefs.containsKey(boardFavoritesKey)) {
@@ -48,14 +48,14 @@ class BoardRepository {
       favorites = List.empty(growable: true);
     }
     final favoriteBoards = favorites.map((e) {
-      BoardModel pastBoard = BoardModel.fromJson(jsonDecode(e));
+      Board pastBoard = Board.fromJson(jsonDecode(e));
       return pastBoard.board;
     });
 
     return favoriteBoards.toList().contains(board.board);
   }
 
-  Future<void> addBoardToFavorites(BoardModel board) async {
+  Future<void> addBoardToFavorites(Board board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> boardJson = board.toJson();
     String newBoard = jsonEncode(boardJson);
@@ -73,7 +73,7 @@ class BoardRepository {
     prefs.setStringList(boardFavoritesKey, favorites);
   }
 
-  Future<void> removeBoardFromFavorites(BoardModel board) async {
+  Future<void> removeBoardFromFavorites(Board board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> boardJson = board.toJson();
     String boardToRemove = jsonEncode(boardJson);

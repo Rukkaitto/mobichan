@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/entities/post.dart';
+import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/widgets/post_widget/components/post_popup_menu.dart';
 

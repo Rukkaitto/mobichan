@@ -1,2 +1,2 @@
-export 'post_model.dart';
-export 'sort_model.dart';
+export 'post.dart';
+export 'sort.dart';

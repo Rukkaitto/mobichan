@@ -1,4 +1,4 @@
-class BoardModel {
+class Board {
   final String board;
   final String title;
   final int wsBoard;
@@ -21,7 +21,7 @@ class BoardModel {
   final int? spoilers;
   final int? customSpoilers;
 
-  BoardModel({
+  Board({
     required this.board,
     required this.title,
     required this.wsBoard,
@@ -45,8 +45,12 @@ class BoardModel {
     this.customSpoilers,
   });
 
-  factory BoardModel.fromJson(Map<String, dynamic> json) {
-    return BoardModel(
+  String get fullTitle {
+    return '/$board/ - $title';
+  }
+
+  factory Board.fromJson(Map<String, dynamic> json) {
+    return Board(
       board: json['board'],
       title: json['title'],
       wsBoard: json['ws_board'],

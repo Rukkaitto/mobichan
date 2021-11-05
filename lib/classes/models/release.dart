@@ -1,11 +1,11 @@
-class ReleaseModel {
+class Release {
   final String browserDownloadUrl;
   final String tagName;
   final String name;
   final String body;
   final int size;
 
-  ReleaseModel({
+  Release({
     required this.browserDownloadUrl,
     required this.tagName,
     required this.name,
@@ -13,8 +13,8 @@ class ReleaseModel {
     required this.size,
   });
 
-  factory ReleaseModel.fromJson(Map<String, dynamic> json) {
-    return ReleaseModel(
+  factory Release.fromJson(Map<String, dynamic> json) {
+    return Release(
       browserDownloadUrl: json['assets'][0]['browser_download_url'],
       tagName: json['tag_name'],
       name: json['name'],
