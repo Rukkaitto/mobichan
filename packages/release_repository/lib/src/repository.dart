@@ -15,13 +15,13 @@ class ReleaseRepository {
   final String apiUrl =
       'https://api.github.com/repos/Rukkaitto/mobichan/releases';
 
-  Future<Release> getLatestRelease() async {
+  Future<ReleaseModel> getLatestRelease() async {
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       try {
-        List<Release> releases = (jsonDecode(response.body) as List)
-            .map((model) => Release.fromJson(model))
+        List<ReleaseModel> releases = (jsonDecode(response.body) as List)
+            .map((model) => ReleaseModel.fromJson(model))
             .toList();
         return releases.first;
       } on Exception {

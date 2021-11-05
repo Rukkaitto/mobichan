@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/replies_page.dart';
 import 'package:mobichan/utils/utils.dart';

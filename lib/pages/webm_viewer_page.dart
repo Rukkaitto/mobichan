@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/widgets/video_player_widget/video_player_widget.dart';
 

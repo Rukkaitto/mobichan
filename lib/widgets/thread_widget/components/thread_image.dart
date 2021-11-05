@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/widgets/thread_widget/components/thread_round_dimmed_image.dart';
 
 import '../../../constants.dart';

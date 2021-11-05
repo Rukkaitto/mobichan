@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobichan/classes/models/setting.dart';
+import 'package:mobichan/classes/entities/setting.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';

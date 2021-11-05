@@ -2,9 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
@@ -14,6 +13,8 @@ import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/post_widget/post_widget.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:post_repository/post_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants.dart';
 
@@ -84,8 +85,10 @@ class _ThreadPageState extends State<ThreadPage> {
 
   Future<void> _refresh() async {
     setState(() {
-      _futurePosts =
-          Api.fetchPosts(board: widget.args.board, thread: widget.args.thread);
+      _futurePosts = context.read<PostRepository>().getPosts(
+            board: widget.args.board,
+            thread: widget.args.thread,
+          ) as Future<List<Post>>;
     });
   }
 

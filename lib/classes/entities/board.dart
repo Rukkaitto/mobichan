@@ -1,49 +1,40 @@
-class Board {
-  final String board;
-  final String title;
-  final int wsBoard;
-  final int? perPage;
-  final int? pages;
-  final int? maxFileSize;
-  final int? maxWebmFileSize;
-  final int? maxCommentChars;
-  final int? maxWebmDuration;
-  final int? bumpLimit;
-  final int? imageLimit;
-  final int? threadsCooldown;
-  final int? repliesCooldown;
-  final int? imagesCooldown;
-  final String? metaDescription;
-  final int? isArchived;
-  final int? forcedAnon;
-  final int? countryFlags;
-  final int? userIds;
-  final int? spoilers;
-  final int? customSpoilers;
+import 'package:board_repository/board_repository.dart';
 
+class Board extends BoardModel {
   Board({
-    required this.board,
-    required this.title,
-    required this.wsBoard,
-    this.perPage,
-    this.pages,
-    this.maxFileSize,
-    this.maxWebmFileSize,
-    this.maxCommentChars,
-    this.maxWebmDuration,
-    this.bumpLimit,
-    this.imageLimit,
-    this.threadsCooldown,
-    this.repliesCooldown,
-    this.imagesCooldown,
-    this.metaDescription,
-    this.isArchived,
-    this.forcedAnon,
-    this.countryFlags,
-    this.userIds,
-    this.spoilers,
-    this.customSpoilers,
-  });
+    required String board,
+    required String title,
+    required int wsBoard,
+    int? perPage,
+    int? pages,
+    int? maxFileSize,
+    int? maxWebmFileSize,
+    int? maxCommentChars,
+    int? maxWebmDuration,
+    int? bumpLimit,
+    int? imageLimit,
+    int? threadsCooldown,
+    int? repliesCooldown,
+    int? imagesCooldown,
+    String? metaDescription,
+    int? isArchived,
+    int? forcedAnon,
+    int? countryFlags,
+    int? userIds,
+    int? spoilers,
+    int? customSpoilers,
+  }) : super(
+          board: board,
+          title: title,
+          wsBoard: wsBoard,
+          perPage: perPage,
+          pages: pages,
+          maxFileSize: maxFileSize,
+          maxWebmFileSize: maxWebmFileSize,
+          maxCommentChars: maxCommentChars,
+          maxWebmDuration: maxWebmDuration,
+          bumpLimit: bumpLimit,
+        );
 
   String get fullTitle {
     return '/$board/ - $title';

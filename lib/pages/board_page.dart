@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/board.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/board.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/enums/enums.dart';
+import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
-import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';

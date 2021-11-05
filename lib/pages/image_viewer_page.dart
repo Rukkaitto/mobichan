@@ -6,7 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/localization.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,8 +40,7 @@ class ImageViewerPage extends StatelessWidget {
     }
 
     void _saveImage() async {
-      var response = await Dio().get(
-          post.getImageUrl(board),
+      var response = await Dio().get(post.getImageUrl(board),
           options: Options(responseType: ResponseType.bytes));
       final result = await ImageGallerySaver.saveImage(
           Uint8List.fromList(response.data),
@@ -53,8 +52,7 @@ class ImageViewerPage extends StatelessWidget {
     }
 
     void _shareImage() async {
-      var response = await Dio().get(
-          post.getImageUrl(board),
+      var response = await Dio().get(post.getImageUrl(board),
           options: Options(responseType: ResponseType.bytes));
       final directory = await getTemporaryDirectory();
       final imagePath = await File('${directory.path}/image.png').create();

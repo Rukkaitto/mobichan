@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/post.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobichan/classes/models/board.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan/classes/entities/board.dart';
+import 'package:mobichan/classes/entities/post.dart';
+import 'package:post_repository/post_repository.dart';
 
 void main() {
   group('Board', () {
@@ -73,7 +74,7 @@ void main() {
         "unique_ips": 1
       };
 
-      Post post = Post.fromJson(json);
+      Post post = PostModel.fromJson(json) as Post;
       expect(post.no, 570368);
       expect(post.sticky, 1);
       expect(post.closed, 1);
@@ -110,7 +111,7 @@ void main() {
         "resto": 224459710
       };
 
-      Post post = Post.fromJson(json);
+      Post post = PostModel.fromJson(json) as Post;
       expect(post.no, 224459788);
       expect(post.now, '06/24/21(Thu)06:17:20');
       expect(post.name, 'Anonymous');

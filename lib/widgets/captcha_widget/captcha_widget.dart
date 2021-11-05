@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:captcha_repository/captcha_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan/classes/entities/captcha_challenge.dart';
 import 'package:mobichan/widgets/captcha_widget/components/captcha_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,8 +33,9 @@ class _CaptchaWidgetState extends State<CaptchaWidget> {
 
   void _refresh() {
     _captchaChallengeFuture = context
-        .read<CaptchaRepository>()
-        .getCaptchaChallenge(widget.board, widget.thread);
+            .read<CaptchaRepository>()
+            .getCaptchaChallenge(widget.board, widget.thread)
+        as Future<CaptchaChallenge>;
   }
 
   @override

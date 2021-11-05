@@ -30,7 +30,7 @@ class CaptchaRepository {
   final String apiUrl = 'https://sys.4channel.org/captcha';
   final String errorKey = 'error';
 
-  Future<CaptchaChallenge> getCaptchaChallenge(
+  Future<CaptchaChallengeModel> getCaptchaChallenge(
     String board,
     int? thread,
   ) async {
@@ -46,8 +46,8 @@ class CaptchaRepository {
         if (responseJson.containsKey(errorKey)) {
           throw CaptchaChallengeException.fromJson(responseJson);
         } else {
-          CaptchaChallenge captchaChallenge =
-              CaptchaChallenge.fromJson(responseJson);
+          CaptchaChallengeModel captchaChallenge =
+              CaptchaChallengeModel.fromJson(responseJson);
           return captchaChallenge;
         }
       } on Exception {

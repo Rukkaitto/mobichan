@@ -1,6 +1,4 @@
-import 'package:mobichan/constants.dart';
-
-class Post {
+class PostModel {
   final int no;
   final String now;
   final String? name;
@@ -29,7 +27,7 @@ class Post {
   final String? country;
   final String? board;
 
-  Post({
+  PostModel({
     required this.no,
     required this.now,
     required this.name,
@@ -59,8 +57,8 @@ class Post {
     this.board,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
+  factory PostModel.fromJson(Map<String, dynamic> json) {
+    return PostModel(
       no: json['no'],
       sticky: json['sticky'],
       closed: json['closed'],
@@ -103,13 +101,5 @@ class Post {
       'resto': resto,
       'board': board,
     };
-  }
-
-  String getImageUrl(String board) {
-    return '$API_IMAGES_URL/$board/$tim$ext';
-  }
-
-  String getThumbnailUrl(String board) {
-    return '$API_IMAGES_URL/$board/${tim}s.jpg';
   }
 }
