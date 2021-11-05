@@ -1,3 +1,4 @@
+import 'package:board_repository/board_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,9 @@ class BoardsView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BoardsCubit>(
-          create: (context) => BoardsCubit()..getBoards(),
+          create: (context) => BoardsCubit(
+            context.read<BoardRepository>(),
+          )..getBoards(),
         ),
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),

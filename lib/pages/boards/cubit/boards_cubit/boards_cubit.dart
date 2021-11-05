@@ -1,20 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:board_repository/board_repository.dart';
 part 'boards_state.dart';
 
 class BoardsCubit extends Cubit<BoardsState> {
+  final BoardRepository boardRepository;
   late List<Board> boards;
 
-  BoardsCubit() : super(BoardsInitial());
+  BoardsCubit(this.boardRepository) : super(BoardsInitial());
 
   Future<void> getBoards() async {
     try {
       emit(BoardsLoading());
-      boards = await Api.fetchBoards();
+      boards = await boardRepository.getBoards();
       emit(BoardsLoaded(boards));
     } on NetworkException {
       emit(BoardsError(boards_loading_error.tr()));
