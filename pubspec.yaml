@@ -45,8 +45,6 @@ dependencies:
     path: packages/mobichan_domain
   mobichan_data:
     path: packages/mobichan_data
-  captcha_repository:
-    path: packages/captcha_repository
   post_repository:
     path: packages/post_repository
   release_repository:

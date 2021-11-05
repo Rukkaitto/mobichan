@@ -1,7 +1,4 @@
-import 'package:captcha_repository/captcha_repository.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:post_repository/post_repository.dart';
-import 'package:release_repository/release_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

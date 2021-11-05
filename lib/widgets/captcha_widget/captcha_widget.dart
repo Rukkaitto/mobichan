@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:captcha_repository/captcha_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/widgets/captcha_widget/components/captcha_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_data/mobichan_data.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class CaptchaWidget extends StatefulWidget {
   final String board;

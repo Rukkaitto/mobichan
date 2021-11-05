@@ -1,10 +1,7 @@
-import 'package:captcha_repository/captcha_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/app.dart';
-import 'package:post_repository/post_repository.dart';
-import 'package:release_repository/release_repository.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 void main() async {
@@ -21,8 +18,13 @@ void main() async {
           localDataSource: BoardLocalDataSourceImpl(),
           remoteDatasource: BoardRemoteDatasourceImpl(),
         ),
-        captchaRepository: CaptchaRepository(),
-        postRepository: PostRepository(),
+        captchaRepository: CaptchaRepositoryImpl(
+          remoteDatasource: CaptchaRemoteDatasourceImpl(),
+        ),
+        postRepository: PostRepositoryImpl(
+          localDatasource: PostLocalDatasourceImpl(),
+          remoteDatasource: PostRemoteDatasourceImpl(),
+        ),
         releaseRepository: ReleaseRepository(),
       ),
     ),

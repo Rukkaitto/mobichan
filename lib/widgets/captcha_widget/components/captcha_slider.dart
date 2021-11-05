@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:captcha_repository/captcha_repository.dart';
 import 'package:mobichan/localization.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class CaptchaSlider extends StatefulWidget {
   final CaptchaChallenge captchaChallenge;

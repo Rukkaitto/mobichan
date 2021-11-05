@@ -1,3 +1,4 @@
+/// Thrown if an exception occurs when the challenge is requested repeatedly.
 class CaptchaChallengeException implements Exception {
   final String error;
   final int refreshTime;
