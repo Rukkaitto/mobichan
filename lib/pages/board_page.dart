@@ -166,8 +166,6 @@ class _BoardPageState extends State<BoardPage> {
                 args: ThreadPageArguments(
                   board: widget.args.board,
                   thread: op,
-                  title:
-                      op.sub ?? op.com?.replaceBrWithSpace.removeHtmlTags ?? '',
                 ),
               ),
             ),

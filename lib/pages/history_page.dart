@@ -54,10 +54,6 @@ class HistoryPage extends StatelessWidget {
                                 wsBoard: 1,
                               ),
                               thread: thread,
-                              title: thread.sub ??
-                                  thread.com?.replaceBrWithSpace.removeHtmlTags
-                                      .unescapeHtml ??
-                                  '',
                             ),
                           ),
                         ),

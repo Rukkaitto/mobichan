@@ -227,7 +227,10 @@ class _ThreadPageState extends State<ThreadPage> {
                 ),
                 autofocus: true,
               )
-            : Text(widget.args.board.title.unescapeHtml),
+            : Text(widget.args.thread.sub ??
+                widget.args.thread.com?.replaceBrWithSpace.removeHtmlTags
+                    .unescapeHtml ??
+                ''),
         actions: <Widget>[
           IconButton(
             onPressed: _startSearching,
