@@ -48,38 +48,4 @@ class Board {
   String get fullTitle {
     return '/$board/ - $title';
   }
-
-  factory Board.fromJson(Map<String, dynamic> json) {
-    return Board(
-      board: json['board'],
-      title: json['title'],
-      wsBoard: json['ws_board'],
-      perPage: json['per_page'],
-      pages: json['pages'],
-      maxFileSize: json['max_filesize'],
-      maxWebmFileSize: json['max_webm_filesize'],
-      maxCommentChars: json['max_comment_chars'],
-      maxWebmDuration: json['max_webm_duration'],
-      bumpLimit: json['bump_limit'],
-      imageLimit: json['image_limit'],
-      threadsCooldown: json['cooldowns']?['threads'],
-      repliesCooldown: json['cooldowns']?['replies'],
-      imagesCooldown: json['cooldowns']?['images'],
-      metaDescription: json['meta_description'],
-      isArchived: json['is_archived'],
-      forcedAnon: json['forced_anon'],
-      countryFlags: json['country_flags'],
-      userIds: json['user_ids'],
-      spoilers: json['spoilers'],
-      customSpoilers: json['custom_spoilers'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'board': board,
-      'title': title,
-      'ws_board': wsBoard,
-    };
-  }
 }

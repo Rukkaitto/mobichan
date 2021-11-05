@@ -17,7 +17,10 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
       child: App(
-        boardRepository: BoardRepository(),
+        boardRepository: BoardRepositoryImpl(
+          localDataSource: BoardLocalDataSourceImpl(),
+          remoteDatasource: BoardRemoteDatasourceImpl(),
+        ),
         captchaRepository: CaptchaRepository(),
         postRepository: PostRepository(),
         releaseRepository: ReleaseRepository(),

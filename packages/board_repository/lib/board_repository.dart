@@ -1,4 +1,8 @@
 library board_repository;
 
-export 'src/repository.dart';
-export 'src/models/models.dart';
+export 'src/core/exceptions/exceptions.dart';
+export 'src/domain/repositories/repository.dart';
+export 'src/domain/entities/entities.dart';
+export 'src/data/models/models.dart';
+export 'src/data/datasources/datasources.dart';
+export 'src/data/repositories/repository_impl.dart';

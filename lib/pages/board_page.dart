@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
@@ -15,6 +14,8 @@ import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
+import 'package:board_repository/board_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';
@@ -177,27 +178,31 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   void _addToFavorites() async {
-    setState(() {
-      Utils.addBoardToFavorites(
-        Board(
-          board: widget.args.board,
-          title: widget.args.title,
-          wsBoard: widget.args.wsBoard,
-        ),
-      );
-    });
+    setState(
+      () {
+        context.read<BoardRepository>().addBoardToFavorites(
+              Board(
+                board: widget.args.board,
+                title: widget.args.title,
+                wsBoard: widget.args.wsBoard,
+              ),
+            );
+      },
+    );
   }
 
   void _removeFromFavorites() async {
-    setState(() {
-      Utils.removeBoardFromFavorites(
-        Board(
-          board: widget.args.board,
-          title: widget.args.title,
-          wsBoard: widget.args.wsBoard,
-        ),
-      );
-    });
+    setState(
+      () {
+        context.read<BoardRepository>().removeBoardFromFavorites(
+              Board(
+                board: widget.args.board,
+                title: widget.args.title,
+                wsBoard: widget.args.wsBoard,
+              ),
+            );
+      },
+    );
   }
 
   @override
@@ -216,13 +221,13 @@ class _BoardPageState extends State<BoardPage> {
             icon: Icon(Icons.search_rounded),
           ),
           FutureBuilder(
-            future: Utils.isBoardInFavorites(
-              Board(
-                board: widget.args.board,
-                title: widget.args.title,
-                wsBoard: widget.args.wsBoard,
-              ),
-            ),
+            future: context.read<BoardRepository>().isBoardInFavorites(
+                  Board(
+                    board: widget.args.board,
+                    title: widget.args.title,
+                    wsBoard: widget.args.wsBoard,
+                  ),
+                ),
             builder: (context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {
                 final isInFavorites = snapshot.data!;

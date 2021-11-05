@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/classes/models/post.dart';
+import 'package:board_repository/board_repository.dart';
 
 void main() {
-  group('Board', () {
+  group('BoardModel', () {
     test('should parse Json correctly', () {
       const json = <String, dynamic>{
         "board": "3",
@@ -23,7 +23,7 @@ void main() {
         "is_archived": 1
       };
 
-      Board board = Board.fromJson(json);
+      BoardModel board = BoardModel.fromJson(json);
       expect(board.board, "3");
       expect(board.title, "3DCG");
       expect(board.wsBoard, 1);
