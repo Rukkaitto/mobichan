@@ -28,10 +28,10 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<Post>> getThreads({required Board board, Sort? sorting}) {
+  Future<List<Post>> getThreads({required Board board, required Sort sort}) {
     return remoteDatasource.getThreads(
       board: BoardModel.fromEntity(board),
-      sorting: sorting,
+      sort: sort,
     );
   }
 

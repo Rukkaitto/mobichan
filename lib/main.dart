@@ -28,6 +28,9 @@ void main() async {
         releaseRepository: ReleaseRepositoryImpl(
           remoteDatasource: ReleaseRemoteDatasourceImpl(),
         ),
+        sortRepository: SortRepositoryImpl(
+          localDatasource: SortLocalDatasourceImpl(),
+        ),
       ),
     ),
   );

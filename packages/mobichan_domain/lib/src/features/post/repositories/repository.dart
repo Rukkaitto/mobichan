@@ -1,10 +1,9 @@
-import '../entities/entities.dart';
-import '../../board/entities/entities.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 abstract class PostRepository {
   Future<List<Post>> getPosts({required Board board, required Post thread});
 
-  Future<List<Post>> getThreads({required Board board, Sort? sorting});
+  Future<List<Post>> getThreads({required Board board, required Sort sort});
 
   Future<String> postThread({
     required Board board,

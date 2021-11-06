@@ -6,7 +6,6 @@ import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
@@ -23,20 +22,20 @@ class BoardPage extends StatefulWidget {
 }
 
 class _BoardPageState extends State<BoardPage> {
-  late Future<List<Post>> _futureOPs;
+  Future<List<Post>>? _futureOPs;
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  Sort _sortingOrder = Sort.byBumpOrder;
+  late Sort _sortingOrder;
   late TextEditingController _searchQueryController;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
-    super.initState();
     _searchQueryController = TextEditingController();
-    _refresh(Utils.getLastSortingOrder());
+    _refresh();
     context.read<BoardRepository>().saveLastVisitedBoard(widget.args.board);
+    super.initState();
   }
 
   void _onPressPostActionButton() {
@@ -45,20 +44,16 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  Future<void> _refresh(Future<Sort> sorting) async {
+  Future<void> _refresh() async {
     final postRepository = context.read<PostRepository>();
-    _futureOPs = postRepository.getThreads(
-      board: widget.args.board,
-      sorting: Sort.byBumpOrder,
-    );
-    sorting.then((value) {
-      setState(() {
-        _futureOPs = postRepository.getThreads(
-          board: widget.args.board,
-          sorting: value,
-        );
-        _sortingOrder = value;
-      });
+    final sortRepository = context.read<SortRepository>();
+    Sort sort = await sortRepository.getLastSort();
+    _sortingOrder = sort;
+    setState(() {
+      _futureOPs = postRepository.getThreads(
+        board: widget.args.board,
+        sort: sort,
+      );
     });
   }
 
@@ -70,7 +65,7 @@ class _BoardPageState extends State<BoardPage> {
 
   void _onFormPost(String response) async {
     _onCloseForm();
-    await _refresh(Utils.getLastSortingOrder());
+    await _refresh();
   }
 
   void _startSearching() {
@@ -131,18 +126,16 @@ class _BoardPageState extends State<BoardPage> {
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
       onSelected: (sorting) {
-        Utils.saveLastSortingOrder(sorting);
-        setState(() {
-          _refresh(Future.value(sorting));
-        });
+        context.read<SortRepository>().saveSort(sorting);
+        _refresh();
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
-          _buildPopupMenuItem('sort_bump_order', Sort.byBumpOrder),
-          _buildPopupMenuItem('sort_replies', Sort.byReplyCount),
-          _buildPopupMenuItem('sort_images', Sort.byImagesCount),
-          _buildPopupMenuItem('sort_newest', Sort.byNewest),
-          _buildPopupMenuItem('sort_oldest', Sort.byOldest),
+          _buildPopupMenuItem('sort_bump_order', Sort(order: Order.byBump)),
+          _buildPopupMenuItem('sort_replies', Sort(order: Order.byReplies)),
+          _buildPopupMenuItem('sort_images', Sort(order: Order.byImages)),
+          _buildPopupMenuItem('sort_newest', Sort(order: Order.byNew)),
+          _buildPopupMenuItem('sort_oldest', Sort(order: Order.byOld)),
         ];
       },
     );
@@ -245,7 +238,7 @@ class _BoardPageState extends State<BoardPage> {
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: () => _refresh(Utils.getLastSortingOrder()),
+            onRefresh: () => _refresh(),
             child: buildFutureBuilder(),
           ),
           FormWidget(

@@ -11,3 +11,6 @@ export './src/features/post/repositories/repository.dart';
 
 export './src/features/release/entities/entities.dart';
 export './src/features/release/repositories/repository.dart';
+
+export './src/features/sort/entities/entities.dart';
+export './src/features/sort/repositories/repository.dart';

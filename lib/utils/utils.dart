@@ -7,25 +7,8 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-  // TODO: make a sort repository and move this in there
-  static saveLastSortingOrder(Sort sorting) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(LAST_SORTING_ORDER, sorting.toString());
-  }
-
-  // TODO: make a sort repository and move this in there
-  static Future<Sort> getLastSortingOrder() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? lastSortingOrderString = prefs.getString(LAST_SORTING_ORDER);
-    if (lastSortingOrderString != null) {
-      return Utils.getSortFromString(lastSortingOrderString)!;
-    }
-    return Sort.byBumpOrder;
-  }
-
   static bool isLocalFilePath(String path) {
     Uri uri = Uri.parse(path);
     return !uri.scheme.contains('http');
@@ -100,15 +83,6 @@ class Utils {
 
   static Post getQuotedPost(List<Post> posts, int no) {
     return posts.firstWhere((post) => post.no == no);
-  }
-
-  static Sort? getSortFromString(String sortAsString) {
-    for (Sort element in Sort.values) {
-      if (element.toString() == sortAsString) {
-        return element;
-      }
-    }
-    return null;
   }
 
   static SnackBar buildSnackBar(

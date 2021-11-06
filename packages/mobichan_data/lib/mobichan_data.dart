@@ -16,5 +16,9 @@ export './src/features/release/datasources/datasources.dart';
 export './src/features/release/models/models.dart';
 export './src/features/release/repositories/repository_impl.dart';
 
+export './src/features/sort/datasources/datasources.dart';
+export './src/features/sort/models/models.dart';
+export './src/features/sort/repositories/repository_impl.dart';
+
 export './src/core/exceptions/exceptions.dart';
 export './src/features/captcha/exceptions/exceptions.dart';

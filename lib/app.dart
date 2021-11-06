@@ -15,16 +15,19 @@ class App extends StatelessWidget {
     required CaptchaRepository captchaRepository,
     required PostRepository postRepository,
     required ReleaseRepository releaseRepository,
+    required SortRepository sortRepository,
   })  : _boardRepository = boardRepository,
         _captchaRepository = captchaRepository,
         _postRepository = postRepository,
         _releaseRepository = releaseRepository,
+        _sortRepository = sortRepository,
         super(key: key);
 
   final BoardRepository _boardRepository;
   final CaptchaRepository _captchaRepository;
   final PostRepository _postRepository;
   final ReleaseRepository _releaseRepository;
+  final SortRepository _sortRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<ReleaseRepository>(
           create: (context) => _releaseRepository,
+        ),
+        RepositoryProvider<SortRepository>(
+          create: (context) => _sortRepository,
         ),
       ],
       child: MaterialApp(
