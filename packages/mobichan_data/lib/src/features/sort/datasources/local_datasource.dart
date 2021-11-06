@@ -11,16 +11,18 @@ abstract class SortLocalDatasource {
 class SortLocalDatasourceImpl implements SortLocalDatasource {
   final String lastSortKey = 'last_sort';
 
+  final SharedPreferences sharedPreferences;
+
+  SortLocalDatasourceImpl({required this.sharedPreferences});
+
   @override
   Future<SortModel> getLastSort() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? lastSortingOrderString = prefs.getString(lastSortKey);
+    String? lastSortingOrderString = sharedPreferences.getString(lastSortKey);
     return SortModel.fromString(lastSortingOrderString);
   }
 
   @override
   Future<void> saveSort(SortModel sort) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(lastSortKey, sort.toString());
+    await sharedPreferences.setString(lastSortKey, sort.toString());
   }
 }

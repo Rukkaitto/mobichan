@@ -1,3 +1,4 @@
+import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -9,44 +10,26 @@ import 'package:mobichan/pages/history_page.dart';
 import 'package:mobichan/pages/settings_page.dart';
 
 class App extends StatelessWidget {
-  const App({
-    Key? key,
-    required BoardRepository boardRepository,
-    required CaptchaRepository captchaRepository,
-    required PostRepository postRepository,
-    required ReleaseRepository releaseRepository,
-    required SortRepository sortRepository,
-  })  : _boardRepository = boardRepository,
-        _captchaRepository = captchaRepository,
-        _postRepository = postRepository,
-        _releaseRepository = releaseRepository,
-        _sortRepository = sortRepository,
-        super(key: key);
-
-  final BoardRepository _boardRepository;
-  final CaptchaRepository _captchaRepository;
-  final PostRepository _postRepository;
-  final ReleaseRepository _releaseRepository;
-  final SortRepository _sortRepository;
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<BoardRepository>(
-          create: (context) => _boardRepository,
+          create: (context) => sl<BoardRepository>(),
         ),
         RepositoryProvider<CaptchaRepository>(
-          create: (context) => _captchaRepository,
+          create: (context) => sl<CaptchaRepository>(),
         ),
         RepositoryProvider<PostRepository>(
-          create: (context) => _postRepository,
+          create: (context) => sl<PostRepository>(),
         ),
         RepositoryProvider<ReleaseRepository>(
-          create: (context) => _releaseRepository,
+          create: (context) => sl<ReleaseRepository>(),
         ),
         RepositoryProvider<SortRepository>(
-          create: (context) => _sortRepository,
+          create: (context) => sl<SortRepository>(),
         ),
       ],
       child: MaterialApp(

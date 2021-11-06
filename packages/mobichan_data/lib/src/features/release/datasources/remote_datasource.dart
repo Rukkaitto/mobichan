@@ -11,9 +11,13 @@ class ReleaseRemoteDatasourceImpl implements ReleaseRemoteDatasource {
   final String apiUrl =
       'https://api.github.com/repos/Rukkaitto/mobichan/releases';
 
+  final http.Client client;
+
+  ReleaseRemoteDatasourceImpl({required this.client});
+
   @override
   Future<ReleaseModel> getLatestRelease() async {
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await client.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       try {

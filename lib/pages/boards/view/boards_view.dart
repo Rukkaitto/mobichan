@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/boards/view/board_list.dart';
 import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards/cubit/search_cubit/search_cubit.dart';
-import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardsView extends StatelessWidget {
   static String routeName = BOARDS_LIST_ROUTE;
@@ -18,9 +18,7 @@ class BoardsView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BoardsCubit>(
-          create: (context) => BoardsCubit(
-            context.read<BoardRepository>(),
-          )..getBoards(),
+          create: (context) => sl<BoardsCubit>()..getBoards(),
         ),
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),

@@ -40,13 +40,18 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   final String apiUrl = 'https://a.4cdn.org';
   final String threadHistoryKey = 'thread_history';
 
+  final http.Client client;
+  final Dio dio;
+
+  PostRemoteDatasourceImpl({required this.client, required this.dio});
+
   @override
   Future<List<PostModel>> getPosts({
     required BoardModel board,
     required PostModel thread,
   }) async {
-    final response =
-        await http.get(Uri.parse('$apiUrl/${board.board}/thread/$thread.json'));
+    final response = await client
+        .get(Uri.parse('$apiUrl/${board.board}/thread/$thread.json'));
 
     if (response.statusCode == 200) {
       try {
@@ -68,7 +73,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required Sort sort,
   }) async {
     final response =
-        await http.get(Uri.parse('$apiUrl/${board.board}/catalog.json'));
+        await client.get(Uri.parse('$apiUrl/${board.board}/catalog.json'));
 
     if (response.statusCode == 200) {
       try {
@@ -104,7 +109,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
-    var dio = Dio();
 
     FormData formData = FormData.fromMap({
       "name": name ?? '',
@@ -160,7 +164,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
-    var dio = Dio();
 
     FormData formData = FormData.fromMap({
       "name": name ?? '',

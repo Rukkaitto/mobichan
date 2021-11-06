@@ -4,11 +4,11 @@ import 'package:equatable/equatable.dart';
 part 'package_info_state.dart';
 
 class PackageInfoCubit extends Cubit<PackageInfoState> {
-  PackageInfoCubit() : super(PackageInfoInitial());
+  final PackageInfo packageInfo;
+
+  PackageInfoCubit({required this.packageInfo}) : super(PackageInfoInitial());
 
   void getPackageInfo() async {
-    emit(PackageInfoLoading());
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     emit(PackageInfoLoaded(packageInfo));
   }
 }
