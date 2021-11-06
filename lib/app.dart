@@ -1,4 +1,4 @@
-import 'package:mobichan/injection_container.dart';
+import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -17,19 +17,19 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<BoardRepository>(
-          create: (context) => sl.get<BoardRepository>(),
+          create: (context) => sl<BoardRepository>(),
         ),
         RepositoryProvider<CaptchaRepository>(
-          create: (context) => sl.get<CaptchaRepository>(),
+          create: (context) => sl<CaptchaRepository>(),
         ),
         RepositoryProvider<PostRepository>(
-          create: (context) => sl.get<PostRepository>(),
+          create: (context) => sl<PostRepository>(),
         ),
         RepositoryProvider<ReleaseRepository>(
-          create: (context) => sl.get<ReleaseRepository>(),
+          create: (context) => sl<ReleaseRepository>(),
         ),
         RepositoryProvider<SortRepository>(
-          create: (context) => sl.get<SortRepository>(),
+          create: (context) => sl<SortRepository>(),
         ),
       ],
       child: MaterialApp(

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/app.dart';
-import 'package:mobichan/injection_container.dart' as dependencyInjector;
+import 'package:mobichan/dependency_injector.dart' as dependencyInjector;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

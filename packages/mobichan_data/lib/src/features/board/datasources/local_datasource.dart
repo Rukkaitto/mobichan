@@ -38,10 +38,9 @@ class BoardLocalDatasourceImpl implements BoardLocalDatasource {
     } else {
       favorites = List.empty(growable: true);
     }
-    if (await isBoardInFavorites(board)) {
-      favorites.remove(newBoard);
+    if (!await isBoardInFavorites(board)) {
+      favorites.add(newBoard);
     }
-    favorites.add(newBoard);
     sharedPreferences.setStringList(boardFavoritesKey, favorites);
   }
 

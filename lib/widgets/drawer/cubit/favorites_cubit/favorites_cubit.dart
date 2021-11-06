@@ -4,12 +4,12 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 part 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
-  final BoardRepository boardRepository;
-  FavoritesCubit(this.boardRepository) : super(FavoritesInitial());
+  final BoardRepository repository;
+  FavoritesCubit({required this.repository}) : super(FavoritesInitial());
 
   void getFavorites() async {
     emit(FavoritesLoading());
-    List<Board> favorites = await boardRepository.getFavoriteBoards();
+    List<Board> favorites = await repository.getFavoriteBoards();
     emit(FavoritesLoaded(favorites));
   }
 }

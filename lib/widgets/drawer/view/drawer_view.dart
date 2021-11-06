@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/boards/view/boards_view.dart';
 import 'package:mobichan/pages/history_page.dart';
@@ -17,9 +18,7 @@ class DrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: BlocProvider<FavoritesCubit>(
-        create: (context) => FavoritesCubit(
-          context.read<BoardRepository>(),
-        )..getFavorites(),
+        create: (context) => sl<FavoritesCubit>()..getFavorites(),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +70,7 @@ class DrawerView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: BlocProvider<PackageInfoCubit>(
-        create: (context) => PackageInfoCubit()..getPackageInfo(),
+        create: (context) => sl<PackageInfoCubit>()..getPackageInfo(),
         child: BlocBuilder<PackageInfoCubit, PackageInfoState>(
           builder: (context, state) {
             if (state is PackageInfoLoaded) {

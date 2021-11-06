@@ -6,15 +6,15 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 part 'boards_state.dart';
 
 class BoardsCubit extends Cubit<BoardsState> {
-  final BoardRepository boardRepository;
+  final BoardRepository repository;
   late List<Board> boards;
 
-  BoardsCubit(this.boardRepository) : super(BoardsInitial());
+  BoardsCubit({required this.repository}) : super(BoardsInitial());
 
   Future<void> getBoards() async {
     try {
       emit(BoardsLoading());
-      boards = await boardRepository.getBoards();
+      boards = await repository.getBoards();
       emit(BoardsLoaded(boards));
     } on NetworkException {
       emit(BoardsError(boards_loading_error.tr()));

@@ -2,21 +2,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class FavoriteCubit extends Cubit<bool> {
-  final BoardRepository boardRepository;
-  FavoriteCubit(this.boardRepository) : super(false);
+  final BoardRepository repository;
+  FavoriteCubit({required this.repository}) : super(false);
 
   void addToFavorites(Board board) {
-    boardRepository.addBoardToFavorites(board);
+    repository.addBoardToFavorites(board);
     emit(true);
   }
 
   void removeFromFavorites(Board board) {
-    boardRepository.removeBoardFromFavorites(board);
+    repository.removeBoardFromFavorites(board);
     emit(false);
   }
 
   void checkIfInFavorites(Board board) async {
-    bool isInFavorites = await boardRepository.isBoardInFavorites(board);
+    bool isInFavorites = await repository.isBoardInFavorites(board);
     emit(isInFavorites);
   }
 }
