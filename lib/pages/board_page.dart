@@ -26,7 +26,7 @@ class _BoardPageState extends State<BoardPage> {
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  late Sort _sortingOrder;
+  late Sort _sort;
   late TextEditingController _searchQueryController;
   final ScrollController _scrollController = ScrollController();
 
@@ -48,8 +48,8 @@ class _BoardPageState extends State<BoardPage> {
     final postRepository = context.read<PostRepository>();
     final sortRepository = context.read<SortRepository>();
     Sort sort = await sortRepository.getLastSort();
-    _sortingOrder = sort;
     setState(() {
+      _sort = sort;
       _futureOPs = postRepository.getThreads(
         board: widget.args.board,
         sort: sort,
@@ -106,27 +106,27 @@ class _BoardPageState extends State<BoardPage> {
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }
 
-  PopupMenuItem _buildPopupMenuItem(String title, Sort sorting) {
+  PopupMenuItem _buildPopupMenuItem(String title, Sort sort) {
     return PopupMenuItem(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title).tr(),
-          if (sorting == _sortingOrder)
+          if (sort.order == _sort.order)
             Icon(
               Icons.check_rounded,
               size: 20,
             ),
         ],
       ),
-      value: sorting,
+      value: sort,
     );
   }
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
-      onSelected: (sorting) {
-        context.read<SortRepository>().saveSort(sorting);
+      onSelected: (sort) {
+        context.read<SortRepository>().saveSort(sort);
         _refresh();
       },
       itemBuilder: (context) {
