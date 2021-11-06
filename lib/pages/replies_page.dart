@@ -18,7 +18,7 @@ class RepliesPage extends StatelessWidget {
 
     for (Post post in posts) {
       if (post.tim != null) {
-        imageUrls.add(post.getImageUrl(this.board.toString()));
+        imageUrls.add(post.getImageUrl(this.board));
       }
     }
 
@@ -56,8 +56,7 @@ class RepliesPage extends StatelessWidget {
                 post: reply,
                 board: board,
                 threadReplies: threadReplies,
-                imageIndex:
-                    imageUrls.indexOf(reply.getImageUrl(board.toString())),
+                imageIndex: imageUrls.indexOf(reply.getImageUrl(board)),
               ),
             );
           },

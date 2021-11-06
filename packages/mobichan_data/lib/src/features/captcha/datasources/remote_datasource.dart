@@ -22,7 +22,7 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
     BoardModel board,
     PostModel? thread,
   ) async {
-    String url = '$apiUrl?board=$board';
+    String url = '$apiUrl?board=${board.board}';
     if (thread != null) {
       url += '&thread_id=$thread';
     }

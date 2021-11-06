@@ -1,3 +1,5 @@
+import 'package:mobichan_domain/mobichan_domain.dart';
+
 class Post {
   final int no;
   final String now;
@@ -25,7 +27,7 @@ class Post {
   final String? trip;
   final int? lastModified;
   final String? country;
-  final String? board;
+  final Board? board;
 
   Post({
     required this.no,
@@ -57,12 +59,12 @@ class Post {
     this.board,
   });
 
-  String getImageUrl(String board) {
-    return 'https://i.4cdn.org/$board/$tim$ext';
+  String getImageUrl(Board board) {
+    return 'https://i.4cdn.org/${board.board}/$tim$ext';
   }
 
-  String getThumbnailUrl(String board) {
-    return 'https://i.4cdn.org/$board/${tim}s.jpg';
+  String getThumbnailUrl(Board board) {
+    return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
   }
 
   @override

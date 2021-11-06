@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/models.dart';
@@ -21,9 +22,6 @@ abstract class BoardLocalDatasource {
 class BoardLocalDataSourceImpl implements BoardLocalDatasource {
   final String boardFavoritesKey = 'board_favorites';
   final String lastVisitedBoardKey = 'last_visited_board';
-  final String defaultBoard = 'g';
-  final String defaultBoardTitle = 'Technology';
-  final int defaultBoardWs = 1;
 
   @override
   Future<void> addBoardToFavorites(BoardModel board) async {
@@ -100,11 +98,7 @@ class BoardLocalDataSourceImpl implements BoardLocalDatasource {
     if (lastVisitedBoardEncoded != null) {
       return BoardModel.fromJson(jsonDecode(lastVisitedBoardEncoded));
     } else {
-      return BoardModel(
-        board: defaultBoard,
-        title: defaultBoardTitle,
-        wsBoard: defaultBoardWs,
-      );
+      return BoardModel.fromEntity(Board.initial);
     }
   }
 

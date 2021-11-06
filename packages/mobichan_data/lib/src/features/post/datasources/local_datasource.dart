@@ -17,7 +17,7 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   Future<void> addThreadToHistory(PostModel thread, BoardModel board) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> threadJson = thread.toJson();
-    threadJson['board'] = board;
+    threadJson['board'] = jsonEncode(board.toJson());
     String newThread = jsonEncode(threadJson);
 
     List<String> history;

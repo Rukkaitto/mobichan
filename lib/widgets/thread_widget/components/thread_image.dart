@@ -13,9 +13,9 @@ class ThreadImage extends StatelessWidget {
 
   String getImageUrl() {
     if (post.ext == '.webm') {
-      return post.getThumbnailUrl(board.toString());
+      return post.getThumbnailUrl(board);
     }
-    return post.getImageUrl(board.toString());
+    return post.getImageUrl(board);
   }
 
   @override
@@ -27,7 +27,7 @@ class ThreadImage extends StatelessWidget {
             ThreadRoundDimmedImage(imageProvider),
         placeholder: (context, url) => Center(
           child: ThreadRoundDimmedImage(
-            NetworkImage('$API_IMAGES_URL/$board/${post.tim}s.jpg'),
+            NetworkImage('$API_IMAGES_URL/${board.board}/${post.tim}s.jpg'),
           ),
         ),
         fadeInDuration: Duration.zero,

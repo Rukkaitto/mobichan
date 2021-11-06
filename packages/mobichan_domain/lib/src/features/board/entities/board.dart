@@ -49,8 +49,7 @@ class Board {
     return '/$board/ - $title';
   }
 
-  @override
-  String toString() {
-    return board;
+  static Board get initial {
+    return Board(board: 'g', title: 'Technology', wsBoard: 1);
   }
 }

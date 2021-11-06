@@ -52,7 +52,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   }
 
   String get imageUrl {
-    return currentPost.getImageUrl(widget.board.toString());
+    return currentPost.getImageUrl(widget.board);
   }
 
   bool isWebM(String url) {
@@ -137,7 +137,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
               pageController: pageController,
               builder: (BuildContext context, int index) {
                 Post currentPost = widget.posts[index];
-                if (isWebM(currentPost.getImageUrl(widget.board.toString()))) {
+                if (isWebM(currentPost.getImageUrl(widget.board))) {
                   if (videoPlayerControllers[index] == null) {
                     videoPlayerControllers[index] = VlcPlayerController.network(
                       '$API_IMAGES_URL/${widget.board}/${currentPost.tim}${currentPost.ext}',
@@ -158,7 +158,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                 } else {
                   return PhotoViewGalleryPageOptions(
                     imageProvider: NetworkImage(
-                      widget.posts[index].getImageUrl(widget.board.toString()),
+                      widget.posts[index].getImageUrl(widget.board),
                     ),
                     heroAttributes: PhotoViewHeroAttributes(
                       tag: "image$index",

@@ -55,8 +55,7 @@ class GalleryPage extends StatelessWidget {
                     tag: "image$index",
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl:
-                          imagePosts[index].getThumbnailUrl(board.toString()),
+                      imageUrl: imagePosts[index].getThumbnailUrl(board),
                       placeholder: (context, url) => Container(
                         child: Center(
                           child: Platform.isAndroid

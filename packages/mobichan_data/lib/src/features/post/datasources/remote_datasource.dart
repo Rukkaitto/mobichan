@@ -51,7 +51,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel thread,
   }) async {
     final response =
-        await http.get(Uri.parse('$apiUrl/$board/thread/$thread.json'));
+        await http.get(Uri.parse('$apiUrl/${board.board}/thread/$thread.json'));
 
     if (response.statusCode == 200) {
       try {
@@ -72,7 +72,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required BoardModel board,
     Sort? sorting,
   }) async {
-    final response = await http.get(Uri.parse('$apiUrl/$board/catalog.json'));
+    final response =
+        await http.get(Uri.parse('$apiUrl/${board.board}/catalog.json'));
 
     if (response.statusCode == 200) {
       try {
@@ -99,7 +100,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<String> postThread({
-    required Board board,
+    required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
     required String com,
@@ -107,7 +108,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     String? subject,
     String? filePath,
   }) async {
-    String url = "https://sys.4channel.org/$board/post";
+    String url = "https://sys.4channel.org/${board.board}/post";
     var dio = Dio();
 
     FormData formData = FormData.fromMap({
@@ -155,7 +156,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<String> postReply({
-    required Board board,
+    required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel resto,
@@ -163,7 +164,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     String? com,
     String? filePath,
   }) async {
-    String url = "https://sys.4channel.org/$board/post";
+    String url = "https://sys.4channel.org/${board.board}/post";
     var dio = Dio();
 
     FormData formData = FormData.fromMap({

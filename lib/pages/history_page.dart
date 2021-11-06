@@ -38,9 +38,13 @@ class HistoryPage extends StatelessWidget {
                   Post thread = PostModel.fromJson(jsonDecode(history[index]));
                   return ListTile(
                     leading: Text(
-                      '/${thread.board!}/',
+                      '/${thread.board!.board}/',
                       overflow: TextOverflow.ellipsis,
                     ),
+                    title: Text(thread.sub ??
+                        thread.com?.replaceBrWithSpace.removeHtmlTags
+                            .unescapeHtml ??
+                        ''),
                     dense: true,
                     onTap: () {
                       Navigator.push(
@@ -48,21 +52,13 @@ class HistoryPage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => ThreadPage(
                             args: ThreadPageArguments(
-                              board: Board(
-                                board: thread.board!,
-                                title: '',
-                                wsBoard: 1,
-                              ),
                               thread: thread,
+                              board: thread.board!,
                             ),
                           ),
                         ),
                       );
                     },
-                    title: Text(thread.sub ??
-                        thread.com?.replaceBrWithSpace.removeHtmlTags
-                            .unescapeHtml ??
-                        ''),
                   );
                 },
               );

@@ -89,9 +89,9 @@ class _PostImageState extends State<PostImage> {
             (connectivityStatus == ConnectivityResult.mobile &&
                 highResolutionThumbnailsMobile)) &&
         !isWebm) {
-      return post.getImageUrl(board.toString());
+      return post.getImageUrl(board);
     } else {
-      return post.getThumbnailUrl(board.toString());
+      return post.getThumbnailUrl(board);
     }
   }
 

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class PostModel extends Post {
@@ -28,7 +31,7 @@ class PostModel extends Post {
     String? trip,
     int? lastModified,
     String? country,
-    String? board,
+    BoardModel? board,
   }) : super(
           no: no,
           now: now,
@@ -87,7 +90,9 @@ class PostModel extends Post {
       trip: json['trip'],
       lastModified: json['last_modified'],
       country: json['country'],
-      board: json['board'],
+      board: json['board'] != null
+          ? BoardModel.fromJson(jsonDecode(json['board']))
+          : null,
     );
   }
 
@@ -119,7 +124,7 @@ class PostModel extends Post {
       trip: post.trip,
       lastModified: post.lastModified,
       country: post.country,
-      board: post.board,
+      board: post.board != null ? BoardModel.fromEntity(post.board!) : null,
     );
   }
 

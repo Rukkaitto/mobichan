@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
 import 'package:path/path.dart';
@@ -63,39 +61,6 @@ class Utils {
     print('File size:${await file.length()}');
     print(file.path);
     return file;
-  }
-
-  static Future<bool> isThreadInHistory(Post thread) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> history;
-    if (prefs.containsKey(THREAD_HISTORY)) {
-      history = prefs.getStringList(THREAD_HISTORY)!;
-    } else {
-      history = List.empty(growable: true);
-    }
-    return history.map((e) {
-      Post pastThread = PostModel.fromJson(jsonDecode(e));
-      return pastThread.no;
-    }).contains(thread.no);
-  }
-
-  static void addThreadToHistory(PostModel thread, Board board) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> threadJson = thread.toJson();
-    threadJson['board'] = board.toString();
-    String newThread = jsonEncode(threadJson);
-
-    List<String> history;
-    if (prefs.containsKey(THREAD_HISTORY)) {
-      history = prefs.getStringList(THREAD_HISTORY)!;
-    } else {
-      history = List.empty(growable: true);
-    }
-    if (await isThreadInHistory(thread)) {
-      history.remove(newThread);
-    }
-    history.add(newThread);
-    prefs.setStringList(THREAD_HISTORY, history);
   }
 
   static List<Post> getReplies(List<Post> posts, Post post) {
