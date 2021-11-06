@@ -1,12 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../models/models.dart';
-import '../../board/models/models.dart';
-import '../../post/models/models.dart';
-
-import '../exceptions/exceptions.dart';
-import '../../../core/exceptions/exceptions.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class CaptchaRemoteDatasource {
   Future<CaptchaChallengeModel> getCaptchaChallenge(

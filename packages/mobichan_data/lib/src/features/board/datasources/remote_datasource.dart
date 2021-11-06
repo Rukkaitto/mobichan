@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../../core/exceptions/exceptions.dart';
-import '../models/models.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class BoardRemoteDatasource {
   Future<List<BoardModel>> getBoards();

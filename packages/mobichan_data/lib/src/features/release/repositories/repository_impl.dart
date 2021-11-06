@@ -1,5 +1,5 @@
-import '../datasources/datasources.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 class ReleaseRepositoryImpl implements ReleaseRepository {
   final ReleaseRemoteDatasource remoteDatasource;

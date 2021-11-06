@@ -1,6 +1,5 @@
-import '../datasources/datasources.dart';
-import '../models/models.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 class BoardRepositoryImpl extends BoardRepository {
   final BoardLocalDatasource localDataSource;

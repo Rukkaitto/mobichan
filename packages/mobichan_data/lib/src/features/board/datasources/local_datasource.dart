@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/models.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class BoardLocalDatasource {
   Future<List<BoardModel>> getFavoriteBoards();

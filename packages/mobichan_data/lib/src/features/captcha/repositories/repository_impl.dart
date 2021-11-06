@@ -1,7 +1,5 @@
 import 'package:mobichan_domain/mobichan_domain.dart';
-import '../../board/models/models.dart';
-import '../../post/models/models.dart';
-import '../datasources/datasources.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 class CaptchaRepositoryImpl implements CaptchaRepository {
   final CaptchaRemoteDatasource remoteDatasource;

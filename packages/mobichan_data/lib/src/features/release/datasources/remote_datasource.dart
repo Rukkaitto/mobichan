@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../models/models.dart';
-import '../../../core/exceptions/exceptions.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class ReleaseRemoteDatasource {
   Future<ReleaseModel> getLatestRelease();
