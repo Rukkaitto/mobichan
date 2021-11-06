@@ -79,4 +79,9 @@ class PostRepositoryImpl implements PostRepository {
       filePath: filePath,
     );
   }
+
+  @override
+  Future<List<Post>> getHistory() async {
+    return localDatasource.getHistory();
+  }
 }

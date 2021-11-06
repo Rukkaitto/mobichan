@@ -7,6 +7,8 @@ import '../../board/models/models.dart';
 
 abstract class PostLocalDatasource {
   Future<void> addThreadToHistory(PostModel thread, BoardModel board);
+
+  Future<List<PostModel>> getHistory();
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -45,5 +47,19 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       PostModel pastThread = PostModel.fromJson(jsonDecode(e));
       return pastThread.no;
     }).contains(thread.no);
+  }
+
+  @override
+  Future<List<PostModel>> getHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(threadHistoryKey)) {
+      List<String> historyStringList =
+          prefs.getStringList(threadHistoryKey)!.reversed.toList();
+      List<PostModel> history = historyStringList
+          .map((e) => PostModel.fromJson(jsonDecode(e)))
+          .toList();
+      return history;
+    }
+    return [];
   }
 }

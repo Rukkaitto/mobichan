@@ -27,4 +27,6 @@ abstract class PostRepository {
   });
 
   Future<void> addThreadToHistory(Post thread, Board board);
+
+  Future<List<Post>> getHistory();
 }
