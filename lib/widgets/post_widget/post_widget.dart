@@ -39,7 +39,7 @@ class PostWidget extends StatefulWidget {
     this.height,
     this.showReplies,
   }) {
-    postReplies = Utils.getReplies(threadReplies, post);
+    postReplies = post.getReplies(threadReplies);
   }
 
   @override

@@ -6,7 +6,6 @@ import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/gallery_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/post_widget/post_widget.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -274,7 +273,7 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   Widget recursiveWidget(Post post, List<Post> posts, int depth) {
-    List<Post> replies = Utils.getReplies(posts, post);
+    List<Post> replies = post.getReplies(posts);
     final maxDepth = 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,7 +301,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemCount: replies.length,
                 itemBuilder: (context, index) {
                   Post reply = replies[index];
-                  List<int> replyingTo = Utils.replyingTo(posts, reply);
+                  List<int> replyingTo = reply.replyingTo(posts);
                   if (replies.isEmpty ||
                       replyingTo.isEmpty ||
                       replyingTo.first != post.no ||
@@ -339,9 +338,8 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> filteredReplies = snapshot.data!
               .where((post) => _matchesSearchQuery(post.com))
               .toList();
-          List<Post> replies = filteredReplies
-              .where((element) => Utils.isRootPost(element))
-              .toList();
+          List<Post> replies =
+              filteredReplies.where((reply) => reply.isRootPost).toList();
           imagePosts = _getImagePosts(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,45 +43,6 @@ class Utils {
     print('File size:${await file.length()}');
     print(file.path);
     return file;
-  }
-
-  static List<Post> getReplies(List<Post> posts, Post post) {
-    List<Post> replies = List.empty(growable: true);
-    posts.forEach((otherPost) {
-      final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
-      final matches = regExp
-          .allMatches(otherPost.com ?? '')
-          .map((match) => int.parse(match.group(0) ?? ""));
-
-      // if another post quotes this post
-      if (matches.contains(post.no)) {
-        // add other post to replies list
-        replies.add(otherPost);
-      }
-    });
-    return replies;
-  }
-
-  static List<int> replyingTo(List<Post> posts, Post post) {
-    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
-    final matches = regExp
-        .allMatches(post.com ?? '')
-        .map((match) => int.parse(match.group(0) ?? ""))
-        .toList();
-    return matches;
-  }
-
-  static bool isRootPost(Post post) {
-    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
-    final matches = regExp
-        .allMatches(post.com ?? '')
-        .map((match) => int.parse(match.group(0) ?? ""))
-        .toList();
-    return matches.isEmpty;
-  }
-
-  static Post getQuotedPost(List<Post> posts, int no) {
-    return posts.firstWhere((post) => post.no == no);
   }
 
   static SnackBar buildSnackBar(

@@ -4,7 +4,6 @@ import 'package:html/parser.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/replies_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/post_widget/components/post_text_selection_controls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,7 +34,7 @@ class PostContent extends StatelessWidget {
     if (quotedNo == null) {
       return;
     }
-    Post quotedPost = Utils.getQuotedPost(threadReplies, quotedNo);
+    Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
 
     Navigator.of(context).push(
       PageRouteBuilder(

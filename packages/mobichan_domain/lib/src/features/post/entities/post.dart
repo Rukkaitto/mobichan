@@ -59,6 +59,45 @@ class Post {
     this.board,
   });
 
+  List<Post> getReplies(List<Post> posts) {
+    List<Post> replies = List.empty(growable: true);
+    for (var otherPost in posts) {
+      final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+      final matches = regExp
+          .allMatches(otherPost.com ?? '')
+          .map((match) => int.parse(match.group(0) ?? ""));
+
+      // if another post quotes this post
+      if (matches.contains(no)) {
+        // add other post to replies list
+        replies.add(otherPost);
+      }
+    }
+    return replies;
+  }
+
+  List<int> replyingTo(List<Post> posts) {
+    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+    final matches = regExp
+        .allMatches(com ?? '')
+        .map((match) => int.parse(match.group(0) ?? ""))
+        .toList();
+    return matches;
+  }
+
+  bool get isRootPost {
+    final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
+    final matches = regExp
+        .allMatches(com ?? '')
+        .map((match) => int.parse(match.group(0) ?? ""))
+        .toList();
+    return matches.isEmpty;
+  }
+
+  static Post getQuotedPost(List<Post> posts, int no) {
+    return posts.firstWhere((post) => post.no == no);
+  }
+
   String getImageUrl(Board board) {
     return 'https://i.4cdn.org/${board.board}/$tim$ext';
   }
