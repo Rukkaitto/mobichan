@@ -1,9 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobichan/classes/models/board.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 
 void main() {
-  group('Board', () {
+  group('BoardModel', () {
     test('should parse Json correctly', () {
       const json = <String, dynamic>{
         "board": "3",
@@ -23,7 +22,7 @@ void main() {
         "is_archived": 1
       };
 
-      Board board = Board.fromJson(json);
+      BoardModel board = BoardModel.fromJson(json);
       expect(board.board, "3");
       expect(board.title, "3DCG");
       expect(board.wsBoard, 1);
@@ -44,7 +43,7 @@ void main() {
     });
   });
 
-  group('Post', () {
+  group('PostModel', () {
     test('should parse an image post correctly', () {
       const json = <String, dynamic>{
         "no": 570368,
@@ -73,7 +72,7 @@ void main() {
         "unique_ips": 1
       };
 
-      Post post = Post.fromJson(json);
+      PostModel post = PostModel.fromJson(json);
       expect(post.no, 570368);
       expect(post.sticky, 1);
       expect(post.closed, 1);
@@ -110,7 +109,7 @@ void main() {
         "resto": 224459710
       };
 
-      Post post = Post.fromJson(json);
+      PostModel post = PostModel.fromJson(json);
       expect(post.no, 224459788);
       expect(post.now, '06/24/21(Thu)06:17:20');
       expect(post.name, 'Anonymous');

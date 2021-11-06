@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/widgets/thread_widget/components/thread_round_dimmed_image.dart';
 
 import '../../../constants.dart';
 
 class ThreadImage extends StatelessWidget {
-  final String board;
+  final Board board;
   final Post post;
   const ThreadImage({Key? key, required this.board, required this.post})
       : super(key: key);
@@ -27,7 +27,7 @@ class ThreadImage extends StatelessWidget {
             ThreadRoundDimmedImage(imageProvider),
         placeholder: (context, url) => Center(
           child: ThreadRoundDimmedImage(
-            NetworkImage('$API_IMAGES_URL/$board/${post.tim}s.jpg'),
+            NetworkImage('$API_IMAGES_URL/${board.board}/${post.tim}s.jpg'),
           ),
         ),
         fadeInDuration: Duration.zero,

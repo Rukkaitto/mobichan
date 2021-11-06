@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:install_plugin/install_plugin.dart';
-import 'package:mobichan/api/api.dart';
-import 'package:mobichan/classes/models/release.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateWidget extends StatefulWidget {
   const UpdateWidget({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
   Widget build(BuildContext context) {
     if (!_isDownloading) {
       return FutureBuilder(
-        future: Api.fetchLatestRelease(),
+        future: context.read<ReleaseRepository>().getLatestRelease(),
         builder: (BuildContext context, AsyncSnapshot<Release> snapshot) {
           if (snapshot.hasData) {
             return AlertDialog(

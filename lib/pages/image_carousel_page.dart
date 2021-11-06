@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/webm_viewer_page.dart';
@@ -19,7 +19,7 @@ import 'package:share/share.dart';
 class ImageCarouselPage extends StatefulWidget {
   final String heroTitle;
   final int imageIndex;
-  final String board;
+  final Board board;
   final List<Post> posts;
   ImageCarouselPage(
       {required this.imageIndex,
@@ -151,7 +151,6 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                       tag: 'image$index}',
                     ),
                     child: WebmViewerPage(
-                      widget.board,
                       currentPost,
                       videoPlayerControllers[index],
                     ),

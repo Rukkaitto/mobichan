@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/replies_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/post_widget/components/post_text_selection_controls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PostContent extends StatelessWidget {
-  final String board;
+  final Board board;
   final Post post;
   final List<Post> threadReplies;
   final Function(String quote, int postId)? onPostQuote;
@@ -35,7 +34,7 @@ class PostContent extends StatelessWidget {
     if (quotedNo == null) {
       return;
     }
-    Post quotedPost = Utils.getQuotedPost(threadReplies, quotedNo);
+    Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
 
     Navigator.of(context).push(
       PageRouteBuilder(

@@ -6,6 +6,7 @@ import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/boards/view/board_list.dart';
 import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards/cubit/search_cubit/search_cubit.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardsView extends StatelessWidget {
   static String routeName = BOARDS_LIST_ROUTE;
@@ -17,7 +18,9 @@ class BoardsView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BoardsCubit>(
-          create: (context) => BoardsCubit()..getBoards(),
+          create: (context) => BoardsCubit(
+            context.read<BoardRepository>(),
+          )..getBoards(),
         ),
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),

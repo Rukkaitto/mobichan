@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'components/thread_image.dart';
 import 'components/thread_overlay.dart';
 
 class ThreadWidget extends StatelessWidget {
   final Post post;
-  final String board;
+  final Board board;
   final Function? onTap;
 
   const ThreadWidget(

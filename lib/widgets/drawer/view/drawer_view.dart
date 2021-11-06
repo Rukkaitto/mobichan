@@ -8,6 +8,7 @@ import 'package:mobichan/pages/settings_page.dart';
 import 'package:mobichan/widgets/drawer/cubit/favorites_cubit/favorites_cubit.dart';
 import 'package:mobichan/widgets/drawer/cubit/package_info_cubit/package_info_cubit.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_favorites.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);
@@ -16,7 +17,9 @@ class DrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: BlocProvider<FavoritesCubit>(
-        create: (context) => FavoritesCubit()..getFavorites(),
+        create: (context) => FavoritesCubit(
+          context.read<BoardRepository>(),
+        )..getFavorites(),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

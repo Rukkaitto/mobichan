@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/pages/image_carousel_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +17,7 @@ class PostImage extends StatefulWidget {
     required this.imagePosts,
   }) : super(key: key);
 
-  final String board;
+  final Board board;
   final Post post;
   final int imageIndex;
   final List<Post> imagePosts;
@@ -74,7 +74,7 @@ class _PostImageState extends State<PostImage> {
   }
 
   Future<String> _getImageUrl(
-      Post post, String board, ConnectivityResult connectivityStatus) async {
+      Post post, Board board, ConnectivityResult connectivityStatus) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final highResolutionThumbnailsMobile =

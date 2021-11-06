@@ -1,14 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/pages/thread_page.dart';
 import 'package:mobichan/widgets/post_widget/post_widget.dart';
 
 class RepliesPage extends StatelessWidget {
   final List<Post> postReplies;
   final List<Post> threadReplies;
-  final String board;
+  final Board board;
   const RepliesPage(this.postReplies,
       {Key? key, required this.board, required this.threadReplies})
       : super(key: key);

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/pages/board_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/cubit/favorites_cubit/favorites_cubit.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class DrawerFavorites extends StatelessWidget {
   final _scrollController = ScrollController();
@@ -40,20 +39,12 @@ class DrawerFavorites extends StatelessWidget {
   }
 
   void goToBoard(BuildContext context, Board board) {
-    Utils.saveLastVisitedBoard(
-      board: board.board,
-      title: board.title,
-      wsBoard: board.wsBoard,
-    );
+    context.read<BoardRepository>().saveLastVisitedBoard(board);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BoardPage(
-          args: BoardPageArguments(
-            board: board.board,
-            title: board.title,
-            wsBoard: board.wsBoard,
-          ),
+          args: BoardPageArguments(board),
         ),
       ),
     );

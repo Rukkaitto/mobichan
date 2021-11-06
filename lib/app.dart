@@ -1,6 +1,7 @@
-// ignore: implementation_imports
-import 'package:easy_localization/src/public_ext.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
 import 'package:mobichan/pages/boards/view/boards_view.dart';
@@ -10,29 +11,63 @@ import 'package:mobichan/pages/settings_page.dart';
 class App extends StatelessWidget {
   const App({
     Key? key,
-  }) : super(key: key);
+    required BoardRepository boardRepository,
+    required CaptchaRepository captchaRepository,
+    required PostRepository postRepository,
+    required ReleaseRepository releaseRepository,
+    required SortRepository sortRepository,
+  })  : _boardRepository = boardRepository,
+        _captchaRepository = captchaRepository,
+        _postRepository = postRepository,
+        _releaseRepository = releaseRepository,
+        _sortRepository = sortRepository,
+        super(key: key);
+
+  final BoardRepository _boardRepository;
+  final CaptchaRepository _captchaRepository;
+  final PostRepository _postRepository;
+  final ReleaseRepository _releaseRepository;
+  final SortRepository _sortRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: APP_TITLE,
-      initialRoute: '/',
-      routes: {
-        Home.routeName: (context) => Home(),
-        SettingsPage.routeName: (context) => SettingsPage(),
-        HistoryPage.routeName: (context) => HistoryPage(),
-        BoardsView.routeName: (context) => BoardsView(),
-      },
-      theme: ThemeData.dark().copyWith(
-        pageTransitionsTheme: PageTransitionsTheme(builders: {
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        }),
-        colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
-      ),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<BoardRepository>(
+          create: (context) => _boardRepository,
+        ),
+        RepositoryProvider<CaptchaRepository>(
+          create: (context) => _captchaRepository,
+        ),
+        RepositoryProvider<PostRepository>(
+          create: (context) => _postRepository,
+        ),
+        RepositoryProvider<ReleaseRepository>(
+          create: (context) => _releaseRepository,
+        ),
+        RepositoryProvider<SortRepository>(
+          create: (context) => _sortRepository,
+        ),
+      ],
+      child: MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          title: APP_TITLE,
+          initialRoute: Home.routeName,
+          routes: {
+            Home.routeName: (context) => Home(),
+            SettingsPage.routeName: (context) => SettingsPage(),
+            HistoryPage.routeName: (context) => HistoryPage(),
+            BoardsView.routeName: (context) => BoardsView(),
+          },
+          theme: ThemeData.dark().copyWith(
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            }),
+            colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
+          )),
     );
   }
 }

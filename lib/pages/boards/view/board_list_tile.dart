@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/pages/board_page.dart';
 import 'package:mobichan/pages/boards/cubit/favorite_cubit/favorite_cubit.dart';
-import 'package:mobichan/utils/utils.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardListTile extends StatelessWidget {
   final Board board;
   const BoardListTile(this.board, {Key? key}) : super(key: key);
 
   void goToBoard(BuildContext context, Board board) {
-    Utils.saveLastVisitedBoard(
-      board: board.board,
-      title: board.title,
-      wsBoard: board.wsBoard,
-    );
+    context.read<BoardRepository>().saveLastVisitedBoard(board);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BoardPage(
-          args: BoardPageArguments(
-            board: board.board,
-            title: board.title,
-            wsBoard: board.wsBoard,
-          ),
+          args: BoardPageArguments(board),
         ),
       ),
     );
@@ -33,7 +24,9 @@ class BoardListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FavoriteCubit>(
-      create: (context) => FavoriteCubit()..checkIfInFavorites(board),
+      create: (context) => FavoriteCubit(
+        context.read<BoardRepository>(),
+      )..checkIfInFavorites(board),
       child: BlocBuilder<FavoriteCubit, bool>(
         builder: (context, inFavorites) {
           final favoriteCubit = context.read<FavoriteCubit>();

@@ -1,19 +1,17 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/gallery_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/post_widget/post_widget.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants.dart';
 
@@ -84,8 +82,10 @@ class _ThreadPageState extends State<ThreadPage> {
 
   Future<void> _refresh() async {
     setState(() {
-      _futurePosts =
-          Api.fetchPosts(board: widget.args.board, thread: widget.args.thread);
+      _futurePosts = context.read<PostRepository>().getPosts(
+            board: widget.args.board,
+            thread: widget.args.thread,
+          );
     });
   }
 
@@ -101,7 +101,7 @@ class _ThreadPageState extends State<ThreadPage> {
     });
   }
 
-  void _onFormPost(Response<String> response) async {
+  void _onFormPost(String response) async {
     _onCloseForm();
     await _refresh();
   }
@@ -226,7 +226,10 @@ class _ThreadPageState extends State<ThreadPage> {
                 ),
                 autofocus: true,
               )
-            : Text(widget.args.title.unescapeHtml),
+            : Text(widget.args.thread.sub ??
+                widget.args.thread.com?.replaceBrWithSpace.removeHtmlTags
+                    .unescapeHtml ??
+                ''),
         actions: <Widget>[
           IconButton(
             onPressed: _startSearching,
@@ -270,7 +273,7 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   Widget recursiveWidget(Post post, List<Post> posts, int depth) {
-    List<Post> replies = Utils.getReplies(posts, post);
+    List<Post> replies = post.getReplies(posts);
     final maxDepth = 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +301,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemCount: replies.length,
                 itemBuilder: (context, index) {
                   Post reply = replies[index];
-                  List<int> replyingTo = Utils.replyingTo(posts, reply);
+                  List<int> replyingTo = reply.replyingTo(posts);
                   if (replies.isEmpty ||
                       replyingTo.isEmpty ||
                       replyingTo.first != post.no ||
@@ -335,9 +338,8 @@ class _ThreadPageState extends State<ThreadPage> {
           List<Post> filteredReplies = snapshot.data!
               .where((post) => _matchesSearchQuery(post.com))
               .toList();
-          List<Post> replies = filteredReplies
-              .where((element) => Utils.isRootPost(element))
-              .toList();
+          List<Post> replies =
+              filteredReplies.where((reply) => reply.isRootPost).toList();
           imagePosts = _getImagePosts(snapshot.data!);
           return Scrollbar(
             isAlwaysShown: true,

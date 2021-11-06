@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:mobichan/classes/models/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/post_widget/components/post_content.dart';
@@ -18,7 +18,7 @@ import 'package:share/share.dart';
 // ignore: must_be_immutable
 class PostWidget extends StatefulWidget {
   final Post post;
-  final String board;
+  final Board board;
   final Function? onTap;
   final double? height;
   final List<Post> threadReplies;
@@ -39,7 +39,7 @@ class PostWidget extends StatefulWidget {
     this.height,
     this.showReplies,
   }) {
-    postReplies = Utils.getReplies(threadReplies, post);
+    postReplies = post.getReplies(threadReplies);
   }
 
   @override

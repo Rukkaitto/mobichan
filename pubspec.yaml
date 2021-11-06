@@ -41,6 +41,10 @@ dependencies:
   connectivity_plus: ^1.4.0
   flutter_bloc: ^7.1.0
   equatable: ^2.0.3
+  mobichan_domain:
+    path: packages/mobichan_domain
+  mobichan_data:
+    path: packages/mobichan_data
 
 dev_dependencies:
   flutter_test:

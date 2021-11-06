@@ -627,6 +627,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  mobichan_data:
+    dependency: "direct main"
+    description:
+      path: "packages/mobichan_data"
+      relative: true
+    source: path
+    version: "0.0.1"
+  mobichan_domain:
+    dependency: "direct main"
+    description:
+      path: "packages/mobichan_domain"
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:

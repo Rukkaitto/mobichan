@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobichan/classes/models/board.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/pages/boards/view/board_list_tile.dart';
 import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards/cubit/search_cubit/search_cubit.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardList extends StatelessWidget {
   const BoardList({Key? key}) : super(key: key);

@@ -1,20 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/api/api.dart';
 import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/classes/arguments/thread_page_arguments.dart';
-import 'package:mobichan/classes/models/board.dart';
-import 'package:mobichan/classes/models/post.dart';
 import 'package:mobichan/enums/enums.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan/pages/thread_page.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 import 'package:mobichan/widgets/form_widget/form_widget.dart';
 import 'package:mobichan/widgets/thread_widget/thread_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardPage extends StatefulWidget {
   static const routeName = '/board';
@@ -26,24 +22,20 @@ class BoardPage extends StatefulWidget {
 }
 
 class _BoardPageState extends State<BoardPage> {
-  late Future<List<Post>> _futureOPs;
+  Future<List<Post>>? _futureOPs;
   bool _postFormIsOpened = false;
   bool _isSearching = false;
   String _searchQuery = '';
-  Sort _sortingOrder = Sort.byBumpOrder;
+  late Sort _sort;
   late TextEditingController _searchQueryController;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
-    super.initState();
     _searchQueryController = TextEditingController();
-    _refresh(Utils.getLastSortingOrder());
-    Utils.saveLastVisitedBoard(
-      board: widget.args.board,
-      title: widget.args.title,
-      wsBoard: widget.args.wsBoard,
-    );
+    _refresh();
+    context.read<BoardRepository>().saveLastVisitedBoard(widget.args.board);
+    super.initState();
   }
 
   void _onPressPostActionButton() {
@@ -52,14 +44,16 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  Future<void> _refresh(Future<Sort> sorting) async {
-    _futureOPs =
-        Api.fetchOPs(board: widget.args.board, sorting: Sort.byBumpOrder);
-    sorting.then((value) {
-      setState(() {
-        _futureOPs = Api.fetchOPs(board: widget.args.board, sorting: value);
-        _sortingOrder = value;
-      });
+  Future<void> _refresh() async {
+    final postRepository = context.read<PostRepository>();
+    final sortRepository = context.read<SortRepository>();
+    Sort sort = await sortRepository.getLastSort();
+    setState(() {
+      _sort = sort;
+      _futureOPs = postRepository.getThreads(
+        board: widget.args.board,
+        sort: sort,
+      );
     });
   }
 
@@ -69,9 +63,9 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  void _onFormPost(Response<String> response) async {
+  void _onFormPost(String response) async {
     _onCloseForm();
-    await _refresh(Utils.getLastSortingOrder());
+    await _refresh();
   }
 
   void _startSearching() {
@@ -112,38 +106,36 @@ class _BoardPageState extends State<BoardPage> {
     return field.toLowerCase().contains(_searchQuery.toLowerCase());
   }
 
-  PopupMenuItem _buildPopupMenuItem(String title, Sort sorting) {
+  PopupMenuItem _buildPopupMenuItem(String title, Sort sort) {
     return PopupMenuItem(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title).tr(),
-          if (sorting == _sortingOrder)
+          if (sort.order == _sort.order)
             Icon(
               Icons.check_rounded,
               size: 20,
             ),
         ],
       ),
-      value: sorting,
+      value: sort,
     );
   }
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
-      onSelected: (sorting) {
-        Utils.saveLastSortingOrder(sorting);
-        setState(() {
-          _refresh(Future.value(sorting));
-        });
+      onSelected: (sort) {
+        context.read<SortRepository>().saveSort(sort);
+        _refresh();
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
-          _buildPopupMenuItem('sort_bump_order', Sort.byBumpOrder),
-          _buildPopupMenuItem('sort_replies', Sort.byReplyCount),
-          _buildPopupMenuItem('sort_images', Sort.byImagesCount),
-          _buildPopupMenuItem('sort_newest', Sort.byNewest),
-          _buildPopupMenuItem('sort_oldest', Sort.byOldest),
+          _buildPopupMenuItem('sort_bump_order', Sort(order: Order.byBump)),
+          _buildPopupMenuItem('sort_replies', Sort(order: Order.byReplies)),
+          _buildPopupMenuItem('sort_images', Sort(order: Order.byImages)),
+          _buildPopupMenuItem('sort_newest', Sort(order: Order.byNew)),
+          _buildPopupMenuItem('sort_oldest', Sort(order: Order.byOld)),
         ];
       },
     );
@@ -156,7 +148,9 @@ class _BoardPageState extends State<BoardPage> {
         post: op,
         board: widget.args.board,
         onTap: () {
-          Utils.addThreadToHistory(op, widget.args.board);
+          context
+              .read<PostRepository>()
+              .addThreadToHistory(op, widget.args.board);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -164,9 +158,7 @@ class _BoardPageState extends State<BoardPage> {
               builder: (context) => ThreadPage(
                 args: ThreadPageArguments(
                   board: widget.args.board,
-                  thread: op.no,
-                  title:
-                      op.sub ?? op.com?.replaceBrWithSpace.removeHtmlTags ?? '',
+                  thread: op,
                 ),
               ),
             ),
@@ -177,27 +169,21 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   void _addToFavorites() async {
-    setState(() {
-      Utils.addBoardToFavorites(
-        Board(
-          board: widget.args.board,
-          title: widget.args.title,
-          wsBoard: widget.args.wsBoard,
-        ),
-      );
-    });
+    setState(
+      () {
+        context.read<BoardRepository>().addBoardToFavorites(widget.args.board);
+      },
+    );
   }
 
   void _removeFromFavorites() async {
-    setState(() {
-      Utils.removeBoardFromFavorites(
-        Board(
-          board: widget.args.board,
-          title: widget.args.title,
-          wsBoard: widget.args.wsBoard,
-        ),
-      );
-    });
+    setState(
+      () {
+        context
+            .read<BoardRepository>()
+            .removeBoardFromFavorites(widget.args.board);
+      },
+    );
   }
 
   @override
@@ -216,13 +202,9 @@ class _BoardPageState extends State<BoardPage> {
             icon: Icon(Icons.search_rounded),
           ),
           FutureBuilder(
-            future: Utils.isBoardInFavorites(
-              Board(
-                board: widget.args.board,
-                title: widget.args.title,
-                wsBoard: widget.args.wsBoard,
-              ),
-            ),
+            future: context
+                .read<BoardRepository>()
+                .isBoardInFavorites(widget.args.board),
             builder: (context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {
                 final isInFavorites = snapshot.data!;
@@ -251,12 +233,12 @@ class _BoardPageState extends State<BoardPage> {
                 ),
                 autofocus: true,
               )
-            : Text('${widget.args.title}'),
+            : Text('${widget.args.board.title}'),
       ),
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: () => _refresh(Utils.getLastSortingOrder()),
+            onRefresh: () => _refresh(),
             child: buildFutureBuilder(),
           ),
           FormWidget(
