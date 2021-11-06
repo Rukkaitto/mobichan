@@ -8,11 +8,14 @@ abstract class BoardRemoteDatasource {
 }
 
 class BoardRemoteDatasourceImpl implements BoardRemoteDatasource {
+  final http.Client client;
   final String apiUrl = 'https://a.4cdn.org/boards.json';
+
+  BoardRemoteDatasourceImpl({required this.client});
 
   @override
   Future<List<BoardModel>> getBoards() async {
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await client.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       List<BoardModel> boards = (jsonDecode(response.body)['boards'] as List)

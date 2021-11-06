@@ -2,17 +2,17 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 class BoardRepositoryImpl extends BoardRepository {
-  final BoardLocalDatasource localDataSource;
+  final BoardLocalDatasource localDatasource;
   final BoardRemoteDatasource remoteDatasource;
 
   BoardRepositoryImpl({
-    required this.localDataSource,
+    required this.localDatasource,
     required this.remoteDatasource,
   });
 
   @override
   Future<void> addBoardToFavorites(Board board) async {
-    return localDataSource.addBoardToFavorites(BoardModel.fromEntity(board));
+    return localDatasource.addBoardToFavorites(BoardModel.fromEntity(board));
   }
 
   @override
@@ -22,27 +22,27 @@ class BoardRepositoryImpl extends BoardRepository {
 
   @override
   Future<List<Board>> getFavoriteBoards() async {
-    return localDataSource.getFavoriteBoards();
+    return localDatasource.getFavoriteBoards();
   }
 
   @override
   Future<bool> isBoardInFavorites(Board board) async {
-    return localDataSource.isBoardInFavorites(BoardModel.fromEntity(board));
+    return localDatasource.isBoardInFavorites(BoardModel.fromEntity(board));
   }
 
   @override
   Future<void> removeBoardFromFavorites(Board board) async {
-    return localDataSource
+    return localDatasource
         .removeBoardFromFavorites(BoardModel.fromEntity(board));
   }
 
   @override
   Future<Board> getLastVisitedBoard() async {
-    return localDataSource.getLastVisitedBoard();
+    return localDatasource.getLastVisitedBoard();
   }
 
   @override
   Future<void> saveLastVisitedBoard(Board board) async {
-    return localDataSource.saveLastVisitedBoard(BoardModel.fromEntity(board));
+    return localDatasource.saveLastVisitedBoard(BoardModel.fromEntity(board));
   }
 }

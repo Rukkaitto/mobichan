@@ -12,6 +12,10 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
   final String apiUrl = 'https://sys.4channel.org/captcha';
   final String errorKey = 'error';
 
+  final http.Client client;
+
+  CaptchaRemoteDatasourceImpl({required this.client});
+
   @override
   Future<CaptchaChallengeModel> getCaptchaChallenge(
     BoardModel board,
@@ -21,7 +25,7 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
     if (thread != null) {
       url += '&thread_id=$thread';
     }
-    final response = await http.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       try {
