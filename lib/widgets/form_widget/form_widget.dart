@@ -114,7 +114,7 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   void _handleNetworkError(NetworkException error) {
-    _handleError('Could not send post. Are you connected to the Internet?');
+    _handleError(post_network_error.tr());
   }
 
   void _onSend(String challenge, String attempt) {

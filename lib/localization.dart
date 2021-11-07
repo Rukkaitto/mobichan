@@ -33,3 +33,4 @@ const String reply = 'reply';
 const String quote = 'quote';
 const String gallery = 'gallery';
 const String boards_loading_error = 'boards_loading_error';
+const String post_network_error = 'post_network_error';
