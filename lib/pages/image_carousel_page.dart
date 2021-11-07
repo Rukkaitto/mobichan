@@ -140,16 +140,13 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
                 if (isWebM(currentPost.getImageUrl(widget.board))) {
                   if (videoPlayerControllers[index] == null) {
                     videoPlayerControllers[index] = VlcPlayerController.network(
-                      '$API_IMAGES_URL/${widget.board}/${currentPost.tim}${currentPost.ext}',
+                      currentPost.getImageUrl(widget.board),
                       hwAcc: HwAcc.FULL,
                       autoPlay: true,
                       options: VlcPlayerOptions(),
                     );
                   }
                   return PhotoViewGalleryPageOptions.customChild(
-                    heroAttributes: PhotoViewHeroAttributes(
-                      tag: 'image$index}',
-                    ),
                     child: WebmViewerPage(
                       currentPost,
                       videoPlayerControllers[index],
