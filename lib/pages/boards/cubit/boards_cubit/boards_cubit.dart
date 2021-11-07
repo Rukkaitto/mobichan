@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 part 'boards_state.dart';
 
@@ -34,5 +35,3 @@ class BoardsCubit extends Cubit<BoardsState> {
     }
   }
 }
-
-class NetworkException implements Exception {}

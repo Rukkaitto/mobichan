@@ -36,7 +36,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<String> postReply({
+  Future<void> postReply({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -57,7 +57,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<String> postThread(
+  Future<void> postThread(
       {required Board board,
       required String captchaChallenge,
       required String captchaResponse,
