@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -15,7 +17,7 @@ abstract class PostRemoteDatasource {
   Future<List<PostModel>> getThreads(
       {required BoardModel board, required Sort sort});
 
-  Future<String> postThread({
+  Future<void> postThread({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -25,7 +27,7 @@ abstract class PostRemoteDatasource {
     String? filePath,
   });
 
-  Future<String> postReply({
+  Future<void> postReply({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -99,7 +101,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<String> postThread({
+  Future<void> postThread({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -139,22 +141,29 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       "referer": "https://board.4channel.org/",
     };
 
+    Response<String>? response;
+
     try {
-      Response<String> response = await dio.post(
+      response = await dio.post(
         url,
         data: formData,
         options: Options(
           headers: headers,
         ),
       );
-      return response.data!;
     } on Exception {
       throw NetworkException();
+    }
+
+    String? error = _getErrorMessage(response);
+
+    if (error != null) {
+      throw ChanException(error);
     }
   }
 
   @override
-  Future<String> postReply({
+  Future<void> postReply({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -191,18 +200,32 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       "origin": "https://board.4channel.org",
       "referer": "https://board.4channel.org/",
     };
+    Response<String>? response;
 
     try {
-      Response<String> response = await dio.post(
+      response = await dio.post(
         url,
         data: formData,
         options: Options(
           headers: headers,
         ),
       );
-      return response.data!;
     } on Exception {
       throw NetworkException();
+    }
+
+    String? error = _getErrorMessage(response);
+
+    if (error != null) {
+      throw ChanException(error);
+    }
+  }
+
+  String? _getErrorMessage(Response<String>? response) {
+    var document = parse(response?.data);
+    Element? errMsg = document.getElementById('errmsg');
+    if (errMsg != null) {
+      return errMsg.innerHtml;
     }
   }
 

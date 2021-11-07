@@ -63,7 +63,7 @@ class _BoardPageState extends State<BoardPage> {
     });
   }
 
-  void _onFormPost(String response) async {
+  void _onFormPost() async {
     _onCloseForm();
     await _refresh();
   }
