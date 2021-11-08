@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
+import 'package:dio/dio.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class CaptchaRemoteDatasource {
@@ -12,7 +12,7 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
   final String apiUrl = 'https://sys.4channel.org/captcha';
   final String errorKey = 'error';
 
-  final http.Client client;
+  final Dio client;
 
   CaptchaRemoteDatasourceImpl({required this.client});
 
@@ -25,11 +25,11 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
     if (thread != null) {
       url += '&thread_id=$thread';
     }
-    final response = await client.get(Uri.parse(url));
+    final response = await client.get<String>(url);
 
     if (response.statusCode == 200) {
       try {
-        Map<String, dynamic> responseJson = jsonDecode(response.body);
+        Map<String, dynamic> responseJson = jsonDecode(response.data!);
         if (responseJson.containsKey(errorKey)) {
           throw CaptchaChallengeException.fromJson(responseJson);
         } else {

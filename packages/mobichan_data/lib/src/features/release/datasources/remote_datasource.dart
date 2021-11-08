@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import 'package:mobichan_data/mobichan_data.dart';
 
@@ -11,17 +11,17 @@ class ReleaseRemoteDatasourceImpl implements ReleaseRemoteDatasource {
   final String apiUrl =
       'https://api.github.com/repos/Rukkaitto/mobichan/releases';
 
-  final http.Client client;
+  final Dio client;
 
   ReleaseRemoteDatasourceImpl({required this.client});
 
   @override
   Future<ReleaseModel> getLatestRelease() async {
-    final response = await client.get(Uri.parse(apiUrl));
+    final response = await client.get<String>(apiUrl);
 
     if (response.statusCode == 200) {
       try {
-        List<ReleaseModel> releases = (jsonDecode(response.body) as List)
+        List<ReleaseModel> releases = (jsonDecode(response.data!) as List)
             .map((model) => ReleaseModel.fromJson(model))
             .toList();
         return releases.first;

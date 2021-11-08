@@ -10,7 +10,6 @@ import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 final sl = GetIt.instance;
 
@@ -77,7 +76,6 @@ Future<void> init() async {
   sl.registerLazySingleton<PostRemoteDatasource>(
     () => PostRemoteDatasourceImpl(
       client: sl(),
-      dio: sl(),
     ),
   );
 
@@ -122,13 +120,12 @@ Future<void> init() async {
 
   // External
   final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   final packageInfo = await PackageInfo.fromPlatform();
-  sl.registerLazySingleton(() => packageInfo);
+  sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 
-  sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton<Dio>(() => Dio());
 
   log('Injected dependencies.', name: "Dependency Injector");
 }
