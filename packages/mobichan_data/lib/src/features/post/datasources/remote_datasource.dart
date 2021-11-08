@@ -122,13 +122,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     });
 
     if (filePath != null) {
-      File file = File(filePath);
       formData.files.add(
         MapEntry(
           "upfile",
           await MultipartFile.fromFile(
-            file.path,
-            filename: file.path.split(Platform.pathSeparator).last,
+            filePath,
+            filename: filePath.split(Platform.pathSeparator).last,
           ),
         ),
       );
@@ -182,13 +181,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     });
 
     if (filePath != null) {
-      File file = File(filePath);
       formData.files.add(
         MapEntry(
           "upfile",
           await MultipartFile.fromFile(
-            file.path,
-            filename: file.path.split(Platform.pathSeparator).last,
+            filePath,
+            filename: filePath.split(Platform.pathSeparator).last,
           ),
         ),
       );

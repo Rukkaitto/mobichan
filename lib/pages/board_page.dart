@@ -125,17 +125,18 @@ class _BoardPageState extends State<BoardPage> {
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
+      icon: Icon(Icons.sort),
       onSelected: (sort) {
         context.read<SortRepository>().saveSort(sort);
         _refresh();
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
-          _buildPopupMenuItem('sort_bump_order', Sort(order: Order.byBump)),
-          _buildPopupMenuItem('sort_replies', Sort(order: Order.byReplies)),
-          _buildPopupMenuItem('sort_images', Sort(order: Order.byImages)),
-          _buildPopupMenuItem('sort_newest', Sort(order: Order.byNew)),
-          _buildPopupMenuItem('sort_oldest', Sort(order: Order.byOld)),
+          _buildPopupMenuItem(sort_bump_order, Sort(order: Order.byBump)),
+          _buildPopupMenuItem(sort_replies, Sort(order: Order.byReplies)),
+          _buildPopupMenuItem(sort_images, Sort(order: Order.byImages)),
+          _buildPopupMenuItem(sort_newest, Sort(order: Order.byNew)),
+          _buildPopupMenuItem(sort_oldest, Sort(order: Order.byOld)),
         ];
       },
     );

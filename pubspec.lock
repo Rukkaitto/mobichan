@@ -197,6 +197,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  configurable_expansion_tile_null_safety:
+    dependency: "direct main"
+    description:
+      name: configurable_expansion_tile_null_safety
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   connectivity_plus:
     dependency: "direct main"
     description:

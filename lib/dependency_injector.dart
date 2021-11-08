@@ -2,10 +2,8 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
-import 'package:mobichan/pages/boards/cubit/favorite_cubit/favorite_cubit.dart';
-import 'package:mobichan/widgets/drawer/cubit/favorites_cubit/favorites_cubit.dart';
-import 'package:mobichan/widgets/drawer/cubit/package_info_cubit/package_info_cubit.dart';
+import 'package:mobichan/features/board/cubits/cubits.dart';
+import 'package:mobichan/features/core/cubits/cubits.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';

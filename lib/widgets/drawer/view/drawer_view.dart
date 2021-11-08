@@ -16,20 +16,17 @@ class DrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: BlocProvider<FavoritesCubit>(
-        create: (context) => sl<FavoritesCubit>()..getFavorites(),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              buildNavigation(context),
-              Flexible(
-                child: DrawerFavorites(),
-              ),
-              buildPackageInfo(),
-            ],
-          ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            buildNavigation(context),
+            Flexible(
+              child: DrawerFavorites(),
+            ),
+            buildPackageInfo(),
+          ],
         ),
       ),
     );

@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:mobichan/classes/arguments/board_page_arguments.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/extensions/string_extension.dart';
-import 'package:mobichan/pages/board_page.dart';
+import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
@@ -90,9 +89,7 @@ class _HomeState extends State<Home> {
                           (lastVisitedBoard.wsBoard == 0 &&
                               !_nsfwWarningDismissed)
                       ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
-                      : BoardPage(
-                          args: BoardPageArguments(lastVisitedBoard),
-                        );
+                      : BoardPage(initialBoard: lastVisitedBoard);
                 }
                 if (boardSnapshot.hasError) {
                   return Center(
