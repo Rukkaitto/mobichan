@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
@@ -42,22 +41,21 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   final String apiUrl = 'https://a.4cdn.org';
   final String threadHistoryKey = 'thread_history';
 
-  final http.Client client;
-  final Dio dio;
+  final Dio client;
 
-  PostRemoteDatasourceImpl({required this.client, required this.dio});
+  PostRemoteDatasourceImpl({required this.client});
 
   @override
   Future<List<PostModel>> getPosts({
     required BoardModel board,
     required PostModel thread,
   }) async {
-    final response = await client
-        .get(Uri.parse('$apiUrl/${board.board}/thread/$thread.json'));
+    final response =
+        await client.get<String>('$apiUrl/${board.board}/thread/$thread.json');
 
     if (response.statusCode == 200) {
       try {
-        List<PostModel> posts = (jsonDecode(response.body)['posts'] as List)
+        List<PostModel> posts = (jsonDecode(response.data!)['posts'] as List)
             .map((model) => PostModel.fromJson(model))
             .toList();
         return posts;
@@ -75,12 +73,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required Sort sort,
   }) async {
     final response =
-        await client.get(Uri.parse('$apiUrl/${board.board}/catalog.json'));
+        await client.get<String>('$apiUrl/${board.board}/catalog.json');
 
     if (response.statusCode == 200) {
       try {
         List<PostModel> threads = List.empty(growable: true);
-        List pages = jsonDecode(response.body);
+        List pages = jsonDecode(response.data!);
 
         for (var page in pages) {
           List opsInPage = page['threads'];
@@ -144,7 +142,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     Response<String>? response;
 
     try {
-      response = await dio.post(
+      response = await client.post(
         url,
         data: formData,
         options: Options(
@@ -203,7 +201,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     Response<String>? response;
 
     try {
-      response = await dio.post(
+      response = await client.post(
         url,
         data: formData,
         options: Options(

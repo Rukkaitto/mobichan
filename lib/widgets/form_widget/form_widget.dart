@@ -10,7 +10,6 @@ import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 
 import 'components/form_fields.dart';
 
