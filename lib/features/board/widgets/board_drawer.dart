@@ -22,14 +22,14 @@ class BoardDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildMenuList(context),
-            buildVersionInfo(),
+            buildVersionInfo(context),
           ],
         ),
       ),
     );
   }
 
-  Container buildVersionInfo() {
+  Container buildVersionInfo(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.0),
       width: double.infinity,
@@ -38,7 +38,10 @@ class BoardDrawer extends StatelessWidget {
         child: BlocBuilder<PackageInfoCubit, PackageInfoState>(
           builder: (context, state) {
             if (state is PackageInfoLoaded) {
-              return Text('Version ${state.packageInfo.version}');
+              return Text(
+                'Version ${state.packageInfo.version}',
+                style: Theme.of(context).textTheme.subtitle2,
+              );
             } else {
               return Container();
             }
@@ -53,55 +56,70 @@ class BoardDrawer extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
-        ConfigurableExpansionTile(
-          header: Expanded(
-            child: Row(
-              children: [
-                Icon(Icons.list),
-                Text(boards).tr(),
-              ],
-            ),
-          ),
-          children: [
-            buildBoards(),
-          ],
-        ),
-        ConfigurableExpansionTile(
-          header: Expanded(
-            child: Row(
-              children: [
-                Icon(Icons.history),
-                Text(history).tr(),
-              ],
-            ),
-          ),
-          children: [
-            buildHistory(),
-          ],
+        buildBoards(context),
+        buildHistory(),
+        BoardExpansionTile(
+          onTap: () {
+            print('Go to settings');
+          },
+          title: settings.tr(),
+          icon: Icons.settings,
         ),
       ],
     );
   }
 
-  SizedBox buildBoards() {
-    return SizedBox(
-      height: 500.0,
-      child: BlocProvider<BoardsCubit>(
-        create: (context) => sl<BoardsCubit>()..getBoards(),
-        child: BlocBuilder<BoardsCubit, BoardsState>(
-          builder: (context, state) {
-            if (state is BoardsLoaded) {
-              return ListView.builder(
-                itemCount: state.boards.length,
-                itemBuilder: (context, index) {
-                  Board board = state.boards[index];
-                  return buildBoardListTile(board);
-                },
-              );
-            } else {
-              return buildLoading();
-            }
-          },
+  BoardExpansionTile buildBoards(BuildContext context) {
+    return BoardExpansionTile(
+      title: boards.tr(),
+      icon: Icons.list,
+      child: SizedBox(
+        height: 500.0,
+        child: BlocProvider<BoardsCubit>(
+          create: (context) => sl<BoardsCubit>()..getBoards(),
+          child: BlocBuilder<BoardsCubit, BoardsState>(
+            builder: (context, state) {
+              if (state is BoardsLoaded) {
+                return ListView.builder(
+                  itemCount: state.boards.length,
+                  itemBuilder: (context, index) {
+                    Board board = state.boards[index];
+                    return buildBoardListTile(board);
+                  },
+                );
+              } else {
+                return buildLoading();
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  BoardExpansionTile buildHistory() {
+    return BoardExpansionTile(
+      title: history.tr(),
+      icon: Icons.history,
+      child: SizedBox(
+        height: 500.0,
+        child: BlocProvider<HistoryCubit>(
+          create: (context) => sl<HistoryCubit>()..getHistory(),
+          child: BlocBuilder<HistoryCubit, HistoryState>(
+            builder: (context, state) {
+              if (state is HistoryLoaded) {
+                return ListView.builder(
+                  itemCount: state.history.length,
+                  itemBuilder: (context, index) {
+                    Post thread = state.history[index];
+                    return buildHistoryListTile(thread);
+                  },
+                );
+              } else {
+                return buildLoading();
+              }
+            },
+          ),
         ),
       ),
     );
@@ -113,6 +131,10 @@ class BoardDrawer extends StatelessWidget {
       child: BlocBuilder<FavoriteCubit, bool>(
         builder: (context, isFavorite) {
           return ListTile(
+            dense: true,
+            minVerticalPadding: 0,
+            contentPadding: EdgeInsets.only(left: 56),
+            horizontalTitleGap: 0,
             title: RichText(
               text: TextSpan(
                 text: board.title,
@@ -130,34 +152,16 @@ class BoardDrawer extends StatelessWidget {
                 board,
                 isFavorite,
               ),
-              icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                size: 20,
+                color: isFavorite
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).iconTheme.color,
+              ),
             ),
           );
         },
-      ),
-    );
-  }
-
-  SizedBox buildHistory() {
-    return SizedBox(
-      height: 500.0,
-      child: BlocProvider<HistoryCubit>(
-        create: (context) => sl<HistoryCubit>()..getHistory(),
-        child: BlocBuilder<HistoryCubit, HistoryState>(
-          builder: (context, state) {
-            if (state is HistoryLoaded) {
-              return ListView.builder(
-                itemCount: state.history.length,
-                itemBuilder: (context, index) {
-                  Post thread = state.history[index];
-                  return buildHistoryListTile(thread);
-                },
-              );
-            } else {
-              return buildLoading();
-            }
-          },
-        ),
       ),
     );
   }

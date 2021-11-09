@@ -46,7 +46,6 @@ class ThreadWidget extends StatelessWidget {
           Icon(
             Icons.more_vert,
             size: iconSize,
-            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
         ],
       ),
@@ -60,7 +59,6 @@ class ThreadWidget extends StatelessWidget {
           Icon(
             Icons.push_pin,
             size: iconSize,
-            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIcons,
         ],
@@ -77,7 +75,6 @@ class ThreadWidget extends StatelessWidget {
           Icon(
             Icons.reply,
             size: iconSize,
-            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIconAndText,
           Text(
@@ -99,7 +96,6 @@ class ThreadWidget extends StatelessWidget {
           Icon(
             Icons.image,
             size: iconSize,
-            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIconAndText,
           Text(
