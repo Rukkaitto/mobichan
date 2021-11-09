@@ -7,9 +7,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   final BoardRepository repository;
   FavoritesCubit({required this.repository}) : super(FavoritesInitial());
 
-  void getFavorites() async {
+  Future<void> getFavorites() async {
     emit(FavoritesLoading());
     List<Board> favorites = await repository.getFavoriteBoards();
+    print(favorites);
     emit(FavoritesLoaded(favorites));
   }
 }

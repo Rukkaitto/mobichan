@@ -49,16 +49,19 @@ class BoardDrawer extends StatelessWidget {
             ),
           ),
           children: [
-            BlocProvider<BoardsCubit>(
-              create: (context) => sl<BoardsCubit>()..getBoards(),
-              child: BlocBuilder<BoardsCubit, BoardsState>(
-                builder: (context, state) {
-                  if (state is BoardsLoaded) {
-                    return buildBoards(state.boards);
-                  } else {
-                    return buildLoading();
-                  }
-                },
+            SizedBox(
+              height: 500.0,
+              child: BlocProvider<BoardsCubit>(
+                create: (context) => sl<BoardsCubit>()..getBoards(),
+                child: BlocBuilder<BoardsCubit, BoardsState>(
+                  builder: (context, state) {
+                    if (state is BoardsLoaded) {
+                      return buildBoards(state.boards);
+                    } else {
+                      return buildLoading();
+                    }
+                  },
+                ),
               ),
             ),
           ],
@@ -67,13 +70,21 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  SizedBox buildBoards(List<Board> boards) {
-    return SizedBox(
-      height: 500.0,
-      child: ListView.builder(
-        itemCount: boards.length,
-        itemBuilder: (context, index) {
-          Board board = boards[index];
+  ListView buildBoards(List<Board> boards) {
+    return ListView.builder(
+      itemCount: boards.length,
+      itemBuilder: (context, index) {
+        Board board = boards[index];
+        return buildListTile(board);
+      },
+    );
+  }
+
+  BlocProvider buildListTile(Board board) {
+    return BlocProvider<FavoriteCubit>(
+      create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
+      child: BlocBuilder<FavoriteCubit, bool>(
+        builder: (context, isFavorite) {
           return ListTile(
             title: RichText(
               text: TextSpan(
@@ -87,8 +98,12 @@ class BoardDrawer extends StatelessWidget {
               ),
             ),
             trailing: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.favorite_border),
+              onPressed: () => handleOnFavoritePressed(
+                context,
+                board,
+                isFavorite,
+              ),
+              icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
             ),
           );
         },
@@ -100,5 +115,20 @@ class BoardDrawer extends StatelessWidget {
     return Center(
       child: CircularProgressIndicator(),
     );
+  }
+
+  void handleOnFavoritePressed(
+    BuildContext context,
+    Board board,
+    bool isFavorite,
+  ) async {
+    final favoriteCubit = context.read<FavoriteCubit>();
+    final favoritesCubit = context.read<FavoritesCubit>();
+    if (isFavorite) {
+      await favoriteCubit.removeFromFavorites(board);
+    } else {
+      await favoriteCubit.addToFavorites(board);
+    }
+    await favoritesCubit.getFavorites();
   }
 }

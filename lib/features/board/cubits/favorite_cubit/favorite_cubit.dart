@@ -5,17 +5,17 @@ class FavoriteCubit extends Cubit<bool> {
   final BoardRepository repository;
   FavoriteCubit({required this.repository}) : super(false);
 
-  void addToFavorites(Board board) {
-    repository.addBoardToFavorites(board);
+  Future<void> addToFavorites(Board board) async {
+    await repository.addBoardToFavorites(board);
     emit(true);
   }
 
-  void removeFromFavorites(Board board) {
-    repository.removeBoardFromFavorites(board);
+  Future<void> removeFromFavorites(Board board) async {
+    await repository.removeBoardFromFavorites(board);
     emit(false);
   }
 
-  void checkIfInFavorites(Board board) async {
+  Future<void> checkIfInFavorites(Board board) async {
     bool isInFavorites = await repository.isBoardInFavorites(board);
     emit(isInFavorites);
   }
