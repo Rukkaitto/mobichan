@@ -3,9 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/features/post/cubits/cubits.dart';
 import 'package:mobichan/localization.dart';
 
 import 'package:mobichan/features/board/board.dart';
+import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class BoardDrawer extends StatelessWidget {
@@ -31,7 +33,18 @@ class BoardDrawer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10.0),
       width: double.infinity,
-      child: Text('test'),
+      child: BlocProvider<PackageInfoCubit>(
+        create: (context) => sl<PackageInfoCubit>()..getPackageInfo(),
+        child: BlocBuilder<PackageInfoCubit, PackageInfoState>(
+          builder: (context, state) {
+            if (state is PackageInfoLoaded) {
+              return Text('Version ${state.packageInfo.version}');
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -49,38 +62,51 @@ class BoardDrawer extends StatelessWidget {
             ),
           ),
           children: [
-            SizedBox(
-              height: 500.0,
-              child: BlocProvider<BoardsCubit>(
-                create: (context) => sl<BoardsCubit>()..getBoards(),
-                child: BlocBuilder<BoardsCubit, BoardsState>(
-                  builder: (context, state) {
-                    if (state is BoardsLoaded) {
-                      return buildBoards(state.boards);
-                    } else {
-                      return buildLoading();
-                    }
-                  },
-                ),
-              ),
+            buildBoards(),
+          ],
+        ),
+        ConfigurableExpansionTile(
+          header: Expanded(
+            child: Row(
+              children: [
+                Icon(Icons.history),
+                Text(history).tr(),
+              ],
             ),
+          ),
+          children: [
+            buildHistory(),
           ],
         ),
       ],
     );
   }
 
-  ListView buildBoards(List<Board> boards) {
-    return ListView.builder(
-      itemCount: boards.length,
-      itemBuilder: (context, index) {
-        Board board = boards[index];
-        return buildListTile(board);
-      },
+  SizedBox buildBoards() {
+    return SizedBox(
+      height: 500.0,
+      child: BlocProvider<BoardsCubit>(
+        create: (context) => sl<BoardsCubit>()..getBoards(),
+        child: BlocBuilder<BoardsCubit, BoardsState>(
+          builder: (context, state) {
+            if (state is BoardsLoaded) {
+              return ListView.builder(
+                itemCount: boards.length,
+                itemBuilder: (context, index) {
+                  Board board = state.boards[index];
+                  return buildBoardListTile(board);
+                },
+              );
+            } else {
+              return buildLoading();
+            }
+          },
+        ),
+      ),
     );
   }
 
-  BlocProvider buildListTile(Board board) {
+  BlocProvider buildBoardListTile(Board board) {
     return BlocProvider<FavoriteCubit>(
       create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
       child: BlocBuilder<FavoriteCubit, bool>(
@@ -108,6 +134,36 @@ class BoardDrawer extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  SizedBox buildHistory() {
+    return SizedBox(
+      height: 500.0,
+      child: BlocProvider<HistoryCubit>(
+        create: (context) => sl<HistoryCubit>()..getHistory(),
+        child: BlocBuilder<HistoryCubit, HistoryState>(
+          builder: (context, state) {
+            if (state is HistoryLoaded) {
+              return ListView.builder(
+                itemCount: state.history.length,
+                itemBuilder: (context, index) {
+                  Post thread = state.history[index];
+                  return buildHistoryListTile(thread);
+                },
+              );
+            } else {
+              return buildLoading();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  ListTile buildHistoryListTile(Post thread) {
+    return ListTile(
+      title: Text(thread.sub ?? thread.com ?? ''),
     );
   }
 
