@@ -50,6 +50,7 @@ class BoardDrawer extends StatelessWidget {
 
   ListView buildMenuList(BuildContext context) {
     return ListView(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
         ConfigurableExpansionTile(

@@ -45,6 +45,10 @@ class BoardPage extends StatelessWidget {
       initialIndex: favorites.indexWhere((board) => board == initialBoard),
       length: favorites.length,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.edit),
+        ),
         drawer: BoardDrawer(),
         appBar: AppBar(
           title: Text(boards).tr(),
@@ -62,7 +66,7 @@ class BoardPage extends StatelessWidget {
     return TabBarView(
       children: favorites
           .map(
-            (board) => BoardFeed(board),
+            (board) => ThreadsPage(board),
           )
           .toList(),
     );
