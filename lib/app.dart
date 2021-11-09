@@ -1,4 +1,5 @@
 import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/theme.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +34,24 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: APP_TITLE,
-          initialRoute: Home.routeName,
-          routes: {
-            Home.routeName: (context) => Home(),
-            SettingsPage.routeName: (context) => SettingsPage(),
-            HistoryPage.routeName: (context) => HistoryPage(),
-            BoardsView.routeName: (context) => BoardsView(),
-          },
-          theme: ThemeData.dark().copyWith(
-            pageTransitionsTheme: PageTransitionsTheme(builders: {
-              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            }),
-            colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
-          )),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: APP_TITLE,
+        initialRoute: Home.routeName,
+        routes: {
+          Home.routeName: (context) => Home(),
+          SettingsPage.routeName: (context) => SettingsPage(),
+          HistoryPage.routeName: (context) => HistoryPage(),
+          BoardsView.routeName: (context) => BoardsView(),
+        },
+        theme: theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(
+            primary: Color(0xFF61D3C3),
+            secondary: Color(0xFF61D3C3),
+          ),
+        ),
+      ),
     );
   }
 }

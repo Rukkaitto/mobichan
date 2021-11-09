@@ -12,7 +12,7 @@ class ThreadWidget extends StatelessWidget {
   final SizedBox spacingBetweenIconAndText = const SizedBox(width: 5.0);
   final double iconSize = 20.0;
   final double imageHeight = 250.0;
-  final int maxLines = 3;
+  final int maxLines = 5;
 
   const ThreadWidget({required this.thread, required this.board, Key? key})
       : super(key: key);
@@ -22,14 +22,14 @@ class ThreadWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitle(),
+        buildTitle(context),
         buildImage(),
-        buildFooter(),
+        buildFooter(context),
       ],
     );
   }
 
-  Widget buildFooter() {
+  Widget buildFooter(BuildContext context) {
     return Padding(
       padding: padding,
       child: Row(
@@ -38,24 +38,29 @@ class ThreadWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              buildSticky(),
-              buildReplies(),
-              buildImages(),
+              buildSticky(context),
+              buildReplies(context),
+              buildImages(context),
             ],
           ),
-          Icon(Icons.more_vert),
+          Icon(
+            Icons.more_vert,
+            size: iconSize,
+            color: Theme.of(context).textTheme.subtitle1!.color,
+          ),
         ],
       ),
     );
   }
 
-  Widget buildSticky() {
+  Widget buildSticky(BuildContext context) {
     if (thread.sticky != null) {
       return Row(
         children: [
           Icon(
             Icons.push_pin,
             size: iconSize,
+            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIcons,
         ],
@@ -65,16 +70,20 @@ class ThreadWidget extends StatelessWidget {
     }
   }
 
-  Widget buildReplies() {
+  Widget buildReplies(BuildContext context) {
     if (thread.replies != null) {
       return Row(
         children: [
           Icon(
             Icons.reply,
             size: iconSize,
+            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIconAndText,
-          Text('${thread.replies}'),
+          Text(
+            '${thread.replies}',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
           spacingBetweenIcons,
         ],
       );
@@ -83,16 +92,20 @@ class ThreadWidget extends StatelessWidget {
     }
   }
 
-  Widget buildImages() {
+  Widget buildImages(BuildContext context) {
     if (thread.images != null) {
       return Row(
         children: [
           Icon(
             Icons.image,
             size: iconSize,
+            color: Theme.of(context).textTheme.subtitle1!.color,
           ),
           spacingBetweenIconAndText,
-          Text('${thread.images}'),
+          Text(
+            '${thread.images}',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
         ],
       );
     } else {
@@ -108,7 +121,9 @@ class ThreadWidget extends StatelessWidget {
         children: [
           CachedNetworkImage(
             fit: BoxFit.cover,
-            imageUrl: thread.getImageUrl(board),
+            imageUrl: thread.isWebm
+                ? thread.getThumbnailUrl(board)
+                : thread.getImageUrl(board),
             placeholder: (context, url) {
               return Image.network(
                 thread.getThumbnailUrl(board),
@@ -133,7 +148,7 @@ class ThreadWidget extends StatelessWidget {
     }
   }
 
-  Widget buildTitle() {
+  Widget buildTitle(BuildContext context) {
     String title = thread.sub?.removeHtmlTags.unescapeHtml ??
         thread.com?.replaceBrWithNewline.removeHtmlTags.unescapeHtml ??
         '';
@@ -145,6 +160,7 @@ class ThreadWidget extends StatelessWidget {
         softWrap: true,
         maxLines: maxLines,
         overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.headline2,
       ),
     );
   }

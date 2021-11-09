@@ -31,7 +31,7 @@ class BoardPage extends StatelessWidget {
               boards.add(initialBoard);
               boards.sort();
             }
-            return buildDefaultTabController(boards);
+            return buildDefaultTabController(context, boards);
           } else {
             return Container();
           }
@@ -40,7 +40,8 @@ class BoardPage extends StatelessWidget {
     );
   }
 
-  DefaultTabController buildDefaultTabController(List<Board> favorites) {
+  DefaultTabController buildDefaultTabController(
+      BuildContext context, List<Board> favorites) {
     return DefaultTabController(
       initialIndex: favorites.indexWhere((board) => board == initialBoard),
       length: favorites.length,
@@ -50,15 +51,45 @@ class BoardPage extends StatelessWidget {
           child: Icon(Icons.edit),
         ),
         drawer: BoardDrawer(),
-        appBar: AppBar(
-          title: Text(boards).tr(),
-          bottom: PreferredSize(
-            child: BoardTabs(favorites),
-            preferredSize: Size.fromHeight(40.0),
-          ),
-        ),
+        appBar: buildAppBar(context, favorites),
         body: buildTabBarView(favorites),
       ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context, List<Board> favorites) {
+    return AppBar(
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(
+              Icons.menu,
+              size: 30,
+              color: Theme.of(context).disabledColor,
+            ),
+          );
+        },
+      ),
+      centerTitle: false,
+      title: Text(
+        boards,
+        style: Theme.of(context).textTheme.headline1,
+      ).tr(),
+      bottom: PreferredSize(
+        child: BoardTabs(favorites),
+        preferredSize: Size.fromHeight(40.0),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.search),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.sort),
+        ),
+      ],
     );
   }
 

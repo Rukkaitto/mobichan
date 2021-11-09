@@ -106,6 +106,10 @@ class Post {
     return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
   }
 
+  bool get isWebm {
+    return ext == '.webm';
+  }
+
   @override
   String toString() {
     return no.toString();

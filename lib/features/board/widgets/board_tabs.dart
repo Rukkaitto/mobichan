@@ -8,15 +8,22 @@ class BoardTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBar(
-      isScrollable: true,
-      tabs: favorites
-          .map(
-            (favorite) => Tab(
-              child: Text(favorite.title),
-            ),
-          )
-          .toList(),
+    return Container(
+      color: Theme.of(context).cardColor,
+      child: Row(
+        children: [
+          TabBar(
+            isScrollable: true,
+            labelStyle: Theme.of(context).textTheme.headline2,
+            unselectedLabelColor: Theme.of(context).disabledColor,
+            tabs: favorites
+                .map(
+                  (favorite) => Tab(text: favorite.title),
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }

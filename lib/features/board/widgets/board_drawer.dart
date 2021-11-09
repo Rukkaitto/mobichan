@@ -92,7 +92,7 @@ class BoardDrawer extends StatelessWidget {
           builder: (context, state) {
             if (state is BoardsLoaded) {
               return ListView.builder(
-                itemCount: boards.length,
+                itemCount: state.boards.length,
                 itemBuilder: (context, index) {
                   Board board = state.boards[index];
                   return buildBoardListTile(board);
