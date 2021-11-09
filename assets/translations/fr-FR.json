@@ -42,5 +42,6 @@
   "high_resolution_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
   "gallery": "Gallerie",
   "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à internet ?",
+  "threads_loading_error": "Impossible de charger les fils. Êtes-vous connecté à internet ?",
   "post_network_error": "Impossible d'envoyer le post. Êtes-vous connecté à internet ?"
 }

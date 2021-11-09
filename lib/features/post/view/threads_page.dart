@@ -20,7 +20,7 @@ class ThreadsPage extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               errorSnackbar(
                 context,
-                'Could not load threads. Is your device online?',
+                state.message,
               ),
             );
           }
@@ -36,20 +36,31 @@ class ThreadsPage extends StatelessWidget {
     );
   }
 
-  ListView buildLoaded(ThreadsLoaded state) {
-    return ListView.separated(
-      itemCount: state.threads.length,
-      separatorBuilder: (context, index) => const Divider(
-        height: 0,
-        thickness: 1,
-      ),
-      itemBuilder: (context, index) {
-        Post thread = state.threads[index];
-        return ThreadWidget(
-          thread: thread,
-          board: board,
-        );
+  Widget buildLoaded(ThreadsLoaded state) {
+    return BlocListener<SearchCubit, SearchState>(
+      listener: (context, state) {
+        final threadsCubit = context.read<ThreadsCubit>();
+        if (state is Searching) {
+          threadsCubit.search(state.input);
+        }
+        if (state is NotSearching) {
+          threadsCubit.search('');
+        }
       },
+      child: ListView.separated(
+        itemCount: state.threads.length,
+        separatorBuilder: (context, index) => const Divider(
+          height: 0,
+          thickness: 1,
+        ),
+        itemBuilder: (context, index) {
+          Post thread = state.threads[index];
+          return ThreadWidget(
+            thread: thread,
+            board: board,
+          );
+        },
+      ),
     );
   }
 
