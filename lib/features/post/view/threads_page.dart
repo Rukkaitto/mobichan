@@ -28,7 +28,7 @@ class ThreadsPage extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is ThreadsLoaded) {
-            return buildLoaded(state);
+            return buildLoaded(state.threads);
           } else {
             return buildLoading();
           }
@@ -37,7 +37,7 @@ class ThreadsPage extends StatelessWidget {
     );
   }
 
-  Widget buildLoaded(ThreadsLoaded state) {
+  Widget buildLoaded(List<Post> threads) {
     return BlocListener<SearchCubit, SearchState>(
       listener: (context, state) {
         final threadsCubit = context.read<ThreadsCubit>();
@@ -49,13 +49,13 @@ class ThreadsPage extends StatelessWidget {
         }
       },
       child: ListView.separated(
-        itemCount: state.threads.length,
+        itemCount: threads.length,
         separatorBuilder: (context, index) => const Divider(
           height: 0,
           thickness: 1,
         ),
         itemBuilder: (context, index) {
-          Post thread = state.threads[index];
+          Post thread = threads[index];
           return ThreadWidget(
             thread: thread,
             board: board,
@@ -67,7 +67,7 @@ class ThreadsPage extends StatelessWidget {
 
   Widget buildLoading() {
     return ListView.builder(
-      itemBuilder: (context, index) => buildThreadShimmer(),
+      itemBuilder: (context, index) => ThreadWidget.shimmer,
     );
   }
 
