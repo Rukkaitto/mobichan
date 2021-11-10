@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/core/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
+import 'package:mobichan/features/sort/cubits/cubits.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -131,6 +132,12 @@ Future<void> init() async {
   sl.registerLazySingleton<SortLocalDatasource>(
     () => SortLocalDatasourceImpl(
       sharedPreferences: sl(),
+    ),
+  );
+
+  sl.registerFactory<SortCubit>(
+    () => SortCubit(
+      repository: sl(),
     ),
   );
 

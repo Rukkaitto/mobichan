@@ -48,20 +48,27 @@ class ThreadsPage extends StatelessWidget {
           threadsCubit.search('');
         }
       },
-      child: ListView.separated(
-        itemCount: threads.length,
-        separatorBuilder: (context, index) => const Divider(
-          height: 0,
-          thickness: 1,
-        ),
-        itemBuilder: (context, index) {
-          Post thread = threads[index];
-          return ThreadWidget(
-            thread: thread,
-            board: board,
-          );
-        },
-      ),
+      child: Builder(builder: (context) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            context.read<ThreadsCubit>().getThreads(board, Sort.initial);
+          },
+          child: ListView.separated(
+            itemCount: threads.length,
+            separatorBuilder: (context, index) => const Divider(
+              height: 0,
+              thickness: 1,
+            ),
+            itemBuilder: (context, index) {
+              Post thread = threads[index];
+              return ThreadWidget(
+                thread: thread,
+                board: board,
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 
