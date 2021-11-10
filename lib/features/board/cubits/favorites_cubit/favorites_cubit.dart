@@ -10,7 +10,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   Future<void> getFavorites() async {
     emit(FavoritesLoading());
     List<Board> favorites = await repository.getFavoriteBoards();
-    print(favorites);
     emit(FavoritesLoaded(favorites));
   }
 }

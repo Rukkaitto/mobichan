@@ -124,41 +124,56 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  BlocProvider buildBoardListTile(Board board) {
-    return BlocProvider<FavoriteCubit>(
-      create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
+  Widget buildBoardListTile(Board board) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FavoriteCubit>(
+          create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
+        ),
+        BlocProvider<FavoritesCubit>(
+          create: (context) => sl<FavoritesCubit>()..getFavorites(),
+        ),
+      ],
       child: BlocBuilder<FavoriteCubit, bool>(
         builder: (context, isFavorite) {
-          return ListTile(
-            dense: true,
-            minVerticalPadding: 0,
-            contentPadding: EdgeInsets.only(left: 56),
-            horizontalTitleGap: 0,
-            title: RichText(
-              text: TextSpan(
-                text: board.title,
-                children: <TextSpan>[
-                  TextSpan(
-                    text: ' /${board.board}/',
-                    style: TextStyle(color: Colors.grey.shade500),
+          return BlocBuilder<TabsCubit, Tabs>(
+            builder: (context, tabs) {
+              return ListTile(
+                onTap: () {
+                  context.read<TabsCubit>().addTab(board);
+                  Navigator.pop(context);
+                },
+                dense: true,
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.only(left: 56),
+                horizontalTitleGap: 0,
+                title: RichText(
+                  text: TextSpan(
+                    text: board.title,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: ' /${board.board}/',
+                        style: TextStyle(color: Colors.grey.shade500),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            trailing: IconButton(
-              onPressed: () => handleOnFavoritePressed(
-                context,
-                board,
-                isFavorite,
-              ),
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                size: 20,
-                color: isFavorite
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).iconTheme.color,
-              ),
-            ),
+                ),
+                trailing: IconButton(
+                  onPressed: () => handleOnFavoritePressed(
+                    context,
+                    board,
+                    isFavorite,
+                  ),
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    size: 20,
+                    color: isFavorite
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).iconTheme.color,
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -184,11 +199,13 @@ class BoardDrawer extends StatelessWidget {
   ) async {
     final favoriteCubit = context.read<FavoriteCubit>();
     final favoritesCubit = context.read<FavoritesCubit>();
+    final tabsCubit = context.read<TabsCubit>();
     if (isFavorite) {
       await favoriteCubit.removeFromFavorites(board);
     } else {
       await favoriteCubit.addToFavorites(board);
     }
     await favoritesCubit.getFavorites();
+    await tabsCubit.getInitialTabs();
   }
 }

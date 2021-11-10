@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
@@ -74,37 +75,42 @@ class _HomeState extends State<Home> {
             AsyncSnapshot<SharedPreferences> prefsSnapshot) {
           if (prefsSnapshot.hasData) {
             SharedPreferences prefs = prefsSnapshot.data!;
-            return FutureBuilder(
-              future: context.read<BoardRepository>().getLastVisitedBoard(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<Board> boardSnapshot) {
-                if (boardSnapshot.hasData) {
-                  Board lastVisitedBoard = boardSnapshot.data!;
-                  bool showWarning = true;
-                  if (prefs.containsKey("SHOW_NSFW_WARNING")) {
-                    showWarning =
-                        prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
+            return BlocProvider<BoardCubit>(
+              create: (context) => sl<BoardCubit>(),
+              child: FutureBuilder(
+                future: sl<BoardRepository>().getLastVisitedBoard(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Board> boardSnapshot) {
+                  if (boardSnapshot.hasData) {
+                    Board lastVisitedBoard = boardSnapshot.data!;
+                    context.read<BoardCubit>().updateBoard(lastVisitedBoard);
+
+                    bool showWarning = true;
+                    if (prefs.containsKey("SHOW_NSFW_WARNING")) {
+                      showWarning =
+                          prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
+                    }
+                    return showWarning &&
+                            (lastVisitedBoard.wsBoard == 0 &&
+                                !_nsfwWarningDismissed)
+                        ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
+                        : BoardPage();
                   }
-                  return showWarning &&
-                          (lastVisitedBoard.wsBoard == 0 &&
-                              !_nsfwWarningDismissed)
-                      ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
-                      : BoardPage(initialBoard: lastVisitedBoard);
-                }
-                if (boardSnapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      "${boardSnapshot.error}",
-                      style: TextStyle(
-                        color: Theme.of(context).errorColor,
+                  if (boardSnapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "${boardSnapshot.error}",
+                        style: TextStyle(
+                          color: Theme.of(context).errorColor,
+                        ),
                       ),
-                    ),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
+                },
+              ),
             );
           } else {
             return Container();

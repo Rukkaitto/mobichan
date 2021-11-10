@@ -39,6 +39,18 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<BoardCubit>(
+    () => BoardCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<TabsCubit>(
+    () => TabsCubit(
+      repository: sl(),
+    ),
+  );
+
   sl.registerFactory<FavoritesCubit>(
     () => FavoritesCubit(
       repository: sl(),

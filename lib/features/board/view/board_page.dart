@@ -8,59 +8,37 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/board/board.dart';
 
 class BoardPage extends StatelessWidget {
-  final Board initialBoard;
-
-  const BoardPage({required this.initialBoard, Key? key}) : super(key: key);
+  const BoardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<FavoritesCubit>(
-      create: (context) => sl<FavoritesCubit>()..getFavorites(),
-      child: BlocConsumer<FavoritesCubit, FavoritesState>(
-        listener: (context, state) {
-          if (state is FavoritesError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              errorSnackbar(context, 'Could not load favorites.'),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is FavoritesLoaded) {
-            List<Board> boards = List.from(state.favorites);
-            if (!state.favorites.contains(initialBoard)) {
-              boards.add(initialBoard);
-              boards.sort();
-            }
-            return buildDefaultTabController(context, boards);
-          } else {
-            return Container();
-          }
+    return BlocProvider<TabsCubit>(
+      create: (context) => sl<TabsCubit>()..getInitialTabs(),
+      child: BlocBuilder<TabsCubit, Tabs>(
+        builder: (context, tabs) {
+          print(tabs.boards.length);
+          return DefaultTabController(
+            length: tabs.boards.length,
+            initialIndex: tabs.boards.indexOf(tabs.current),
+            child: BlocProvider<SearchCubit>(
+              create: (context) => SearchCubit(),
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {},
+                  child: Icon(Icons.edit),
+                ),
+                drawer: BoardDrawer(),
+                appBar: buildAppBar(context, tabs),
+                body: buildTabBarView(tabs.boards),
+              ),
+            ),
+          );
         },
       ),
     );
   }
 
-  DefaultTabController buildDefaultTabController(
-      BuildContext context, List<Board> favorites) {
-    return DefaultTabController(
-      initialIndex: favorites.indexWhere((board) => board == initialBoard),
-      length: favorites.length,
-      child: BlocProvider<SearchCubit>(
-        create: (context) => SearchCubit(),
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.edit),
-          ),
-          drawer: BoardDrawer(),
-          appBar: buildAppBar(context, favorites),
-          body: buildTabBarView(favorites),
-        ),
-      ),
-    );
-  }
-
-  PreferredSize buildAppBar(BuildContext context, List<Board> favorites) {
+  PreferredSize buildAppBar(BuildContext context, Tabs tabs) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(100),
       child: BlocBuilder<SearchCubit, SearchState>(
@@ -97,7 +75,7 @@ class BoardPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline1,
                   ).tr(),
             bottom: PreferredSize(
-              child: BoardTabs(favorites),
+              child: BoardTabs(tabs),
               preferredSize: Size.fromHeight(40.0),
             ),
             actions: [
@@ -118,9 +96,9 @@ class BoardPage extends StatelessWidget {
     );
   }
 
-  TabBarView buildTabBarView(List<Board> favorites) {
+  TabBarView buildTabBarView(List<Board> boards) {
     return TabBarView(
-      children: favorites
+      children: boards
           .map(
             (board) => ThreadsPage(board),
           )

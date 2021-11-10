@@ -109,28 +109,37 @@ class ThreadWidget extends StatelessWidget {
     }
   }
 
-  SizedBox buildImage() {
-    return SizedBox(
-      height: imageHeight,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: thread.isWebm
-                ? thread.getThumbnailUrl(board)
-                : thread.getImageUrl(board),
-            placeholder: (context, url) {
-              return Image.network(
-                thread.getThumbnailUrl(board),
-                fit: BoxFit.cover,
-              );
-            },
-            fadeInDuration: Duration.zero,
-          ),
-        ],
-      ),
-    );
+  Widget buildImage() {
+    if (thread.filename != null) {
+      return SizedBox(
+        height: imageHeight,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: thread.isWebm
+                  ? thread.getThumbnailUrl(board)
+                  : thread.getImageUrl(board),
+              placeholder: (context, url) {
+                return Image.network(
+                  thread.getThumbnailUrl(board),
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, widget, progress) {
+                    return Center(
+                      child: buildLoading(progress),
+                    );
+                  },
+                );
+              },
+              fadeInDuration: Duration.zero,
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget buildLoading(ImageChunkEvent? loadingProgress) {
@@ -140,7 +149,7 @@ class ThreadWidget extends StatelessWidget {
             loadingProgress.expectedTotalBytes!,
       );
     } else {
-      return Container();
+      return CircularProgressIndicator();
     }
   }
 
