@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -13,27 +14,36 @@ class ThreadsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThreadsCubit>(
-      create: (context) => sl<ThreadsCubit>()..getThreads(board, Sort.initial),
-      child: BlocConsumer<ThreadsCubit, ThreadsState>(
-        listener: (context, state) {
-          if (state is ThreadsError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              errorSnackbar(
-                context,
-                state.message,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is ThreadsLoaded) {
-            return buildLoaded(state.threads);
-          } else {
-            return buildLoading();
-          }
-        },
-      ),
+    return BlocBuilder<SortCubit, SortState>(
+      builder: (context, sortState) {
+        if (sortState is SortLoaded) {
+          return BlocProvider<ThreadsCubit>(
+            create: (context) =>
+                sl<ThreadsCubit>()..getThreads(board, sortState.sort),
+            child: BlocConsumer<ThreadsCubit, ThreadsState>(
+              listener: (context, threadsState) {
+                if (threadsState is ThreadsError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    errorSnackbar(
+                      context,
+                      threadsState.message,
+                    ),
+                  );
+                }
+              },
+              builder: (context, threadsState) {
+                if (threadsState is ThreadsLoaded) {
+                  return buildLoaded(threadsState.threads);
+                } else {
+                  return buildLoading();
+                }
+              },
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
@@ -48,27 +58,38 @@ class ThreadsPage extends StatelessWidget {
           threadsCubit.search('');
         }
       },
-      child: Builder(builder: (context) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            context.read<ThreadsCubit>().getThreads(board, Sort.initial);
-          },
-          child: ListView.separated(
-            itemCount: threads.length,
-            separatorBuilder: (context, index) => const Divider(
-              height: 0,
-              thickness: 1,
-            ),
-            itemBuilder: (context, index) {
-              Post thread = threads[index];
-              return ThreadWidget(
-                thread: thread,
-                board: board,
-              );
-            },
-          ),
-        );
-      }),
+      child: BlocConsumer<SortCubit, SortState>(
+        listener: (context, sortState) async {
+          if (sortState is SortLoaded) {
+            context.read<ThreadsCubit>().getThreads(board, sortState.sort);
+          }
+        },
+        builder: (context, state) {
+          if (state is SortLoaded) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<ThreadsCubit>().getThreads(board, state.sort);
+              },
+              child: ListView.separated(
+                itemCount: threads.length,
+                separatorBuilder: (context, index) => const Divider(
+                  height: 0,
+                  thickness: 1,
+                ),
+                itemBuilder: (context, index) {
+                  Post thread = threads[index];
+                  return ThreadWidget(
+                    thread: thread,
+                    board: board,
+                  );
+                },
+              ),
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
     );
   }
 

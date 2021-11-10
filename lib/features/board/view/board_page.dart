@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/board/board.dart';
@@ -13,8 +14,15 @@ class BoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TabsCubit>(
-      create: (context) => sl<TabsCubit>()..getInitialTabs(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TabsCubit>(
+          create: (_) => sl<TabsCubit>()..getInitialTabs(),
+        ),
+        BlocProvider<SortCubit>(
+          create: (_) => sl<SortCubit>()..getSort(),
+        ),
+      ],
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {
           if (state is TabsLoaded) {
@@ -89,13 +97,58 @@ class BoardPage extends StatelessWidget {
                 },
                 icon: Icon(Icons.search),
               ),
-              IconButton(
-                onPressed: handleOnSortPress,
-                icon: Icon(Icons.sort),
-              ),
+              buildPopupMenu(),
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget buildPopupMenu() {
+    return BlocBuilder<SortCubit, SortState>(
+      builder: (context, state) {
+        if (state is SortLoaded) {
+          return PopupMenuButton<Sort>(
+            onSelected: (Sort sort) {
+              context.read<SortCubit>().saveSort(sort);
+            },
+            itemBuilder: (context) {
+              return [
+                buildPopupMenuItem(sort_bump_order, Sort(order: Order.byBump),
+                    currentSort: state.sort),
+                buildPopupMenuItem(sort_replies, Sort(order: Order.byReplies),
+                    currentSort: state.sort),
+                buildPopupMenuItem(sort_images, Sort(order: Order.byImages),
+                    currentSort: state.sort),
+                buildPopupMenuItem(sort_newest, Sort(order: Order.byNew),
+                    currentSort: state.sort),
+                buildPopupMenuItem(sort_oldest, Sort(order: Order.byOld),
+                    currentSort: state.sort),
+              ];
+            },
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  PopupMenuItem<Sort> buildPopupMenuItem(String title, Sort sort,
+      {required Sort currentSort}) {
+    return PopupMenuItem<Sort>(
+      value: sort,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title).tr(),
+          if (sort.order == currentSort.order)
+            Icon(
+              Icons.check_rounded,
+              size: 20,
+            ),
+        ],
       ),
     );
   }
