@@ -4,6 +4,7 @@ import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ThreadsPage extends StatelessWidget {
   final Board board;
@@ -65,8 +66,76 @@ class ThreadsPage extends StatelessWidget {
   }
 
   Widget buildLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
+    return ListView.builder(
+      itemBuilder: (context, index) => buildThreadShimmer(),
     );
+  }
+
+  Widget buildThreadShimmer() {
+    return Builder(builder: (context) {
+      double deviceWidth = MediaQuery.of(context).size.width;
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade700,
+        highlightColor: Colors.grey.shade600,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Title
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: deviceWidth,
+                    height: 15.0,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 10.0),
+                  Container(
+                    width: deviceWidth * 0.5,
+                    height: 15.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+            // Image
+            Container(
+              height: 250.0,
+              color: Colors.white,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.reply,
+                        color: Colors.white,
+                        size: 20.0,
+                      ),
+                      SizedBox(width: 30.0),
+                      Icon(
+                        Icons.image,
+                        color: Colors.white,
+                        size: 20.0,
+                      ),
+                    ],
+                  ),
+                  Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

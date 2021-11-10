@@ -13,6 +13,8 @@ class TabsLoaded extends TabsState {
 
   TabsLoaded({required this.boards, required this.current});
 
+  int get currentIndex => boards.indexOf(current);
+
   @override
   List<Object> get props => [boards, current];
 }

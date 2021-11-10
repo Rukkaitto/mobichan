@@ -46,6 +46,7 @@ dependencies:
   mobichan_data:
     path: packages/mobichan_data
   configurable_expansion_tile_null_safety: ^2.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

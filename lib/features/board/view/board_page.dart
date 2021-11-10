@@ -19,7 +19,7 @@ class BoardPage extends StatelessWidget {
           if (state is TabsLoaded) {
             return DefaultTabController(
               length: state.boards.length,
-              initialIndex: state.boards.indexOf(state.current),
+              initialIndex: state.currentIndex,
               child: BlocProvider<SearchCubit>(
                 create: (context) => SearchCubit(),
                 child: Scaffold(

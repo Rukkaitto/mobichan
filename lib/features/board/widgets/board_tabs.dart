@@ -13,8 +13,7 @@ class BoardTabs extends StatelessWidget {
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {
           if (state is TabsLoaded) {
-            DefaultTabController.of(context)
-                ?.animateTo(state.boards.indexOf(state.current));
+            DefaultTabController.of(context)?.animateTo(state.currentIndex);
             return TabBar(
               onTap: (index) async {
                 await context
@@ -23,7 +22,8 @@ class BoardTabs extends StatelessWidget {
               },
               isScrollable: true,
               physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               labelStyle: Theme.of(context).textTheme.headline2,
               unselectedLabelColor: Theme.of(context).disabledColor,
               tabs: state.boards
