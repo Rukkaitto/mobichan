@@ -136,44 +136,40 @@ class BoardDrawer extends StatelessWidget {
       ],
       child: BlocBuilder<FavoriteCubit, bool>(
         builder: (context, isFavorite) {
-          return BlocBuilder<TabsCubit, Tabs>(
-            builder: (context, tabs) {
-              return ListTile(
-                onTap: () {
-                  context.read<TabsCubit>().addTab(board);
-                  Navigator.pop(context);
-                },
-                dense: true,
-                minVerticalPadding: 0,
-                contentPadding: EdgeInsets.only(left: 56),
-                horizontalTitleGap: 0,
-                title: RichText(
-                  text: TextSpan(
-                    text: board.title,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' /${board.board}/',
-                        style: TextStyle(color: Colors.grey.shade500),
-                      ),
-                    ],
-                  ),
-                ),
-                trailing: IconButton(
-                  onPressed: () => handleOnFavoritePressed(
-                    context,
-                    board,
-                    isFavorite,
-                  ),
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    size: 20,
-                    color: isFavorite
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              );
+          return ListTile(
+            onTap: () {
+              context.read<TabsCubit>().addTab(board);
+              Navigator.pop(context);
             },
+            dense: true,
+            minVerticalPadding: 0,
+            contentPadding: EdgeInsets.only(left: 56),
+            horizontalTitleGap: 0,
+            title: RichText(
+              text: TextSpan(
+                text: board.title,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: ' /${board.board}/',
+                    style: TextStyle(color: Colors.grey.shade500),
+                  ),
+                ],
+              ),
+            ),
+            trailing: IconButton(
+              onPressed: () => handleOnFavoritePressed(
+                context,
+                board,
+                isFavorite,
+              ),
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                size: 20,
+                color: isFavorite
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).iconTheme.color,
+              ),
+            ),
           );
         },
       ),

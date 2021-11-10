@@ -14,31 +14,34 @@ class BoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<TabsCubit>(
       create: (context) => sl<TabsCubit>()..getInitialTabs(),
-      child: BlocBuilder<TabsCubit, Tabs>(
-        builder: (context, tabs) {
-          print(tabs.boards.length);
-          return DefaultTabController(
-            length: tabs.boards.length,
-            initialIndex: tabs.boards.indexOf(tabs.current),
-            child: BlocProvider<SearchCubit>(
-              create: (context) => SearchCubit(),
-              child: Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {},
-                  child: Icon(Icons.edit),
+      child: BlocBuilder<TabsCubit, TabsState>(
+        builder: (context, state) {
+          if (state is TabsLoaded) {
+            return DefaultTabController(
+              length: state.boards.length,
+              initialIndex: state.boards.indexOf(state.current),
+              child: BlocProvider<SearchCubit>(
+                create: (context) => SearchCubit(),
+                child: Scaffold(
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () {},
+                    child: Icon(Icons.edit),
+                  ),
+                  drawer: BoardDrawer(),
+                  appBar: buildAppBar(context),
+                  body: buildTabBarView(state.boards),
                 ),
-                drawer: BoardDrawer(),
-                appBar: buildAppBar(context, tabs),
-                body: buildTabBarView(tabs.boards),
               ),
-            ),
-          );
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );
   }
 
-  PreferredSize buildAppBar(BuildContext context, Tabs tabs) {
+  PreferredSize buildAppBar(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(100),
       child: BlocBuilder<SearchCubit, SearchState>(
@@ -75,7 +78,7 @@ class BoardPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline1,
                   ).tr(),
             bottom: PreferredSize(
-              child: BoardTabs(tabs),
+              child: BoardTabs(),
               preferredSize: Size.fromHeight(40.0),
             ),
             actions: [
