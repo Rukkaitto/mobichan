@@ -20,15 +20,15 @@ class BoardDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildMenuList(context),
-            buildVersionInfo(context),
+            buildMenuList(),
+            buildVersionInfo(),
           ],
         ),
       ),
     );
   }
 
-  Container buildVersionInfo(BuildContext context) {
+  Container buildVersionInfo() {
     return Container(
       padding: EdgeInsets.all(10.0),
       width: double.infinity,
@@ -50,12 +50,12 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  ListView buildMenuList(BuildContext context) {
+  ListView buildMenuList() {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
-        buildBoards(context),
+        buildBoards(),
         buildHistory(),
         BoardExpansionTile(
           onTap: () {
@@ -68,31 +68,35 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  BoardExpansionTile buildBoards(BuildContext context) {
-    return BoardExpansionTile(
-      title: boards.tr(),
-      icon: Icons.list,
-      child: SizedBox(
-        height: 500.0,
-        child: BlocProvider<BoardsCubit>(
-          create: (context) => sl<BoardsCubit>()..getBoards(),
-          child: BlocBuilder<BoardsCubit, BoardsState>(
-            builder: (context, state) {
-              if (state is BoardsLoaded) {
-                return ListView.builder(
-                  itemCount: state.boards.length,
-                  itemBuilder: (context, index) {
-                    Board board = state.boards[index];
-                    return buildBoardListTile(board);
-                  },
-                );
-              } else {
-                return buildLoading();
-              }
-            },
+  Widget buildBoards() {
+    return Builder(
+      builder: (context) {
+        return BoardExpansionTile(
+          title: boards.tr(),
+          icon: Icons.list,
+          child: SizedBox(
+            height: 500.0,
+            child: BlocProvider<BoardsCubit>(
+              create: (context) => sl<BoardsCubit>()..getBoards(),
+              child: BlocBuilder<BoardsCubit, BoardsState>(
+                builder: (context, state) {
+                  if (state is BoardsLoaded) {
+                    return ListView.builder(
+                      itemCount: state.boards.length,
+                      itemBuilder: (context, index) {
+                        Board board = state.boards[index];
+                        return buildBoardListTile(board);
+                      },
+                    );
+                  } else {
+                    return buildLoading();
+                  }
+                },
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -125,17 +129,10 @@ class BoardDrawer extends StatelessWidget {
   }
 
   Widget buildBoardListTile(Board board) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<FavoriteCubit>(
-          create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
-        ),
-        BlocProvider<FavoritesCubit>(
-          create: (context) => sl<FavoritesCubit>()..getFavorites(),
-        ),
-      ],
-      child: BlocBuilder<FavoriteCubit, bool>(
-        builder: (context, isFavorite) {
+    return BlocProvider<FavoritesCubit>(
+      create: (context) => sl<FavoritesCubit>()..getFavorites(),
+      child: Builder(
+        builder: (context) {
           return ListTile(
             onTap: () {
               context.read<TabsCubit>().addTab(board);
@@ -156,23 +153,43 @@ class BoardDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            trailing: IconButton(
-              onPressed: () => handleOnFavoritePressed(
-                context,
-                board,
-                isFavorite,
-              ),
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                size: 20,
-                color: isFavorite
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).iconTheme.color,
-              ),
-            ),
+            trailing: buildFavoriteButton(board),
           );
         },
       ),
+    );
+  }
+
+  Widget buildFavoriteButton(Board board) {
+    return Builder(
+      builder: (context) {
+        return BlocProvider<FavoriteCubit>(
+          create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
+          child: BlocBuilder<FavoriteCubit, bool>(
+            builder: (context, isFavorite) {
+              return IconButton(
+                onPressed: () async {
+                  final favoriteCubit = context.read<FavoriteCubit>();
+                  final tabsCubit = context.read<TabsCubit>();
+                  if (isFavorite) {
+                    await favoriteCubit.removeFromFavorites(board);
+                  } else {
+                    await favoriteCubit.addToFavorites(board);
+                  }
+                  await tabsCubit.getInitialTabs();
+                },
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  size: 20,
+                  color: isFavorite
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).iconTheme.color,
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -186,22 +203,5 @@ class BoardDrawer extends StatelessWidget {
     return Center(
       child: CircularProgressIndicator(),
     );
-  }
-
-  void handleOnFavoritePressed(
-    BuildContext context,
-    Board board,
-    bool isFavorite,
-  ) async {
-    final favoriteCubit = context.read<FavoriteCubit>();
-    final favoritesCubit = context.read<FavoritesCubit>();
-    final tabsCubit = context.read<TabsCubit>();
-    if (isFavorite) {
-      await favoriteCubit.removeFromFavorites(board);
-    } else {
-      await favoriteCubit.addToFavorites(board);
-    }
-    await favoritesCubit.getFavorites();
-    await tabsCubit.getInitialTabs();
   }
 }
