@@ -113,7 +113,7 @@ class BoardDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 180.0,
+                width: DoubleExtension.random(80, 180),
                 height: 15.0,
                 color: Colors.white,
               ),

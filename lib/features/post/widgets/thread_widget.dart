@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/extensions/string_extension.dart';
 import 'package:shimmer/shimmer.dart';
@@ -194,7 +195,7 @@ class ThreadWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 10.0),
                     Container(
-                      width: deviceWidth * 0.5,
+                      width: RandomUtils.randomDouble(100, deviceWidth),
                       height: 15.0,
                       color: Colors.white,
                     ),
