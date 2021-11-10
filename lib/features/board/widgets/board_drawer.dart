@@ -8,6 +8,7 @@ import 'package:mobichan/localization.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BoardDrawer extends StatelessWidget {
   const BoardDrawer({Key? key}) : super(key: key);
@@ -89,7 +90,7 @@ class BoardDrawer extends StatelessWidget {
                       },
                     );
                   } else {
-                    return buildLoading();
+                    return buildBoardsLoading();
                   }
                 },
               ),
@@ -97,6 +98,34 @@ class BoardDrawer extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget buildBoardsLoading() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade700,
+      highlightColor: Colors.grey.shade600,
+      child: ListView.builder(itemBuilder: (context, index) {
+        return Padding(
+          padding:
+              EdgeInsets.only(left: 56.0, top: 14.0, bottom: 14.0, right: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 180.0,
+                height: 15.0,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.favorite,
+                color: Colors.white,
+                size: 20.0,
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 
