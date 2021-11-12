@@ -40,7 +40,7 @@ class ThreadWidget extends StatelessWidget {
   }
 
   Widget buildContent() {
-    if (inThread) {
+    if (inThread && thread.com != null) {
       return Html(data: thread.com);
     } else {
       return Container();

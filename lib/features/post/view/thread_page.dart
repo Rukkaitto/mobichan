@@ -27,6 +27,10 @@ class ThreadPage extends StatelessWidget {
       create: (context) =>
           sl<RepliesCubit>()..getReplies(args.board, args.thread),
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.edit),
+        ),
         appBar: AppBar(
           title: Text(args.thread.displayTitle.removeHtmlTags),
           actions: [
@@ -49,36 +53,20 @@ class ThreadPage extends StatelessWidget {
             onRefresh: () async => context
                 .read<RepliesCubit>()
                 .getReplies(args.board, args.thread),
-            child: ListView(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              children: [
-                Hero(
-                  child: ThreadWidget(
-                    thread: args.thread,
+            child: BlocBuilder<RepliesCubit, RepliesState>(
+              builder: (context, state) {
+                if (state is RepliesLoaded) {
+                  return buildLoaded(
                     board: args.board,
-                    inThread: true,
-                  ),
-                  tag: args.thread.no,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                BlocBuilder<RepliesCubit, RepliesState>(
-                  builder: (context, state) {
-                    if (state is RepliesLoaded) {
-                      return buildLoaded(
-                        thread: args.thread,
-                        replies: state.replies,
-                      );
-                    } else if (state is RepliesLoading) {
-                      return buildLoading();
-                    } else {
-                      return Container();
-                    }
-                  },
-                )
-              ],
+                    thread: args.thread,
+                    replies: state.replies,
+                  );
+                } else if (state is RepliesLoading) {
+                  return buildLoading(args.board, args.thread);
+                } else {
+                  return Container();
+                }
+              },
             ),
           );
         }),
@@ -86,9 +74,23 @@ class ThreadPage extends StatelessWidget {
     );
   }
 
-  Widget buildLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
+  Widget buildLoading(Board board, Post thread) {
+    return Column(
+      children: [
+        Hero(
+          tag: thread.no,
+          child: ThreadWidget(
+            thread: thread,
+            board: board,
+            inThread: true,
+          ),
+        ),
+        Expanded(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -132,7 +134,11 @@ class ThreadPage extends StatelessWidget {
     }
   }
 
-  Widget buildLoaded({required Post thread, required List<Post> replies}) {
+  Widget buildLoaded({
+    required Board board,
+    required Post thread,
+    required List<Post> replies,
+  }) {
     return FutureBuilder<List<ReplyWidget>>(
       future: compute<ComputeArgs, List<ReplyWidget>>(
         _computeReplies,
@@ -144,19 +150,29 @@ class ThreadPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.separated(
-            separatorBuilder: (context, index) => Divider(),
-            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => Divider(
+              height: 0,
+              thickness: 1,
+            ),
             shrinkWrap: true,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
+              if (index == 0) {
+                return Hero(
+                  tag: thread.no,
+                  child: ThreadWidget(
+                    thread: thread,
+                    board: board,
+                    inThread: true,
+                  ),
+                );
+              }
               ReplyWidget widget = snapshot.data![index];
               return widget;
             },
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return buildLoading(board, thread);
         }
       },
     );
