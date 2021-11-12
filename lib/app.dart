@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
-import 'package:mobichan/pages/boards/view/boards_view.dart';
-import 'package:mobichan/pages/history_page.dart';
-import 'package:mobichan/pages/settings_page.dart';
+
+import 'features/setting/setting.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -42,8 +41,6 @@ class App extends StatelessWidget {
         routes: {
           Home.routeName: (context) => Home(),
           SettingsPage.routeName: (context) => SettingsPage(),
-          HistoryPage.routeName: (context) => HistoryPage(),
-          BoardsView.routeName: (context) => BoardsView(),
         },
         theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(

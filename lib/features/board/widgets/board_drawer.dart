@@ -6,6 +6,7 @@ import 'package:mobichan/features/post/cubits/cubits.dart';
 import 'package:mobichan/localization.dart';
 
 import 'package:mobichan/features/board/board.dart';
+import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
@@ -58,15 +59,21 @@ class BoardDrawer extends StatelessWidget {
       children: [
         buildBoards(),
         buildHistory(),
-        BoardExpansionTile(
-          onTap: () {
-            print('Go to settings');
-          },
-          title: settings.tr(),
-          icon: Icons.settings,
-        ),
+        buildSettings(),
       ],
     );
+  }
+
+  Widget buildSettings() {
+    return Builder(builder: (context) {
+      return BoardExpansionTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(SettingsPage.routeName);
+        },
+        title: settings.tr(),
+        icon: Icons.settings,
+      );
+    });
   }
 
   Widget buildBoards() {

@@ -115,6 +115,10 @@ class Post extends Equatable {
     return sub ?? com ?? '';
   }
 
+  String get userName {
+    return name ?? 'Anonymous';
+  }
+
   @override
   String toString() {
     return no.toString();

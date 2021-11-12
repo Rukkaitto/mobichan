@@ -45,16 +45,26 @@ class ThreadWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              buildSticky(context),
-              buildReplies(context),
-              buildImages(context),
-            ],
+          Text(
+            thread.userName,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold),
           ),
-          Icon(
-            Icons.more_vert,
-            size: iconSize,
+          SizedBox(
+            width: 160.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildSticky(context),
+                buildReplies(context),
+                buildImages(context),
+                Icon(
+                  Icons.more_vert,
+                  size: iconSize,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -69,7 +79,6 @@ class ThreadWidget extends StatelessWidget {
             Icons.push_pin,
             size: iconSize,
           ),
-          spacingBetweenIcons,
         ],
       );
     } else {
@@ -90,7 +99,6 @@ class ThreadWidget extends StatelessWidget {
             '${thread.replies}',
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          spacingBetweenIcons,
         ],
       );
     } else {
