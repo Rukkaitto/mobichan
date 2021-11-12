@@ -113,6 +113,7 @@ class BoardPage extends StatelessWidget {
       builder: (context, state) {
         if (state is SortLoaded) {
           return PopupMenuButton<Sort>(
+            icon: Icon(Icons.sort),
             onSelected: (Sort sort) {
               context.read<SortCubit>().saveSort(sort);
             },
