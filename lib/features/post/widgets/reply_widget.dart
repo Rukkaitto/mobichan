@@ -17,12 +17,7 @@ class ReplyWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 10.0 * recursion),
-          child: Column(
-            children: [
-              Text('${reply.no}'),
-              Html(data: reply.com ?? ''),
-            ],
-          ),
+          child: Html(data: reply.com ?? ''),
         ),
       ],
     );

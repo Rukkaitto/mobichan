@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan/features/core/core.dart';
 
 class ThreadPageArguments {
   final Board board;
@@ -27,7 +28,7 @@ class ThreadPage extends StatelessWidget {
           sl<RepliesCubit>()..getReplies(args.board, args.thread),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(args.thread.displayTitle),
+          title: Text(args.thread.displayTitle.removeHtmlTags),
           actions: [
             IconButton(
               icon: Icon(Icons.search),
@@ -56,11 +57,11 @@ class ThreadPage extends StatelessWidget {
                   child: ThreadWidget(
                     thread: args.thread,
                     board: args.board,
+                    inThread: true,
                   ),
                   tag: args.thread.no,
                 ),
                 Divider(
-                  height: 0,
                   thickness: 1,
                 ),
                 BlocBuilder<RepliesCubit, RepliesState>(

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
@@ -7,6 +8,7 @@ import 'package:shimmer/shimmer.dart';
 class ThreadWidget extends StatelessWidget {
   final Post thread;
   final Board board;
+  final bool inThread;
 
   final EdgeInsetsGeometry padding = const EdgeInsets.all(15.0);
   final SizedBox spacingBetweenIcons = const SizedBox(width: 25.0);
@@ -15,52 +17,65 @@ class ThreadWidget extends StatelessWidget {
   final double imageHeight = 250.0;
   final int maxLines = 5;
 
-  const ThreadWidget({required this.thread, required this.board, Key? key})
+  const ThreadWidget(
+      {required this.thread,
+      required this.board,
+      required this.inThread,
+      Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildTitle(context),
-        buildImage(),
-        buildFooter(context),
-      ],
+    return Material(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildTitle(context),
+          buildImage(),
+          buildContent(),
+          buildFooter(context),
+        ],
+      ),
     );
   }
 
+  Widget buildContent() {
+    if (inThread) {
+      return Html(data: thread.com);
+    } else {
+      return Container();
+    }
+  }
+
   Widget buildFooter(BuildContext context) {
-    return Material(
-      child: Padding(
-        padding: padding,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              thread.userName,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold),
+    return Padding(
+      padding: padding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            thread.userName,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: 160.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildSticky(context),
+                buildReplies(context),
+                buildImages(context),
+                Icon(
+                  Icons.more_vert,
+                  size: iconSize,
+                ),
+              ],
             ),
-            SizedBox(
-              width: 160.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildSticky(context),
-                  buildReplies(context),
-                  buildImages(context),
-                  Icon(
-                    Icons.more_vert,
-                    size: iconSize,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -169,16 +184,27 @@ class ThreadWidget extends StatelessWidget {
   }
 
   Widget buildTitle(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Text(
-        thread.displayTitle.removeHtmlTags,
-        softWrap: true,
-        maxLines: maxLines,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.headline2,
-      ),
-    );
+    String? title;
+    if (inThread) {
+      title = thread.sub?.removeHtmlTags;
+    } else {
+      title = thread.displayTitle.removeHtmlTags;
+    }
+
+    if (title != null) {
+      return Padding(
+        padding: padding,
+        child: Text(
+          thread.displayTitle.removeHtmlTags,
+          softWrap: true,
+          maxLines: maxLines,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.headline2,
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   static Widget get shimmer {

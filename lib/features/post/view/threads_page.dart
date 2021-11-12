@@ -124,6 +124,7 @@ class ThreadsPage extends StatelessWidget {
                       child: ThreadWidget(
                         thread: thread,
                         board: board,
+                        inThread: false,
                       ),
                     ),
                   );
