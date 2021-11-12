@@ -91,20 +91,80 @@ class ThreadPage extends StatelessWidget {
     );
   }
 
-  Widget buildLoaded({required Post thread, required List<Post> replies}) {
-    List<Post> rootReplies = replies
+  static List<ReplyWidget> _computeReplies(ComputeArgs args) {
+    List<ReplyWidget> widgets = [];
+    List<Post> rootReplies = args.replies
         .where((reply) =>
-            reply.isRootPost || reply.replyingTo(replies).contains(thread.no))
+            reply.isRootPost ||
+            reply.replyingTo(args.replies).first == args.thread.no)
         .toList();
-    return ListView.separated(
-      separatorBuilder: (context, index) => Divider(),
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: rootReplies.length,
-      itemBuilder: (context, index) {
-        Post reply = rootReplies[index];
-        return ReplyWidget(reply: reply, threadReplies: replies, recursion: 0);
+    for (Post rootReply in rootReplies) {
+      widgets.add(ReplyWidget(reply: rootReply, recursion: 0));
+      widgets.addAll(_getReplies(rootReply, [], args.replies, 1));
+    }
+    return widgets;
+  }
+
+  static List<ReplyWidget> _getReplies(
+    Post reply,
+    List<ReplyWidget> replies,
+    List<Post> threadReplies,
+    int recursion,
+  ) {
+    List<Post> postReplies = reply
+        .getReplies(threadReplies)
+        .where((element) => element.replyingTo(threadReplies).first == reply.no)
+        .toList();
+    if (postReplies.isEmpty) {
+      return replies;
+    } else {
+      List<ReplyWidget> result = [];
+      for (Post element in postReplies) {
+        result = _getReplies(
+          element,
+          replies..add(ReplyWidget(reply: element, recursion: recursion)),
+          threadReplies,
+          recursion + 1,
+        );
+      }
+      return result;
+    }
+  }
+
+  Widget buildLoaded({required Post thread, required List<Post> replies}) {
+    return FutureBuilder<List<ReplyWidget>>(
+      future: compute<ComputeArgs, List<ReplyWidget>>(
+        _computeReplies,
+        ComputeArgs(
+          thread: thread,
+          replies: replies,
+        ),
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.separated(
+            separatorBuilder: (context, index) => Divider(),
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              ReplyWidget widget = snapshot.data![index];
+              return widget;
+            },
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }
+}
+
+class ComputeArgs {
+  final Post thread;
+  final List<Post> replies;
+
+  ComputeArgs({required this.thread, required this.replies});
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
+import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 
 import 'package:mobichan/features/board/board.dart';
@@ -231,7 +232,12 @@ class BoardDrawer extends StatelessWidget {
     return Builder(builder: (context) {
       return ListTile(
         onTap: () {
-          //TODO: Open thread
+          print(thread.board);
+          Navigator.of(context).pushNamed(
+            ThreadPage.routeName,
+            arguments:
+                ThreadPageArguments(board: thread.board!, thread: thread),
+          );
         },
         contentPadding: EdgeInsets.only(left: 56, right: 10),
         dense: true,
