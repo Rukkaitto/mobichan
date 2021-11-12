@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/features/core/core.dart';
-import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThreadWidget extends StatelessWidget {
   final Post thread;
@@ -33,34 +31,36 @@ class ThreadWidget extends StatelessWidget {
   }
 
   Widget buildFooter(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            thread.userName,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: 160.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildSticky(context),
-                buildReplies(context),
-                buildImages(context),
-                Icon(
-                  Icons.more_vert,
-                  size: iconSize,
-                ),
-              ],
+    return Material(
+      child: Padding(
+        padding: padding,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              thread.userName,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
+            SizedBox(
+              width: 160.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildSticky(context),
+                  buildReplies(context),
+                  buildImages(context),
+                  Icon(
+                    Icons.more_vert,
+                    size: iconSize,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
