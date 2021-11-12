@@ -8,6 +8,7 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
 
 import 'features/setting/setting.dart';
+import 'features/post/post.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
         initialRoute: Home.routeName,
         routes: {
           Home.routeName: (context) => Home(),
+          ThreadPage.routeName: (context) => ThreadPage(),
           SettingsPage.routeName: (context) => SettingsPage(),
         },
         theme: theme.copyWith(

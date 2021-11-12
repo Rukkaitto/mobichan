@@ -110,6 +110,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<RepliesCubit>(
+    () => RepliesCubit(
+      repository: sl(),
+    ),
+  );
+
   // Release
   sl.registerLazySingleton<ReleaseRepository>(
     () => ReleaseRepositoryImpl(

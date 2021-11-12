@@ -22,19 +22,13 @@ class ThreadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        await context.read<HistoryCubit>().addToHistory(thread, board);
-        //TODO: open thread
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildTitle(context),
-          buildImage(),
-          buildFooter(context),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTitle(context),
+        buildImage(),
+        buildFooter(context),
+      ],
     );
   }
 
@@ -143,8 +137,12 @@ class ThreadWidget extends StatelessWidget {
                   thread.getThumbnailUrl(board),
                   fit: BoxFit.cover,
                   loadingBuilder: (context, widget, progress) {
-                    return Center(
-                      child: buildLoading(progress),
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey.shade700,
+                      highlightColor: Colors.grey.shade600,
+                      child: Container(
+                        color: Colors.white,
+                      ),
                     );
                   },
                 );

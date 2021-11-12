@@ -100,6 +100,7 @@ class ThreadsPage extends StatelessWidget {
                 context.read<ThreadsCubit>().getThreads(board, state.sort);
               },
               child: ListView.separated(
+                physics: BouncingScrollPhysics(),
                 itemCount: threads.length,
                 separatorBuilder: (context, index) => const Divider(
                   height: 0,
@@ -107,9 +108,24 @@ class ThreadsPage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   Post thread = threads[index];
-                  return ThreadWidget(
-                    thread: thread,
-                    board: board,
+                  return InkWell(
+                    onTap: () async {
+                      await context
+                          .read<HistoryCubit>()
+                          .addToHistory(thread, board);
+                      Navigator.of(context).pushNamed(
+                        ThreadPage.routeName,
+                        arguments:
+                            ThreadPageArguments(board: board, thread: thread),
+                      );
+                    },
+                    child: Hero(
+                      tag: thread.no,
+                      child: ThreadWidget(
+                        thread: thread,
+                        board: board,
+                      ),
+                    ),
                   );
                 },
               ),
