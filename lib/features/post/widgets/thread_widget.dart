@@ -25,6 +25,7 @@ class ThreadWidget extends StatelessWidget {
     return InkWell(
       onTap: () async {
         await context.read<HistoryCubit>().addToHistory(thread, board);
+        //TODO: open thread
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -163,7 +163,7 @@ class BoardPage extends StatelessWidget {
       physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       children: boards
           .map(
-            (board) => ThreadsPage(),
+            (board) => ThreadsPage(board),
           )
           .toList(),
     );

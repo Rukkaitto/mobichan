@@ -9,7 +9,8 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ThreadsPage extends StatelessWidget {
-  const ThreadsPage({Key? key}) : super(key: key);
+  final Board board;
+  const ThreadsPage(this.board, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,8 @@ class ThreadsPage extends StatelessWidget {
             builder: (context, sortState) {
               if (sortState is SortLoaded) {
                 return BlocProvider<ThreadsCubit>(
-                  create: (context) => sl<ThreadsCubit>()
-                    ..getThreads(tabsState.current, sortState.sort),
+                  create: (context) =>
+                      sl<ThreadsCubit>()..getThreads(board, sortState.sort),
                   child: BlocConsumer<ThreadsCubit, ThreadsState>(
                     listener: (context, threadsState) {
                       if (threadsState is ThreadsError) {
@@ -36,7 +37,7 @@ class ThreadsPage extends StatelessWidget {
                     builder: (context, threadsState) {
                       if (threadsState is ThreadsLoaded) {
                         return buildLoaded(
-                          board: tabsState.current,
+                          board: board,
                           threads: threadsState.threads,
                           sort: sortState.sort,
                         );
