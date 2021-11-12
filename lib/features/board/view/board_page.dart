@@ -157,6 +157,7 @@ class BoardPage extends StatelessWidget {
 
   TabBarView buildTabBarView(List<Board> boards) {
     return TabBarView(
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       children: boards
           .map(
             (board) => ThreadsPage(),
