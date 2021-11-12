@@ -159,7 +159,7 @@ class BoardPage extends StatelessWidget {
     return TabBarView(
       children: boards
           .map(
-            (board) => ThreadsPage(board),
+            (board) => ThreadsPage(),
           )
           .toList(),
     );

@@ -113,7 +113,7 @@ class BoardDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: DoubleExtension.random(80, 180),
+                width: 180,
                 height: 15.0,
                 color: Colors.white,
               ),
@@ -202,10 +202,12 @@ class BoardDrawer extends StatelessWidget {
                   final tabsCubit = context.read<TabsCubit>();
                   if (isFavorite) {
                     await favoriteCubit.removeFromFavorites(board);
+                    tabsCubit.removeTab(board);
                   } else {
                     await favoriteCubit.addToFavorites(board);
+                    tabsCubit.addTab(board);
                   }
-                  await tabsCubit.getInitialTabs();
+                  // await tabsCubit.getInitialTabs();
                 },
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,

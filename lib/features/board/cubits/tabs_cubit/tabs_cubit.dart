@@ -21,6 +21,17 @@ class TabsCubit extends Cubit<TabsState> {
     emit(TabsLoaded(boards: boards, current: board));
   }
 
+  void removeTab(Board board) {
+    Board newCurrent;
+    if (board == boards.last) {
+      newCurrent = boards[boards.indexOf(board) - 1];
+    } else {
+      newCurrent = boards[boards.indexOf(board) + 1];
+    }
+    boards = _removeTab(boards, board);
+    emit(TabsLoaded(boards: boards, current: newCurrent));
+  }
+
   Future<void> setCurrentTab(Board board) async {
     await repository.saveLastVisitedBoard(board);
     emit(TabsLoaded(boards: boards, current: board));
@@ -32,6 +43,12 @@ class TabsCubit extends Cubit<TabsState> {
       newTabs.add(tab);
     }
 
+    return newTabs;
+  }
+
+  List<Board> _removeTab(List<Board> boards, Board board) {
+    List<Board> newTabs = List.from(boards);
+    newTabs.remove(board);
     return newTabs;
   }
 }

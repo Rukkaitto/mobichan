@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
@@ -8,37 +9,47 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ThreadsPage extends StatelessWidget {
-  final Board board;
-
-  const ThreadsPage(this.board, {Key? key}) : super(key: key);
+  const ThreadsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SortCubit, SortState>(
-      builder: (context, sortState) {
-        if (sortState is SortLoaded) {
-          return BlocProvider<ThreadsCubit>(
-            create: (context) =>
-                sl<ThreadsCubit>()..getThreads(board, sortState.sort),
-            child: BlocConsumer<ThreadsCubit, ThreadsState>(
-              listener: (context, threadsState) {
-                if (threadsState is ThreadsError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    errorSnackbar(
-                      context,
-                      threadsState.message,
-                    ),
-                  );
-                }
-              },
-              builder: (context, threadsState) {
-                if (threadsState is ThreadsLoaded) {
-                  return buildLoaded(threadsState.threads);
-                } else {
-                  return buildLoading();
-                }
-              },
-            ),
+    return BlocBuilder<TabsCubit, TabsState>(
+      builder: (context, tabsState) {
+        if (tabsState is TabsLoaded) {
+          return BlocBuilder<SortCubit, SortState>(
+            builder: (context, sortState) {
+              if (sortState is SortLoaded) {
+                return BlocProvider<ThreadsCubit>(
+                  create: (context) => sl<ThreadsCubit>()
+                    ..getThreads(tabsState.current, sortState.sort),
+                  child: BlocConsumer<ThreadsCubit, ThreadsState>(
+                    listener: (context, threadsState) {
+                      if (threadsState is ThreadsError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          errorSnackbar(
+                            context,
+                            threadsState.message,
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, threadsState) {
+                      if (threadsState is ThreadsLoaded) {
+                        return buildLoaded(
+                          tabsState.current,
+                          threadsState.threads,
+                          sortState.sort,
+                        );
+                      } else {
+                        return buildLoading();
+                      }
+                    },
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           );
         } else {
           return Container();
@@ -47,23 +58,36 @@ class ThreadsPage extends StatelessWidget {
     );
   }
 
-  Widget buildLoaded(List<Post> threads) {
-    return BlocListener<SearchCubit, SearchState>(
-      listener: (context, state) {
-        final threadsCubit = context.read<ThreadsCubit>();
-        if (state is Searching) {
-          threadsCubit.search(state.input);
-        }
-        if (state is NotSearching) {
-          threadsCubit.search('');
-        }
-      },
-      child: BlocConsumer<SortCubit, SortState>(
-        listener: (context, sortState) async {
-          if (sortState is SortLoaded) {
-            context.read<ThreadsCubit>().getThreads(board, sortState.sort);
-          }
-        },
+  Widget buildLoaded(Board board, List<Post> threads, Sort sort) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SearchCubit, SearchState>(
+          listener: (context, state) {
+            final threadsCubit = context.read<ThreadsCubit>();
+            if (state is Searching) {
+              threadsCubit.search(state.input);
+            }
+            if (state is NotSearching) {
+              threadsCubit.search('');
+            }
+          },
+        ),
+        BlocListener<TabsCubit, TabsState>(
+          listener: (context, state) {
+            if (state is TabsLoaded) {
+              context.read<ThreadsCubit>().getThreads(state.current, sort);
+            }
+          },
+        ),
+        BlocListener<SortCubit, SortState>(
+          listener: (context, sortState) async {
+            if (sortState is SortLoaded) {
+              context.read<ThreadsCubit>().getThreads(board, sortState.sort);
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<SortCubit, SortState>(
         builder: (context, state) {
           if (state is SortLoaded) {
             return RefreshIndicator(
