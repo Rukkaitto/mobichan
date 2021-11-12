@@ -22,6 +22,9 @@ class BoardPage extends StatelessWidget {
         BlocProvider<SortCubit>(
           create: (_) => sl<SortCubit>()..getSort(),
         ),
+        BlocProvider<HistoryCubit>(
+          create: (_) => sl<HistoryCubit>()..getHistory(),
+        ),
       ],
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {

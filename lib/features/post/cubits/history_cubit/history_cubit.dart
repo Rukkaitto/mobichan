@@ -9,7 +9,8 @@ class HistoryCubit extends Cubit<HistoryState> {
   HistoryCubit({required this.repository}) : super(HistoryInitial());
 
   Future<void> addToHistory(Post thread, Board board) async {
-    await repository.addThreadToHistory(thread, board);
+    List<Post> history = await repository.addThreadToHistory(thread, board);
+    emit(HistoryLoaded(history));
   }
 
   Future<void> getHistory() async {

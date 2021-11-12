@@ -20,6 +20,9 @@ final ThemeData theme = ThemeData(
     subtitle2: TextStyle(
       color: Color(0xFF888888),
     ),
+    caption: TextStyle(
+      color: Color(0xFF646464),
+    ),
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFF202020),

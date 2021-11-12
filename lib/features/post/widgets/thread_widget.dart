@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThreadWidget extends StatelessWidget {
   final Post thread;
@@ -21,13 +22,18 @@ class ThreadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildTitle(context),
-        buildImage(),
-        buildFooter(context),
-      ],
+    return InkWell(
+      onTap: () async {
+        await context.read<HistoryCubit>().addToHistory(thread, board);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildTitle(context),
+          buildImage(),
+          buildFooter(context),
+        ],
+      ),
     );
   }
 
@@ -156,14 +162,10 @@ class ThreadWidget extends StatelessWidget {
   }
 
   Widget buildTitle(BuildContext context) {
-    String title = thread.sub?.removeHtmlTags.unescapeHtml ??
-        thread.com?.replaceBrWithNewline.removeHtmlTags.unescapeHtml ??
-        '';
-
     return Padding(
       padding: padding,
       child: Text(
-        title,
+        thread.displayTitle.removeHtmlTags,
         softWrap: true,
         maxLines: maxLines,
         overflow: TextOverflow.ellipsis,

@@ -36,9 +36,9 @@ class ThreadsPage extends StatelessWidget {
                     builder: (context, threadsState) {
                       if (threadsState is ThreadsLoaded) {
                         return buildLoaded(
-                          tabsState.current,
-                          threadsState.threads,
-                          sortState.sort,
+                          board: tabsState.current,
+                          threads: threadsState.threads,
+                          sort: sortState.sort,
                         );
                       } else {
                         return buildLoading();
@@ -58,7 +58,11 @@ class ThreadsPage extends StatelessWidget {
     );
   }
 
-  Widget buildLoaded(Board board, List<Post> threads, Sort sort) {
+  Widget buildLoaded({
+    required Board board,
+    required List<Post> threads,
+    required Sort sort,
+  }) {
     return MultiBlocListener(
       listeners: [
         BlocListener<SearchCubit, SearchState>(

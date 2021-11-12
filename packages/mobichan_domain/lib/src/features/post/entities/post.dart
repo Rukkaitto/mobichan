@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class Post {
+class Post extends Equatable {
   final int no;
   final String now;
   final String? name;
@@ -29,7 +30,7 @@ class Post {
   final String? country;
   final Board? board;
 
-  Post({
+  const Post({
     required this.no,
     required this.now,
     required this.name,
@@ -110,8 +111,15 @@ class Post {
     return ext == '.webm';
   }
 
+  String get displayTitle {
+    return sub ?? com ?? '';
+  }
+
   @override
   String toString() {
     return no.toString();
   }
+
+  @override
+  List<Object?> get props => [no, board];
 }

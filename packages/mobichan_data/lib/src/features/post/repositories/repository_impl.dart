@@ -11,7 +11,7 @@ class PostRepositoryImpl implements PostRepository {
   });
 
   @override
-  Future<void> addThreadToHistory(Post thread, Board board) async {
+  Future<List<Post>> addThreadToHistory(Post thread, Board board) async {
     return localDatasource.addThreadToHistory(
       PostModel.fromEntity(thread),
       BoardModel.fromEntity(board),

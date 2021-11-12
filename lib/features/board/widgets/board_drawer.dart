@@ -135,23 +135,20 @@ class BoardDrawer extends StatelessWidget {
       icon: Icons.history,
       child: SizedBox(
         height: 500.0,
-        child: BlocProvider<HistoryCubit>(
-          create: (context) => sl<HistoryCubit>()..getHistory(),
-          child: BlocBuilder<HistoryCubit, HistoryState>(
-            builder: (context, state) {
-              if (state is HistoryLoaded) {
-                return ListView.builder(
-                  itemCount: state.history.length,
-                  itemBuilder: (context, index) {
-                    Post thread = state.history[index];
-                    return buildHistoryListTile(thread);
-                  },
-                );
-              } else {
-                return buildLoading();
-              }
-            },
-          ),
+        child: BlocBuilder<HistoryCubit, HistoryState>(
+          builder: (context, state) {
+            if (state is HistoryLoaded) {
+              return ListView.builder(
+                itemCount: state.history.length,
+                itemBuilder: (context, index) {
+                  Post thread = state.history.reversed.toList()[index];
+                  return buildHistoryListTile(thread);
+                },
+              );
+            } else {
+              return buildLoading();
+            }
+          },
         ),
       ),
     );
@@ -177,7 +174,7 @@ class BoardDrawer extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                     text: ' /${board.board}/',
-                    style: TextStyle(color: Colors.grey.shade500),
+                    style: Theme.of(context).textTheme.caption,
                   ),
                 ],
               ),
@@ -207,7 +204,6 @@ class BoardDrawer extends StatelessWidget {
                     await favoriteCubit.addToFavorites(board);
                     tabsCubit.addTab(board);
                   }
-                  // await tabsCubit.getInitialTabs();
                 },
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -224,10 +220,27 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  ListTile buildHistoryListTile(Post thread) {
-    return ListTile(
-      title: Text(thread.sub ?? thread.com ?? ''),
-    );
+  Widget buildHistoryListTile(Post thread) {
+    return Builder(builder: (context) {
+      return ListTile(
+        onTap: () {
+          //TODO: Open thread
+        },
+        contentPadding: EdgeInsets.only(left: 56, right: 10),
+        dense: true,
+        minVerticalPadding: 0,
+        horizontalTitleGap: 0,
+        trailing: Text(
+          '/${thread.board!.board}/',
+          style: Theme.of(context).textTheme.caption,
+        ),
+        title: Text(
+          thread.displayTitle.removeHtmlTags,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    });
   }
 
   Widget buildLoading() {

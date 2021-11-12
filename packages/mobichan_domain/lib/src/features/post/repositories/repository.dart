@@ -25,7 +25,7 @@ abstract class PostRepository {
     String? filePath,
   });
 
-  Future<void> addThreadToHistory(Post thread, Board board);
+  Future<List<Post>> addThreadToHistory(Post thread, Board board);
 
   Future<List<Post>> getHistory();
 }
