@@ -21,14 +21,22 @@ class ReplyWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  double computePadding(int recursion) {
+    if (recursion == 0 || recursion == 1) {
+      return 0;
+    } else {
+      return 15.0 * recursion - 15;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15.0 * recursion),
+            padding: EdgeInsets.only(left: computePadding(recursion)),
             child: Stack(
               children: [
                 buildIndentBar(),
@@ -37,6 +45,7 @@ class ReplyWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buildName(),
                           SizedBox(width: 5),
