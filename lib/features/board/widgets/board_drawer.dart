@@ -123,7 +123,10 @@ class BoardDrawer extends StatelessWidget {
               Container(
                 width: 180,
                 height: 15.0,
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                ),
               ),
               Icon(
                 Icons.favorite,

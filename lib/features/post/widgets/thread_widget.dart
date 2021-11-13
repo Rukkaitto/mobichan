@@ -189,13 +189,19 @@ class ThreadWidget extends StatelessWidget {
                     Container(
                       width: deviceWidth,
                       height: 15.0,
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 10.0),
                     Container(
                       width: RandomUtils.randomDouble(100, deviceWidth),
                       height: 15.0,
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -210,25 +216,36 @@ class ThreadWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.reply,
-                          color: Colors.white,
-                          size: 20.0,
-                        ),
-                        SizedBox(width: 30.0),
-                        Icon(
-                          Icons.image,
-                          color: Colors.white,
-                          size: 20.0,
-                        ),
-                      ],
+                    Container(
+                      width: 100,
+                      height: 15.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.white,
+                      ),
                     ),
-                    Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                      size: 20.0,
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.reply,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            Icons.image,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            Icons.more_vert,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
