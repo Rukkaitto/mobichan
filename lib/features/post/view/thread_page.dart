@@ -5,6 +5,7 @@ import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ThreadPageArguments {
   final Board board;
@@ -86,8 +87,51 @@ class ThreadPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Center(
-            child: CircularProgressIndicator(),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade700,
+            highlightColor: Colors.grey.shade600,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                      left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
+                      top: 8.0,
+                      bottom: 8.0,
+                      right: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        width: 300,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      Container(
+                        width: 250,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],
@@ -110,7 +154,7 @@ class ThreadPage extends StatelessWidget {
           recursion: 0,
         ),
       );
-      widgets.addAll(_getReplies(args.board, rootReply, [], args.replies, 1));
+      widgets.addAll(_getReplies(args.board, rootReply, [], args.replies, 0));
     }
     return widgets;
   }
