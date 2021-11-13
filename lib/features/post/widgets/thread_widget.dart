@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -31,7 +31,7 @@ class ThreadWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildTitle(context),
-          buildImage(),
+          ThumbnailWidget(board: board, post: thread, height: 250),
           buildContent(),
           buildFooter(context),
         ],
@@ -129,43 +129,6 @@ class ThreadWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
         ],
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  Widget buildImage() {
-    if (thread.filename != null) {
-      return SizedBox(
-        height: imageHeight,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: thread.isWebm
-                  ? thread.getThumbnailUrl(board)
-                  : thread.getImageUrl(board),
-              placeholder: (context, url) {
-                return Image.network(
-                  thread.getThumbnailUrl(board),
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, widget, progress) {
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey.shade700,
-                      highlightColor: Colors.grey.shade600,
-                      child: Container(
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                );
-              },
-              fadeInDuration: Duration.zero,
-            ),
-          ],
-        ),
       );
     } else {
       return Container();

@@ -102,13 +102,21 @@ class ThreadPage extends StatelessWidget {
             reply.replyingTo(args.replies).first == args.thread.no)
         .toList();
     for (Post rootReply in rootReplies) {
-      widgets.add(ReplyWidget(reply: rootReply, recursion: 0));
-      widgets.addAll(_getReplies(rootReply, [], args.replies, 1));
+      widgets.add(
+        ReplyWidget(
+          board: args.board,
+          reply: rootReply,
+          threadReplies: args.replies,
+          recursion: 0,
+        ),
+      );
+      widgets.addAll(_getReplies(args.board, rootReply, [], args.replies, 1));
     }
     return widgets;
   }
 
   static List<ReplyWidget> _getReplies(
+    Board board,
     Post reply,
     List<ReplyWidget> replies,
     List<Post> threadReplies,
@@ -124,8 +132,17 @@ class ThreadPage extends StatelessWidget {
       List<ReplyWidget> result = [];
       for (Post element in postReplies) {
         result = _getReplies(
+          board,
           element,
-          replies..add(ReplyWidget(reply: element, recursion: recursion)),
+          replies
+            ..add(
+              ReplyWidget(
+                board: board,
+                reply: element,
+                threadReplies: threadReplies,
+                recursion: recursion,
+              ),
+            ),
           threadReplies,
           recursion + 1,
         );
@@ -143,17 +160,14 @@ class ThreadPage extends StatelessWidget {
       future: compute<ComputeArgs, List<ReplyWidget>>(
         _computeReplies,
         ComputeArgs(
+          board: board,
           thread: thread,
           replies: replies,
         ),
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.separated(
-            separatorBuilder: (context, index) => Divider(
-              height: 0,
-              thickness: 1,
-            ),
+          return ListView.builder(
             shrinkWrap: true,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
@@ -180,8 +194,10 @@ class ThreadPage extends StatelessWidget {
 }
 
 class ComputeArgs {
+  final Board board;
   final Post thread;
   final List<Post> replies;
 
-  ComputeArgs({required this.thread, required this.replies});
+  ComputeArgs(
+      {required this.board, required this.thread, required this.replies});
 }
