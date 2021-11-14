@@ -25,6 +25,7 @@ class BoardPage extends StatelessWidget {
         BlocProvider<HistoryCubit>(
           create: (_) => sl<HistoryCubit>()..getHistory(),
         ),
+        BlocProvider<PostFormCubit>(create: (_) => PostFormCubit()),
       ],
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {
@@ -36,12 +37,17 @@ class BoardPage extends StatelessWidget {
                 create: (context) => SearchCubit(),
                 child: Scaffold(
                   floatingActionButton: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () => context.read<PostFormCubit>().toggleForm(),
                     child: Icon(Icons.edit),
                   ),
                   drawer: BoardDrawer(),
                   appBar: buildAppBar(context),
-                  body: buildTabBarView(state.boards),
+                  body: Stack(
+                    children: [
+                      buildTabBarView(state.boards),
+                      FormWidget(),
+                    ],
+                  ),
                 ),
               ),
             );

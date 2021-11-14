@@ -33,7 +33,8 @@ class ThreadPage extends StatelessWidget {
           child: Icon(Icons.edit),
         ),
         appBar: AppBar(
-          title: Text(args.thread.displayTitle.removeHtmlTags),
+          title:
+              Text(args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
           actions: [
             IconButton(
               icon: Icon(Icons.search),

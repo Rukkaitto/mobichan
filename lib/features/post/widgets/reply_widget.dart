@@ -25,7 +25,7 @@ class ReplyWidget extends StatelessWidget {
     if (recursion == 0 || recursion == 1) {
       return 0;
     } else {
-      return 15.0 * recursion - 15;
+      return 15.0 * (recursion - 1);
     }
   }
 
