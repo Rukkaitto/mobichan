@@ -41,8 +41,7 @@ class PostRepositoryImpl implements PostRepository {
     required String captchaChallenge,
     required String captchaResponse,
     required Post resto,
-    String? name,
-    String? com,
+    required Post post,
     String? filePath,
   }) {
     return remoteDatasource.postReply(
@@ -50,28 +49,24 @@ class PostRepositoryImpl implements PostRepository {
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       resto: PostModel.fromEntity(resto),
-      name: name,
-      com: com,
+      post: PostModel.fromEntity(post),
       filePath: filePath,
     );
   }
 
   @override
-  Future<void> postThread(
-      {required Board board,
-      required String captchaChallenge,
-      required String captchaResponse,
-      required String com,
-      String? name,
-      String? subject,
-      String? filePath}) {
+  Future<void> postThread({
+    required Board board,
+    required String captchaChallenge,
+    required String captchaResponse,
+    required Post post,
+    String? filePath,
+  }) {
     return remoteDatasource.postThread(
       board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
-      com: com,
-      name: name,
-      subject: subject,
+      post: PostModel.fromEntity(post),
       filePath: filePath,
     );
   }

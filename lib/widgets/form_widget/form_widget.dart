@@ -120,42 +120,42 @@ class _FormWidgetState extends State<FormWidget> {
     final postRepository = context.read<PostRepository>();
     switch (widget.postType) {
       case PostType.reply:
-        postRepository
-            .postReply(
-              captchaChallenge: challenge,
-              captchaResponse: attempt,
-              board: widget.board,
-              name: _nameFieldController.text,
-              com: widget.commentFieldController.text,
-              resto: widget.thread!,
-              filePath: _pickedFile?.path,
-            )
-            .then((value) => _onPost())
-            .onError<ChanException>(
-              (error, stackTrace) => _handleChanError(error),
-            )
-            .onError<NetworkException>(
-              (error, stackTrace) => _handleNetworkError(error),
-            );
+        // postRepository
+        // .postReply(
+        //   captchaChallenge: challenge,
+        //   captchaResponse: attempt,
+        //   board: widget.board,
+        //   name: _nameFieldController.text,
+        //   com: widget.commentFieldController.text,
+        //   resto: widget.thread!,
+        //   filePath: _pickedFile?.path,
+        // )
+        // .then((value) => _onPost())
+        // .onError<ChanException>(
+        //   (error, stackTrace) => _handleChanError(error),
+        // )
+        // .onError<NetworkException>(
+        //   (error, stackTrace) => _handleNetworkError(error),
+        // );
         break;
       case PostType.thread:
-        postRepository
-            .postThread(
-              captchaChallenge: challenge,
-              captchaResponse: attempt,
-              board: widget.board,
-              subject: _subjectFieldController.text,
-              name: _nameFieldController.text,
-              com: widget.commentFieldController.text,
-              filePath: _pickedFile?.path,
-            )
-            .then((value) => _onPost())
-            .onError<ChanException>(
-              (error, stackTrace) => _handleChanError(error),
-            )
-            .onError<NetworkException>(
-              (error, stackTrace) => _handleNetworkError(error),
-            );
+        // postRepository
+        // .postThread(
+        //   captchaChallenge: challenge,
+        //   captchaResponse: attempt,
+        //   board: widget.board,
+        //   subject: _subjectFieldController.text,
+        //   name: _nameFieldController.text,
+        //   com: widget.commentFieldController.text,
+        //   filePath: _pickedFile?.path,
+        // )
+        // .then((value) => _onPost())
+        // .onError<ChanException>(
+        //   (error, stackTrace) => _handleChanError(error),
+        // )
+        // .onError<NetworkException>(
+        //   (error, stackTrace) => _handleNetworkError(error),
+        // );
 
         break;
     }

@@ -25,7 +25,12 @@ class BoardPage extends StatelessWidget {
         BlocProvider<HistoryCubit>(
           create: (_) => sl<HistoryCubit>()..getHistory(),
         ),
-        BlocProvider<PostFormCubit>(create: (_) => PostFormCubit()),
+        BlocProvider<PostFormCubit>(
+          create: (_) => PostFormCubit(),
+        ),
+        BlocProvider<ThreadsCubit>(
+          create: (_) => sl<ThreadsCubit>(),
+        ),
       ],
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {
@@ -45,7 +50,7 @@ class BoardPage extends StatelessWidget {
                   body: Stack(
                     children: [
                       buildTabBarView(state.boards),
-                      FormWidget(),
+                      FormWidget(board: state.current),
                     ],
                   ),
                 ),

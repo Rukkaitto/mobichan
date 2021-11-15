@@ -23,6 +23,21 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     }
   }
 
+  Future<void> postThread(
+    Board board,
+    Post post,
+    CaptchaChallenge captcha,
+    String response,
+  ) async {
+    await repository.postThread(
+      board: board,
+      post: post,
+      captchaChallenge: captcha.challenge,
+      captchaResponse: response,
+    );
+    emit(ThreadsLoaded(threads));
+  }
+
   void search(String input) {
     if (input == "") {
       emit(ThreadsLoaded(threads));

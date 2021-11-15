@@ -50,28 +50,38 @@ class ThreadPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Builder(builder: (context) {
-          return RefreshIndicator(
-            onRefresh: () async => context
-                .read<RepliesCubit>()
-                .getReplies(args.board, args.thread),
-            child: BlocBuilder<RepliesCubit, RepliesState>(
-              builder: (context, state) {
-                if (state is RepliesLoaded) {
-                  return buildLoaded(
-                    board: args.board,
-                    thread: args.thread,
-                    replies: state.replies,
-                  );
-                } else if (state is RepliesLoading) {
-                  return buildLoading(args.board, args.thread);
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          );
-        }),
+        body: Builder(
+          builder: (context) {
+            return RefreshIndicator(
+              onRefresh: () async => context
+                  .read<RepliesCubit>()
+                  .getReplies(args.board, args.thread),
+              child: BlocBuilder<RepliesCubit, RepliesState>(
+                builder: (context, state) {
+                  if (state is RepliesLoaded) {
+                    return Stack(
+                      children: [
+                        buildLoaded(
+                          board: args.board,
+                          thread: args.thread,
+                          replies: state.replies,
+                        ),
+                        FormWidget(
+                          board: args.board,
+                          thread: args.thread,
+                        ),
+                      ],
+                    );
+                  } else if (state is RepliesLoading) {
+                    return buildLoading(args.board, args.thread);
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

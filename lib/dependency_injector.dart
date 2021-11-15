@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
+import 'package:mobichan/features/captcha/cubits/cubits.dart';
 import 'package:mobichan/features/core/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
 import 'package:mobichan/features/sort/cubits/cubits.dart';
@@ -75,6 +76,12 @@ Future<void> init() async {
   sl.registerLazySingleton<CaptchaRemoteDatasource>(
     () => CaptchaRemoteDatasourceImpl(
       client: sl(),
+    ),
+  );
+
+  sl.registerFactory<CaptchaCubit>(
+    () => CaptchaCubit(
+      repository: sl(),
     ),
   );
 

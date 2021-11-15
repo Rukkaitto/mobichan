@@ -9,7 +9,7 @@ class RepliesCubit extends Cubit<RepliesState> {
   final PostRepository repository;
   RepliesCubit({required this.repository}) : super(RepliesInitial());
 
-  void getReplies(Board board, Post thread) async {
+  Future<void> getReplies(Board board, Post thread) async {
     emit(RepliesLoading());
     try {
       List<Post> replies =
@@ -18,5 +18,16 @@ class RepliesCubit extends Cubit<RepliesState> {
     } on NetworkException {
       emit(RepliesError());
     }
+  }
+
+  Future<void> postReply(Board board, Post post, Post resto,
+      CaptchaChallenge captcha, String response) async {
+    await repository.postReply(
+        board: board,
+        post: post,
+        resto: resto,
+        captchaChallenge: captcha.challenge,
+        captchaResponse: response);
+    await getReplies(board, resto);
   }
 }

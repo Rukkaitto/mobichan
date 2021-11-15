@@ -20,9 +20,7 @@ abstract class PostRemoteDatasource {
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
-    required String com,
-    String? name,
-    String? subject,
+    required PostModel post,
     String? filePath,
   });
 
@@ -31,8 +29,7 @@ abstract class PostRemoteDatasource {
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel resto,
-    String? name,
-    String? com,
+    required PostModel post,
     String? filePath,
   });
 }
@@ -103,19 +100,17 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
-    required String com,
-    String? name,
-    String? subject,
+    required PostModel post,
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
 
     FormData formData = FormData.fromMap({
-      "name": name ?? '',
-      "sub": subject ?? '',
+      "name": post.name ?? '',
+      "sub": post.sub ?? '',
       "pwd": '',
       "email": '',
-      "com": com,
+      "com": post.com,
       "mode": 'regist',
       "t-challenge": captchaChallenge,
       "t-response": captchaResponse,
@@ -165,15 +160,14 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel resto,
-    String? name,
-    String? com,
+    required PostModel post,
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
 
     FormData formData = FormData.fromMap({
-      "name": name ?? '',
-      "com": com ?? '',
+      "name": post.name ?? '',
+      "com": post.com ?? '',
       "mode": 'regist',
       "resto": resto.toString(),
       "t-challenge": captchaChallenge,

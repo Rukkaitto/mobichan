@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class FormWidget extends StatelessWidget {
   final Duration animationDuration = Duration(milliseconds: 300);
   final double contractedHeight = 190;
   final double expandedHeight = 320;
 
-  FormWidget({Key? key}) : super(key: key);
+  final Board board;
+  final Post? thread;
+
+  FormWidget({required this.board, this.thread, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,20 @@ class FormWidget extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onPressed: () {
-                                print(form.commentController.text);
+                                showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return CaptchaPage(
+                                      context: context,
+                                      board: board,
+                                      post: Post(
+                                        name: form.nameController.text,
+                                        sub: form.subjectController.text,
+                                        com: form.commentController.text,
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                             ),
                           ],

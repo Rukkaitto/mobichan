@@ -31,11 +31,11 @@ class Post extends Equatable {
   final Board? board;
 
   const Post({
-    required this.no,
-    required this.now,
-    required this.name,
-    required this.time,
-    required this.resto,
+    this.no = 0,
+    this.now = '',
+    this.name = 'Anonymous',
+    this.time = 0,
+    this.resto = 0,
     this.sticky,
     this.closed,
     this.sub,
