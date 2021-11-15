@@ -33,12 +33,21 @@ class CaptchaPage extends StatelessWidget {
       child: BlocProvider<CaptchaCubit>(
         create: (context) =>
             sl<CaptchaCubit>()..getCaptchaChallenge(board, thread),
-        child: BlocBuilder<CaptchaCubit, CaptchaState>(
+        child: BlocConsumer<CaptchaCubit, CaptchaState>(
+          listener: (context, state) {
+            if (state is CaptchaError) {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(errorSnackbar(context, state.message));
+            }
+          },
           builder: (context, state) {
             if (state is CaptchaLoaded) {
               return buildLoaded(state.captcha);
-            } else {
+            } else if (state is CaptchaLoading) {
               return buildLoading();
+            } else {
+              return Container();
             }
           },
         ),

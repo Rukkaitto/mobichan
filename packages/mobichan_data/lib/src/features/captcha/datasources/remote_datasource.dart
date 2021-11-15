@@ -28,17 +28,13 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
     final response = await client.get<String>(url);
 
     if (response.statusCode == 200) {
-      try {
-        Map<String, dynamic> responseJson = jsonDecode(response.data!);
-        if (responseJson.containsKey(errorKey)) {
-          throw CaptchaChallengeException.fromJson(responseJson);
-        } else {
-          CaptchaChallengeModel captchaChallenge =
-              CaptchaChallengeModel.fromJson(responseJson);
-          return captchaChallenge;
-        }
-      } on Exception {
-        throw JsonDecodeException();
+      Map<String, dynamic> responseJson = jsonDecode(response.data!);
+      if (responseJson.containsKey(errorKey)) {
+        throw CaptchaChallengeException.fromJson(responseJson);
+      } else {
+        CaptchaChallengeModel captchaChallenge =
+            CaptchaChallengeModel.fromJson(responseJson);
+        return captchaChallenge;
       }
     } else {
       throw NetworkException();
