@@ -42,7 +42,8 @@ class BoardPage extends StatelessWidget {
                 create: (context) => SearchCubit(),
                 child: Scaffold(
                   floatingActionButton: FloatingActionButton(
-                    onPressed: () => context.read<PostFormCubit>().toggleForm(),
+                    onPressed: () =>
+                        context.read<PostFormCubit>().toggleVisible(),
                     child: Icon(Icons.edit),
                   ),
                   drawer: BoardDrawer(),

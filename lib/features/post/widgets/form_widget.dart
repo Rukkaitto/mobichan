@@ -79,6 +79,7 @@ class FormWidget extends StatelessWidget {
                                     return CaptchaPage(
                                       context: context,
                                       board: board,
+                                      thread: thread,
                                       post: Post(
                                         name: form.nameController.text,
                                         sub: form.subjectController.text,

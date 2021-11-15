@@ -24,65 +24,76 @@ class ThreadPage extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments as ThreadPageArguments;
 
-    return BlocProvider<RepliesCubit>(
-      create: (context) =>
-          sl<RepliesCubit>()..getReplies(args.board, args.thread),
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.edit),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RepliesCubit>(
+          create: (context) =>
+              sl<RepliesCubit>()..getReplies(args.board, args.thread),
         ),
-        appBar: AppBar(
-          title:
-              Text(args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {},
-            ),
-            PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 'test',
-                  child: Text('Test'),
-                ),
-              ],
-            ),
-          ],
+        BlocProvider<PostFormCubit>(
+          create: (context) => PostFormCubit(),
         ),
-        body: Builder(
-          builder: (context) {
-            return RefreshIndicator(
-              onRefresh: () async => context
-                  .read<RepliesCubit>()
-                  .getReplies(args.board, args.thread),
-              child: BlocBuilder<RepliesCubit, RepliesState>(
-                builder: (context, state) {
-                  if (state is RepliesLoaded) {
-                    return Stack(
-                      children: [
-                        buildLoaded(
-                          board: args.board,
-                          thread: args.thread,
-                          replies: state.replies,
-                        ),
-                        FormWidget(
-                          board: args.board,
-                          thread: args.thread,
-                        ),
-                      ],
-                    );
-                  } else if (state is RepliesLoading) {
-                    return buildLoading(args.board, args.thread);
-                  } else {
-                    return Container();
-                  }
-                },
+      ],
+      child: Builder(builder: (context) {
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<PostFormCubit>().toggleVisible();
+            },
+            child: Icon(Icons.edit),
+          ),
+          appBar: AppBar(
+            title: Text(
+                args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
               ),
-            );
-          },
-        ),
-      ),
+              PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'test',
+                    child: Text('Test'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: Builder(
+            builder: (context) {
+              return RefreshIndicator(
+                onRefresh: () async => context
+                    .read<RepliesCubit>()
+                    .getReplies(args.board, args.thread),
+                child: BlocBuilder<RepliesCubit, RepliesState>(
+                  builder: (context, state) {
+                    if (state is RepliesLoaded) {
+                      return Stack(
+                        children: [
+                          buildLoaded(
+                            board: args.board,
+                            thread: args.thread,
+                            replies: state.replies,
+                          ),
+                          FormWidget(
+                            board: args.board,
+                            thread: args.thread,
+                          ),
+                        ],
+                      );
+                    } else if (state is RepliesLoading) {
+                      return buildLoading(args.board, args.thread);
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 

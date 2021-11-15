@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CaptchaPage extends StatelessWidget {
   final Board board;
@@ -53,23 +56,32 @@ class CaptchaPage extends StatelessWidget {
         await context
             .read<ThreadsCubit>()
             .postThread(board, post, captcha, attempt);
+        ScaffoldMessenger.of(context).showSnackBar(
+          successSnackbar(context, post_successful.tr()),
+        );
+        context.read<PostFormCubit>().setVisible(false);
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           errorSnackbar(context, error.errorMessage.removeHtmlTags),
         );
       }
+      Navigator.of(context).pop();
     } else {
       try {
         await context
             .read<RepliesCubit>()
-            .postReply(board, thread!, post, captcha, attempt);
+            .postReply(board, post, thread!, captcha, attempt);
+        ScaffoldMessenger.of(context).showSnackBar(
+          successSnackbar(context, post_successful.tr()),
+        );
+        context.read<PostFormCubit>().setVisible(false);
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           errorSnackbar(context, error.errorMessage.removeHtmlTags),
         );
       }
+      Navigator.of(context).pop();
     }
-    context.read<PostFormCubit>().toggleForm();
   }
 
   Widget buildLoaded(CaptchaChallenge challenge) {

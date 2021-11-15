@@ -7,10 +7,17 @@ part 'post_form_state.dart';
 class PostFormCubit extends Cubit<PostFormState> {
   PostFormCubit() : super(PostFormState());
 
-  void toggleForm() {
+  void toggleVisible() {
+    emit(PostFormState(
+      isVisible: !state.isVisible,
+      isExpanded: state.isExpanded,
+    ));
+  }
+
+  void setVisible(bool isVisible) {
     emit(
       PostFormState(
-        isVisible: !state.isVisible,
+        isVisible: isVisible,
         isExpanded: state.isExpanded,
       ),
     );

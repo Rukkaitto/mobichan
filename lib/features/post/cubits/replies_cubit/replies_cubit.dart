@@ -22,6 +22,7 @@ class RepliesCubit extends Cubit<RepliesState> {
 
   Future<void> postReply(Board board, Post post, Post resto,
       CaptchaChallenge captcha, String response) async {
+    print(response);
     await repository.postReply(
         board: board,
         post: post,

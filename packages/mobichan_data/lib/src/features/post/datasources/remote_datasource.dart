@@ -169,7 +169,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       "name": post.name ?? '',
       "com": post.com ?? '',
       "mode": 'regist',
-      "resto": resto.toString(),
+      "resto": resto.no,
       "t-challenge": captchaChallenge,
       "t-response": captchaResponse,
     });
