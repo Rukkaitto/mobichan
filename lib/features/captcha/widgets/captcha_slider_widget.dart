@@ -28,6 +28,7 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Stack(
           children: [
@@ -57,17 +58,20 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
             });
           },
         ),
-        TextField(
-          controller: _controller,
-          decoration: InputDecoration(
-            hintText: type_captcha_here.tr(),
-            suffixIcon: IconButton(
-              icon: Icon(
-                Icons.send_rounded,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              onPressed: () => widget.onValidate(
-                _controller.text,
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: type_captcha_here.tr(),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.send_rounded,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onPressed: () => widget.onValidate(
+                  _controller.text,
+                ),
               ),
             ),
           ),

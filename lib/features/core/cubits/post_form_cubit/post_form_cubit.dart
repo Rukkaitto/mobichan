@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'post_form_state.dart';
 
@@ -11,6 +12,7 @@ class PostFormCubit extends Cubit<PostFormState> {
     emit(PostFormState(
       isVisible: !state.isVisible,
       isExpanded: state.isExpanded,
+      file: state.file,
     ));
   }
 
@@ -19,6 +21,7 @@ class PostFormCubit extends Cubit<PostFormState> {
       PostFormState(
         isVisible: isVisible,
         isExpanded: state.isExpanded,
+        file: state.file,
       ),
     );
   }
@@ -28,9 +31,18 @@ class PostFormCubit extends Cubit<PostFormState> {
       PostFormState(
         isVisible: state.isVisible,
         isExpanded: isExpanded,
+        file: state.file,
       ),
     );
   }
 
-  void sendPost(bool isInThread) {}
+  void setFile(XFile file) {
+    emit(
+      PostFormState(
+        isVisible: state.isVisible,
+        isExpanded: state.isExpanded,
+        file: file,
+      ),
+    );
+  }
 }

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/localization.dart';
@@ -65,31 +68,17 @@ class FormWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: Icon(Icons.image),
-                              onPressed: () {},
+                              onPressed: () => _onPictureIconPress(context),
                             ),
                             IconButton(
                               icon: Icon(
                                 Icons.send,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (dialogContext) {
-                                    return CaptchaPage(
-                                      context: context,
-                                      board: board,
-                                      thread: thread,
-                                      post: Post(
-                                        name: form.nameController.text,
-                                        sub: form.subjectController.text,
-                                        com: form.commentController.text,
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                              onPressed: () => _onSendIconPress(context, form),
                             ),
+                            if (form.file != null)
+                              buildImagePreview(form.file!),
                           ],
                         ),
                       ],
@@ -112,6 +101,45 @@ class FormWidget extends StatelessWidget {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget buildImagePreview(XFile file) {
+    return Flexible(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Image.file(
+          File(file.path),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  void _onPictureIconPress(BuildContext context) async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      context.read<PostFormCubit>().setFile(pickedFile);
+    }
+  }
+
+  void _onSendIconPress(BuildContext context, PostFormState form) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return CaptchaPage(
+          context: context,
+          board: board,
+          thread: thread,
+          post: Post(
+            name: form.nameController.text,
+            sub: form.subjectController.text,
+            com: form.commentController.text,
+          ),
+          file: form.file,
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
@@ -20,15 +21,23 @@ class RepliesCubit extends Cubit<RepliesState> {
     }
   }
 
-  Future<void> postReply(Board board, Post post, Post resto,
-      CaptchaChallenge captcha, String response) async {
+  Future<void> postReply({
+    required Board board,
+    required Post post,
+    required Post resto,
+    required CaptchaChallenge captcha,
+    required String response,
+    required XFile? file,
+  }) async {
     print(response);
     await repository.postReply(
-        board: board,
-        post: post,
-        resto: resto,
-        captchaChallenge: captcha.challenge,
-        captchaResponse: response);
+      board: board,
+      post: post,
+      resto: resto,
+      captchaChallenge: captcha.challenge,
+      captchaResponse: response,
+      filePath: file?.path,
+    );
     await getReplies(board, resto);
   }
 }

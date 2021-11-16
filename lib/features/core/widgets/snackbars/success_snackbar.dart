@@ -11,7 +11,7 @@ var successSnackbar = (BuildContext context, String text) => SnackBar(
       content: Text(
         text,
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Colors.black,
         ),
       ),
     );

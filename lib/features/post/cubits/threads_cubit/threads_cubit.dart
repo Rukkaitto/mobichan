@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -23,17 +24,19 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     }
   }
 
-  Future<void> postThread(
-    Board board,
-    Post post,
-    CaptchaChallenge captcha,
-    String response,
-  ) async {
+  Future<void> postThread({
+    required Board board,
+    required Post post,
+    required CaptchaChallenge captcha,
+    required String response,
+    required XFile? file,
+  }) async {
     await repository.postThread(
       board: board,
       post: post,
       captchaChallenge: captcha.challenge,
       captchaResponse: response,
+      filePath: file?.path,
     );
     emit(ThreadsLoaded(threads));
   }

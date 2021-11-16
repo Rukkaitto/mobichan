@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/features/core/core.dart';
@@ -16,6 +17,7 @@ class CaptchaPage extends StatelessWidget {
   final Board board;
   final Post? thread;
   final Post post;
+  final XFile? file;
   final BuildContext context;
 
   const CaptchaPage(
@@ -23,6 +25,7 @@ class CaptchaPage extends StatelessWidget {
       required this.post,
       required this.context,
       this.thread,
+      this.file,
       Key? key})
       : super(key: key);
 
@@ -62,9 +65,13 @@ class CaptchaPage extends StatelessWidget {
   ) async {
     if (thread == null) {
       try {
-        await context
-            .read<ThreadsCubit>()
-            .postThread(board, post, captcha, attempt);
+        await context.read<ThreadsCubit>().postThread(
+              board: board,
+              post: post,
+              captcha: captcha,
+              response: attempt,
+              file: file,
+            );
         ScaffoldMessenger.of(context).showSnackBar(
           successSnackbar(context, post_successful.tr()),
         );
@@ -77,9 +84,14 @@ class CaptchaPage extends StatelessWidget {
       Navigator.of(context).pop();
     } else {
       try {
-        await context
-            .read<RepliesCubit>()
-            .postReply(board, post, thread!, captcha, attempt);
+        await context.read<RepliesCubit>().postReply(
+              board: board,
+              post: post,
+              resto: thread!,
+              captcha: captcha,
+              response: attempt,
+              file: file,
+            );
         ScaffoldMessenger.of(context).showSnackBar(
           successSnackbar(context, post_successful.tr()),
         );
@@ -103,8 +115,12 @@ class CaptchaPage extends StatelessWidget {
   }
 
   Widget buildLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
+    return Container(
+      width: 100.0,
+      height: 100.0,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

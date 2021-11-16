@@ -7,12 +7,14 @@ class PostFormState extends Equatable {
 
   final bool isVisible;
   final bool isExpanded;
+  final XFile? file;
 
   PostFormState({
     this.isVisible = false,
     this.isExpanded = false,
+    this.file,
   });
 
   @override
-  List<Object> get props => [isVisible, isExpanded];
+  List<Object?> get props => [isVisible, isExpanded, file];
 }

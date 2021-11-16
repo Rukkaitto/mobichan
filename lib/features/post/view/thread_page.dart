@@ -168,49 +168,57 @@ class ThreadPage extends StatelessWidget {
             reply.replyingTo(args.replies).first == args.thread.no)
         .toList();
     for (Post rootReply in rootReplies) {
-      widgets.add(
-        ReplyWidget(
+      if (rootReply != args.thread) {
+        widgets.add(
+          ReplyWidget(
+            board: args.board,
+            reply: rootReply,
+            threadReplies: args.replies,
+            recursion: 0,
+          ),
+        );
+        widgets.addAll(_getReplies(
           board: args.board,
-          reply: rootReply,
+          post: rootReply,
+          replyWidgets: [],
           threadReplies: args.replies,
-          recursion: 0,
-        ),
-      );
-      widgets.addAll(_getReplies(args.board, rootReply, [], args.replies, 0));
+          recursion: 1,
+        ));
+      }
     }
     return widgets;
   }
 
-  static List<ReplyWidget> _getReplies(
-    Board board,
-    Post reply,
-    List<ReplyWidget> replies,
-    List<Post> threadReplies,
-    int recursion,
-  ) {
-    List<Post> postReplies = reply
+  static List<ReplyWidget> _getReplies({
+    required Board board,
+    required Post post,
+    required List<ReplyWidget> replyWidgets,
+    required List<Post> threadReplies,
+    required int recursion,
+  }) {
+    List<Post> postReplies = post
         .getReplies(threadReplies)
-        .where((element) => element.replyingTo(threadReplies).first == reply.no)
+        .where((reply) => reply.replyingTo(threadReplies).first == post.no)
         .toList();
     if (postReplies.isEmpty) {
-      return replies;
+      return replyWidgets;
     } else {
       List<ReplyWidget> result = [];
-      for (Post element in postReplies) {
+      for (Post reply in postReplies) {
         result = _getReplies(
-          board,
-          element,
-          replies
+          board: board,
+          post: reply,
+          replyWidgets: replyWidgets
             ..add(
               ReplyWidget(
                 board: board,
-                reply: element,
+                reply: reply,
                 threadReplies: threadReplies,
                 recursion: recursion,
               ),
             ),
-          threadReplies,
-          recursion + 1,
+          threadReplies: threadReplies,
+          recursion: recursion + 1,
         );
       }
       return result;
