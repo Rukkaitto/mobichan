@@ -19,13 +19,13 @@ class SettingsPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(settings.tr()),
         ),
-        body: BlocBuilder<SettingsCubit, SettingsState>(
-          builder: (context, state) {
-            if (state is SettingsLoaded) {
+        body: BlocBuilder<SettingsCubit, List<Setting>?>(
+          builder: (context, settings) {
+            if (settings != null) {
               return ListView.builder(
-                itemCount: state.settings.length,
+                itemCount: settings.length,
                 itemBuilder: (context, index) {
-                  Setting setting = state.settings[index];
+                  Setting setting = settings[index];
                   return ListTile(
                     title: Text(setting.title).tr(),
                     trailing: buildTrailing(setting.title),
@@ -44,16 +44,14 @@ class SettingsPage extends StatelessWidget {
   Widget buildTrailing(String key) {
     return BlocProvider(
       create: (context) => sl<SettingCubit>()..getSetting(key),
-      child: BlocBuilder<SettingCubit, SettingState>(
-        builder: (context, state) {
-          if (state is SettingUpdated) {
-            if (state.setting.type == SettingType.bool) {
+      child: BlocBuilder<SettingCubit, Setting?>(
+        builder: (context, setting) {
+          if (setting != null) {
+            if (setting.type == SettingType.bool) {
               return Switch(
-                value: state.setting.value,
+                value: setting.value,
                 onChanged: (value) {
-                  context
-                      .read<SettingCubit>()
-                      .updateSetting(state.setting, value);
+                  context.read<SettingCubit>().updateSetting(setting, value);
                 },
               );
             }

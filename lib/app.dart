@@ -15,24 +15,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<BoardRepository>(
-          create: (context) => sl<BoardRepository>(),
-        ),
-        RepositoryProvider<CaptchaRepository>(
-          create: (context) => sl<CaptchaRepository>(),
-        ),
-        RepositoryProvider<PostRepository>(
-          create: (context) => sl<PostRepository>(),
-        ),
-        RepositoryProvider<ReleaseRepository>(
-          create: (context) => sl<ReleaseRepository>(),
-        ),
-        RepositoryProvider<SortRepository>(
-          create: (context) => sl<SortRepository>(),
-        ),
-      ],
+    return RepositoryProvider<ReleaseRepository>(
+      create: (context) => sl<ReleaseRepository>(),
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

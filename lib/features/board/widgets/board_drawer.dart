@@ -173,6 +173,7 @@ class BoardDrawer extends StatelessWidget {
           return ListTile(
             onTap: () {
               context.read<TabsCubit>().addTab(board);
+              context.read<BoardCubit>().saveLastVisitedBoard(board);
               Navigator.pop(context);
             },
             dense: true,

@@ -1,34 +1,80 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/dependency_injector.dart';
-import 'package:mobichan/extensions/string_extension.dart';
 import 'package:mobichan/features/board/board.dart';
+import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Home extends StatefulWidget {
-  static String routeName = HOME_ROUTE;
+class Home extends StatelessWidget {
+  static String routeName = '/';
 
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  bool _nsfwWarningDismissed = false;
+  const Home({Key? key}) : super(key: key);
 
   @override
-  void initState() {
+  Widget build(BuildContext context) {
+    setOptimalDisplayMode();
+    checkForUpdates(context);
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SettingCubit>(
+          create: (_) => sl<SettingCubit>()..getSetting('show_nsfw_warning'),
+        ),
+        BlocProvider<BoardCubit>(
+          create: (_) => sl<BoardCubit>()..getLastVisitedBoard(),
+        ),
+      ],
+      child: BlocBuilder<BoardCubit, Board>(
+        builder: (context, lastVisitedBoard) {
+          return BlocBuilder<SettingCubit, Setting?>(
+            builder: (context, setting) {
+              if (setting != null) {
+                final bool showNsfwWarning = setting.value;
+                final bool isNsfw = lastVisitedBoard.wsBoard == 0;
+
+                //TODO: add dismiss action
+                if (showNsfwWarning && isNsfw) {
+                  return NsfwWarningPage(onDismiss: () {});
+                } else {
+                  return BoardPage();
+                }
+              } else {
+                return Container();
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> setOptimalDisplayMode() async {
     if (Platform.isAndroid) {
-      setOptimalDisplayMode();
+      final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+      final DisplayMode active = await FlutterDisplayMode.active;
+
+      final List<DisplayMode> sameResolution = supported
+          .where((DisplayMode m) =>
+              m.width == active.width && m.height == active.height)
+          .toList()
+        ..sort((DisplayMode a, DisplayMode b) =>
+            b.refreshRate.compareTo(a.refreshRate));
+
+      final DisplayMode mostOptimalMode =
+          sameResolution.isNotEmpty ? sameResolution.first : active;
+
+      await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
     }
-    super.initState();
+  }
+
+  void checkForUpdates(BuildContext context) {
     if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) == GITHUB) {
       Updater.checkForUpdates(context).then((needsUpdate) {
         if (needsUpdate) {
@@ -40,81 +86,5 @@ class _HomeState extends State<Home> {
         }
       });
     }
-  }
-
-  Future<void> setOptimalDisplayMode() async {
-    final List<DisplayMode> supported = await FlutterDisplayMode.supported;
-    final DisplayMode active = await FlutterDisplayMode.active;
-
-    final List<DisplayMode> sameResolution = supported
-        .where((DisplayMode m) =>
-            m.width == active.width && m.height == active.height)
-        .toList()
-      ..sort((DisplayMode a, DisplayMode b) =>
-          b.refreshRate.compareTo(a.refreshRate));
-
-    final DisplayMode mostOptimalMode =
-        sameResolution.isNotEmpty ? sameResolution.first : active;
-
-    /// This setting is per session.
-    /// Please ensure this was placed with `initState` of your root widget.
-    await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
-  }
-
-  void _dismissNsfwWarning() {
-    setState(() {
-      _nsfwWarningDismissed = true;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: (BuildContext context,
-            AsyncSnapshot<SharedPreferences> prefsSnapshot) {
-          if (prefsSnapshot.hasData) {
-            SharedPreferences prefs = prefsSnapshot.data!;
-            return BlocProvider<BoardCubit>(
-              create: (context) => sl<BoardCubit>(),
-              child: FutureBuilder(
-                future: sl<BoardRepository>().getLastVisitedBoard(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Board> boardSnapshot) {
-                  if (boardSnapshot.hasData) {
-                    Board lastVisitedBoard = boardSnapshot.data!;
-                    context.read<BoardCubit>().updateBoard(lastVisitedBoard);
-
-                    bool showWarning = true;
-                    if (prefs.containsKey("SHOW_NSFW_WARNING")) {
-                      showWarning =
-                          prefs.getString("SHOW_NSFW_WARNING")!.parseBool();
-                    }
-                    return showWarning &&
-                            (lastVisitedBoard.wsBoard == 0 &&
-                                !_nsfwWarningDismissed)
-                        ? NsfwWarningPage(onDismiss: _dismissNsfwWarning)
-                        : BoardPage();
-                  }
-                  if (boardSnapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        "${boardSnapshot.error}",
-                        style: TextStyle(
-                          color: Theme.of(context).errorColor,
-                        ),
-                      ),
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            );
-          } else {
-            return Container();
-          }
-        });
   }
 }

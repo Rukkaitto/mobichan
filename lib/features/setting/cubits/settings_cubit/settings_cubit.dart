@@ -4,13 +4,13 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 part 'settings_state.dart';
 
-class SettingsCubit extends Cubit<SettingsState> {
+class SettingsCubit extends Cubit<List<Setting>?> {
   final SettingRepository repository;
 
-  SettingsCubit({required this.repository}) : super(SettingsInitial());
+  SettingsCubit({required this.repository}) : super(null);
 
   Future<void> getSettings() async {
     List<Setting> settings = await repository.getSettings();
-    emit(SettingsLoaded(settings));
+    emit(settings);
   }
 }
