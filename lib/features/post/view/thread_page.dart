@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ThreadPageArguments {
   final Board board;
@@ -17,7 +20,9 @@ class ThreadPageArguments {
 class ThreadPage extends StatelessWidget {
   static const routeName = '/thread';
 
-  const ThreadPage({Key? key}) : super(key: key);
+  final ScrollController scrollController = ScrollController();
+
+  ThreadPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +55,19 @@ class ThreadPage extends StatelessWidget {
                 icon: Icon(Icons.search),
                 onPressed: () {},
               ),
-              PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 'test',
-                    child: Text('Test'),
-                  ),
-                ],
+              buildPopupMenuButton(
+                context: context,
+                scrollController: scrollController,
+                board: args.board,
+                thread: args.thread,
               ),
             ],
           ),
           body: Builder(
             builder: (context) {
               return RefreshIndicator(
-                onRefresh: () async => context
-                    .read<RepliesCubit>()
-                    .getReplies(args.board, args.thread),
+                onRefresh: () async =>
+                    _refresh(context, args.board, args.thread),
                 child: BlocBuilder<RepliesCubit, RepliesState>(
                   builder: (context, state) {
                     if (state is RepliesLoaded) {
@@ -75,6 +77,7 @@ class ThreadPage extends StatelessWidget {
                             board: args.board,
                             thread: args.thread,
                             replies: state.replies,
+                            scrollController: scrollController,
                           ),
                           FormWidget(
                             board: args.board,
@@ -94,6 +97,57 @@ class ThreadPage extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+
+  void _refresh(BuildContext context, Board board, Post thread) async {
+    await context.read<RepliesCubit>().getReplies(board, thread);
+  }
+
+  PopupMenuButton<dynamic> buildPopupMenuButton({
+    required BuildContext context,
+    required ScrollController scrollController,
+    required Board board,
+    required Post thread,
+  }) {
+    return PopupMenuButton(
+      onSelected: (selection) {
+        switch (selection) {
+          case 'refresh':
+            _refresh(context, board, thread);
+            break;
+          case 'share':
+            Share.share(
+                'https://boards.4channel.org/${board.board}/thread/${thread.no}');
+            break;
+          case 'top':
+            scrollController.jumpTo(scrollController.position.minScrollExtent);
+            break;
+          case 'bottom':
+            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+            break;
+        }
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Text(refresh).tr(),
+            value: 'refresh',
+          ),
+          PopupMenuItem(
+            child: Text(share).tr(),
+            value: 'share',
+          ),
+          PopupMenuItem(
+            child: Text(go_top).tr(),
+            value: 'top',
+          ),
+          PopupMenuItem(
+            child: Text(go_bottom).tr(),
+            value: 'bottom',
+          ),
+        ];
+      },
     );
   }
 
@@ -229,6 +283,7 @@ class ThreadPage extends StatelessWidget {
     required Board board,
     required Post thread,
     required List<Post> replies,
+    required ScrollController scrollController,
   }) {
     return FutureBuilder<List<ReplyWidget>>(
       future: compute<ComputeArgs, List<ReplyWidget>>(
@@ -241,23 +296,26 @@ class ThreadPage extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return Hero(
-                  tag: thread.no,
-                  child: ThreadWidget(
-                    thread: thread,
-                    board: board,
-                    inThread: true,
-                  ),
-                );
-              }
-              ReplyWidget widget = snapshot.data![index];
-              return widget;
-            },
+          return Scrollbar(
+            child: ListView.builder(
+              controller: scrollController,
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Hero(
+                    tag: thread.no,
+                    child: ThreadWidget(
+                      thread: thread,
+                      board: board,
+                      inThread: true,
+                    ),
+                  );
+                }
+                ReplyWidget widget = snapshot.data![index];
+                return widget;
+              },
+            ),
           );
         } else {
           return buildLoading(board, thread);

@@ -96,36 +96,38 @@ class ThreadsPage extends StatelessWidget {
               onRefresh: () async {
                 context.read<ThreadsCubit>().getThreads(board, state.sort);
               },
-              child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                itemCount: threads.length,
-                separatorBuilder: (context, index) => const Divider(
-                  height: 0,
-                  thickness: 1,
-                ),
-                itemBuilder: (context, index) {
-                  Post thread = threads[index];
-                  return InkWell(
-                    onTap: () async {
-                      await context
-                          .read<HistoryCubit>()
-                          .addToHistory(thread, board);
-                      Navigator.of(context).pushNamed(
-                        ThreadPage.routeName,
-                        arguments:
-                            ThreadPageArguments(board: board, thread: thread),
-                      );
-                    },
-                    child: Hero(
-                      tag: thread.no,
-                      child: ThreadWidget(
-                        thread: thread,
-                        board: board,
-                        inThread: false,
+              child: Scrollbar(
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: threads.length,
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 0,
+                    thickness: 1,
+                  ),
+                  itemBuilder: (context, index) {
+                    Post thread = threads[index];
+                    return InkWell(
+                      onTap: () async {
+                        await context
+                            .read<HistoryCubit>()
+                            .addToHistory(thread, board);
+                        Navigator.of(context).pushNamed(
+                          ThreadPage.routeName,
+                          arguments:
+                              ThreadPageArguments(board: board, thread: thread),
+                        );
+                      },
+                      child: Hero(
+                        tag: thread.no,
+                        child: ThreadWidget(
+                          thread: thread,
+                          board: board,
+                          inThread: false,
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             );
           } else {
