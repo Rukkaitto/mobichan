@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/widgets/drawer/view/drawer_view.dart';
 
 class NsfwWarningPage extends StatelessWidget {
   final Function() onDismiss;
@@ -13,7 +13,7 @@ class NsfwWarningPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(nsfw_warning).tr(),
       ),
-      drawer: DrawerView(),
+      drawer: BoardDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

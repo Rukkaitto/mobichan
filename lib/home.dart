@@ -6,11 +6,11 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
+import 'package:mobichan/features/board/view/board_nsfw_check_page.dart';
 import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
-import 'package:mobichan_domain/mobichan_domain.dart';
 
 class Home extends StatelessWidget {
   static String routeName = '/';
@@ -22,36 +22,9 @@ class Home extends StatelessWidget {
     setOptimalDisplayMode();
     checkForUpdates(context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<SettingCubit>(
-          create: (_) => sl<SettingCubit>()..getSetting('show_nsfw_warning'),
-        ),
-        BlocProvider<BoardCubit>(
-          create: (_) => sl<BoardCubit>()..getLastVisitedBoard(),
-        ),
-      ],
-      child: BlocBuilder<BoardCubit, Board>(
-        builder: (context, lastVisitedBoard) {
-          return BlocBuilder<SettingCubit, Setting?>(
-            builder: (context, setting) {
-              if (setting != null) {
-                final bool showNsfwWarning = setting.value;
-                final bool isNsfw = lastVisitedBoard.wsBoard == 0;
-
-                //TODO: add dismiss action
-                if (showNsfwWarning && isNsfw) {
-                  return NsfwWarningPage(onDismiss: () {});
-                } else {
-                  return BoardPage();
-                }
-              } else {
-                return Container();
-              }
-            },
-          );
-        },
-      ),
+    return BlocProvider<SettingsCubit>(
+      create: (_) => sl<SettingsCubit>()..getSettings(),
+      child: BoardNsfwCheckPage(),
     );
   }
 

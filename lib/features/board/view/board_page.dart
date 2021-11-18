@@ -16,9 +16,6 @@ class BoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<TabsCubit>(
-          create: (_) => sl<TabsCubit>()..getInitialTabs(),
-        ),
         BlocProvider<SortCubit>(
           create: (_) => sl<SortCubit>()..getSort(),
         ),
@@ -48,12 +45,7 @@ class BoardPage extends StatelessWidget {
                   ),
                   drawer: BoardDrawer(),
                   appBar: buildAppBar(context),
-                  body: Stack(
-                    children: [
-                      buildTabBarView(state.boards),
-                      FormWidget(board: state.current),
-                    ],
-                  ),
+                  body: buildTabBarView(state.current, state.boards),
                 ),
               ),
             );
@@ -120,6 +112,23 @@ class BoardPage extends StatelessWidget {
     );
   }
 
+  Widget buildTabBarView(Board board, List<Board> boards) {
+    return Stack(
+      children: [
+        TabBarView(
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          children: boards
+              .map(
+                (board) => ThreadsPage(board),
+              )
+              .toList(),
+        ),
+        FormWidget(board: board),
+      ],
+    );
+  }
+
   Widget buildPopupMenu() {
     return BlocBuilder<SortCubit, SortState>(
       builder: (context, state) {
@@ -166,19 +175,6 @@ class BoardPage extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-
-  void handleOnSortPress() {}
-
-  TabBarView buildTabBarView(List<Board> boards) {
-    return TabBarView(
-      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      children: boards
-          .map(
-            (board) => ThreadsPage(board),
-          )
-          .toList(),
     );
   }
 }
