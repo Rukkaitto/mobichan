@@ -21,7 +21,7 @@ extension BoardPageBuilders on BoardPage {
                   return BackButton();
                 } else {
                   return IconButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    onPressed: () => handleDrawerButtonPressed(context),
                     icon: Icon(
                       Icons.menu,
                       size: 30,
@@ -35,7 +35,7 @@ extension BoardPageBuilders on BoardPage {
             title: state is Searching
                 ? TextField(
                     onChanged: (input) =>
-                        context.read<SearchCubit>().updateInput(input),
+                        handleSearchFieldChanged(context, input),
                     decoration: InputDecoration(
                       hintText: search.tr(),
                     ),
@@ -51,9 +51,7 @@ extension BoardPageBuilders on BoardPage {
             ),
             actions: [
               IconButton(
-                onPressed: () {
-                  context.read<SearchCubit>().startSearching(context);
-                },
+                onPressed: () => handleSearchIconPressed(context),
                 icon: Icon(Icons.search),
               ),
               buildPopupMenu(),
@@ -87,9 +85,7 @@ extension BoardPageBuilders on BoardPage {
         if (state is SortLoaded) {
           return PopupMenuButton<Sort>(
             icon: Icon(Icons.sort),
-            onSelected: (Sort sort) {
-              context.read<SortCubit>().saveSort(sort);
-            },
+            onSelected: (Sort sort) => handleSortSelected(context, sort),
             itemBuilder: (context) {
               return [
                 buildPopupMenuItem(sort_bump_order, Sort(order: Order.byBump),
