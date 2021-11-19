@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget buildTrailing(String key) {
-    return BlocProvider(
+    return BlocProvider<SettingCubit>(
       create: (context) => sl<SettingCubit>()..getSetting(key),
       child: BlocBuilder<SettingCubit, Setting?>(
         builder: (context, setting) {
