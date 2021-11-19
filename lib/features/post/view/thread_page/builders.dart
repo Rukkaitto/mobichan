@@ -18,23 +18,8 @@ extension ThreadPageBuilders on ThreadPage {
     required Post thread,
   }) {
     return PopupMenuButton(
-      onSelected: (selection) {
-        switch (selection) {
-          case 'refresh':
-            handleRefresh(context, board, thread);
-            break;
-          case 'share':
-            Share.share(
-                'https://boards.4channel.org/${board.board}/thread/${thread.no}');
-            break;
-          case 'top':
-            scrollController.jumpTo(scrollController.position.minScrollExtent);
-            break;
-          case 'bottom':
-            scrollController.jumpTo(scrollController.position.maxScrollExtent);
-            break;
-        }
-      },
+      onSelected: (selection) =>
+          handleSelectedAction(context, selection, board, thread),
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
@@ -121,7 +106,7 @@ extension ThreadPageBuilders on ThreadPage {
     );
   }
 
-  static List<ReplyWidget> _computeReplies(ComputeArgs args) {
+  static List<ReplyWidget> buildRootReplies(ComputeArgs args) {
     List<ReplyWidget> widgets = [];
     List<Post> rootReplies = args.replies
         .where((reply) =>
@@ -138,7 +123,7 @@ extension ThreadPageBuilders on ThreadPage {
             recursion: 0,
           ),
         );
-        widgets.addAll(_getReplies(
+        widgets.addAll(buildSubReplies(
           board: args.board,
           post: rootReply,
           replyWidgets: [],
@@ -150,7 +135,7 @@ extension ThreadPageBuilders on ThreadPage {
     return widgets;
   }
 
-  static List<ReplyWidget> _getReplies({
+  static List<ReplyWidget> buildSubReplies({
     required Board board,
     required Post post,
     required List<ReplyWidget> replyWidgets,
@@ -166,7 +151,7 @@ extension ThreadPageBuilders on ThreadPage {
     } else {
       List<ReplyWidget> result = [];
       for (Post reply in postReplies) {
-        result = _getReplies(
+        result = buildSubReplies(
           board: board,
           post: reply,
           replyWidgets: replyWidgets
@@ -194,7 +179,7 @@ extension ThreadPageBuilders on ThreadPage {
   }) {
     return FutureBuilder<List<ReplyWidget>>(
       future: compute<ComputeArgs, List<ReplyWidget>>(
-        _computeReplies,
+        buildRootReplies,
         ComputeArgs(
           board: board,
           thread: thread,

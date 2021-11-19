@@ -40,25 +40,4 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
-
-  Widget buildTrailing(String key) {
-    return BlocProvider<SettingCubit>(
-      create: (context) => sl<SettingCubit>()..getSetting(key),
-      child: BlocBuilder<SettingCubit, Setting?>(
-        builder: (context, setting) {
-          if (setting != null) {
-            if (setting.type == SettingType.bool) {
-              return Switch(
-                value: setting.value,
-                onChanged: (value) {
-                  context.read<SettingCubit>().updateSetting(setting, value);
-                },
-              );
-            }
-          }
-          return Switch(value: true, onChanged: (value) {});
-        },
-      ),
-    );
-  }
 }
