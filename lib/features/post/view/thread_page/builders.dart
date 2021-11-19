@@ -1,109 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/features/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/features/core/core.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ThreadPageArguments {
-  final Board board;
-  final Post thread;
+import 'thread_page.dart';
 
-  ThreadPageArguments({required this.board, required this.thread});
-}
-
-class ThreadPage extends StatelessWidget {
-  static const routeName = '/thread';
-
-  final ScrollController scrollController = ScrollController();
-
-  ThreadPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ThreadPageArguments;
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<RepliesCubit>(
-          create: (context) =>
-              sl<RepliesCubit>()..getReplies(args.board, args.thread),
-        ),
-        BlocProvider<PostFormCubit>(
-          create: (context) => PostFormCubit(),
-        ),
-      ],
-      child: Builder(builder: (context) {
-        return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.read<PostFormCubit>().toggleVisible();
-            },
-            child: Icon(Icons.edit),
-          ),
-          appBar: AppBar(
-            title: Text(
-                args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {},
-              ),
-              buildPopupMenuButton(
-                context: context,
-                scrollController: scrollController,
-                board: args.board,
-                thread: args.thread,
-              ),
-            ],
-          ),
-          body: Builder(
-            builder: (context) {
-              return RefreshIndicator(
-                onRefresh: () async =>
-                    _refresh(context, args.board, args.thread),
-                child: BlocBuilder<RepliesCubit, RepliesState>(
-                  builder: (context, state) {
-                    if (state is RepliesLoaded) {
-                      return Stack(
-                        children: [
-                          buildLoaded(
-                            board: args.board,
-                            thread: args.thread,
-                            replies: state.replies,
-                            scrollController: scrollController,
-                          ),
-                          FormWidget(
-                            board: args.board,
-                            thread: args.thread,
-                          ),
-                        ],
-                      );
-                    } else if (state is RepliesLoading) {
-                      return buildLoading(args.board, args.thread);
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              );
-            },
-          ),
-        );
-      }),
-    );
-  }
-
-  void _refresh(BuildContext context, Board board, Post thread) async {
-    await context.read<RepliesCubit>().getReplies(board, thread);
-  }
-
+extension ThreadPageBuilders on ThreadPage {
   PopupMenuButton<dynamic> buildPopupMenuButton({
     required BuildContext context,
     required ScrollController scrollController,
@@ -114,7 +21,7 @@ class ThreadPage extends StatelessWidget {
       onSelected: (selection) {
         switch (selection) {
           case 'refresh':
-            _refresh(context, board, thread);
+            handleRefresh(context, board, thread);
             break;
           case 'share':
             Share.share(
@@ -323,13 +230,4 @@ class ThreadPage extends StatelessWidget {
       },
     );
   }
-}
-
-class ComputeArgs {
-  final Board board;
-  final Post thread;
-  final List<Post> replies;
-
-  ComputeArgs(
-      {required this.board, required this.thread, required this.replies});
 }

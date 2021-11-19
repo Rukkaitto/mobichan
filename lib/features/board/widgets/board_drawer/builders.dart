@@ -1,36 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
-import 'package:mobichan/features/post/cubits/cubits.dart';
-import 'package:mobichan/features/post/post.dart';
-import 'package:mobichan/localization.dart';
-
 import 'package:mobichan/features/board/board.dart';
-import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/features/setting/setting.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class BoardDrawer extends StatelessWidget {
-  const BoardDrawer({Key? key}) : super(key: key);
+import 'board_drawer.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildMenuList(),
-            buildVersionInfo(),
-          ],
-        ),
-      ),
-    );
-  }
-
+extension BoardDrawerBuilders on BoardDrawer {
   Container buildVersionInfo() {
     return Container(
       padding: EdgeInsets.all(10.0),
@@ -109,6 +91,35 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
+  Widget buildBoardListTile(Board board) {
+    return BlocProvider<FavoritesCubit>(
+      create: (context) => sl<FavoritesCubit>()..getFavorites(),
+      child: Builder(
+        builder: (context) {
+          return ListTile(
+            onTap: () => handleBoardTap(context, board),
+            dense: true,
+            minVerticalPadding: 0,
+            contentPadding: EdgeInsets.only(left: 56),
+            horizontalTitleGap: 0,
+            title: RichText(
+              text: TextSpan(
+                text: board.title,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: ' /${board.board}/',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+            ),
+            trailing: buildFavoriteButton(board),
+          );
+        },
+      ),
+    );
+  }
+
   Widget buildBoardsLoading() {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade700,
@@ -165,40 +176,6 @@ class BoardDrawer extends StatelessWidget {
     );
   }
 
-  Widget buildBoardListTile(Board board) {
-    return BlocProvider<FavoritesCubit>(
-      create: (context) => sl<FavoritesCubit>()..getFavorites(),
-      child: Builder(
-        builder: (context) {
-          return ListTile(
-            onTap: () {
-              context.read<NsfwWarningCubit>().dismiss();
-              context.read<TabsCubit>().addTab(board);
-              context.read<BoardCubit>().saveLastVisitedBoard(board);
-              Navigator.pop(context);
-            },
-            dense: true,
-            minVerticalPadding: 0,
-            contentPadding: EdgeInsets.only(left: 56),
-            horizontalTitleGap: 0,
-            title: RichText(
-              text: TextSpan(
-                text: board.title,
-                children: <TextSpan>[
-                  TextSpan(
-                    text: ' /${board.board}/',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              ),
-            ),
-            trailing: buildFavoriteButton(board),
-          );
-        },
-      ),
-    );
-  }
-
   Widget buildFavoriteButton(Board board) {
     return Builder(
       builder: (context) {
@@ -207,17 +184,8 @@ class BoardDrawer extends StatelessWidget {
           child: BlocBuilder<FavoriteCubit, bool>(
             builder: (context, isFavorite) {
               return IconButton(
-                onPressed: () async {
-                  final favoriteCubit = context.read<FavoriteCubit>();
-                  final tabsCubit = context.read<TabsCubit>();
-                  if (isFavorite) {
-                    await favoriteCubit.removeFromFavorites(board);
-                    tabsCubit.removeTab(board);
-                  } else {
-                    await favoriteCubit.addToFavorites(board);
-                    tabsCubit.addTab(board);
-                  }
-                },
+                onPressed: () =>
+                    handleFavoritePressed(context, isFavorite, board),
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   size: 20,
@@ -236,14 +204,7 @@ class BoardDrawer extends StatelessWidget {
   Widget buildHistoryListTile(Post thread) {
     return Builder(builder: (context) {
       return ListTile(
-        onTap: () {
-          print(thread.board);
-          Navigator.of(context).pushNamed(
-            ThreadPage.routeName,
-            arguments:
-                ThreadPageArguments(board: thread.board!, thread: thread),
-          );
-        },
+        onTap: () => handleOnHistoryTap(context, thread),
         contentPadding: EdgeInsets.only(left: 56, right: 10),
         dense: true,
         minVerticalPadding: 0,

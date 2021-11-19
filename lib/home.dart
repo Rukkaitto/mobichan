@@ -6,9 +6,7 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
-import 'package:mobichan/features/board/view/board_nsfw_check_page.dart';
 import 'package:mobichan/features/setting/setting.dart';
-import 'package:mobichan/pages/nsfw_warning_page.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
 

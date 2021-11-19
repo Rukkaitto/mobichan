@@ -6,56 +6,9 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class ThreadsPage extends StatelessWidget {
-  final Board board;
-  const ThreadsPage(this.board, {Key? key}) : super(key: key);
+import 'threads_page.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<TabsCubit, TabsState>(
-      builder: (context, tabsState) {
-        if (tabsState is TabsLoaded) {
-          return BlocBuilder<SortCubit, SortState>(
-            builder: (context, sortState) {
-              if (sortState is SortLoaded) {
-                context
-                    .read<ThreadsCubit>()
-                    .getThreads(tabsState.current, sortState.sort);
-                return BlocConsumer<ThreadsCubit, ThreadsState>(
-                  listener: (context, threadsState) {
-                    if (threadsState is ThreadsError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        errorSnackbar(
-                          context,
-                          threadsState.message,
-                        ),
-                      );
-                    }
-                  },
-                  builder: (context, threadsState) {
-                    if (threadsState is ThreadsLoaded) {
-                      return buildLoaded(
-                        board: board,
-                        threads: threadsState.threads,
-                        sort: sortState.sort,
-                      );
-                    } else {
-                      return buildLoading();
-                    }
-                  },
-                );
-              } else {
-                return Container();
-              }
-            },
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
-  }
-
+extension ThreadsPageBuilders on ThreadsPage {
   Widget buildLoaded({
     required Board board,
     required List<Post> threads,
@@ -93,9 +46,7 @@ class ThreadsPage extends StatelessWidget {
         builder: (context, state) {
           if (state is SortLoaded) {
             return RefreshIndicator(
-              onRefresh: () async {
-                context.read<ThreadsCubit>().getThreads(board, state.sort);
-              },
+              onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
                 child: ListView.separated(
                   physics: BouncingScrollPhysics(),
@@ -107,16 +58,7 @@ class ThreadsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     Post thread = threads[index];
                     return InkWell(
-                      onTap: () async {
-                        await context
-                            .read<HistoryCubit>()
-                            .addToHistory(thread, board);
-                        Navigator.of(context).pushNamed(
-                          ThreadPage.routeName,
-                          arguments:
-                              ThreadPageArguments(board: board, thread: thread),
-                        );
-                      },
+                      onTap: () => handleThreadTap(context, board, thread),
                       child: Hero(
                         tag: thread.no,
                         child: ThreadWidget(
