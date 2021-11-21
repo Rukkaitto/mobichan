@@ -39,7 +39,7 @@ class CaptchaPage extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is CaptchaLoaded) {
-              return buildLoaded(state.captcha);
+              return buildLoaded(context, state.captcha);
             } else if (state is CaptchaLoading) {
               return buildLoading();
             } else {

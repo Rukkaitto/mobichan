@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension CaptchaPageHandlers on CaptchaPage {
-  void handleOnValidate(
+  void handleValidate(
     BuildContext context,
     CaptchaChallenge captcha,
     String attempt,
@@ -24,16 +24,17 @@ extension CaptchaPageHandlers on CaptchaPage {
               response: attempt,
               file: file,
             );
+        context.read<PostFormCubit>().setVisible(false);
         ScaffoldMessenger.of(context).showSnackBar(
           successSnackbar(context, post_successful.tr()),
         );
-        context.read<PostFormCubit>().setVisible(false);
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           errorSnackbar(context, error.errorMessage.removeHtmlTags),
         );
+      } finally {
+        Navigator.of(context).pop();
       }
-      Navigator.of(context).pop();
     } else {
       try {
         await context.read<RepliesCubit>().postReply(
@@ -44,16 +45,17 @@ extension CaptchaPageHandlers on CaptchaPage {
               response: attempt,
               file: file,
             );
+        context.read<PostFormCubit>().setVisible(false);
         ScaffoldMessenger.of(context).showSnackBar(
           successSnackbar(context, post_successful.tr()),
         );
-        context.read<PostFormCubit>().setVisible(false);
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           errorSnackbar(context, error.errorMessage.removeHtmlTags),
         );
+      } finally {
+        Navigator.of(context).pop();
       }
-      Navigator.of(context).pop();
     }
   }
 }

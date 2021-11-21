@@ -48,9 +48,7 @@ class ThreadPage extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                context.read<PostFormCubit>().toggleVisible();
-              },
+              onPressed: () => handleFormButtonPressed(context),
               child: Icon(Icons.edit),
             ),
             appBar: AppBar(

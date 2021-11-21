@@ -8,6 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'form_widget.dart';
 
 extension FormWidgetHandlers on FormWidget {
+  void handleExpandPressed(BuildContext context, PostFormState form) {
+    context.read<PostFormCubit>().setExpanded(!form.isExpanded);
+  }
+
   void handlePictureIconPressed(BuildContext context) async {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);

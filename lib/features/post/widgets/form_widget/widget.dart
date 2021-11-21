@@ -89,11 +89,7 @@ class FormWidget extends StatelessWidget {
                           : Icons.arrow_drop_down,
                       size: 30,
                     ),
-                    onPressed: () {
-                      context
-                          .read<PostFormCubit>()
-                          .setExpanded(!form.isExpanded);
-                    },
+                    onPressed: () => handleExpandPressed(context, form),
                   ),
                 ],
               ),
