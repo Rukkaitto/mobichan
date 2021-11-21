@@ -34,7 +34,7 @@ jobs:
         id: get_version
         run: echo "::set-output name=VERSION::v$(flutter pub run cider version | grep -o "[0-9]\.[0-9]\.[0-9]")"
 
-      - name: Build APK
+      - name: Build Android APK
         run: flutter build apk --split-per-abi --release
 
       - name: Build Changelog

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/extensions/platform_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/core/core.dart';
@@ -69,32 +70,39 @@ class ThreadPage extends StatelessWidget {
             ),
             body: Builder(
               builder: (context) {
-                return RefreshIndicator(
-                  onRefresh: () async =>
-                      handleRefresh(context, args.board, args.thread),
-                  child: BlocBuilder<RepliesCubit, RepliesState>(
-                    builder: (context, state) {
-                      if (state is RepliesLoaded) {
-                        return Stack(
-                          children: [
-                            buildLoaded(
-                              board: args.board,
-                              thread: args.thread,
-                              replies: state.replies,
-                              scrollController: scrollController,
-                            ),
-                            FormWidget(
-                              board: args.board,
-                              thread: args.thread,
-                            ),
-                          ],
-                        );
-                      } else if (state is RepliesLoading) {
-                        return buildLoading(args.board, args.thread);
-                      } else {
-                        return Container();
-                      }
-                    },
+                return Center(
+                  child: SizedBox(
+                    width: PlatformExtension.isDesktop
+                        ? MediaQuery.of(context).size.width / 2
+                        : double.infinity,
+                    child: RefreshIndicator(
+                      onRefresh: () async =>
+                          handleRefresh(context, args.board, args.thread),
+                      child: BlocBuilder<RepliesCubit, RepliesState>(
+                        builder: (context, state) {
+                          if (state is RepliesLoaded) {
+                            return Stack(
+                              children: [
+                                buildLoaded(
+                                  board: args.board,
+                                  thread: args.thread,
+                                  replies: state.replies,
+                                  scrollController: scrollController,
+                                ),
+                                FormWidget(
+                                  board: args.board,
+                                  thread: args.thread,
+                                ),
+                              ],
+                            );
+                          } else if (state is RepliesLoading) {
+                            return buildLoading(args.board, args.thread);
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
+                    ),
                   ),
                 );
               },

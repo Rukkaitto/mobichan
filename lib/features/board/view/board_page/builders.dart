@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/features/board/board.dart';
@@ -7,6 +9,7 @@ import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:mobichan/extensions/platform_extension.dart';
 
 extension BoardPageBuilders on BoardPage {
   PreferredSize buildAppBar(BuildContext context) {
@@ -63,20 +66,29 @@ extension BoardPageBuilders on BoardPage {
   }
 
   Widget buildTabBarView(Board board, List<Board> boards) {
-    return Stack(
-      children: [
-        TabBarView(
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          children: boards
-              .map(
-                (board) => ThreadsPage(board),
-              )
-              .toList(),
+    return Builder(builder: (context) {
+      return Center(
+        child: SizedBox(
+          width: PlatformExtension.isDesktop
+              ? MediaQuery.of(context).size.width / 2
+              : double.infinity,
+          child: Stack(
+            children: [
+              TabBarView(
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                children: boards
+                    .map(
+                      (board) => ThreadsPage(board),
+                    )
+                    .toList(),
+              ),
+              FormWidget(board: board),
+            ],
+          ),
         ),
-        FormWidget(board: board),
-      ],
-    );
+      );
+    });
   }
 
   Widget buildPopupMenu() {
