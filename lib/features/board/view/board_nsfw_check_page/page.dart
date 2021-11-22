@@ -30,7 +30,7 @@ class BoardNsfwCheckPage extends StatelessWidget {
                   if (showWarning) {
                     return buildWarning(context.read<NsfwWarningCubit>());
                   } else {
-                    return BoardPage();
+                    return const BoardPage();
                   }
                 },
               ),

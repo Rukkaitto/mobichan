@@ -29,9 +29,9 @@ class PostHeader extends StatelessWidget {
             children: [
               if (post.country != null)
                 Padding(
-                  padding: EdgeInsets.only(right: 6),
+                  padding: const EdgeInsets.only(right: 6),
                   child: Image.network(
-                    '$API_FLAGS_URL/${post.country!.toLowerCase()}.gif',
+                    '$apiFlagsUrl/${post.country!.toLowerCase()}.gif',
                   ),
                 ),
               Flexible(
@@ -53,11 +53,11 @@ class PostHeader extends StatelessWidget {
                 style: postNoTextStyle(context),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxHeight: 22,
                 maxWidth: 22,
               ),

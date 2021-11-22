@@ -11,17 +11,17 @@ class NsfwWarningPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nsfw_warning).tr(),
+        title: const Text(nsfwWarning).tr(),
       ),
-      drawer: BoardDrawer(),
+      drawer: const BoardDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(nsfw_warning_message).tr(),
+            const Text(nsfwWarningMessage).tr(),
             ElevatedButton(
               onPressed: onDismiss,
-              child: Text(nsfw_warning_enter).tr(),
+              child: const Text(nsfwWarningEnter).tr(),
             ),
           ],
         ),

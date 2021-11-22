@@ -16,7 +16,7 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(history).tr(),
+        title: const Text(history).tr(),
       ),
       body: FutureBuilder(
         future: context.read<PostRepository>().getHistory(),
@@ -56,7 +56,7 @@ class HistoryPage extends StatelessWidget {
             );
           }
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Could not retrieve shared preferences.'),
             );
           }

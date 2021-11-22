@@ -33,15 +33,12 @@ class Utils {
   }
 
   static Future<File> _downloadFile(String url) async {
-    print(url);
-    http.Client _client = new http.Client();
+    http.Client _client = http.Client();
     var req = await _client.get(Uri.parse(url));
     var bytes = req.bodyBytes;
     String dir = (await getTemporaryDirectory()).path;
-    File file = new File('$dir/${basename(url)}');
+    File file = File('$dir/${basename(url)}');
     await file.writeAsBytes(bytes);
-    print('File size:${await file.length()}');
-    print(file.path);
     return file;
   }
 
@@ -50,7 +47,7 @@ class Utils {
     return SnackBar(
       backgroundColor: color,
       elevation: 5,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),

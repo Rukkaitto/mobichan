@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _PostImageState extends State<PostImage> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      print(e.toString());
+      log(e.toString());
       return;
     }
 
@@ -127,7 +128,7 @@ class _PostImageState extends State<PostImage> {
                     ),
                   ),
                   if (widget.post.ext == '.webm')
-                    Center(
+                    const Center(
                       child: Icon(
                         Icons.play_circle_outline_rounded,
                         size: 50,

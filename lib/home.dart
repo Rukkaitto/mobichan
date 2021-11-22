@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
 
     return BlocProvider<SettingsCubit>(
       create: (_) => sl<SettingsCubit>()..getSettings(),
-      child: BoardNsfwCheckPage(),
+      child: const BoardNsfwCheckPage(),
     );
   }
 
@@ -46,13 +46,14 @@ class Home extends StatelessWidget {
   }
 
   void checkForUpdates(BuildContext context) {
-    if (String.fromEnvironment(ENVIRONMENT, defaultValue: GITHUB) == GITHUB) {
+    if (const String.fromEnvironment(environement, defaultValue: github) ==
+        github) {
       Updater.checkForUpdates(context).then((needsUpdate) {
         if (needsUpdate) {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (BuildContext context) => UpdateWidget(),
+            builder: (BuildContext context) => const UpdateWidget(),
           );
         }
       });

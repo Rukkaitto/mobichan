@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final ThemeData theme = ThemeData(
   brightness: Brightness.dark,
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     headline1: TextStyle(
       color: Colors.white,
       fontSize: 20,
@@ -24,20 +24,20 @@ final ThemeData theme = ThemeData(
       color: Color(0xFF646464),
     ),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF202020),
     elevation: 0,
   ),
-  scaffoldBackgroundColor: Color(0xFF202020),
-  cardColor: Color(0xFF2E2E2E),
-  canvasColor: Color(0xFF202020),
-  pageTransitionsTheme: PageTransitionsTheme(
+  scaffoldBackgroundColor: const Color(0xFF202020),
+  cardColor: const Color(0xFF2E2E2E),
+  canvasColor: const Color(0xFF202020),
+  pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
-  iconTheme: IconThemeData(
+  iconTheme: const IconThemeData(
     color: Color(0xFF999999),
   ),
 );

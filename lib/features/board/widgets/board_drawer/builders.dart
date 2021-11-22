@@ -15,7 +15,7 @@ import 'board_drawer.dart';
 extension BoardDrawerBuilders on BoardDrawer {
   Container buildVersionInfo() {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       width: double.infinity,
       child: BlocProvider<PackageInfoCubit>(
         create: (context) => sl<PackageInfoCubit>()..getPackageInfo(),
@@ -37,7 +37,7 @@ extension BoardDrawerBuilders on BoardDrawer {
 
   ListView buildMenuList() {
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
         buildBoards(),
@@ -100,7 +100,7 @@ extension BoardDrawerBuilders on BoardDrawer {
             onTap: () => handleBoardTap(context, board),
             dense: true,
             minVerticalPadding: 0,
-            contentPadding: EdgeInsets.only(left: 56),
+            contentPadding: const EdgeInsets.only(left: 56),
             horizontalTitleGap: 0,
             title: RichText(
               text: TextSpan(
@@ -126,8 +126,8 @@ extension BoardDrawerBuilders on BoardDrawer {
       highlightColor: Colors.grey.shade600,
       child: ListView.builder(itemBuilder: (context, index) {
         return Padding(
-          padding:
-              EdgeInsets.only(left: 56.0, top: 14.0, bottom: 14.0, right: 15.0),
+          padding: const EdgeInsets.only(
+              left: 56.0, top: 14.0, bottom: 14.0, right: 15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -139,7 +139,7 @@ extension BoardDrawerBuilders on BoardDrawer {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.favorite,
                 color: Colors.white,
                 size: 20.0,
@@ -205,7 +205,7 @@ extension BoardDrawerBuilders on BoardDrawer {
     return Builder(builder: (context) {
       return ListTile(
         onTap: () => handleOnHistoryTap(context, thread),
-        contentPadding: EdgeInsets.only(left: 56, right: 10),
+        contentPadding: const EdgeInsets.only(left: 56, right: 10),
         dense: true,
         minVerticalPadding: 0,
         horizontalTitleGap: 0,
@@ -223,7 +223,7 @@ extension BoardDrawerBuilders on BoardDrawer {
   }
 
   Widget buildLoading() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }

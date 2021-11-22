@@ -37,9 +37,9 @@ class BoardPage extends StatelessWidget {
                 child: Scaffold(
                   floatingActionButton: FloatingActionButton(
                     onPressed: () => handleFormButtonPressed(context),
-                    child: Icon(Icons.edit),
+                    child: const Icon(Icons.edit),
                   ),
-                  drawer: BoardDrawer(),
+                  drawer: const BoardDrawer(),
                   appBar: buildAppBar(context),
                   body: buildTabBarView(state.current, state.boards),
                 ),

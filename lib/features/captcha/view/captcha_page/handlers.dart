@@ -26,7 +26,7 @@ extension CaptchaPageHandlers on CaptchaPage {
             );
         context.read<PostFormCubit>().setVisible(false);
         ScaffoldMessenger.of(context).showSnackBar(
-          successSnackbar(context, post_successful.tr()),
+          successSnackbar(context, postSuccessful.tr()),
         );
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +47,7 @@ extension CaptchaPageHandlers on CaptchaPage {
             );
         context.read<PostFormCubit>().setVisible(false);
         ScaffoldMessenger.of(context).showSnackBar(
-          successSnackbar(context, post_successful.tr()),
+          successSnackbar(context, postSuccessful.tr()),
         );
       } on ChanException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(

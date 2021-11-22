@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
-import 'package:mobichan/features/core/extensions/string_extension.dart';
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'reply_widget.dart';
@@ -20,7 +17,7 @@ extension ReplyWidgetHandlers on ReplyWidget {
     if (quotedNo == null) {
       return;
     }
-    Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
+    // Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
 
     // Navigator.of(context).push(
     //   PageRouteBuilder(
@@ -34,14 +31,14 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleQuote(int start, int end) {
-    final html = insertATags(reply.com!
-        .replaceAll(RegExp(r'\>\s+\<'), '><')
-        .replaceAll('<br>', '\n'));
-    final document = parse(html);
-    final String parsedString =
-        parse(document.body!.text).documentElement!.text.unescapeHtml;
+    // final html = insertATags(reply.com!
+    //     .replaceAll(RegExp(r'\>\s+\<'), '><')
+    //     .replaceAll('<br>', '\n'));
+    // final document = parse(html);
+    // final String parsedString =
+    // parse(document.body!.text).documentElement!.text.unescapeHtml;
 
-    final String quote = parsedString.substring(start, end);
+    // final String quote = parsedString.substring(start, end);
     // onPostQuote?.call(quote, reply.no);
   }
 }

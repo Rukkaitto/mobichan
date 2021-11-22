@@ -19,8 +19,8 @@ class VideoPlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 50),
-      reverseDuration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 50),
+      reverseDuration: const Duration(milliseconds: 200),
       child: Builder(
         builder: (ctx) {
           if (controller!.value.isEnded || controller!.value.hasError) {
@@ -30,7 +30,7 @@ class VideoPlayerControls extends StatelessWidget {
                   onPressed: _replay,
                   color: _iconColor,
                   iconSize: _replayButtonIconSize,
-                  icon: Icon(Icons.replay),
+                  icon: const Icon(Icons.replay),
                 ),
               ),
             );
@@ -52,19 +52,19 @@ class VideoPlayerControls extends StatelessWidget {
                           onPressed: () => _seekRelative(_seekStepBackward),
                           color: _iconColor,
                           iconSize: _seekButtonIconSize,
-                          icon: Icon(Icons.replay_10),
+                          icon: const Icon(Icons.replay_10),
                         ),
                         IconButton(
                           onPressed: _play,
                           color: _iconColor,
                           iconSize: _playButtonIconSize,
-                          icon: Icon(Icons.play_arrow),
+                          icon: const Icon(Icons.play_arrow),
                         ),
                         IconButton(
                           onPressed: () => _seekRelative(_seekStepForward),
                           color: _iconColor,
                           iconSize: _seekButtonIconSize,
-                          icon: Icon(Icons.forward_10),
+                          icon: const Icon(Icons.forward_10),
                         ),
                       ],
                     ),
@@ -84,12 +84,12 @@ class VideoPlayerControls extends StatelessWidget {
                     onPressed: _replay,
                     color: _iconColor,
                     iconSize: _replayButtonIconSize,
-                    icon: Icon(Icons.replay),
+                    icon: const Icon(Icons.replay),
                   ),
                 ),
               );
             default:
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
           }
         },
       ),

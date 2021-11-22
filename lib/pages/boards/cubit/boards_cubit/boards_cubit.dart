@@ -10,15 +10,15 @@ class BoardsCubit extends Cubit<BoardsState> {
   final BoardRepository repository;
   late List<Board> boards;
 
-  BoardsCubit({required this.repository}) : super(BoardsInitial());
+  BoardsCubit({required this.repository}) : super(const BoardsInitial());
 
   Future<void> getBoards() async {
     try {
-      emit(BoardsLoading());
+      emit(const BoardsLoading());
       boards = await repository.getBoards();
       emit(BoardsLoaded(boards));
     } on NetworkException {
-      emit(BoardsError(boards_loading_error.tr()));
+      emit(BoardsError(boardsLoadingError.tr()));
     }
   }
 

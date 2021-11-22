@@ -22,7 +22,7 @@ class CaptchaSlider extends StatefulWidget {
 }
 
 class _CaptchaSliderState extends State<CaptchaSlider> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   double _sliderValue = 0;
 
   @override
@@ -33,16 +33,16 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
           children: [
             Positioned.fill(
                 child: Container(
-              color: Color.fromARGB(255, 238, 238, 238),
+              color: const Color.fromARGB(255, 238, 238, 238),
             )),
             Positioned(
               left: _sliderValue * 200 - 50,
-              child: Container(
+              child: SizedBox(
                 width: widget.captchaChallenge.backgroundImageWidth.toDouble(),
                 child: widget.backgroundImage,
               ),
             ),
-            Container(
+            SizedBox(
               width: widget.captchaChallenge.foregroundImageWidth.toDouble(),
               height: widget.captchaChallenge.foregroundImageHeight.toDouble(),
               child: widget.foregroundImage,
@@ -60,7 +60,7 @@ class _CaptchaSliderState extends State<CaptchaSlider> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
-            hintText: type_captcha_here.tr(),
+            hintText: typeCaptchaHere.tr(),
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.send_rounded,

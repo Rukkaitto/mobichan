@@ -21,17 +21,17 @@ class App extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        title: APP_TITLE,
+        title: appTitle,
         initialRoute: Home.routeName,
         routes: {
-          Home.routeName: (context) => Home(),
+          Home.routeName: (context) => const Home(),
           ThreadPage.routeName: (context) => ThreadPage(),
-          SettingsPage.routeName: (context) => SettingsPage(),
+          SettingsPage.routeName: (context) => const SettingsPage(),
         },
         theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(
-            primary: Color(0xFF61D3C3),
-            secondary: Color(0xFF61D3C3),
+            primary: const Color(0xFF61D3C3),
+            secondary: const Color(0xFF61D3C3),
           ),
         ),
       ),

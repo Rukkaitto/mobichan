@@ -6,7 +6,8 @@ part 'package_info_state.dart';
 class PackageInfoCubit extends Cubit<PackageInfoState> {
   final PackageInfo packageInfo;
 
-  PackageInfoCubit({required this.packageInfo}) : super(PackageInfoInitial());
+  PackageInfoCubit({required this.packageInfo})
+      : super(const PackageInfoInitial());
 
   void getPackageInfo() async {
     emit(PackageInfoLoaded(packageInfo));

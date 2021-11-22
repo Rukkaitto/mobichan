@@ -39,15 +39,15 @@ class PostPopupMenu extends StatelessWidget {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text(reply_to_post).tr(),
+            child: const Text(replyToPost).tr(),
             value: 'reply',
           ),
           PopupMenuItem(
-            child: Text(share).tr(),
+            child: const Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text(save_to_gallery).tr(),
+            child: const Text(saveToGallery).tr(),
             value: 'save',
           ),
         ];

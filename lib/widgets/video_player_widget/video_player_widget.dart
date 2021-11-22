@@ -15,7 +15,7 @@ class VideoPlayerWidget extends StatefulWidget {
   final bool showControls;
   final double aspectRatio;
 
-  VideoPlayerWidget({
+  const VideoPlayerWidget({
     Key? key,
     required this.controller,
     this.showControls = true,
@@ -109,7 +109,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     Stack(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.timer),
+                          icon: const Icon(Icons.timer),
                           color: Colors.white,
                           onPressed: _cyclePlaybackSpeed,
                         ),
@@ -122,13 +122,13 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                                 color: Colors.orange,
                                 borderRadius: BorderRadius.circular(1),
                               ),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: 1,
                                 horizontal: 2,
                               ),
                               child: Text(
                                 '${playbackSpeeds.elementAt(playbackSpeedIndex)}x',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 8,
                                   fontWeight: FontWeight.bold,
@@ -141,12 +141,12 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     ),
                     IconButton(
                       tooltip: 'Get Snapshot',
-                      icon: Icon(Icons.camera),
+                      icon: const Icon(Icons.camera),
                       color: Colors.white,
                       onPressed: _createCameraImage,
                     ),
                     IconButton(
-                      icon: Icon(Icons.cast),
+                      icon: const Icon(Icons.cast),
                       color: Colors.white,
                       onPressed: _getRendererDevices,
                     ),
@@ -164,9 +164,10 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                             (_controller!.value.size.height.toInt()).toString(),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         'Status: ' +
                             _controller!.value.playingState
@@ -174,7 +175,8 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                                 .split('.')[1],
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
                       ),
                     ],
                   ),
@@ -185,14 +187,15 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
         ),
         Expanded(
           child: Container(
-            color: TRANSPARENT_COLOR,
+            color: transparentColor,
             child: Stack(
               children: <Widget>[
                 Center(
                   child: VlcPlayer(
                     controller: _controller!,
                     aspectRatio: widget.aspectRatio,
-                    placeholder: Center(child: CircularProgressIndicator()),
+                    placeholder:
+                        const Center(child: CircularProgressIndicator()),
                   ),
                 ),
                 VideoPlayerControls(controller: _controller),
@@ -210,8 +213,8 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                 IconButton(
                   color: Colors.white,
                   icon: _controller!.value.isPlaying
-                      ? Icon(Icons.pause_circle_outline)
-                      : Icon(Icons.play_circle_outline),
+                      ? const Icon(Icons.pause_circle_outline)
+                      : const Icon(Icons.play_circle_outline),
                   onPressed: _togglePlaying,
                 ),
                 Expanded(
@@ -221,7 +224,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     children: [
                       Text(
                         position,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       Expanded(
                         child: Slider(
@@ -239,7 +242,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                       ),
                       Text(
                         duration,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
@@ -257,7 +260,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Icon(
+                const Icon(
                   Icons.volume_down,
                   color: Colors.white,
                 ),
@@ -269,7 +272,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     onChanged: _setSoundVolume,
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.volume_up,
                   color: Colors.white,
                 ),
@@ -319,8 +322,8 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Display Devices'),
-            content: Container(
+            title: const Text('Display Devices'),
+            content: SizedBox(
               width: double.maxFinite,
               height: 250,
               child: ListView.builder(
@@ -350,7 +353,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
       await _controller!.castToRenderer(selectedCastDeviceName);
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(no_display_device).tr()));
+          .showSnackBar(SnackBar(content: const Text(noDisplayDevice).tr()));
     }
   }
 
@@ -379,10 +382,8 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                 context: context,
                 builder: (ctx) {
                   return AlertDialog(
-                    contentPadding: EdgeInsets.all(0),
-                    content: Container(
-                      child: Image.memory(snapshot),
-                    ),
+                    contentPadding: const EdgeInsets.all(0),
+                    content: Image.memory(snapshot),
                   );
                 },
               );
@@ -413,9 +414,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                 _overlayEntry!.markNeedsBuild();
               }
             },
-            child: Container(
-              child: Image.memory(snapshot),
-            ),
+            child: Image.memory(snapshot),
           ),
         ),
       ),

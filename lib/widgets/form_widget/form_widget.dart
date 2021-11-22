@@ -1,14 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/enums/enums.dart';
-import 'package:mobichan/localization.dart';
-import 'package:mobichan/utils/utils.dart';
 import 'package:mobichan/widgets/captcha_widget/captcha_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'components/form_fields.dart';
@@ -22,7 +17,7 @@ class FormWidget extends StatefulWidget {
   final Function() onPost;
   final TextEditingController commentFieldController;
 
-  FormWidget(
+  const FormWidget(
       {Key? key,
       this.thread,
       required this.board,
@@ -88,36 +83,36 @@ class _FormWidgetState extends State<FormWidget> {
     return true;
   }
 
-  void _onPost() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      Utils.buildSnackBar(
-          context, post_successful.tr(), Theme.of(context).cardColor),
-    );
-    widget.onPost();
-    setState(() {
-      widget.commentFieldController.clear();
-    });
-    setState(() {
-      _showCaptcha = false;
-    });
-  }
+  // void _onPost() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     Utils.buildSnackBar(
+  //         context, post_successful.tr(), Theme.of(context).cardColor),
+  //   );
+  //   widget.onPost();
+  //   setState(() {
+  //     widget.commentFieldController.clear();
+  //   });
+  //   setState(() {
+  //     _showCaptcha = false;
+  //   });
+  // }
 
-  void _handleError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      Utils.buildSnackBar(context, message, Theme.of(context).errorColor),
-    );
-  }
+  // void _handleError(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     Utils.buildSnackBar(context, message, Theme.of(context).errorColor),
+  //   );
+  // }
 
-  void _handleChanError(ChanException error) {
-    _handleError(error.errorMessage);
-  }
+  // void _handleChanError(ChanException error) {
+  //   _handleError(error.errorMessage);
+  // }
 
-  void _handleNetworkError(NetworkException error) {
-    _handleError(post_network_error.tr());
-  }
+  // void _handleNetworkError(NetworkException error) {
+  //   _handleError(post_network_error.tr());
+  // }
 
   void _onSend(String challenge, String attempt) {
-    final postRepository = context.read<PostRepository>();
+    // final postRepository = context.read<PostRepository>();
     switch (widget.postType) {
       case PostType.reply:
         // postRepository
@@ -169,11 +164,11 @@ class _FormWidgetState extends State<FormWidget> {
     } else {
       height = expanded
           ? (postType == PostType.thread
-              ? THREAD_FORM_MAX_HEIGHT
-              : REPLY_FORM_MAX_HEIGHT)
-          : FORM_MIN_HEIGHT;
+              ? threadFormMaxHeight
+              : replyFormMaxHeight)
+          : formMinHeight;
       if (pickedFile != null) {
-        height += IMAGE_PREVIEW_HEIGHT + 10;
+        height += imagePreviewHeight + 10;
       }
     }
     return height;
@@ -190,7 +185,7 @@ class _FormWidgetState extends State<FormWidget> {
         return _onWillPop();
       },
       child: AnimatedPositioned(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         top: widget.isOpened ? 0 : -height,
         width: MediaQuery.of(context).size.width,
@@ -203,11 +198,11 @@ class _FormWidgetState extends State<FormWidget> {
       double height, BuildContext context) {
     return AnimatedContainer(
       height: height,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomRight: Radius.circular(20),
             bottomLeft: Radius.circular(20),
           ),
@@ -218,13 +213,13 @@ class _FormWidgetState extends State<FormWidget> {
             ),
           ]),
       child: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: _showCaptcha
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 160,
                       child: CaptchaWidget(
                         board: widget.board,
@@ -278,7 +273,7 @@ class _FormWidgetState extends State<FormWidget> {
               _onPictureIconPress();
             });
           },
-          icon: Icon(Icons.image),
+          icon: const Icon(Icons.image),
         ),
         IconButton(
           onPressed: _onExpandIconPress,

@@ -19,11 +19,11 @@ class DrawerFavorites extends StatelessWidget {
             controller: _scrollController,
             isAlwaysShown: true,
             child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(
+              separatorBuilder: (context, index) => const Divider(
                 color: Colors.grey,
               ),
               controller: _scrollController,
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: state.favorites.length,
               itemBuilder: (context, index) {
                 Board board = state.favorites[index];

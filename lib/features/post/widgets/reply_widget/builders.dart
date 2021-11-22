@@ -20,7 +20,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
           }
         },
         style: {
-          "body": Style(margin: EdgeInsets.all(0)),
+          "body": Style(margin: const EdgeInsets.all(0)),
           "a": Style(
             color: Colors.lightBlueAccent,
           ),
@@ -57,7 +57,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   Text buildName() {
     return Text(
       reply.name ?? 'Anonymous',
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.bold,
       ),
     );

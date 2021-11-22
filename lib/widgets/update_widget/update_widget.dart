@@ -45,9 +45,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
             updateDownloadProgress(received, total),
       );
 
-      InstallPlugin.installApk(filePath, packageInfo.packageName)
-          .then((value) => print("Installed apk $value"))
-          .catchError((error) => print(error));
+      await InstallPlugin.installApk(filePath, packageInfo.packageName);
     }
   }
 
@@ -66,7 +64,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Later'),
+                  child: const Text('Later'),
                 ),
                 TextButton(
                   onPressed: () => downloadAndInstallUpdate(snapshot.data!),
@@ -77,7 +75,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
               ],
             );
           }
-          return AlertDialog(
+          return const AlertDialog(
             content: Center(
               child: CircularProgressIndicator(),
             ),
@@ -86,7 +84,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
       );
     } else {
       return AlertDialog(
-        title: Text('Downloading update...'),
+        title: const Text('Downloading update...'),
         content: LinearProgressIndicator(
           value: (_downloadReceived / _downloadTotal),
         ),
@@ -95,7 +93,7 @@ class _UpdateWidgetState extends State<UpdateWidget> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
         ],
       );

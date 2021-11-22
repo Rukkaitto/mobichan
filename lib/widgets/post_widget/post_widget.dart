@@ -29,6 +29,7 @@ class PostWidget extends StatefulWidget {
   final int imageIndex;
 
   PostWidget({
+    Key? key,
     required this.post,
     required this.board,
     required this.threadReplies,
@@ -38,7 +39,7 @@ class PostWidget extends StatefulWidget {
     this.onPostQuote,
     this.height,
     this.showReplies,
-  }) {
+  }) : super(key: key) {
     postReplies = post.getReplies(threadReplies);
   }
 
@@ -47,7 +48,7 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  ScreenshotController _screenshotController = ScreenshotController();
+  final ScreenshotController _screenshotController = ScreenshotController();
 
   dynamic convertPostToImage() async {
     final image = await _screenshotController.capture();
@@ -75,7 +76,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          save_post_success.tr(),
+          savePostSuccess.tr(),
           Theme.of(context).cardColor,
         ),
       );
@@ -83,7 +84,7 @@ class _PostWidgetState extends State<PostWidget> {
       ScaffoldMessenger.of(context).showSnackBar(
         Utils.buildSnackBar(
           context,
-          save_post_error.tr(),
+          savePostError.tr(),
           Theme.of(context).errorColor,
         ),
       );
@@ -115,7 +116,7 @@ class _PostWidgetState extends State<PostWidget> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -123,8 +124,8 @@ class _PostWidgetState extends State<PostWidget> {
                           child: Column(
                             children: [
                               Padding(
-                                padding:
-                                    EdgeInsets.only(top: 8, left: 8, right: 8),
+                                padding: const EdgeInsets.only(
+                                    top: 8, left: 8, right: 8),
                                 child: PostHeader(
                                   post: widget.post,
                                   onPostNoTap: widget.onPostNoTap,
@@ -142,9 +143,9 @@ class _PostWidgetState extends State<PostWidget> {
                           ),
                         ),
                         if (widget.showReplies != false &&
-                            widget.postReplies.length > 0)
+                            widget.postReplies.isNotEmpty)
                           Padding(
-                            padding: EdgeInsets.only(bottom: 8, right: 8),
+                            padding: const EdgeInsets.only(bottom: 8, right: 8),
                             child: PostFooter(
                                 postReplies: widget.postReplies,
                                 board: widget.board,

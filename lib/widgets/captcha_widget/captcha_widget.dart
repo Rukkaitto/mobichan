@@ -63,7 +63,7 @@ class _CaptchaWidgetState extends State<CaptchaWidget> {
               captchaChallenge: snapshot.data!,
             );
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },

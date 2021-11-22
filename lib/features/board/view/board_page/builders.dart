@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/features/board/board.dart';
@@ -9,7 +7,6 @@ import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/extensions/platform_extension.dart';
 
 extension BoardPageBuilders on BoardPage {
   PreferredSize buildAppBar(BuildContext context) {
@@ -21,7 +18,7 @@ extension BoardPageBuilders on BoardPage {
             leading: Builder(
               builder: (context) {
                 if (state is Searching) {
-                  return BackButton();
+                  return const BackButton();
                 } else {
                   return IconButton(
                     onPressed: () => handleDrawerButtonPressed(context),
@@ -48,14 +45,14 @@ extension BoardPageBuilders on BoardPage {
                     boards,
                     style: Theme.of(context).textTheme.headline1,
                   ).tr(),
-            bottom: PreferredSize(
+            bottom: const PreferredSize(
               child: BoardTabs(),
               preferredSize: Size.fromHeight(40.0),
             ),
             actions: [
               IconButton(
                 onPressed: () => handleSearchIconPressed(context),
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
               ),
               buildPopupMenu(),
             ],
@@ -66,29 +63,24 @@ extension BoardPageBuilders on BoardPage {
   }
 
   Widget buildTabBarView(Board board, List<Board> boards) {
-    return Builder(builder: (context) {
-      return Center(
-        child: SizedBox(
-          width: PlatformExtension.isDesktop
-              ? MediaQuery.of(context).size.width / 2
-              : double.infinity,
-          child: Stack(
-            children: [
-              TabBarView(
-                physics: BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                children: boards
-                    .map(
-                      (board) => ThreadsPage(board),
-                    )
-                    .toList(),
-              ),
-              FormWidget(board: board),
-            ],
-          ),
+    return Stack(
+      children: [
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return TabBarView(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              children: boards
+                  .map(
+                    (board) => ThreadsPage(board),
+                  )
+                  .toList(),
+            );
+          },
         ),
-      );
-    });
+        FormWidget(board: board),
+      ],
+    );
   }
 
   Widget buildPopupMenu() {
@@ -96,19 +88,22 @@ extension BoardPageBuilders on BoardPage {
       builder: (context, state) {
         if (state is SortLoaded) {
           return PopupMenuButton<Sort>(
-            icon: Icon(Icons.sort),
+            icon: const Icon(Icons.sort),
             onSelected: (Sort sort) => handleSortSelected(context, sort),
             itemBuilder: (context) {
               return [
-                buildPopupMenuItem(sort_bump_order, Sort(order: Order.byBump),
+                buildPopupMenuItem(
+                    sortBumpOrder, const Sort(order: Order.byBump),
                     currentSort: state.sort),
-                buildPopupMenuItem(sort_replies, Sort(order: Order.byReplies),
+                buildPopupMenuItem(
+                    sortReplies, const Sort(order: Order.byReplies),
                     currentSort: state.sort),
-                buildPopupMenuItem(sort_images, Sort(order: Order.byImages),
+                buildPopupMenuItem(
+                    sortImages, const Sort(order: Order.byImages),
                     currentSort: state.sort),
-                buildPopupMenuItem(sort_newest, Sort(order: Order.byNew),
+                buildPopupMenuItem(sortNewest, const Sort(order: Order.byNew),
                     currentSort: state.sort),
-                buildPopupMenuItem(sort_oldest, Sort(order: Order.byOld),
+                buildPopupMenuItem(sortOldest, const Sort(order: Order.byOld),
                     currentSort: state.sort),
               ];
             },
@@ -129,7 +124,7 @@ extension BoardPageBuilders on BoardPage {
         children: [
           Text(title).tr(),
           if (sort.order == currentSort.order)
-            Icon(
+            const Icon(
               Icons.check_rounded,
               size: 20,
             ),

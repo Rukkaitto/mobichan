@@ -18,7 +18,7 @@ class RepliesPage extends StatelessWidget {
 
     for (Post post in posts) {
       if (post.tim != null) {
-        imageUrls.add(post.getImageUrl(this.board));
+        imageUrls.add(post.getImageUrl(board));
       }
     }
 
@@ -27,7 +27,7 @@ class RepliesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> imageUrls = _getImageUrls(this.threadReplies);
+    List<String> imageUrls = _getImageUrls(threadReplies);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class RepliesPage extends StatelessWidget {
               Navigator.popUntil(
                   context, ModalRoute.withName(ThreadPage.routeName));
             },
-            icon: Icon(Icons.close_rounded),
+            icon: const Icon(Icons.close_rounded),
           ),
         ],
       ),
@@ -51,7 +51,7 @@ class RepliesPage extends StatelessWidget {
           itemBuilder: (context, index) {
             Post reply = postReplies[index];
             return Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: PostWidget(
                 post: reply,
                 board: board,

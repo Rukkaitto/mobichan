@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants.dart';
 
 class ThreadPage extends StatefulWidget {
-  static const routeName = THREAD_ROUTE;
+  static const routeName = threadRoute;
   final ThreadPageArguments args;
   const ThreadPage({Key? key, required this.args}) : super(key: key);
 
@@ -152,7 +152,7 @@ class _ThreadPageState extends State<ThreadPage> {
     return (context, index) {
       Post post = replies[index];
       return Padding(
-        padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+        padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
         child: PostWidget(
           post: post,
           board: widget.args.board,
@@ -188,19 +188,19 @@ class _ThreadPageState extends State<ThreadPage> {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text(refresh).tr(),
+            child: const Text(refresh).tr(),
             value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text(share).tr(),
+            child: const Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text(go_top).tr(),
+            child: const Text(goTop).tr(),
             value: 'top',
           ),
           PopupMenuItem(
-            child: Text(go_bottom).tr(),
+            child: const Text(goBottom).tr(),
             value: 'bottom',
           ),
         ];
@@ -212,11 +212,11 @@ class _ThreadPageState extends State<ThreadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.edit_rounded),
+        child: const Icon(Icons.edit_rounded),
         onPressed: onPressPostActionButton,
       ),
       appBar: AppBar(
-        leading: _isSearching ? BackButton() : null,
+        leading: _isSearching ? const BackButton() : null,
         title: _isSearching
             ? TextField(
                 controller: _searchQueryController,
@@ -233,9 +233,10 @@ class _ThreadPageState extends State<ThreadPage> {
         actions: <Widget>[
           IconButton(
             onPressed: _startSearching,
-            icon: Icon(Icons.search_rounded),
+            icon: const Icon(Icons.search_rounded),
           ),
-          IconButton(onPressed: _gotoGalleryView, icon: Icon(Icons.image)),
+          IconButton(
+              onPressed: _gotoGalleryView, icon: const Icon(Icons.image)),
           _buildPopupMenuButton(),
         ],
       ),
@@ -274,12 +275,12 @@ class _ThreadPageState extends State<ThreadPage> {
 
   Widget recursiveWidget(Post post, List<Post> posts, int depth) {
     List<Post> replies = post.getReplies(posts);
-    final maxDepth = 5;
+    const maxDepth = 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+          padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
           child: PostWidget(
             post: post,
             board: widget.args.board,
@@ -293,9 +294,9 @@ class _ThreadPageState extends State<ThreadPage> {
         Stack(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 15),
               child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
                 itemCount: replies.length,
@@ -345,7 +346,7 @@ class _ThreadPageState extends State<ThreadPage> {
             isAlwaysShown: true,
             controller: _scrollController,
             child: ListView.builder(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemCount: replies.length,
               itemBuilder: (context, index) {
@@ -358,7 +359,7 @@ class _ThreadPageState extends State<ThreadPage> {
           return Text("${snapshot.error}");
         }
 
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -379,7 +380,7 @@ class _ThreadPageState extends State<ThreadPage> {
             controller: _scrollController,
             child: ListView.builder(
               addAutomaticKeepAlives: true,
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemCount: filteredReplies.length,
               itemBuilder: _listViewItemBuilder(filteredReplies),
@@ -389,7 +390,7 @@ class _ThreadPageState extends State<ThreadPage> {
           return Text("${snapshot.error}");
         }
 
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

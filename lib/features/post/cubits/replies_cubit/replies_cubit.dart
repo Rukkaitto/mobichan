@@ -29,7 +29,6 @@ class RepliesCubit extends Cubit<RepliesState> {
     required String response,
     required XFile? file,
   }) async {
-    print(response);
     await repository.postReply(
       board: board,
       post: post,

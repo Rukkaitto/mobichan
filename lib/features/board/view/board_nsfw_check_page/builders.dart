@@ -11,15 +11,15 @@ extension BoardNsfwCheckPageBuilders on BoardNsfwCheckPage {
       appBar: AppBar(
         title: Text('nsfw_warning'.tr()),
       ),
-      drawer: BoardDrawer(),
+      drawer: const BoardDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(nsfw_warning_message).tr(),
+            const Text(nsfwWarningMessage).tr(),
             ElevatedButton(
               onPressed: () => handleOnButtonPressed(cubit),
-              child: Text(nsfw_warning_enter).tr(),
+              child: const Text(nsfwWarningEnter).tr(),
             ),
           ],
         ),

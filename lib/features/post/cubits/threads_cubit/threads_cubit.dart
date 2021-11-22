@@ -12,15 +12,15 @@ class ThreadsCubit extends Cubit<ThreadsState> {
   final PostRepository repository;
   late List<Post> threads;
 
-  ThreadsCubit({required this.repository}) : super(ThreadsInitial());
+  ThreadsCubit({required this.repository}) : super(const ThreadsInitial());
 
   Future<void> getThreads(Board board, Sort sort) async {
     try {
-      emit(ThreadsLoading());
+      emit(const ThreadsLoading());
       threads = await repository.getThreads(board: board, sort: sort);
       emit(ThreadsLoaded(threads));
     } on NetworkException {
-      emit(ThreadsError(threads_loading_error.tr()));
+      emit(ThreadsError(threadsLoadingError.tr()));
     }
   }
 

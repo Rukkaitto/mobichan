@@ -24,7 +24,7 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TRANSPARENT_COLOR,
+      backgroundColor: transparentColor,
       body: SafeArea(
         child: Center(
           child: Stack(
@@ -40,7 +40,7 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                 ),
               ),
             ],

@@ -31,7 +31,7 @@ class BoardExpansionTile extends StatelessWidget {
                   icon,
                   size: iconSize,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 18,
                 ),
                 Text(

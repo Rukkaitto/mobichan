@@ -9,7 +9,7 @@ import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
 import 'package:mobichan/pages/boards/cubit/search_cubit/search_cubit.dart';
 
 class BoardsView extends StatelessWidget {
-  static String routeName = BOARDS_LIST_ROUTE;
+  static String routeName = boardListRoute;
 
   const BoardsView({Key? key}) : super(key: key);
 
@@ -28,7 +28,7 @@ class BoardsView extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: buildAppBar(context, state),
-            body: BoardList(),
+            body: const BoardList(),
           );
         },
       ),
@@ -39,12 +39,12 @@ class BoardsView extends StatelessWidget {
     final searchCubit = context.read<SearchCubit>();
     return AppBar(
       title: state is NotSearching
-          ? Text(boards).tr()
+          ? const Text(boards).tr()
           : buildTextField(searchCubit),
       actions: [
         IconButton(
           onPressed: () => searchCubit.startSearching(context),
-          icon: Icon(Icons.search_rounded),
+          icon: const Icon(Icons.search_rounded),
         ),
       ],
     );

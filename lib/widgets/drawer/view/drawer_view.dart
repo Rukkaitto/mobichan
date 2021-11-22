@@ -38,8 +38,8 @@ class DrawerView extends StatelessWidget {
         Builder(
           builder: (context) {
             return ListTile(
-              leading: Icon(Icons.list_rounded),
-              title: Text(boards).tr(),
+              leading: const Icon(Icons.list_rounded),
+              title: const Text(boards).tr(),
               onTap: () {
                 Navigator.pushNamed(context, BoardsView.routeName).then((_) {
                   context.read<FavoritesCubit>().getFavorites();
@@ -49,13 +49,13 @@ class DrawerView extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: Icon(Icons.history_rounded),
-          title: Text(history).tr(),
+          leading: const Icon(Icons.history_rounded),
+          title: const Text(history).tr(),
           onTap: () => Navigator.pushNamed(context, HistoryPage.routeName),
         ),
         ListTile(
-          leading: Icon(Icons.settings_rounded),
-          title: Text(settings).tr(),
+          leading: const Icon(Icons.settings_rounded),
+          title: const Text(settings).tr(),
           onTap: () => Navigator.pushNamed(context, SettingsPage.routeName),
         ),
       ],

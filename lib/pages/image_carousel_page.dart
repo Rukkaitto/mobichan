@@ -21,11 +21,13 @@ class ImageCarouselPage extends StatefulWidget {
   final int imageIndex;
   final Board board;
   final List<Post> posts;
-  ImageCarouselPage(
-      {required this.imageIndex,
-      required this.board,
-      required this.posts,
-      this.heroTitle = "img"});
+  const ImageCarouselPage({
+    Key? key,
+    required this.imageIndex,
+    required this.board,
+    required this.posts,
+    this.heroTitle = "img",
+  }) : super(key: key);
 
   @override
   _ImageCarouselPageState createState() => _ImageCarouselPageState();
@@ -69,14 +71,14 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
           ? Theme.of(context).cardColor
           : Theme.of(context).errorColor,
       elevation: 5,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
       ),
       content: Text(
-        isSuccess ? save_to_gallery_success : save_to_gallery_error,
+        isSuccess ? saveToGallerySuccess : saveToGalleryError,
         style: snackbarTextStyle(context),
       ).tr(),
     );
@@ -113,7 +115,7 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TRANSPARENT_COLOR,
+      backgroundColor: transparentColor,
       appBar: AppBar(
         title: Text(
           '${currentPost.filename}${currentPost.ext}',
@@ -121,66 +123,63 @@ class _ImageCarouselPageState extends State<ImageCarouselPage> {
         actions: [
           IconButton(
             onPressed: _shareImage,
-            icon: Icon(Icons.share_rounded),
+            icon: const Icon(Icons.share_rounded),
           ),
           IconButton(
             onPressed: _saveImage,
-            icon: Icon(Icons.save_rounded),
+            icon: const Icon(Icons.save_rounded),
           ),
         ],
       ),
-      body: Container(
-        child: Stack(
-          children: [
-            PhotoViewGallery.builder(
-              scrollPhysics: const BouncingScrollPhysics(),
-              pageController: pageController,
-              builder: (BuildContext context, int index) {
-                Post currentPost = widget.posts[index];
-                if (isWebM(currentPost.getImageUrl(widget.board))) {
-                  if (videoPlayerControllers[index] == null) {
-                    videoPlayerControllers[index] = VlcPlayerController.network(
-                      currentPost.getImageUrl(widget.board),
-                      hwAcc: HwAcc.FULL,
-                      autoPlay: true,
-                      options: VlcPlayerOptions(),
-                    );
-                  }
-                  return PhotoViewGalleryPageOptions.customChild(
-                    child: WebmViewerPage(
-                      currentPost,
-                      videoPlayerControllers[index],
-                    ),
-                  );
-                } else {
-                  return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage(
-                      widget.posts[index].getImageUrl(widget.board),
-                    ),
-                    heroAttributes: PhotoViewHeroAttributes(
-                      tag: "image$index",
-                    ),
+      body: Stack(
+        children: [
+          PhotoViewGallery.builder(
+            scrollPhysics: const BouncingScrollPhysics(),
+            pageController: pageController,
+            builder: (BuildContext context, int index) {
+              Post currentPost = widget.posts[index];
+              if (isWebM(currentPost.getImageUrl(widget.board))) {
+                if (videoPlayerControllers[index] == null) {
+                  videoPlayerControllers[index] = VlcPlayerController.network(
+                    currentPost.getImageUrl(widget.board),
+                    hwAcc: HwAcc.FULL,
+                    autoPlay: true,
+                    options: VlcPlayerOptions(),
                   );
                 }
-              },
-              onPageChanged: onPageChanged,
-              itemCount: widget.posts.length,
-              loadingBuilder: (context, progress) => Center(
-                child: Container(
-                  width: 60.0,
-                  height: 60.0,
-                  child:
-                      (progress == null || progress.expectedTotalBytes == null)
-                          ? CircularProgressIndicator()
-                          : CircularProgressIndicator(
-                              value: progress.cumulativeBytesLoaded /
-                                  progress.expectedTotalBytes!,
-                            ),
-                ),
+                return PhotoViewGalleryPageOptions.customChild(
+                  child: WebmViewerPage(
+                    currentPost,
+                    videoPlayerControllers[index],
+                  ),
+                );
+              } else {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: NetworkImage(
+                    widget.posts[index].getImageUrl(widget.board),
+                  ),
+                  heroAttributes: PhotoViewHeroAttributes(
+                    tag: "image$index",
+                  ),
+                );
+              }
+            },
+            onPageChanged: onPageChanged,
+            itemCount: widget.posts.length,
+            loadingBuilder: (context, progress) => Center(
+              child: SizedBox(
+                width: 60.0,
+                height: 60.0,
+                child: (progress == null || progress.expectedTotalBytes == null)
+                    ? const CircularProgressIndicator()
+                    : CircularProgressIndicator(
+                        value: progress.cumulativeBytesLoaded /
+                            progress.expectedTotalBytes!,
+                      ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

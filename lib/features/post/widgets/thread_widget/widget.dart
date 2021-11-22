@@ -62,7 +62,7 @@ class ThreadWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Container(
                       width: RandomUtils.randomDouble(100, deviceWidth),
                       height: 15.0,
@@ -96,7 +96,7 @@ class ThreadWidget extends StatelessWidget {
                       width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.reply,
                             color: Colors.white,

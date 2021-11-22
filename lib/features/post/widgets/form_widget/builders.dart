@@ -31,7 +31,7 @@ extension FormWidgetBuilders on FormWidget {
         enableInteractiveSelection: true,
         maxLines: 5,
         autofocus: true,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         textCapitalization: TextCapitalization.sentences,
       ),
     );
@@ -46,7 +46,7 @@ extension FormWidgetBuilders on FormWidget {
           hintText: name.tr(),
         ),
         enableInteractiveSelection: true,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         textCapitalization: TextCapitalization.sentences,
       ),
     );
@@ -61,7 +61,7 @@ extension FormWidgetBuilders on FormWidget {
           hintText: subject.tr(),
         ),
         enableInteractiveSelection: true,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         textCapitalization: TextCapitalization.sentences,
       ),
     );

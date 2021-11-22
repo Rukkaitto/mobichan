@@ -13,10 +13,10 @@ class ThreadOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
-            post.sticky == 1 ? ThreadStickyIcon() : Container(),
+            post.sticky == 1 ? const ThreadStickyIcon() : Container(),
             buildCounts(),
             buildComment(),
           ],
@@ -60,7 +60,7 @@ class ThreadOverlay extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
+        const Icon(
           Icons.image_rounded,
           color: Colors.white,
           size: 16,
@@ -77,7 +77,7 @@ class ThreadOverlay extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
+        const Icon(
           Icons.reply_rounded,
           color: Colors.white,
           size: 16,

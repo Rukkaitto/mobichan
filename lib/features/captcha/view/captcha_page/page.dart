@@ -11,23 +11,23 @@ class CaptchaPage extends StatelessWidget {
   final Post? thread;
   final Post post;
   final XFile? file;
-  final BuildContext context;
+  final BuildContext formContext;
 
   const CaptchaPage(
       {required this.board,
       required this.post,
-      required this.context,
+      required this.formContext,
       this.thread,
       this.file,
       Key? key})
       : super(key: key);
 
   @override
-  Widget build(BuildContext dialogContext) {
+  Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Theme.of(context).cardColor,
+      backgroundColor: Theme.of(formContext).cardColor,
       child: BlocProvider<CaptchaCubit>(
-        create: (context) =>
+        create: (formContext) =>
             sl<CaptchaCubit>()..getCaptchaChallenge(board, thread),
         child: BlocConsumer<CaptchaCubit, CaptchaState>(
           listener: (context, state) {

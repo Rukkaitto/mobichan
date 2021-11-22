@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(NotSearching());
+  SearchCubit() : super(const NotSearching());
 
   void startSearching(BuildContext context) {
     updateInput('');
@@ -13,7 +13,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void stopSearching() {
-    emit(NotSearching());
+    emit(const NotSearching());
   }
 
   void updateInput(String input) {

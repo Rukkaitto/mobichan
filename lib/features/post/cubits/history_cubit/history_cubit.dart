@@ -6,7 +6,7 @@ part 'history_state.dart';
 class HistoryCubit extends Cubit<HistoryState> {
   final PostRepository repository;
 
-  HistoryCubit({required this.repository}) : super(HistoryInitial());
+  HistoryCubit({required this.repository}) : super(const HistoryInitial());
 
   Future<void> addToHistory(Post thread, Board board) async {
     List<Post> history = await repository.addThreadToHistory(thread, board);
@@ -14,7 +14,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   }
 
   Future<void> getHistory() async {
-    emit(HistoryLoading());
+    emit(const HistoryLoading());
     List<Post> history = await repository.getHistory();
     emit(HistoryLoaded(history));
   }

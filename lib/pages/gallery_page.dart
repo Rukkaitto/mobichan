@@ -12,17 +12,19 @@ class GalleryPage extends StatelessWidget {
   final List<Post> imagePosts;
   final int crossAxisCount;
   final Board board;
-  const GalleryPage(
-      {Key? key,
-      required this.imagePosts,
-      required this.board,
-      this.crossAxisCount = 3});
+
+  const GalleryPage({
+    Key? key,
+    required this.imagePosts,
+    required this.board,
+    this.crossAxisCount = 3,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(gallery).tr(),
+        title: const Text(gallery).tr(),
       ),
       backgroundColor: Theme.of(context).canvasColor,
       body: Padding(
@@ -56,14 +58,13 @@ class GalleryPage extends StatelessWidget {
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: imagePosts[index].getThumbnailUrl(board),
-                      placeholder: (context, url) => Container(
-                        child: Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator()
-                              : CupertinoActivityIndicator(),
-                        ),
+                      placeholder: (context, url) => Center(
+                        child: Platform.isAndroid
+                            ? const CircularProgressIndicator()
+                            : const CupertinoActivityIndicator(),
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     )),
               ),
             );

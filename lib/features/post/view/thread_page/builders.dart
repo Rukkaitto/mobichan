@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -23,19 +23,19 @@ extension ThreadPageBuilders on ThreadPage {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Text(refresh).tr(),
+            child: const Text(refresh).tr(),
             value: 'refresh',
           ),
           PopupMenuItem(
-            child: Text(share).tr(),
+            child: const Text(share).tr(),
             value: 'share',
           ),
           PopupMenuItem(
-            child: Text(go_top).tr(),
+            child: const Text(goTop).tr(),
             value: 'top',
           ),
           PopupMenuItem(
-            child: Text(go_bottom).tr(),
+            child: const Text(goBottom).tr(),
             value: 'bottom',
           ),
         ];
@@ -77,7 +77,7 @@ extension ThreadPageBuilders on ThreadPage {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Container(
                         width: 300,
                         height: 10,
@@ -86,7 +86,7 @@ extension ThreadPageBuilders on ThreadPage {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       Container(
                         width: 250,
                         height: 10,
@@ -189,24 +189,26 @@ extension ThreadPageBuilders on ThreadPage {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scrollbar(
-            child: ListView.builder(
-              controller: scrollController,
-              shrinkWrap: true,
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Hero(
-                    tag: thread.no,
-                    child: ThreadWidget(
-                      thread: thread,
-                      board: board,
-                      inThread: true,
-                    ),
-                  );
-                }
-                ReplyWidget widget = snapshot.data![index];
-                return widget;
-              },
+            child: ResponsiveWidth(
+              child: ListView.builder(
+                controller: scrollController,
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Hero(
+                      tag: thread.no,
+                      child: ThreadWidget(
+                        thread: thread,
+                        board: board,
+                        inThread: true,
+                      ),
+                    );
+                  }
+                  ReplyWidget widget = snapshot.data![index];
+                  return widget;
+                },
+              ),
             ),
           );
         } else {

@@ -5,10 +5,10 @@ part 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   final BoardRepository repository;
-  FavoritesCubit({required this.repository}) : super(FavoritesInitial());
+  FavoritesCubit({required this.repository}) : super(const FavoritesInitial());
 
   Future<void> getFavorites() async {
-    emit(FavoritesLoading());
+    emit(const FavoritesLoading());
     List<Board> favorites = await repository.getFavoriteBoards();
     emit(FavoritesLoaded(favorites));
   }

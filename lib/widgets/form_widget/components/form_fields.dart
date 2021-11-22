@@ -60,19 +60,19 @@ class FormFields extends StatelessWidget {
           ),
           if (_pickedfile != null)
             Padding(
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Flexible(
                     child: Image.file(
                       File(_pickedfile!.path),
-                      height: IMAGE_PREVIEW_HEIGHT,
+                      height: imagePreviewHeight,
                     ),
                   ),
                   IconButton(
                     onPressed: _clearPickedFile,
-                    icon: Icon(Icons.cancel_rounded),
+                    icon: const Icon(Icons.cancel_rounded),
                   ),
                 ],
               ),

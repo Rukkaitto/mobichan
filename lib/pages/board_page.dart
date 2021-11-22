@@ -113,7 +113,7 @@ class _BoardPageState extends State<BoardPage> {
         children: [
           Text(title).tr(),
           if (sort.order == _sort.order)
-            Icon(
+            const Icon(
               Icons.check_rounded,
               size: 20,
             ),
@@ -125,18 +125,18 @@ class _BoardPageState extends State<BoardPage> {
 
   PopupMenuButton<dynamic> _buildPopupMenuButton() {
     return PopupMenuButton(
-      icon: Icon(Icons.sort),
+      icon: const Icon(Icons.sort),
       onSelected: (sort) {
         context.read<SortRepository>().saveSort(sort);
         _refresh();
       },
       itemBuilder: (context) {
         return <PopupMenuEntry>[
-          _buildPopupMenuItem(sort_bump_order, Sort(order: Order.byBump)),
-          _buildPopupMenuItem(sort_replies, Sort(order: Order.byReplies)),
-          _buildPopupMenuItem(sort_images, Sort(order: Order.byImages)),
-          _buildPopupMenuItem(sort_newest, Sort(order: Order.byNew)),
-          _buildPopupMenuItem(sort_oldest, Sort(order: Order.byOld)),
+          _buildPopupMenuItem(sortBumpOrder, const Sort(order: Order.byBump)),
+          _buildPopupMenuItem(sortReplies, const Sort(order: Order.byReplies)),
+          _buildPopupMenuItem(sortImages, const Sort(order: Order.byImages)),
+          _buildPopupMenuItem(sortNewest, const Sort(order: Order.byNew)),
+          _buildPopupMenuItem(sortOldest, const Sort(order: Order.byOld)),
         ];
       },
     );
@@ -155,7 +155,7 @@ class _BoardPageState extends State<BoardPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              settings: RouteSettings(name: ThreadPage.routeName),
+              settings: const RouteSettings(name: ThreadPage.routeName),
               builder: (context) => ThreadPage(
                 args: ThreadPageArguments(
                   board: widget.args.board,
@@ -190,17 +190,17 @@ class _BoardPageState extends State<BoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: const DrawerView(),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.edit_rounded),
+        child: const Icon(Icons.edit_rounded),
         onPressed: _onPressPostActionButton,
       ),
       appBar: AppBar(
-        leading: _isSearching ? BackButton() : null,
+        leading: _isSearching ? const BackButton() : null,
         actions: [
           IconButton(
             onPressed: _startSearching,
-            icon: Icon(Icons.search_rounded),
+            icon: const Icon(Icons.search_rounded),
           ),
           FutureBuilder(
             future: context
@@ -234,7 +234,7 @@ class _BoardPageState extends State<BoardPage> {
                 ),
                 autofocus: true,
               )
-            : Text('${widget.args.board.title}'),
+            : Text(widget.args.board.title),
       ),
       body: Stack(
         children: [
@@ -269,12 +269,12 @@ class _BoardPageState extends State<BoardPage> {
           return Scrollbar(
             controller: _scrollController,
             child: Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: GridView.builder(
                   addAutomaticKeepAlives: true,
                   controller: _scrollController,
                   itemCount: filteredThreads.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
                     crossAxisCount: 2,
@@ -287,7 +287,7 @@ class _BoardPageState extends State<BoardPage> {
           return Text("${snapshot.error}");
         }
 
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

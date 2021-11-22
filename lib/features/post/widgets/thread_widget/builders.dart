@@ -108,7 +108,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
             loadingProgress.expectedTotalBytes!,
       );
     } else {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
   }
 

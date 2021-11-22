@@ -50,7 +50,7 @@ class ThumbnailWidget extends StatelessWidget {
                 fadeInDuration: Duration.zero,
               ),
               if (post.isWebm)
-                Center(
+                const Center(
                   child: Icon(
                     Icons.play_circle_outline,
                     color: Colors.white,

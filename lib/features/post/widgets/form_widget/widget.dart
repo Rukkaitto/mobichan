@@ -6,14 +6,15 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'form_widget.dart';
 
 class FormWidget extends StatelessWidget {
-  final Duration animationDuration = Duration(milliseconds: 300);
+  final Duration animationDuration = const Duration(milliseconds: 300);
   final double contractedHeight = 190;
   final double expandedHeight = 320;
 
   final Board board;
   final Post? thread;
 
-  FormWidget({required this.board, this.thread, Key? key}) : super(key: key);
+  const FormWidget({required this.board, this.thread, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,7 @@ class FormWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.image),
+                              icon: const Icon(Icons.image),
                               onPressed: () =>
                                   handlePictureIconPressed(context),
                             ),

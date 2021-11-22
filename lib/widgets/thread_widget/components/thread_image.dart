@@ -27,7 +27,7 @@ class ThreadImage extends StatelessWidget {
             ThreadRoundDimmedImage(imageProvider),
         placeholder: (context, url) => Center(
           child: ThreadRoundDimmedImage(
-            NetworkImage('$API_IMAGES_URL/${board.board}/${post.tim}s.jpg'),
+            NetworkImage('$apiImagesUrl/${board.board}/${post.tim}s.jpg'),
           ),
         ),
         fadeInDuration: Duration.zero,

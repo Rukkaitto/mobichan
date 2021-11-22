@@ -21,7 +21,7 @@ class BoardTabs extends StatelessWidget {
                     .setCurrentTab(state.boards[index]);
               },
               isScrollable: true,
-              physics: BouncingScrollPhysics(
+              physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               labelStyle: Theme.of(context).textTheme.headline2,

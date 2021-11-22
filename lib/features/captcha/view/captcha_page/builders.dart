@@ -15,7 +15,7 @@ extension CaptchaPageBuilders on CaptchaPage {
   }
 
   Widget buildLoading() {
-    return Container(
+    return const SizedBox(
       width: 100.0,
       height: 100.0,
       child: Center(

@@ -17,7 +17,7 @@ extension StringExtension on String {
       multiLine: true,
       caseSensitive: true,
     );
-    return this.replaceAll(regExp, '');
+    return replaceAll(regExp, '');
   }
 
   String get unescapeHtml {
@@ -26,22 +26,22 @@ extension StringExtension on String {
   }
 
   String get removeWbr {
-    return this.replaceAll('<wbr>', '');
+    return replaceAll('<wbr>', '');
   }
 
   String get replaceWbrWithNewline {
-    return this.replaceAll('<wbr>', ' \n');
+    return replaceAll('<wbr>', ' \n');
   }
 
   String get replaceBrWithSpace {
-    return this.replaceAll('<br>', ' ');
+    return replaceAll('<br>', ' ');
   }
 
   String get replaceBrWithNewline {
-    return this.replaceAll('<br>', ' \n');
+    return replaceAll('<br>', ' \n');
   }
 
   bool parseBool() {
-    return this.toLowerCase() == 'true';
+    return toLowerCase() == 'true';
   }
 }

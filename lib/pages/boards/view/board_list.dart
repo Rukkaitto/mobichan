@@ -37,7 +37,7 @@ class BoardList extends StatelessWidget {
     return SnackBar(
       backgroundColor: Theme.of(context).errorColor,
       elevation: 5,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -51,7 +51,7 @@ class BoardList extends StatelessWidget {
   }
 
   Widget buildLoading() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }

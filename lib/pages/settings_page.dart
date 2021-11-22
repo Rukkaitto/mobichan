@@ -10,7 +10,7 @@ import 'package:mobichan/extensions/string_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
-  static const routeName = SETTINGS_ROUTE;
+  static const routeName = settingsRoute;
 
   const SettingsPage({Key? key}) : super(key: key);
 

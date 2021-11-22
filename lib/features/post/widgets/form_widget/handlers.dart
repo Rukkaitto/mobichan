@@ -26,7 +26,7 @@ extension FormWidgetHandlers on FormWidget {
       context: context,
       builder: (dialogContext) {
         return CaptchaPage(
-          context: context,
+          formContext: context,
           board: board,
           thread: thread,
           post: Post(

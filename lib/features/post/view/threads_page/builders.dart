@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -48,27 +49,29 @@ extension ThreadsPageBuilders on ThreadsPage {
             return RefreshIndicator(
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: threads.length,
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 0,
-                    thickness: 1,
-                  ),
-                  itemBuilder: (context, index) {
-                    Post thread = threads[index];
-                    return InkWell(
-                      onTap: () => handleThreadTap(context, board, thread),
-                      child: Hero(
-                        tag: thread.no,
-                        child: ThreadWidget(
-                          thread: thread,
-                          board: board,
-                          inThread: false,
+                child: ResponsiveWidth(
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: threads.length,
+                    separatorBuilder: (context, index) => const Divider(
+                      height: 0,
+                      thickness: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      Post thread = threads[index];
+                      return InkWell(
+                        onTap: () => handleThreadTap(context, board, thread),
+                        child: Hero(
+                          tag: thread.no,
+                          child: ThreadWidget(
+                            thread: thread,
+                            board: board,
+                            inThread: false,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             );
@@ -82,7 +85,8 @@ extension ThreadsPageBuilders on ThreadsPage {
 
   Widget buildLoading() {
     return ListView.builder(
-      itemBuilder: (context, index) => ThreadWidget.shimmer,
+      itemBuilder: (context, index) =>
+          ResponsiveWidth(child: ThreadWidget.shimmer),
     );
   }
 }
