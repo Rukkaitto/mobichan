@@ -44,65 +44,67 @@ extension ThreadPageBuilders on ThreadPage {
   }
 
   Widget buildLoading(Board board, Post thread) {
-    return Column(
-      children: [
-        Hero(
-          tag: thread.no,
-          child: ThreadWidget(
-            thread: thread,
-            board: board,
-            inThread: true,
-          ),
-        ),
-        Expanded(
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey.shade700,
-            highlightColor: Colors.grey.shade600,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
-                      top: 8.0,
-                      bottom: 8.0,
-                      right: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Container(
-                        width: 300,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Container(
-                        width: 250,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+    return ResponsiveWidth(
+      child: Column(
+        children: [
+          Hero(
+            tag: thread.no,
+            child: ThreadWidget(
+              thread: thread,
+              board: board,
+              inThread: true,
             ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade700,
+              highlightColor: Colors.grey.shade600,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
+                        top: 8.0,
+                        bottom: 8.0,
+                        right: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Container(
+                          width: 300,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Container(
+                          width: 250,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -132,6 +134,7 @@ extension ThreadPageBuilders on ThreadPage {
         ));
       }
     }
+    print(widgets[0].reply.com);
     return widgets;
   }
 
@@ -189,26 +192,28 @@ extension ThreadPageBuilders on ThreadPage {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scrollbar(
-            child: ResponsiveWidth(
-              child: ListView.builder(
-                controller: scrollController,
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Hero(
+            isAlwaysShown: true,
+            controller: ScrollController(),
+            child: ListView.builder(
+              controller: scrollController,
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return ResponsiveWidth(
+                    child: Hero(
                       tag: thread.no,
                       child: ThreadWidget(
                         thread: thread,
                         board: board,
                         inThread: true,
                       ),
-                    );
-                  }
-                  ReplyWidget widget = snapshot.data![index];
-                  return widget;
-                },
-              ),
+                    ),
+                  );
+                }
+                ReplyWidget widget = snapshot.data![index - 1];
+                return ResponsiveWidth(child: widget);
+              },
             ),
           );
         } else {

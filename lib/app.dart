@@ -17,21 +17,24 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<ReleaseRepository>(
       create: (context) => sl<ReleaseRepository>(),
-      child: MaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        title: appTitle,
-        initialRoute: Home.routeName,
-        routes: {
-          Home.routeName: (context) => const Home(),
-          ThreadPage.routeName: (context) => ThreadPage(),
-          SettingsPage.routeName: (context) => const SettingsPage(),
-        },
-        theme: theme.copyWith(
-          colorScheme: theme.colorScheme.copyWith(
-            primary: const Color(0xFF61D3C3),
-            secondary: const Color(0xFF61D3C3),
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          title: appTitle,
+          initialRoute: Home.routeName,
+          routes: {
+            Home.routeName: (context) => const Home(),
+            ThreadPage.routeName: (context) => ThreadPage(),
+            SettingsPage.routeName: (context) => const SettingsPage(),
+          },
+          theme: theme.copyWith(
+            colorScheme: theme.colorScheme.copyWith(
+              primary: const Color(0xFF61D3C3),
+              secondary: const Color(0xFF61D3C3),
+            ),
           ),
         ),
       ),

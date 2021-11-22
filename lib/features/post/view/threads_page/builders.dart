@@ -49,17 +49,18 @@ extension ThreadsPageBuilders on ThreadsPage {
             return RefreshIndicator(
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
-                child: ResponsiveWidth(
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: threads.length,
-                    separatorBuilder: (context, index) => const Divider(
-                      height: 0,
-                      thickness: 1,
-                    ),
-                    itemBuilder: (context, index) {
-                      Post thread = threads[index];
-                      return InkWell(
+                isAlwaysShown: true,
+                child: ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: threads.length,
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 0,
+                    thickness: 1,
+                  ),
+                  itemBuilder: (context, index) {
+                    Post thread = threads[index];
+                    return ResponsiveWidth(
+                      child: InkWell(
                         onTap: () => handleThreadTap(context, board, thread),
                         child: Hero(
                           tag: thread.no,
@@ -69,9 +70,9 @@ extension ThreadsPageBuilders on ThreadsPage {
                             inThread: false,
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             );

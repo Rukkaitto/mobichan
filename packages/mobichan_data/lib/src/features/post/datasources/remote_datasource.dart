@@ -47,8 +47,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required BoardModel board,
     required PostModel thread,
   }) async {
-    final response =
-        await client.get<String>('$apiUrl/${board.board}/thread/$thread.json');
+    final response = await client
+        .get<String>('$apiUrl/${board.board}/thread/${thread.no}.json');
 
     if (response.statusCode == 200) {
       try {
