@@ -7,6 +7,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'reply_widget.dart';
 
 extension ReplyWidgetHandlers on ReplyWidget {
+  void handleTapImage({
+    required BuildContext context,
+    required Board board,
+    required List<Post> imagePosts,
+    required int imageIndex,
+  }) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, _, __) => CarouselPage(
+          board: board,
+          posts: imagePosts,
+          imageIndex: imageIndex,
+          heroTitle: "image$imageIndex",
+        ),
+      ),
+    );
+  }
+
   void handleTapUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url, forceSafariVC: false, universalLinksOnly: true);

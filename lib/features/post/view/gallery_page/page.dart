@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/localization.dart';
-import 'package:mobichan/pages/image_carousel_page.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import 'gallery_page.dart';
 
 class GalleryPageArguments {
   final Board board;
@@ -41,20 +42,12 @@ class GalleryPage extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) {
-                        return ImageCarouselPage(
-                          imageIndex: index,
-                          posts: args.imagePosts,
-                          board: args.board,
-                          heroTitle: "image$index",
-                        );
-                      },
-                      fullscreenDialog: true));
-            },
+            onTap: () => handleImageTap(
+              context: context,
+              board: args.board,
+              imagePosts: args.imagePosts,
+              index: index,
+            ),
             child: Hero(
                 tag: "image$index",
                 child: CachedNetworkImage(

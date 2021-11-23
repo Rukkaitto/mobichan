@@ -36,16 +36,35 @@ extension ReplyWidgetBuilders on ReplyWidget {
     });
   }
 
-  Padding buildImage() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: ThumbnailWidget(
-        board: board,
-        post: reply,
-        height: 180,
-        borderRadius: 5,
-      ),
-    );
+  Widget buildImage() {
+    final imagePosts =
+        threadReplies.where((post) => post.filename != null).toList();
+    final imageIndex = imagePosts.indexOf(reply);
+
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: InkWell(
+          onTap: () => handleTapImage(
+            context: context,
+            board: board,
+            imagePosts: imagePosts,
+            imageIndex: imageIndex,
+          ),
+          child: Hero(
+            tag: 'image$imageIndex',
+            child: Material(
+              child: ThumbnailWidget(
+                board: board,
+                post: reply,
+                height: 180,
+                borderRadius: 5,
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Text buildNumber(BuildContext context) {

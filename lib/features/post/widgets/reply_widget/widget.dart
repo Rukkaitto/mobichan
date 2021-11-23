@@ -53,7 +53,7 @@ class ReplyWidget extends StatelessWidget {
                           buildNumber(context),
                         ],
                       ),
-                      buildImage(),
+                      if (reply.filename != null) buildImage(),
                       const SizedBox(height: 5),
                       buildContent(),
                       if (showReplies) buildFooter(),
