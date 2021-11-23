@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'reply_widget.dart';
@@ -12,22 +14,32 @@ extension ReplyWidgetHandlers on ReplyWidget {
     }
   }
 
-  void handleTapReplies(BuildContext context, String quotelink) {
+  void handleTapReplies(BuildContext context, Post post) {
+    Navigator.of(context).pushNamed(
+      RepliesPage.routeName,
+      arguments: RepliesPageArguments(
+        board: board,
+        postReplies: post.getReplies(threadReplies),
+        threadReplies: threadReplies,
+      ),
+    );
+  }
+
+  void handleTapQuotelink(BuildContext context, String quotelink) {
     int? quotedNo = int.tryParse(quotelink.substring(2));
     if (quotedNo == null) {
       return;
     }
-    // Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
+    Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
 
-    // Navigator.of(context).push(
-    //   PageRouteBuilder(
-    //     pageBuilder: (context, _, __) => RepliesPage(
-    //       [quotedPost],
-    //       board: board,
-    //       threadReplies: threadReplies,
-    //     ),
-    //   ),
-    // );
+    Navigator.of(context).pushNamed(
+      RepliesPage.routeName,
+      arguments: RepliesPageArguments(
+        board: board,
+        postReplies: [quotedPost],
+        threadReplies: threadReplies,
+      ),
+    );
   }
 
   void handleQuote(int start, int end) {

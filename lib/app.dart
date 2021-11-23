@@ -27,6 +27,7 @@ class App extends StatelessWidget {
           Home.routeName: (context) => const Home(),
           ThreadPage.routeName: (context) => ThreadPage(),
           SettingsPage.routeName: (context) => const SettingsPage(),
+          RepliesPage.routeName: (context) => const RepliesPage(),
         },
         theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(

@@ -14,7 +14,7 @@ class ReplyWidget extends StatelessWidget {
     required this.board,
     required this.reply,
     required this.threadReplies,
-    required this.recursion,
+    this.recursion = 0,
     Key? key,
   }) : super(key: key);
 
@@ -52,6 +52,7 @@ class ReplyWidget extends StatelessWidget {
                       buildImage(),
                       const SizedBox(height: 5),
                       buildContent(),
+                      buildFooter(),
                     ],
                   ),
                 ),

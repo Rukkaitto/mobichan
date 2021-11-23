@@ -14,7 +14,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
         data: insertATags(reply.com),
         onAnchorTap: (str, renderContext, attributes, element) {
           if (attributes['class'] == 'quotelink') {
-            handleTapReplies(context, str!);
+            handleTapQuotelink(context, str!);
           } else {
             handleTapUrl(str!);
           }
@@ -74,6 +74,29 @@ extension ReplyWidgetBuilders on ReplyWidget {
               color: Colors.white,
             )
           : Container(),
+    );
+  }
+
+  Widget buildFooter() {
+    final replies = reply.getReplies(threadReplies);
+    return Builder(
+      builder: (context) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (replies.isNotEmpty)
+              TextButton(
+                onPressed: () => handleTapReplies(context, reply),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(0),
+                  primary: Theme.of(context).disabledColor,
+                ),
+                child: Text('${replies.length} replies'),
+              ),
+          ],
+        );
+      },
     );
   }
 }

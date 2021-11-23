@@ -91,7 +91,12 @@ class ThreadPage extends StatelessWidget {
                                       replies: state.replies,
                                       scrollController: scrollController,
                                     )
-                                  : Container(),
+                                  : buildLinearReplies(
+                                      board: args.board,
+                                      thread: args.thread,
+                                      replies: state.replies,
+                                      scrollController: scrollController,
+                                    ),
                               FormWidget(
                                 board: args.board,
                                 thread: args.thread,

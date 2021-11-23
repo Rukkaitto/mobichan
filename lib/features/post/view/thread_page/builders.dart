@@ -174,6 +174,45 @@ extension ThreadPageBuilders on ThreadPage {
     }
   }
 
+  Widget buildLinearReplies({
+    required Board board,
+    required Post thread,
+    required List<Post> replies,
+    required ScrollController scrollController,
+  }) {
+    return Scrollbar(
+      isAlwaysShown: true,
+      controller: scrollController,
+      child: ListView.separated(
+        separatorBuilder: (context, index) => const Divider(),
+        controller: scrollController,
+        itemCount: replies.length,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return ResponsiveWidth(
+              child: Hero(
+                tag: thread.no,
+                child: ThreadWidget(
+                  thread: thread,
+                  board: board,
+                  inThread: true,
+                ),
+              ),
+            );
+          }
+          Post reply = replies[index];
+          return ResponsiveWidth(
+            child: ReplyWidget(
+              board: board,
+              reply: reply,
+              threadReplies: replies,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget buildThreadedReplies({
     required Board board,
     required Post thread,
