@@ -26,8 +26,7 @@ class ThreadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Wrap(
         children: [
           buildTitle(context),
           ThumbnailWidget(board: board, post: thread, height: 250),

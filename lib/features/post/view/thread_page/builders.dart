@@ -45,7 +45,8 @@ extension ThreadPageBuilders on ThreadPage {
 
   Widget buildLoading(Board board, Post thread) {
     return ResponsiveWidth(
-      child: Column(
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           Hero(
             tag: thread.no,
@@ -192,7 +193,7 @@ extension ThreadPageBuilders on ThreadPage {
         if (snapshot.hasData) {
           return Scrollbar(
             isAlwaysShown: true,
-            controller: ScrollController(),
+            controller: scrollController,
             child: ListView.builder(
               controller: scrollController,
               shrinkWrap: true,
