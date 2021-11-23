@@ -58,10 +58,10 @@ class RepliesPage extends StatelessWidget {
                   ],
                 ),
                 Flexible(
-                  child: Scrollbar(
-                    isAlwaysShown: true,
-                    child: Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Scrollbar(
+                      isAlwaysShown: true,
                       child: ListView.separated(
                         separatorBuilder: (context, index) => const Divider(
                           height: 0,
@@ -77,6 +77,7 @@ class RepliesPage extends StatelessWidget {
                               reply: reply,
                               threadReplies: threadReplies,
                               inDialog: true,
+                              showReplies: true,
                             ),
                           );
                         },

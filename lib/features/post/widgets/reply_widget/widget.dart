@@ -10,6 +10,7 @@ class ReplyWidget extends StatelessWidget {
   final List<Post> threadReplies;
   final int recursion;
   final bool inDialog;
+  final bool showReplies;
 
   const ReplyWidget({
     required this.board,
@@ -17,6 +18,7 @@ class ReplyWidget extends StatelessWidget {
     required this.threadReplies,
     this.recursion = 0,
     this.inDialog = false,
+    this.showReplies = false,
     Key? key,
   }) : super(key: key);
 
@@ -54,7 +56,7 @@ class ReplyWidget extends StatelessWidget {
                       buildImage(),
                       const SizedBox(height: 5),
                       buildContent(),
-                      buildFooter(),
+                      if (showReplies) buildFooter(),
                     ],
                   ),
                 ),

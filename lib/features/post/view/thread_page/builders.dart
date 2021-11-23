@@ -206,6 +206,7 @@ extension ThreadPageBuilders on ThreadPage {
               board: board,
               reply: reply,
               threadReplies: replies,
+              showReplies: true,
             ),
           );
         },
