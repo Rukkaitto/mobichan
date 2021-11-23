@@ -49,7 +49,6 @@ extension ThreadsPageBuilders on ThreadsPage {
             return RefreshIndicator(
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
-                isAlwaysShown: true,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   itemCount: threads.length,

@@ -41,7 +41,7 @@
   "threads_loading_error": "Couldn't fetch threads. Is the device online?",
   "post_network_error": "Could not send post. Is the device online?",
   "show_nsfw_warning": "Show warning for NSFW boards",
-  "threaded_replies": "Show threaded replies (Can be laggy)",
+  "threaded_replies": "Show threaded replies",
   "high_res_thumbnails_mobile": "High resolution thumbnails when using mobile data",
   "high_res_thumbnails_wifi": "High resolution thumbnails when connected to WiFi"
 }

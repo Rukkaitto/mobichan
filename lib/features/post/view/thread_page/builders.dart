@@ -181,7 +181,6 @@ extension ThreadPageBuilders on ThreadPage {
     required ScrollController scrollController,
   }) {
     return Scrollbar(
-      isAlwaysShown: true,
       controller: scrollController,
       child: ListView.separated(
         separatorBuilder: (context, index) => const Divider(),
@@ -232,7 +231,6 @@ extension ThreadPageBuilders on ThreadPage {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scrollbar(
-            isAlwaysShown: true,
             controller: scrollController,
             child: ListView.builder(
               controller: scrollController,

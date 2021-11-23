@@ -41,7 +41,7 @@
   "threads_loading_error": "Impossible de charger les fils. Êtes-vous connecté à internet ?",
   "post_network_error": "Impossible d'envoyer le post. Êtes-vous connecté à internet ?",
   "show_nsfw_warning": "Montrer un avertissement pour les boards NSFW",
-  "threaded_replies": "Montrer les réponses en cascade (peut ramer)",
+  "threaded_replies": "Montrer les réponses en cascade",
   "high_res_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
   "high_res_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi"
 }

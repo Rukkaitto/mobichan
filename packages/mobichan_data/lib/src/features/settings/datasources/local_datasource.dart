@@ -55,7 +55,7 @@ class SettingLocalDatasourceImpl implements SettingLocalDatasource {
         ),
         const SettingModel(
           title: 'threaded_replies',
-          value: false,
+          value: true,
           type: SettingType.bool,
         ),
         const SettingModel(

@@ -61,7 +61,6 @@ class RepliesPage extends StatelessWidget {
                   child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: Scrollbar(
-                      isAlwaysShown: true,
                       child: ListView.separated(
                         separatorBuilder: (context, index) => const Divider(
                           height: 0,

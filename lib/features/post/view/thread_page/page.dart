@@ -104,7 +104,7 @@ class ThreadPage extends StatelessWidget {
                             ],
                           );
                         } else {
-                          return Container();
+                          return buildLoading(args.board, args.thread);
                         }
                       },
                     );
