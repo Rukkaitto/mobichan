@@ -46,4 +46,12 @@ extension ThreadPageHandlers on ThreadPage {
         break;
     }
   }
+
+  void handleGalleryButton(
+      BuildContext context, Board board, List<Post> imagePosts) {
+    Navigator.of(context).pushNamed(
+      GalleryPage.routeName,
+      arguments: GalleryPageArguments(board: board, imagePosts: imagePosts),
+    );
+  }
 }

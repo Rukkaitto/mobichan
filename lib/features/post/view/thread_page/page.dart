@@ -50,51 +50,63 @@ class ThreadPage extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return Scaffold(
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => handleFormButtonPressed(context),
-              child: const Icon(Icons.edit),
-            ),
-            appBar: AppBar(
-              title: Text(
-                  args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
+          return BlocBuilder<RepliesCubit, RepliesState>(
+            builder: (context, repliesState) {
+              return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => handleFormButtonPressed(context),
+                  child: const Icon(Icons.edit),
                 ),
-                buildPopupMenuButton(
-                  context: context,
-                  scrollController: scrollController,
-                  board: args.board,
-                  thread: args.thread,
+                appBar: AppBar(
+                  title: Text(args
+                      .thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.image),
+                      onPressed: () => repliesState is RepliesLoaded
+                          ? handleGalleryButton(
+                              context,
+                              args.board,
+                              repliesState.replies
+                                  .where((element) => element.filename != null)
+                                  .toList(),
+                            )
+                          : null,
+                    ),
+                    buildPopupMenuButton(
+                      context: context,
+                      scrollController: scrollController,
+                      board: args.board,
+                      thread: args.thread,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            body: RefreshIndicator(
-              onRefresh: () async =>
-                  handleRefresh(context, args.board, args.thread),
-              child: BlocBuilder<RepliesCubit, RepliesState>(
-                builder: (context, state) {
-                  if (state is RepliesLoaded) {
-                    return BlocBuilder<SettingsCubit, List<Setting>?>(
-                      builder: (context, settings) {
-                        if (settings != null) {
-                          final bool threadedReplies =
-                              settings.findByTitle('threaded_replies').value;
+                body: RefreshIndicator(
+                  onRefresh: () async =>
+                      handleRefresh(context, args.board, args.thread),
+                  child: BlocBuilder<SettingsCubit, List<Setting>?>(
+                    builder: (context, settings) {
+                      if (settings != null) {
+                        final bool threadedReplies =
+                            settings.findByTitle('threaded_replies').value;
+                        if (repliesState is RepliesLoaded) {
                           return Stack(
                             children: [
                               threadedReplies
                                   ? buildThreadedReplies(
                                       board: args.board,
                                       thread: args.thread,
-                                      replies: state.replies,
+                                      replies: repliesState.replies,
                                       scrollController: scrollController,
                                     )
                                   : buildLinearReplies(
                                       board: args.board,
                                       thread: args.thread,
-                                      replies: state.replies,
+                                      replies: repliesState.replies,
                                       scrollController: scrollController,
                                     ),
                               FormWidget(
@@ -106,16 +118,14 @@ class ThreadPage extends StatelessWidget {
                         } else {
                           return buildLoading(args.board, args.thread);
                         }
-                      },
-                    );
-                  } else if (state is RepliesLoading) {
-                    return buildLoading(args.board, args.thread);
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ),
+                      } else {
+                        return buildLoading(args.board, args.thread);
+                      }
+                    },
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
