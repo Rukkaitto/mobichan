@@ -44,6 +44,9 @@ class ThreadPage extends StatelessWidget {
         BlocProvider<PostFormCubit>(
           create: (context) => PostFormCubit(),
         ),
+        BlocProvider<SettingsCubit>(
+          create: (context) => sl<SettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(
         builder: (context) {
