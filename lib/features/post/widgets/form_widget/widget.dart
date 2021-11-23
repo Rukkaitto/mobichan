@@ -74,7 +74,11 @@ class FormWidget extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onPressed: () => handleSendIconPressed(
-                                  context, form, board, thread),
+                                context,
+                                form,
+                                board,
+                                thread,
+                              ),
                             ),
                             if (form.file != null)
                               buildImagePreview(form.file!),

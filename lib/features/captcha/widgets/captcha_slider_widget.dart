@@ -62,6 +62,7 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
           padding: const EdgeInsets.all(20.0),
           child: TextField(
             controller: _controller,
+            textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
               hintText: typeCaptchaHere.tr(),
               suffixIcon: IconButton(

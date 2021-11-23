@@ -17,8 +17,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<ReleaseRepository>(
       create: (context) => sl<ReleaseRepository>(),
-      child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: BlocProvider<SettingsCubit>(
+        create: (context) => sl<SettingsCubit>()..getSettings(),
         child: MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

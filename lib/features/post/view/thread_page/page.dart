@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/features/core/core.dart';
 
@@ -73,19 +74,31 @@ class ThreadPage extends StatelessWidget {
               child: BlocBuilder<RepliesCubit, RepliesState>(
                 builder: (context, state) {
                   if (state is RepliesLoaded) {
-                    return Stack(
-                      children: [
-                        buildLoaded(
-                          board: args.board,
-                          thread: args.thread,
-                          replies: state.replies,
-                          scrollController: scrollController,
-                        ),
-                        FormWidget(
-                          board: args.board,
-                          thread: args.thread,
-                        ),
-                      ],
+                    return BlocBuilder<SettingsCubit, List<Setting>?>(
+                      builder: (context, settings) {
+                        if (settings != null) {
+                          final bool threadedReplies =
+                              settings.findByTitle('threaded_replies').value;
+                          return Stack(
+                            children: [
+                              threadedReplies
+                                  ? buildThreadedReplies(
+                                      board: args.board,
+                                      thread: args.thread,
+                                      replies: state.replies,
+                                      scrollController: scrollController,
+                                    )
+                                  : Container(),
+                              FormWidget(
+                                board: args.board,
+                                thread: args.thread,
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
                     );
                   } else if (state is RepliesLoading) {
                     return buildLoading(args.board, args.thread);

@@ -10,9 +10,10 @@ extension SettingsPageBuilders on SettingsPage {
   Widget buildTrailing(String key) {
     return BlocProvider<SettingCubit>(
       create: (context) => sl<SettingCubit>()..getSetting(key),
-      child: BlocBuilder<SettingCubit, Setting?>(
-        builder: (context, setting) {
-          if (setting != null) {
+      child: BlocBuilder<SettingsCubit, List<Setting>?>(
+        builder: (context, settings) {
+          if (settings != null) {
+            final setting = settings.findByTitle(key);
             if (setting.type == SettingType.bool) {
               return Switch(
                 value: setting.value,

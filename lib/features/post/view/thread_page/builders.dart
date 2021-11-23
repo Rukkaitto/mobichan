@@ -134,7 +134,6 @@ extension ThreadPageBuilders on ThreadPage {
         ));
       }
     }
-    print(widgets[0].reply.com);
     return widgets;
   }
 
@@ -174,7 +173,7 @@ extension ThreadPageBuilders on ThreadPage {
     }
   }
 
-  Widget buildLoaded({
+  Widget buildThreadedReplies({
     required Board board,
     required Post thread,
     required List<Post> replies,

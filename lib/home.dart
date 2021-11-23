@@ -1,12 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
-import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/utils/updater.dart';
 import 'package:mobichan/widgets/update_widget/update_widget.dart';
 
@@ -20,10 +17,7 @@ class Home extends StatelessWidget {
     setOptimalDisplayMode();
     checkForUpdates(context);
 
-    return BlocProvider<SettingsCubit>(
-      create: (_) => sl<SettingsCubit>()..getSettings(),
-      child: const BoardNsfwCheckPage(),
-    );
+    return const BoardNsfwCheckPage();
   }
 
   Future<void> setOptimalDisplayMode() async {

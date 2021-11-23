@@ -18,3 +18,9 @@ class Setting extends Equatable {
   @override
   List<Object?> get props => [title, value, type];
 }
+
+extension SettingListExtension on List<Setting> {
+  Setting findByTitle(String title) {
+    return firstWhere((setting) => setting.title == title);
+  }
+}

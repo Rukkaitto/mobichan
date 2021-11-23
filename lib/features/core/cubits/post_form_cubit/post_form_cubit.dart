@@ -9,11 +9,7 @@ class PostFormCubit extends Cubit<PostFormState> {
   PostFormCubit() : super(PostFormState());
 
   void toggleVisible() {
-    emit(PostFormState(
-      isVisible: !state.isVisible,
-      isExpanded: state.isExpanded,
-      file: state.file,
-    ));
+    setVisible(!state.isVisible);
   }
 
   void setVisible(bool isVisible) {
