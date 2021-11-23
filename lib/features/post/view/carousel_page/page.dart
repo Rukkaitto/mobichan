@@ -37,6 +37,7 @@ class _CarouselPageState extends State<CarouselPage> {
   late PageController pageController;
   late Map<int, VlcPlayerController> videoPlayerControllers;
   late int currentIndex;
+
   @override
   void initState() {
     super.initState();
@@ -134,6 +135,8 @@ class _CarouselPageState extends State<CarouselPage> {
       body: Stack(
         children: [
           PhotoViewGallery.builder(
+            backgroundDecoration:
+                const BoxDecoration(color: Colors.transparent),
             scrollPhysics: const BouncingScrollPhysics(),
             pageController: pageController,
             builder: (BuildContext context, int index) {
