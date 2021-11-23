@@ -3,6 +3,7 @@ import 'reply_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 extension ReplyWidgetBuilders on ReplyWidget {
   Widget buildContent() {
@@ -54,11 +55,14 @@ extension ReplyWidgetBuilders on ReplyWidget {
     );
   }
 
-  Text buildName() {
-    return Text(
-      reply.name ?? 'Anonymous',
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
+  Widget buildName() {
+    return Flexible(
+      child: Text(
+        reply.name ?? 'Anonymous',
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -92,7 +96,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
                   padding: const EdgeInsets.all(0),
                   primary: Theme.of(context).disabledColor,
                 ),
-                child: Text('${replies.length} replies'),
+                child: Text('reply'.plural(replies.length)),
               ),
           ],
         );

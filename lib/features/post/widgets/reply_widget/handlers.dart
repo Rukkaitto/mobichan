@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'reply_widget.dart';
 
@@ -15,14 +16,18 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleTapReplies(BuildContext context, Post post) {
-    Navigator.of(context).pushNamed(
-      RepliesPage.routeName,
-      arguments: RepliesPageArguments(
-        board: board,
-        postReplies: post.getReplies(threadReplies),
-        threadReplies: threadReplies,
-      ),
-    );
+    final postReplies = post.getReplies(threadReplies);
+    if (!inDialog) {
+      showDialog(
+        context: context,
+        builder: (context) => RepliesPage(
+            board: board,
+            postReplies: postReplies,
+            threadReplies: threadReplies),
+      );
+    } else {
+      context.read<RepliesDialogCubit>().setReplies(postReplies);
+    }
   }
 
   void handleTapQuotelink(BuildContext context, String quotelink) {
@@ -32,14 +37,17 @@ extension ReplyWidgetHandlers on ReplyWidget {
     }
     Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
 
-    Navigator.of(context).pushNamed(
-      RepliesPage.routeName,
-      arguments: RepliesPageArguments(
-        board: board,
-        postReplies: [quotedPost],
-        threadReplies: threadReplies,
-      ),
-    );
+    if (!inDialog) {
+      showDialog(
+        context: context,
+        builder: (context) => RepliesPage(
+            board: board,
+            postReplies: [quotedPost],
+            threadReplies: threadReplies),
+      );
+    } else {
+      context.read<RepliesDialogCubit>().setReplies([quotedPost]);
+    }
   }
 
   void handleQuote(int start, int end) {

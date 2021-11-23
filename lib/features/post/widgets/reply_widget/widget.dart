@@ -9,12 +9,14 @@ class ReplyWidget extends StatelessWidget {
   final Post reply;
   final List<Post> threadReplies;
   final int recursion;
+  final bool inDialog;
 
   const ReplyWidget({
     required this.board,
     required this.reply,
     required this.threadReplies,
     this.recursion = 0,
+    this.inDialog = false,
     Key? key,
   }) : super(key: key);
 
