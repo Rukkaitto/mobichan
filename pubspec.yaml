@@ -58,5 +58,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/translations/
-    - assets/settings.json
     - assets/
