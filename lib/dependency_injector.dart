@@ -6,6 +6,7 @@ import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/captcha/cubits/cubits.dart';
 import 'package:mobichan/features/core/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
+import 'package:mobichan/features/release/cubits/cubits.dart';
 import 'package:mobichan/features/sort/cubits/cubits.dart';
 import 'package:mobichan/features/setting/cubits/cubits.dart';
 import 'package:mobichan_data/mobichan_data.dart';
@@ -133,6 +134,12 @@ Future<void> init() async {
   sl.registerLazySingleton<ReleaseRemoteDatasource>(
     () => ReleaseRemoteDatasourceImpl(
       client: sl(),
+    ),
+  );
+
+  sl.registerFactory<ReleaseCubit>(
+    () => ReleaseCubit(
+      repository: sl(),
     ),
   );
 
