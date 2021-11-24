@@ -62,27 +62,41 @@ extension BoardDrawerBuilders on BoardDrawer {
   Widget buildBoards() {
     return Builder(
       builder: (context) {
-        return BoardExpansionTile(
-          title: boards.tr(),
-          icon: Icons.list,
-          child: SizedBox(
-            height: 500.0,
-            child: BlocProvider<BoardsCubit>(
-              create: (context) => sl<BoardsCubit>()..getBoards(),
-              child: BlocBuilder<BoardsCubit, BoardsState>(
-                builder: (context, state) {
-                  if (state is BoardsLoaded) {
-                    return ListView.builder(
-                      itemCount: state.boards.length,
-                      itemBuilder: (context, index) {
-                        Board board = state.boards[index];
-                        return buildBoardListTile(board);
-                      },
-                    );
-                  } else {
-                    return buildBoardsLoading();
-                  }
-                },
+        return BlocProvider<SearchCubit>(
+          create: (context) => SearchCubit(),
+          child: BoardExpansionTile(
+            title: boards.tr(),
+            icon: Icons.list,
+            child: SizedBox(
+              height: 500.0,
+              child: BlocProvider<BoardsCubit>(
+                create: (context) => sl<BoardsCubit>()..getBoards(),
+                child: BlocListener<SearchCubit, SearchState>(
+                  listener: (context, state) {
+                    final boardsCubit = context.read<BoardsCubit>();
+                    if (state is Searching) {
+                      boardsCubit.search(state.input);
+                    }
+                    if (state is NotSearching) {
+                      boardsCubit.search('');
+                    }
+                  },
+                  child: BlocBuilder<BoardsCubit, BoardsState>(
+                    builder: (context, state) {
+                      if (state is BoardsLoaded) {
+                        return ListView.builder(
+                          itemCount: state.boards.length,
+                          itemBuilder: (context, index) {
+                            Board board = state.boards[index];
+                            return buildBoardListTile(board);
+                          },
+                        );
+                      } else {
+                        return buildBoardsLoading();
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           ),
