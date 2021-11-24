@@ -12,4 +12,16 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     List<Board> favorites = await repository.getFavoriteBoards();
     emit(FavoritesLoaded(favorites));
   }
+
+  Future<void> addToFavorites(Board board) async {
+    await repository.addBoardToFavorites(board);
+    List<Board> favorites = await repository.getFavoriteBoards();
+    emit(FavoritesLoaded(favorites));
+  }
+
+  Future<void> removeFromFavorites(Board board) async {
+    await repository.removeBoardFromFavorites(board);
+    List<Board> favorites = await repository.getFavoriteBoards();
+    emit(FavoritesLoaded(favorites));
+  }
 }

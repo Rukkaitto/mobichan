@@ -25,6 +25,9 @@ class BoardPage extends StatelessWidget {
         BlocProvider<ThreadsCubit>(
           create: (_) => sl<ThreadsCubit>(),
         ),
+        BlocProvider<FavoritesCubit>(
+          create: (_) => sl<FavoritesCubit>()..getFavorites(),
+        ),
       ],
       child: BlocBuilder<TabsCubit, TabsState>(
         builder: (context, state) {
@@ -40,7 +43,7 @@ class BoardPage extends StatelessWidget {
                     child: const Icon(Icons.edit),
                   ),
                   drawer: const BoardDrawer(),
-                  appBar: buildAppBar(context),
+                  appBar: buildAppBar(context, state.current),
                   body: buildTabBarView(state.current, state.boards),
                 ),
               ),

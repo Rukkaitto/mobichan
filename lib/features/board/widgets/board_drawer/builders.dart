@@ -92,31 +92,28 @@ extension BoardDrawerBuilders on BoardDrawer {
   }
 
   Widget buildBoardListTile(Board board) {
-    return BlocProvider<FavoritesCubit>(
-      create: (context) => sl<FavoritesCubit>()..getFavorites(),
-      child: Builder(
-        builder: (context) {
-          return ListTile(
-            onTap: () => handleBoardTap(context, board),
-            dense: true,
-            minVerticalPadding: 0,
-            contentPadding: const EdgeInsets.only(left: 56),
-            horizontalTitleGap: 0,
-            title: RichText(
-              text: TextSpan(
-                text: board.title,
-                children: <TextSpan>[
-                  TextSpan(
-                    text: ' /${board.board}/',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              ),
+    return Builder(
+      builder: (context) {
+        return ListTile(
+          onTap: () => handleBoardTap(context, board),
+          dense: true,
+          minVerticalPadding: 0,
+          contentPadding: const EdgeInsets.only(left: 56),
+          horizontalTitleGap: 0,
+          title: RichText(
+            text: TextSpan(
+              text: board.title,
+              children: <TextSpan>[
+                TextSpan(
+                  text: ' /${board.board}/',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
             ),
-            trailing: buildFavoriteButton(board),
-          );
-        },
-      ),
+          ),
+          trailing: buildFavoriteButton(board),
+        );
+      },
     );
   }
 
@@ -180,7 +177,7 @@ extension BoardDrawerBuilders on BoardDrawer {
     return Builder(
       builder: (context) {
         return BlocProvider<FavoriteCubit>(
-          create: (context) => sl<FavoriteCubit>()..checkIfInFavorites(board),
+          create: (context) => sl()..checkIfInFavorites(board),
           child: BlocBuilder<FavoriteCubit, bool>(
             builder: (context, isFavorite) {
               return IconButton(

@@ -9,7 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 extension BoardPageBuilders on BoardPage {
-  PreferredSize buildAppBar(BuildContext context) {
+  PreferredSize buildAppBar(BuildContext context, Board board) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(100),
       child: BlocBuilder<SearchCubit, SearchState>(
@@ -50,6 +50,7 @@ extension BoardPageBuilders on BoardPage {
               preferredSize: Size.fromHeight(40.0),
             ),
             actions: [
+              buildFavoriteButton(context, board),
               IconButton(
                 onPressed: () => handleSearchIconPressed(context),
                 icon: const Icon(Icons.search),
@@ -130,6 +131,20 @@ extension BoardPageBuilders on BoardPage {
             ),
         ],
       ),
+    );
+  }
+
+  Widget buildFavoriteButton(BuildContext context, Board board) {
+    return BlocBuilder<FavoritesCubit, FavoritesState>(
+      builder: (context, state) {
+        final isInFavorites =
+            state is FavoritesLoaded ? state.favorites.contains(board) : false;
+        return IconButton(
+          onPressed: () =>
+              handleFavoriteIconPressed(context, board, isInFavorites),
+          icon: Icon(isInFavorites ? Icons.favorite : Icons.favorite_border),
+        );
+      },
     );
   }
 }

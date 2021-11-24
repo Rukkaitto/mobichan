@@ -1,7 +1,7 @@
 import 'package:configurable_expansion_tile_null_safety/configurable_expansion_tile.dart';
 import 'package:flutter/material.dart';
 
-class BoardExpansionTile extends StatelessWidget {
+class BoardExpansionTile extends StatefulWidget {
   final String title;
   final IconData icon;
   final Widget? child;
@@ -18,32 +18,53 @@ class BoardExpansionTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<BoardExpansionTile> createState() => _BoardExpansionTileState();
+}
+
+class _BoardExpansionTileState extends State<BoardExpansionTile> {
+  bool isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
     return ConfigurableExpansionTile(
+      onExpansionChanged: (isExpanded) {
+        setState(() {
+          this.isExpanded = isExpanded;
+        });
+      },
       header: Expanded(
         child: InkWell(
-          onTap: onTap,
+          onTap: widget.onTap,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Icon(
-                  icon,
-                  size: iconSize,
+                  widget.icon,
+                  size: widget.iconSize,
                 ),
                 const SizedBox(
                   width: 18,
                 ),
                 Text(
-                  title,
+                  widget.title,
                   style: Theme.of(context).textTheme.headline1,
                 ),
+                const Spacer(),
+                isExpanded
+                    ? IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search),
+                        padding: const EdgeInsets.only(right: 5),
+                        constraints: const BoxConstraints(),
+                      )
+                    : Container(),
               ],
             ),
           ),
         ),
       ),
-      children: child != null ? [child!] : [],
+      children: widget.child != null ? [widget.child!] : [],
     );
   }
 }
