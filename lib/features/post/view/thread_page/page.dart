@@ -19,8 +19,11 @@ class ComputeArgs {
   final Post thread;
   final List<Post> replies;
 
-  ComputeArgs(
-      {required this.board, required this.thread, required this.replies});
+  ComputeArgs({
+    required this.board,
+    required this.thread,
+    required this.replies,
+  });
 }
 
 class ThreadPage extends StatelessWidget {

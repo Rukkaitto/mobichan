@@ -163,7 +163,7 @@ extension BoardDrawerBuilders on BoardDrawer {
               return ListView.builder(
                 itemCount: state.history.length,
                 itemBuilder: (context, index) {
-                  Post thread = state.history.reversed.toList()[index];
+                  Post thread = state.history[index];
                   return buildHistoryListTile(thread);
                 },
               );

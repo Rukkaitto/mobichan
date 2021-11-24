@@ -121,7 +121,7 @@ extension ThreadPageBuilders on ThreadPage {
             reply.replyingTo(args.replies).first == args.thread.no)
         .toList();
     for (Post rootReply in rootReplies) {
-      if (rootReply != args.thread) {
+      if (rootReply.no != args.thread.no) {
         widgets.add(
           ReplyWidget(
             board: args.board,
