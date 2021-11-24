@@ -162,26 +162,40 @@ extension BoardDrawerBuilders on BoardDrawer {
     );
   }
 
-  BoardExpansionTile buildHistory() {
-    return BoardExpansionTile(
-      title: history.tr(),
-      icon: Icons.history,
-      child: SizedBox(
-        height: 500.0,
-        child: BlocBuilder<HistoryCubit, HistoryState>(
-          builder: (context, state) {
-            if (state is HistoryLoaded) {
-              return ListView.builder(
-                itemCount: state.history.length,
-                itemBuilder: (context, index) {
-                  Post thread = state.history[index];
-                  return buildHistoryListTile(thread);
-                },
-              );
-            } else {
-              return buildLoading();
-            }
-          },
+  Widget buildHistory() {
+    return BlocProvider<SearchCubit>(
+      create: (context) => SearchCubit(),
+      child: BoardExpansionTile(
+        title: history.tr(),
+        icon: Icons.history,
+        child: SizedBox(
+          height: 500.0,
+          child: BlocListener<SearchCubit, SearchState>(
+            listener: (context, state) {
+              final historyCubit = context.read<HistoryCubit>();
+              if (state is Searching) {
+                historyCubit.search(state.input);
+              }
+              if (state is NotSearching) {
+                historyCubit.search('');
+              }
+            },
+            child: BlocBuilder<HistoryCubit, HistoryState>(
+              builder: (context, state) {
+                if (state is HistoryLoaded) {
+                  return ListView.builder(
+                    itemCount: state.history.length,
+                    itemBuilder: (context, index) {
+                      Post thread = state.history[index];
+                      return buildHistoryListTile(thread);
+                    },
+                  );
+                } else {
+                  return buildLoading();
+                }
+              },
+            ),
+          ),
         ),
       ),
     );

@@ -5,17 +5,37 @@ part 'history_state.dart';
 
 class HistoryCubit extends Cubit<HistoryState> {
   final PostRepository repository;
+  late List<Post> history;
 
   HistoryCubit({required this.repository}) : super(const HistoryInitial());
 
   Future<void> addToHistory(Post thread, Board board) async {
-    List<Post> history = await repository.addThreadToHistory(thread, board);
+    history = await repository.addThreadToHistory(thread, board);
     emit(HistoryLoaded(history));
   }
 
   Future<void> getHistory() async {
     emit(const HistoryLoading());
-    List<Post> history = await repository.getHistory();
+    history = await repository.getHistory();
     emit(HistoryLoaded(history));
+  }
+
+  void search(String input) {
+    if (input == "") {
+      emit(HistoryLoaded(history));
+    } else {
+      final filteredHistory = history
+          .where((post) =>
+              (post.board?.board.contains(input.toLowerCase().trim()) ??
+                  true) ||
+              (post.board?.title
+                      .toLowerCase()
+                      .contains(input.toLowerCase().trim()) ??
+                  true) ||
+              (post.sub?.toLowerCase().contains(input.toLowerCase().trim()) ??
+                  true))
+          .toList();
+      emit(HistoryLoaded(filteredHistory));
+    }
   }
 }
