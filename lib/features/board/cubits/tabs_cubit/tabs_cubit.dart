@@ -5,6 +5,7 @@ part 'tabs_state.dart';
 
 class TabsCubit extends Cubit<TabsState> {
   final BoardRepository repository;
+  late Board current;
   late List<Board> boards;
 
   TabsCubit({required this.repository}) : super(TabsInitial());
@@ -13,12 +14,13 @@ class TabsCubit extends Cubit<TabsState> {
     final tabs = await repository.getFavoriteBoards();
     final lastVisitedBoard = await repository.getLastVisitedBoard();
     boards = _addTab(tabs, lastVisitedBoard);
-    emit(TabsLoaded(boards: boards, current: lastVisitedBoard));
+    current = lastVisitedBoard;
+    emit(TabsLoaded(boards: boards, current: current));
   }
 
   void addTab(Board board) {
     boards = _addTab(boards, board);
-    emit(TabsLoaded(boards: boards, current: board));
+    emit(TabsLoaded(boards: boards, current: current));
   }
 
   void removeTab(Board board) {
@@ -34,7 +36,8 @@ class TabsCubit extends Cubit<TabsState> {
 
   Future<void> setCurrentTab(Board board) async {
     await repository.saveLastVisitedBoard(board);
-    emit(TabsLoaded(boards: boards, current: board));
+    current = board;
+    emit(TabsLoaded(boards: boards, current: current));
   }
 
   List<Board> _addTab(List<Board> tabs, Board tab) {
