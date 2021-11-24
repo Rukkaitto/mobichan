@@ -45,8 +45,7 @@ extension ThreadPageBuilders on ThreadPage {
 
   Widget buildLoading(Board board, Post thread) {
     return ResponsiveWidth(
-      child: ListView(
-        physics: const NeverScrollableScrollPhysics(),
+      child: Wrap(
         children: [
           Hero(
             tag: thread.no,
@@ -54,54 +53,59 @@ extension ThreadPageBuilders on ThreadPage {
               thread: thread,
               board: board,
               inThread: true,
+              threadContent: ContentWidget(
+                board: board,
+                reply: thread,
+                threadReplies: const [],
+              ),
             ),
           ),
-          Expanded(
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey.shade700,
-              highlightColor: Colors.grey.shade600,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
-                        top: 8.0,
-                        bottom: 8.0,
-                        right: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
-                          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey.shade700,
+            highlightColor: Colors.grey.shade600,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                      left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
+                      top: 8.0,
+                      bottom: 8.0,
+                      right: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
                         ),
-                        const SizedBox(height: 10.0),
-                        Container(
-                          width: 300,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
-                          ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Container(
+                        width: 300,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
                         ),
-                        const SizedBox(height: 8.0),
-                        Container(
-                          width: 250,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
-                          ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Container(
+                        width: 250,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -195,6 +199,11 @@ extension ThreadPageBuilders on ThreadPage {
                   thread: thread,
                   board: board,
                   inThread: true,
+                  threadContent: ContentWidget(
+                    board: board,
+                    reply: thread,
+                    threadReplies: replies,
+                  ),
                 ),
               ),
             );
@@ -245,6 +254,11 @@ extension ThreadPageBuilders on ThreadPage {
                         thread: thread,
                         board: board,
                         inThread: true,
+                        threadContent: ContentWidget(
+                          board: board,
+                          reply: thread,
+                          threadReplies: replies,
+                        ),
                       ),
                     ),
                   );

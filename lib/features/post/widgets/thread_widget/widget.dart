@@ -8,6 +8,7 @@ class ThreadWidget extends StatelessWidget {
   final Post thread;
   final Board board;
   final bool inThread;
+  final Widget? threadContent;
 
   final EdgeInsetsGeometry padding = const EdgeInsets.all(15.0);
   final SizedBox spacingBetweenIcons = const SizedBox(width: 25.0);
@@ -16,12 +17,13 @@ class ThreadWidget extends StatelessWidget {
   final double imageHeight = 250.0;
   final int maxLines = 5;
 
-  const ThreadWidget(
-      {required this.thread,
-      required this.board,
-      required this.inThread,
-      Key? key})
-      : super(key: key);
+  const ThreadWidget({
+    required this.thread,
+    required this.board,
+    required this.inThread,
+    this.threadContent,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,13 @@ class ThreadWidget extends StatelessWidget {
         children: [
           buildTitle(context),
           ThumbnailWidget(board: board, post: thread, height: 250),
-          buildContent(),
+          if (thread.com != null)
+            inThread
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: threadContent!,
+                  )
+                : buildContent(),
           buildFooter(context),
         ],
       ),
