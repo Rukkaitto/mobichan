@@ -49,7 +49,7 @@ extension BoardDrawerBuilders on BoardDrawer {
 
   Widget buildSettings() {
     return Builder(builder: (context) {
-      return BoardExpansionTile(
+      return BoardExpansionTileWidget(
         onTap: () {
           Navigator.of(context).pushNamed(SettingsPage.routeName);
         },
@@ -64,7 +64,7 @@ extension BoardDrawerBuilders on BoardDrawer {
       builder: (context) {
         return BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),
-          child: BoardExpansionTile(
+          child: BoardExpansionTileWidget(
             title: boards.tr(),
             icon: Icons.list,
             child: SizedBox(
@@ -165,7 +165,7 @@ extension BoardDrawerBuilders on BoardDrawer {
   Widget buildHistory() {
     return BlocProvider<SearchCubit>(
       create: (context) => SearchCubit(),
-      child: BoardExpansionTile(
+      child: BoardExpansionTileWidget(
         title: history.tr(),
         icon: Icons.history,
         child: SizedBox(
