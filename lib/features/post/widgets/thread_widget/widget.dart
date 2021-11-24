@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';

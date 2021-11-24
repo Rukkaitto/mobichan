@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobichan/features/core/cubits/cubits.dart';
+import 'package:mobichan/core/cubits/cubits.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

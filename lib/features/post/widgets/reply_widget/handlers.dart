@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-import 'package:mobichan/features/core/core.dart';
-import 'package:mobichan/features/core/extensions/string_extension.dart';
+import 'package:mobichan/core/core.dart';
+import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';

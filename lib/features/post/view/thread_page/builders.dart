@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobichan/features/core/core.dart';
-import 'package:mobichan/features/core/widgets/responsive_width.dart';
+import 'package:mobichan/core/core.dart';
+import 'package:mobichan/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';

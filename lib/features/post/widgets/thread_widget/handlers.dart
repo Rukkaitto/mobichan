@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/core/core.dart';
 
 import 'thread_widget.dart';
 

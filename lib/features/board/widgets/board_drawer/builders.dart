@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
-import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/localization.dart';

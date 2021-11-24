@@ -5,7 +5,7 @@ import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/core/core.dart';
 
 class ThreadPageArguments {
   final Board board;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobichan/dependency_injector.dart';
-import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/release/release.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
