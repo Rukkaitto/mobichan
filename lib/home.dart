@@ -5,7 +5,8 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/utils/updater.dart';
-import 'package:mobichan/widgets/update_widget/update_widget.dart';
+
+import 'features/release/release.dart';
 
 class Home extends StatelessWidget {
   static String routeName = '/';

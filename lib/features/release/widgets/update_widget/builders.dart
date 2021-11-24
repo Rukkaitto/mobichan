@@ -6,6 +6,7 @@ import 'update_widget.dart';
 extension UpdateWidgetBuilders on UpdateWidgetState {
   AlertDialog buildLoaded(BuildContext context, Release release) {
     return AlertDialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(release.name),
       content: Text(release.body),
       actions: [
@@ -24,7 +25,9 @@ extension UpdateWidgetBuilders on UpdateWidgetState {
   }
 
   AlertDialog buildLoading() => const AlertDialog(
-        content: CircularProgressIndicator(),
+        content: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
 
   Widget buildDownloading(BuildContext context) {

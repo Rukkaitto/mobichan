@@ -14,14 +14,14 @@ extension UpdateWidgetHandlers on UpdateWidgetState {
     Navigator.of(context).pop();
   }
 
-  void handleProgress(int downloadReceived, int downloadTotal) {
+  void handleProgress(int newDownloadReceived, int newDownloadTotal) {
     // ignore: invalid_use_of_protected_member
     setState(() {
       isDownloading = true;
-      downloadReceived = downloadReceived;
-      downloadTotal = downloadTotal;
+      downloadReceived = newDownloadReceived;
+      downloadTotal = newDownloadTotal;
     });
-    if (downloadReceived >= downloadTotal) {
+    if (newDownloadReceived >= newDownloadTotal) {
       Navigator.of(context).pop();
     }
   }
