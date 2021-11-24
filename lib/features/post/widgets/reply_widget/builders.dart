@@ -7,33 +7,35 @@ import 'package:easy_localization/easy_localization.dart';
 
 extension ReplyWidgetBuilders on ReplyWidget {
   Widget buildContent() {
-    return Builder(builder: (context) {
-      return SelectableHtml(
-        selectionControls: PostTextSelectionControls(
-          customButton: handleQuote,
-        ),
-        data: insertATags(reply.com),
-        onAnchorTap: (str, renderContext, attributes, element) {
-          if (attributes['class'] == 'quotelink') {
-            handleTapQuotelink(context, str!);
-          } else {
-            handleTapUrl(str!);
-          }
-        },
-        style: {
-          "body": Style(margin: const EdgeInsets.all(0)),
-          "a": Style(
-            color: Colors.lightBlueAccent,
+    return Builder(
+      builder: (context) {
+        return SelectableHtml(
+          selectionControls: PostTextSelectionControls(
+            customButton: (start, end) => handleQuote(context, start, end),
           ),
-          ".quote": Style(
-            color: Colors.green.shade300,
-          ),
-          ".quotelink": Style(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        },
-      );
-    });
+          data: insertATags(reply.com),
+          onAnchorTap: (str, renderContext, attributes, element) {
+            if (attributes['class'] == 'quotelink') {
+              handleTapQuotelink(context, str!);
+            } else {
+              handleTapUrl(str!);
+            }
+          },
+          style: {
+            "body": Style(margin: const EdgeInsets.all(0)),
+            "a": Style(
+              color: Colors.lightBlueAccent,
+            ),
+            ".quote": Style(
+              color: Colors.green.shade300,
+            ),
+            ".quotelink": Style(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          },
+        );
+      },
+    );
   }
 
   Widget buildImage() {
@@ -67,10 +69,13 @@ extension ReplyWidgetBuilders on ReplyWidget {
     });
   }
 
-  Text buildNumber(BuildContext context) {
-    return Text(
-      '${reply.no}',
-      style: Theme.of(context).textTheme.caption,
+  Widget buildNumber(BuildContext context) {
+    return InkWell(
+      onTap: () => handleTapNumber(context, reply),
+      child: Text(
+        '${reply.no}',
+        style: Theme.of(context).textTheme.caption,
+      ),
     );
   }
 

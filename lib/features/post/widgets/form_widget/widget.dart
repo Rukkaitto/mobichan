@@ -20,6 +20,10 @@ class FormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostFormCubit, PostFormState>(
       builder: (context, form) {
+        form.commentController.text = form.comment;
+        form.commentController.selection = TextSelection.fromPosition(
+          TextPosition(offset: form.comment.length),
+        );
         return AnimatedPositioned(
           duration: animationDuration,
           curve: Curves.easeInOut,
@@ -50,13 +54,15 @@ class FormWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Column(
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
                             children: [
                               if (form.isExpanded)
                                 buildNameTextField(form.nameController),
                               if (form.isExpanded)
                                 buildSubjectTextField(form.subjectController),
-                              buildCommentTextField(form.commentController),
+                              buildCommentTextField(
+                                  context, form.commentController),
                             ],
                           ),
                         ),

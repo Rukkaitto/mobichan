@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:mobichan/features/core/core.dart';
+import 'package:mobichan/features/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -69,15 +72,19 @@ extension ReplyWidgetHandlers on ReplyWidget {
     }
   }
 
-  void handleQuote(int start, int end) {
-    // final html = insertATags(reply.com!
-    //     .replaceAll(RegExp(r'\>\s+\<'), '><')
-    //     .replaceAll('<br>', '\n'));
-    // final document = parse(html);
-    // final String parsedString =
-    // parse(document.body!.text).documentElement!.text.unescapeHtml;
+  void handleQuote(BuildContext context, int start, int end) {
+    final html = insertATags(reply.com!
+        .replaceAll(RegExp(r'\>\s+\<'), '><')
+        .replaceAll('<br>', '\n'));
+    final document = parse(html);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text.unescapeHtml;
 
-    // final String quote = parsedString.substring(start, end);
-    // onPostQuote?.call(quote, reply.no);
+    final String quote = parsedString.substring(start, end);
+    context.read<PostFormCubit>().quote(quote, reply);
+  }
+
+  void handleTapNumber(BuildContext context, Post reply) {
+    context.read<PostFormCubit>().reply(reply);
   }
 }

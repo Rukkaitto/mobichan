@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobichan/features/core/cubits/cubits.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'form_widget.dart';
 
@@ -20,10 +22,14 @@ extension FormWidgetBuilders on FormWidget {
     );
   }
 
-  Widget buildCommentTextField(TextEditingController controller) {
+  Widget buildCommentTextField(
+      BuildContext context, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        onChanged: (value) {
+          context.read<PostFormCubit>().setComment(value);
+        },
         controller: controller,
         decoration: InputDecoration(
           hintText: comment.tr(),
