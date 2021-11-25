@@ -14,9 +14,11 @@ class ThreadsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TabsCubit, TabsState>(
       builder: (context, tabsState) {
+        print("tabs rebuild");
         if (tabsState is TabsLoaded) {
           return BlocBuilder<SortCubit, SortState>(
             builder: (context, sortState) {
+              print("sort rebuild");
               if (sortState is SortLoaded) {
                 context
                     .read<ThreadsCubit>()
@@ -33,6 +35,7 @@ class ThreadsPage extends StatelessWidget {
                     }
                   },
                   builder: (context, threadsState) {
+                    print("threads rebuild");
                     if (threadsState is ThreadsLoaded) {
                       return buildLoaded(
                         board: board,

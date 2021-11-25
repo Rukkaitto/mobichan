@@ -68,8 +68,7 @@ extension BoardPageBuilders on BoardPage {
         LayoutBuilder(
           builder: (context, constraints) {
             return TabBarView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+              physics: const NeverScrollableScrollPhysics(),
               children: boards
                   .map(
                     (board) => ThreadsPage(board),
