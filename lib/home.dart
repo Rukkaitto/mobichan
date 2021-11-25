@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:mobichan/constants.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/board/board.dart';
 
-import 'features/core/core.dart';
 import 'features/release/release.dart';
 
 class Home extends StatelessWidget {
