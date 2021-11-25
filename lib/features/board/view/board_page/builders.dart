@@ -65,17 +65,13 @@ extension BoardPageBuilders on BoardPage {
   Widget buildTabBarView(Board board, List<Board> boards) {
     return Stack(
       children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: boards
-                  .map(
-                    (board) => ThreadsPage(board),
-                  )
-                  .toList(),
-            );
-          },
+        TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: boards
+              .map(
+                (board) => ThreadsPage(board),
+              )
+              .toList(),
         ),
         FormWidget(board: board),
       ],
