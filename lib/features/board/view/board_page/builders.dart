@@ -39,7 +39,6 @@ extension BoardPageBuilders on BoardPage {
                     decoration: InputDecoration(
                       hintText: search.tr(),
                     ),
-                    autofocus: true,
                   )
                 : Text(
                     boards,

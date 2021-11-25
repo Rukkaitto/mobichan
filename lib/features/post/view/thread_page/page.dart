@@ -65,10 +65,6 @@ class ThreadPage extends StatelessWidget {
                       .thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
                   actions: [
                     IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                    IconButton(
                       icon: const Icon(Icons.image),
                       onPressed: () => repliesState is RepliesLoaded
                           ? handleGalleryButton(

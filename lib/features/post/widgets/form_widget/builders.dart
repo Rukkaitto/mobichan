@@ -36,7 +36,6 @@ extension FormWidgetBuilders on FormWidget {
         ),
         enableInteractiveSelection: true,
         maxLines: 5,
-        autofocus: true,
         style: const TextStyle(color: Colors.white),
         textCapitalization: TextCapitalization.sentences,
       ),

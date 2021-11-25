@@ -35,7 +35,6 @@ extension BoardExpansionTileWidgetBuilders on BoardExpansionTileWidget {
         hintText: search.tr(),
         isDense: true,
       ),
-      autofocus: true,
     );
   }
 
