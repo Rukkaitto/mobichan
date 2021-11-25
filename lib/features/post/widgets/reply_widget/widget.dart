@@ -48,9 +48,16 @@ class ReplyWidget extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          buildName(),
-                          const SizedBox(width: 5),
-                          buildNumber(context),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                buildName(),
+                                const SizedBox(width: 5),
+                                buildNumber(context),
+                              ],
+                            ),
+                          ),
+                          buildPopupMenuButton(),
                         ],
                       ),
                       if (reply.filename != null) buildImage(),

@@ -87,4 +87,14 @@ extension ReplyWidgetHandlers on ReplyWidget {
   void handleTapNumber(BuildContext context, Post reply) {
     context.read<PostFormCubit>().reply(reply);
   }
+
+  void handleReport() async {
+    final url =
+        'https://sys.4channel.org/${board.board}/imgboard.php?mode=report&no=${reply.no}';
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, universalLinksOnly: true);
+    } else {
+      throw Exception('Could not launch $url');
+    }
+  }
 }

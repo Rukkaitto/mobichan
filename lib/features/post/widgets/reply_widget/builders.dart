@@ -127,4 +127,17 @@ extension ReplyWidgetBuilders on ReplyWidget {
       },
     );
   }
+
+  Widget buildPopupMenuButton() {
+    return PopupMenuButton(
+      child: const Icon(Icons.more_horiz),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          //TODO: localize
+          child: const Text('Report'),
+          onTap: () => handleReport(),
+        ),
+      ],
+    );
+  }
 }

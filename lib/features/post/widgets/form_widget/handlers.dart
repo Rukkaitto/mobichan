@@ -85,4 +85,25 @@ extension FormWidgetHandlers on FormWidget {
       }
     }
   }
+
+  bool handlePop(BuildContext context, PostFormState form) {
+    if (form.isExpanded) {
+      context.read<PostFormCubit>().setExpanded(false);
+      return false;
+    }
+    if (form.isVisible) {
+      context.read<PostFormCubit>().setVisible(false);
+      return false;
+    }
+    return true;
+  }
+
+  void handleVerticalDrag(BuildContext context, DragUpdateDetails details) {
+    int sensitivity = 8;
+    if (details.delta.dy > sensitivity) {
+      context.read<PostFormCubit>().setExpanded(true);
+    } else if (details.delta.dy < -sensitivity) {
+      context.read<PostFormCubit>().setExpanded(false);
+    }
+  }
 }

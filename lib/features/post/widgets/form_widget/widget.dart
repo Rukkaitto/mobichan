@@ -24,85 +24,83 @@ class FormWidget extends StatelessWidget {
         form.commentController.selection = TextSelection.fromPosition(
           TextPosition(offset: form.comment.length),
         );
-        return AnimatedPositioned(
-          duration: animationDuration,
-          curve: Curves.easeInOut,
-          top: form.isVisible
-              ? 0
-              : (form.isExpanded ? -expandedHeight : -contractedHeight),
-          left: 0,
-          right: 0,
-          child: GestureDetector(
-            onVerticalDragUpdate: (details) {
-              int sensitivity = 8;
-              if (details.delta.dy > sensitivity) {
-                context.read<PostFormCubit>().setExpanded(true);
-              } else if (details.delta.dy < -sensitivity) {
-                context.read<PostFormCubit>().setExpanded(false);
-              }
-            },
-            child: AnimatedContainer(
-              duration: animationDuration,
-              curve: Curves.easeInOut,
-              width: double.infinity,
-              height: form.isExpanded ? expandedHeight : contractedHeight,
-              color: Theme.of(context).cardColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            physics: const NeverScrollableScrollPhysics(),
+        return WillPopScope(
+          onWillPop: () async => handlePop(context, form),
+          child: AnimatedPositioned(
+            duration: animationDuration,
+            curve: Curves.easeInOut,
+            top: form.isVisible
+                ? 0
+                : (form.isExpanded ? -expandedHeight : -contractedHeight),
+            left: 0,
+            right: 0,
+            child: GestureDetector(
+              onVerticalDragUpdate: (details) =>
+                  handleVerticalDrag(context, details),
+              child: AnimatedContainer(
+                duration: animationDuration,
+                curve: Curves.easeInOut,
+                width: double.infinity,
+                height: form.isExpanded ? expandedHeight : contractedHeight,
+                color: Theme.of(context).cardColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                if (form.isExpanded)
+                                  buildNameTextField(form.nameController),
+                                if (form.isExpanded)
+                                  buildSubjectTextField(form.subjectController),
+                                buildCommentTextField(
+                                    context, form.commentController),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (form.isExpanded)
-                                buildNameTextField(form.nameController),
-                              if (form.isExpanded)
-                                buildSubjectTextField(form.subjectController),
-                              buildCommentTextField(
-                                  context, form.commentController),
+                              IconButton(
+                                icon: const Icon(Icons.image),
+                                onPressed: () =>
+                                    handlePictureIconPressed(context),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.send,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                                onPressed: () => handleSendIconPressed(
+                                  context,
+                                  form,
+                                  board,
+                                  thread,
+                                ),
+                              ),
+                              if (form.file != null)
+                                buildImagePreview(form.file!),
                             ],
                           ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.image),
-                              onPressed: () =>
-                                  handlePictureIconPressed(context),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.send,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                              onPressed: () => handleSendIconPressed(
-                                context,
-                                form,
-                                board,
-                                thread,
-                              ),
-                            ),
-                            if (form.file != null)
-                              buildImagePreview(form.file!),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      form.isExpanded
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                      size: 30,
+                    IconButton(
+                      icon: Icon(
+                        form.isExpanded
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        size: 30,
+                      ),
+                      onPressed: () => handleExpandPressed(context, form),
                     ),
-                    onPressed: () => handleExpandPressed(context, form),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

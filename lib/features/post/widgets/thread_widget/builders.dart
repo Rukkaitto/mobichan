@@ -147,6 +147,11 @@ extension ThreadWidgetBuilders on ThreadWidget {
           child: const Text(replyToPost).tr(),
           onTap: () => handleReply(context),
         ),
+        PopupMenuItem(
+          //TODO: localize
+          child: const Text('Report'),
+          onTap: () => handleReport(),
+        ),
       ],
     );
   }
