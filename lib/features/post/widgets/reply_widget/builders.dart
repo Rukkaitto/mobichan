@@ -1,3 +1,5 @@
+import 'package:mobichan/localization.dart';
+
 import 'reply_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
           selectionControls: PostTextSelectionControls(
             customButton: (start, end) => handleQuote(context, start, end),
           ),
-          data: insertATags(reply.com),
+          data: insertATags(post.com),
           onAnchorTap: (str, renderContext, attributes, element) {
             if (attributes['class'] == 'quotelink') {
               handleTapQuotelink(context, str!);
@@ -41,7 +43,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   Widget buildImage() {
     final imagePosts =
         threadReplies.where((post) => post.filename != null).toList();
-    final imageIndex = imagePosts.indexOf(reply);
+    final imageIndex = imagePosts.indexOf(post);
 
     return Builder(builder: (context) {
       return Padding(
@@ -58,7 +60,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
             child: Material(
               child: ThumbnailWidget(
                 board: board,
-                post: reply,
+                post: post,
                 height: 180,
                 borderRadius: 5,
               ),
@@ -71,9 +73,9 @@ extension ReplyWidgetBuilders on ReplyWidget {
 
   Widget buildNumber(BuildContext context) {
     return InkWell(
-      onTap: () => handleTapNumber(context, reply),
+      onTap: () => handleReply(context, post),
       child: Text(
-        '${reply.no}',
+        '${post.no}',
         style: Theme.of(context).textTheme.caption,
       ),
     );
@@ -82,7 +84,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   Widget buildName() {
     return Flexible(
       child: Text(
-        reply.name ?? 'Anonymous',
+        post.name ?? 'Anonymous',
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
@@ -106,7 +108,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   }
 
   Widget buildFooter() {
-    final replies = reply.getReplies(threadReplies);
+    final replies = post.getReplies(threadReplies);
     return Builder(
       builder: (context) {
         return Row(
@@ -115,7 +117,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
           children: [
             if (replies.isNotEmpty)
               TextButton(
-                onPressed: () => handleTapReplies(context, reply),
+                onPressed: () => handleTapReplies(context, post),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(0),
                   primary: Theme.of(context).disabledColor,
@@ -133,8 +135,11 @@ extension ReplyWidgetBuilders on ReplyWidget {
       child: const Icon(Icons.more_horiz),
       itemBuilder: (context) => [
         PopupMenuItem(
-          //TODO: localize
-          child: const Text('Report'),
+          child: const Text(replyToPost).tr(),
+          onTap: () => handleReply(context, post),
+        ),
+        PopupMenuItem(
+          child: const Text(report).tr(),
           onTap: () => handleReport(),
         ),
       ],

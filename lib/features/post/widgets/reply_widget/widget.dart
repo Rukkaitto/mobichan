@@ -6,7 +6,7 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 class ReplyWidget extends StatelessWidget {
   final Board board;
-  final Post reply;
+  final Post post;
   final List<Post> threadReplies;
   final int recursion;
   final bool inDialog;
@@ -14,7 +14,7 @@ class ReplyWidget extends StatelessWidget {
 
   const ReplyWidget({
     required this.board,
-    required this.reply,
+    required this.post,
     required this.threadReplies,
     this.recursion = 0,
     this.inDialog = false,
@@ -60,11 +60,11 @@ class ReplyWidget extends StatelessWidget {
                           buildPopupMenuButton(),
                         ],
                       ),
-                      if (reply.filename != null) buildImage(),
+                      if (post.filename != null) buildImage(),
                       const SizedBox(height: 5),
                       ContentWidget(
                         board: board,
-                        reply: reply,
+                        reply: post,
                         inDialog: inDialog,
                         threadReplies: threadReplies,
                       ),

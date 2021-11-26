@@ -45,7 +45,7 @@ extension ThreadPageBuilders on ThreadPage {
 
   Widget buildLoading(Board board, Post thread) {
     return ResponsiveWidth(
-      child: Wrap(
+      child: ListView(
         children: [
           Hero(
             tag: thread.no,
@@ -64,6 +64,7 @@ extension ThreadPageBuilders on ThreadPage {
             baseColor: Colors.grey.shade700,
             highlightColor: Colors.grey.shade600,
             child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 10,
               itemBuilder: (context, index) {
@@ -125,7 +126,7 @@ extension ThreadPageBuilders on ThreadPage {
         widgets.add(
           ReplyWidget(
             board: args.board,
-            reply: rootReply,
+            post: rootReply,
             threadReplies: args.replies,
             recursion: 0,
           ),
@@ -165,7 +166,7 @@ extension ThreadPageBuilders on ThreadPage {
             ..add(
               ReplyWidget(
                 board: board,
-                reply: reply,
+                post: reply,
                 threadReplies: threadReplies,
                 recursion: recursion,
               ),
@@ -212,7 +213,7 @@ extension ThreadPageBuilders on ThreadPage {
           return ResponsiveWidth(
             child: ReplyWidget(
               board: board,
-              reply: reply,
+              post: reply,
               threadReplies: replies,
               showReplies: true,
             ),

@@ -73,7 +73,7 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleQuote(BuildContext context, int start, int end) {
-    final html = insertATags(reply.com!
+    final html = insertATags(post.com!
         .replaceAll(RegExp(r'\>\s+\<'), '><')
         .replaceAll('<br>', '\n'));
     final document = parse(html);
@@ -81,16 +81,16 @@ extension ReplyWidgetHandlers on ReplyWidget {
         parse(document.body!.text).documentElement!.text.unescapeHtml;
 
     final String quote = parsedString.substring(start, end);
-    context.read<PostFormCubit>().quote(quote, reply);
+    context.read<PostFormCubit>().quote(quote, post);
   }
 
-  void handleTapNumber(BuildContext context, Post reply) {
+  void handleReply(BuildContext context, Post reply) {
     context.read<PostFormCubit>().reply(reply);
   }
 
   void handleReport() async {
     final url =
-        'https://sys.4channel.org/${board.board}/imgboard.php?mode=report&no=${reply.no}';
+        'https://sys.4channel.org/${board.board}/imgboard.php?mode=report&no=${post.no}';
     if (await canLaunch(url)) {
       await launch(url, forceSafariVC: false, universalLinksOnly: true);
     } else {

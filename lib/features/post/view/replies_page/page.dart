@@ -82,7 +82,7 @@ class RepliesPage extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               child: ReplyWidget(
                                 board: board,
-                                reply: reply,
+                                post: reply,
                                 threadReplies: threadReplies,
                                 inDialog: true,
                                 showReplies: true,

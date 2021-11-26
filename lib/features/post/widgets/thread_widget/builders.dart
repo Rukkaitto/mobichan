@@ -143,13 +143,13 @@ extension ThreadWidgetBuilders on ThreadWidget {
       ),
       padding: EdgeInsets.zero,
       itemBuilder: (context) => [
+        if (inThread)
+          PopupMenuItem(
+            child: const Text(replyToPost).tr(),
+            onTap: () => handleReply(context),
+          ),
         PopupMenuItem(
-          child: const Text(replyToPost).tr(),
-          onTap: () => handleReply(context),
-        ),
-        PopupMenuItem(
-          //TODO: localize
-          child: const Text('Report'),
+          child: const Text(report).tr(),
           onTap: () => handleReport(),
         ),
       ],
