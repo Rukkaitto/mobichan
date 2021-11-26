@@ -4,9 +4,32 @@ on:
     branches:
       - develop
 jobs:
+  decode:
+    name: Decode keys
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decoding keyprop
+        run: echo "${{ secrets.KEYPROP }}" | base64 --decode > key.properties
+
+      - name: Decoding keystore
+        run: echo "${{ secrets.KEYJKS }}" | base64 --decode > upload-keystore.jks
+
+      - name: Upload keyprop
+        uses: actions/upload-artifact@v2
+        with:
+          name: keyprop
+          path: key.properties
+
+      - name: Upload keystore
+        uses: actions/upload-artifact@v2
+        with:
+          name: keystore
+          path: upload-keystore.jks
+
   build:
     name: Build APK
     runs-on: ubuntu-latest
+    needs: [decode]
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
@@ -23,11 +46,17 @@ jobs:
         with:
           channel: "stable"
 
-      - name: Decoding android/key.properties
-        run: echo "${{ secrets.KEYPROP }}" | base64 --decode > android/key.properties
+      - name: Get keyprop from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keyprop
+          path: android
 
-      - name: Decoding android/app/upload-keystore.jks
-        run: echo "${{ secrets.KEYJKS }}" | base64 --decode > android/app/upload-keystore.jks
+      - name: Get keystore from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keystore
+          path: android/app
 
       - name: Pub Get Packages
         run: flutter pub get
@@ -49,3 +78,15 @@ jobs:
         with:
           name: PR-apk
           path: ./build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+  clean:
+    name: Clean up
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            keyprop
+            keystore
