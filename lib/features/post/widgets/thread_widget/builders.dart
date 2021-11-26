@@ -149,6 +149,14 @@ extension ThreadWidgetBuilders on ThreadWidget {
             onTap: () => handleReply(context),
           ),
         PopupMenuItem(
+          child: const Text(share).tr(),
+          onTap: () => handleShare(),
+        ),
+        PopupMenuItem(
+          child: const Text(saveToGallery).tr(),
+          onTap: () => handleSave(context),
+        ),
+        PopupMenuItem(
           child: const Text(report).tr(),
           onTap: () => handleReport(),
         ),

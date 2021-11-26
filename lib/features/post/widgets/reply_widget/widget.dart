@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:screenshot/screenshot.dart';
 
 class ReplyWidget extends StatelessWidget {
   final Board board;
@@ -12,7 +13,7 @@ class ReplyWidget extends StatelessWidget {
   final bool inDialog;
   final bool showReplies;
 
-  const ReplyWidget({
+  ReplyWidget({
     required this.board,
     required this.post,
     required this.threadReplies,
@@ -21,6 +22,8 @@ class ReplyWidget extends StatelessWidget {
     this.showReplies = false,
     Key? key,
   }) : super(key: key);
+
+  final screenshotController = ScreenshotController();
 
   double computePadding(int recursion) {
     if (recursion == 0 || recursion == 1) {
@@ -32,50 +35,55 @@ class ReplyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: computePadding(recursion)),
-            child: Stack(
-              children: [
-                buildIndentBar(),
-                Padding(
-                  padding: EdgeInsets.only(left: recursion > 0 ? 14 : 0),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+    return Screenshot(
+      controller: screenshotController,
+      child: Material(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: computePadding(recursion)),
+                child: Stack(
+                  children: [
+                    buildIndentBar(),
+                    Padding(
+                      padding: EdgeInsets.only(left: recursion > 0 ? 14 : 0),
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                buildName(),
-                                const SizedBox(width: 5),
-                                buildNumber(context),
-                              ],
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    buildName(),
+                                    const SizedBox(width: 5),
+                                    buildNumber(context),
+                                  ],
+                                ),
+                              ),
+                              buildPopupMenuButton(),
+                            ],
                           ),
-                          buildPopupMenuButton(),
+                          if (post.filename != null) buildImage(),
+                          const SizedBox(height: 5),
+                          ContentWidget(
+                            board: board,
+                            reply: post,
+                            inDialog: inDialog,
+                            threadReplies: threadReplies,
+                          ),
+                          if (showReplies) buildFooter(),
                         ],
                       ),
-                      if (post.filename != null) buildImage(),
-                      const SizedBox(height: 5),
-                      ContentWidget(
-                        board: board,
-                        reply: post,
-                        inDialog: inDialog,
-                        threadReplies: threadReplies,
-                      ),
-                      if (showReplies) buildFooter(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

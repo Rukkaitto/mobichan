@@ -139,6 +139,14 @@ extension ReplyWidgetBuilders on ReplyWidget {
           onTap: () => handleReply(context, post),
         ),
         PopupMenuItem(
+          child: const Text(share).tr(),
+          onTap: () => handleShare(),
+        ),
+        PopupMenuItem(
+          child: const Text(saveToGallery).tr(),
+          onTap: () => handleSave(context),
+        ),
+        PopupMenuItem(
           child: const Text(report).tr(),
           onTap: () => handleReport(),
         ),

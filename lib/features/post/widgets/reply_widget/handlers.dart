@@ -1,11 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
+import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'reply_widget.dart';
 
@@ -95,6 +103,34 @@ extension ReplyWidgetHandlers on ReplyWidget {
       await launch(url, forceSafariVC: false, universalLinksOnly: true);
     } else {
       throw Exception('Could not launch $url');
+    }
+  }
+
+  void handleSave(BuildContext context) async {
+    final image = await screenshotController.capture();
+    final result = await ImageGallerySaver.saveImage(
+      image!,
+      name: "post_${post.no}",
+      quality: 60,
+    );
+    if (result['isSuccess'] == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        successSnackbar(context, savePostSuccess.tr()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        errorSnackbar(context, savePostError.tr()),
+      );
+    }
+  }
+
+  void handleShare() async {
+    final image = await screenshotController.capture();
+    if (image != null) {
+      final directory = await getTemporaryDirectory();
+      final imagePath = await File('${directory.path}/image.png').create();
+      await imagePath.writeAsBytes(image);
+      await Share.shareFiles([imagePath.path]);
     }
   }
 }

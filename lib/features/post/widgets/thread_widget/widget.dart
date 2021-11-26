@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ThreadWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class ThreadWidget extends StatelessWidget {
   final double imageHeight = 250.0;
   final int maxLines = 5;
 
-  const ThreadWidget({
+  ThreadWidget({
     required this.thread,
     required this.board,
     required this.inThread,
@@ -25,22 +26,27 @@ class ThreadWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  final screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Wrap(
-        children: [
-          buildTitle(context),
-          ThumbnailWidget(board: board, post: thread, height: 250),
-          if (thread.com != null)
-            inThread
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: threadContent!,
-                  )
-                : buildContent(),
-          buildFooter(context),
-        ],
+    return Screenshot(
+      controller: screenshotController,
+      child: Material(
+        child: Wrap(
+          children: [
+            buildTitle(context),
+            ThumbnailWidget(board: board, post: thread, height: 250),
+            if (thread.com != null)
+              inThread
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: threadContent!,
+                    )
+                  : buildContent(),
+            buildFooter(context),
+          ],
+        ),
       ),
     );
   }
