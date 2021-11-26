@@ -1,4 +1,4 @@
-name: GitHub Release
+name: GitHub and Google Play Release
 on:
   push:
     branches:
@@ -42,6 +42,9 @@ jobs:
       - name: Build Android APK
         run: flutter build apk --split-per-abi --release
 
+      - name: Build Android Appbundle
+        run: flutter build appbundle
+
       - name: Get App Version
         id: get_version
         run: echo "::set-output name=VERSION::v$(flutter pub run cider version | grep -o "[0-9]\.[0-9]\.[0-9]")"
@@ -54,7 +57,23 @@ jobs:
         with:
           configuration: ./changelog-config.json
 
-      - name: Create Release
+      - name: Create whatsnew directory
+        run: mkdir whatsnew
+
+      - name: Put changelog in whatsnew directory
+        run: echo "${{ steps.build_changelog.outputs.changelog }}" > whatsnew/whatsnew-en-US
+
+      - name: Release on the Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.lucasgoudin.mobichan
+          inAppUpdatePriority: 5
+          releaseFiles: build/app/outputs/bundle/release/*.aab
+          track: production
+          whatsNewDirectory: whatsnew
+
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -66,7 +85,7 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
+      - name: Upload Release Asset to GitHub
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
