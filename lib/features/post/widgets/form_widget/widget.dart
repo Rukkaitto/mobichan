@@ -27,11 +27,7 @@ class FormWidget extends StatelessWidget {
           child: AnimatedPositioned(
             duration: animationDuration,
             curve: Curves.easeInOut,
-            top: form.isVisible
-                ? 0
-                : (form.isExpanded
-                    ? -PostFormState.expandedHeight
-                    : -PostFormState.contractedHeight),
+            top: form.isVisible ? 0 : -form.heightWithImage,
             left: 0,
             right: 0,
             child: GestureDetector(
