@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
 
       - name: Get appbundle from artifacts
         uses: actions/download-artifact@v2
