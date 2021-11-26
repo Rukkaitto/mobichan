@@ -5,7 +5,7 @@ on:
       - feature/**
 jobs:
   build:
-    name: Build APK
+    name: Build Appbundle
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -39,10 +39,32 @@ jobs:
       - name: Running presentation layer tests
         run: flutter test
 
-      - name: Build APK
-        run: flutter build apk --split-per-abi --release
+      - name: Build app bundle
+        run: flutter build appbundle
 
-      - name: Archive APK
+      - name: Upload app bundle
         uses: actions/upload-artifact@v2
         with:
-          path: ./build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  publish:
+    name: Publish to Play Store
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+      - uses: actions/checkout@v1
+
+      - name: Get appbundle from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+
+      - name: Release app to internal track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.lucasgoudin.mobichan
+          releaseFiles: app-release.aab
+          track: internal
