@@ -5,7 +5,7 @@ on:
       - feature/**
 jobs:
   build:
-    name: Build Appbundle
+    name: Build Appbundle and Apk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -42,11 +42,20 @@ jobs:
       - name: Build app bundle
         run: flutter build appbundle
 
+      - name: Build apk
+        run: flutter build apk --split-per-abi --release
+
       - name: Upload app bundle
         uses: actions/upload-artifact@v2
         with:
           name: appbundle
           path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
 
   publish:
     name: Publish to Play Store
