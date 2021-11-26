@@ -7,8 +7,6 @@ import 'form_widget.dart';
 
 class FormWidget extends StatelessWidget {
   final Duration animationDuration = const Duration(milliseconds: 300);
-  final double contractedHeight = 190;
-  final double expandedHeight = 320;
 
   final Board board;
   final Post? thread;
@@ -31,7 +29,9 @@ class FormWidget extends StatelessWidget {
             curve: Curves.easeInOut,
             top: form.isVisible
                 ? 0
-                : (form.isExpanded ? -expandedHeight : -contractedHeight),
+                : (form.isExpanded
+                    ? -PostFormState.expandedHeight
+                    : -PostFormState.contractedHeight),
             left: 0,
             right: 0,
             child: GestureDetector(
@@ -41,7 +41,7 @@ class FormWidget extends StatelessWidget {
                 duration: animationDuration,
                 curve: Curves.easeInOut,
                 width: double.infinity,
-                height: form.isExpanded ? expandedHeight : contractedHeight,
+                height: form.heightWithImage,
                 color: Theme.of(context).cardColor,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,6 +59,20 @@ class FormWidget extends StatelessWidget {
                                   buildSubjectTextField(form.subjectController),
                                 buildCommentTextField(
                                     context, form.commentController),
+                                if (form.file != null)
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        buildImagePreview(form.file!),
+                                        IconButton(
+                                          onPressed: () =>
+                                              handleClearIconPressed(context),
+                                          icon: const Icon(Icons.clear),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                               ],
                             ),
                           ),
@@ -83,8 +97,6 @@ class FormWidget extends StatelessWidget {
                                   thread,
                                 ),
                               ),
-                              if (form.file != null)
-                                buildImagePreview(form.file!),
                             ],
                           ),
                         ],

@@ -17,7 +17,7 @@ class PostFormCubit extends Cubit<PostFormState> {
     emit(
       PostFormState(
         isVisible: isVisible,
-        isExpanded: state.isExpanded,
+        height: state.height,
         file: state.file,
         comment: state.comment,
       ),
@@ -28,19 +28,38 @@ class PostFormCubit extends Cubit<PostFormState> {
     emit(
       PostFormState(
         isVisible: state.isVisible,
-        isExpanded: isExpanded,
+        height: isExpanded
+            ? PostFormState.expandedHeight
+            : PostFormState.contractedHeight,
         file: state.file,
         comment: state.comment,
       ),
     );
   }
 
+  void toggleExpanded() {
+    state.height == PostFormState.expandedHeight
+        ? setExpanded(false)
+        : setExpanded(true);
+  }
+
   void setFile(XFile file) {
     emit(
       PostFormState(
         isVisible: state.isVisible,
-        isExpanded: state.isExpanded,
+        height: state.height,
         file: file,
+        comment: state.comment,
+      ),
+    );
+  }
+
+  void clearFile() {
+    emit(
+      PostFormState(
+        isVisible: state.isVisible,
+        height: state.height,
+        file: null,
         comment: state.comment,
       ),
     );
@@ -50,7 +69,7 @@ class PostFormCubit extends Cubit<PostFormState> {
     emit(
       PostFormState(
         isVisible: state.isVisible,
-        isExpanded: state.isExpanded,
+        height: state.height,
         file: state.file,
         comment: value,
       ),

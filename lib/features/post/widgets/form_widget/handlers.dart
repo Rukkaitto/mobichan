@@ -14,7 +14,7 @@ import 'form_widget.dart';
 
 extension FormWidgetHandlers on FormWidget {
   void handleExpandPressed(BuildContext context, PostFormState form) {
-    context.read<PostFormCubit>().setExpanded(!form.isExpanded);
+    context.read<PostFormCubit>().toggleExpanded();
   }
 
   void handlePictureIconPressed(BuildContext context) async {
@@ -23,6 +23,10 @@ extension FormWidgetHandlers on FormWidget {
     if (pickedFile != null) {
       context.read<PostFormCubit>().setFile(pickedFile);
     }
+  }
+
+  void handleClearIconPressed(BuildContext context) {
+    context.read<PostFormCubit>().clearFile();
   }
 
   void handleSendIconPressed(

@@ -5,18 +5,26 @@ class PostFormState extends Equatable {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController subjectController = TextEditingController();
 
+  static const double contractedHeight = 190;
+  static const double expandedHeight = 320;
+  static const double imageHeight = 50;
+
   final String comment;
   final bool isVisible;
-  final bool isExpanded;
+  final double height;
   final XFile? file;
 
   PostFormState({
     this.comment = '',
     this.isVisible = false,
-    this.isExpanded = false,
+    this.height = contractedHeight,
     this.file,
   });
 
   @override
-  List<Object?> get props => [comment, isVisible, isExpanded, file];
+  List<Object?> get props => [comment, isVisible, height, file];
+
+  bool get isExpanded => height == expandedHeight;
+
+  double get heightWithImage => height + (file != null ? imageHeight : 0);
 }

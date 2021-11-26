@@ -12,11 +12,10 @@ import 'form_widget.dart';
 extension FormWidgetBuilders on FormWidget {
   Widget buildImagePreview(XFile file) {
     return Flexible(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+      child: SizedBox(
+        height: PostFormState.imageHeight,
         child: Image.file(
           File(file.path),
-          fit: BoxFit.cover,
         ),
       ),
     );
