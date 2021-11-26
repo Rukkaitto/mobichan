@@ -150,6 +150,8 @@ extension ThreadPageBuilders on ThreadPage {
     required List<Post> threadReplies,
     required int recursion,
   }) {
+    const maxRecursion = 7;
+    if (recursion > maxRecursion) return replyWidgets;
     List<Post> postReplies = post
         .getReplies(threadReplies)
         .where((reply) => reply.replyingTo(threadReplies).first == post.no)
@@ -169,6 +171,7 @@ extension ThreadPageBuilders on ThreadPage {
                 post: reply,
                 threadReplies: threadReplies,
                 recursion: recursion,
+                showReplies: recursion == maxRecursion,
               ),
             ),
           threadReplies: threadReplies,
