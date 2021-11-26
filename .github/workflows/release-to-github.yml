@@ -45,6 +45,28 @@ jobs:
       - name: Build Android Appbundle
         run: flutter build appbundle
 
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+  version:
+    name: Get version and changelog
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.VERSION }}
+      changelog: ${{ steps.build_changelog.outputs.changelog }}
+    jobs:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
       - name: Get App Version
         id: get_version
         run: echo "::set-output name=VERSION::v$(flutter pub run cider version | grep -o "[0-9]\.[0-9]\.[0-9]")"
@@ -57,11 +79,24 @@ jobs:
         with:
           configuration: ./changelog-config.json
 
+  publish_playstore:
+    name: Publish to the PlayStore
+    runs-on: ubuntu-latest
+    needs: [build, version]
+    jobs:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
+      - name: Get appbundle from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+
       - name: Create whatsnew directory
         run: mkdir whatsnew
 
       - name: Put changelog in whatsnew directory
-        run: echo "${{ steps.build_changelog.outputs.changelog }}" > whatsnew/whatsnew-en-US
+        run: echo "${{ needs.version.outputs.changelog }}" > whatsnew/whatsnew-en-US
 
       - name: Release on the Play Store
         uses: r0adkll/upload-google-play@v1
@@ -69,9 +104,22 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.lucasgoudin.mobichan
           inAppUpdatePriority: 5
-          releaseFiles: build/app/outputs/bundle/release/*.aab
+          releaseFiles: app-release.aab
           track: production
           whatsNewDirectory: whatsnew
+
+  publish_github:
+    name: Publish to GitHub
+    runs-on: ubuntu-latest
+    needs: [build, version]
+    jobs:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
+      - name: Get apk from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: apk
 
       - name: Create GitHub Release
         id: create_release
@@ -79,9 +127,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
-          release_name: ${{ steps.get_version.outputs.VERSION }}
-          body: ${{ steps.build_changelog.outputs.changelog }}
+          tag_name: ${{ needs.version.outputs.version }}
+          release_name: ${{ needs.version.outputs.version }}
+          body: ${{ needs.version.outputs.changelog }}
           draft: false
           prerelease: false
 
@@ -91,6 +139,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
-          asset_name: mobichan${{ steps.get_version.outputs.VERSION }}.apk
+          asset_path: app-armeabi-v7a-release.apk
+          asset_name: mobichan${{ needs.version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
