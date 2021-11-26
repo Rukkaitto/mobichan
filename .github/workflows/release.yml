@@ -63,7 +63,7 @@ jobs:
     outputs:
       version: ${{ steps.get_version.outputs.VERSION }}
       changelog: ${{ steps.build_changelog.outputs.changelog }}
-    jobs:
+    steps:
       - name: Checkout Project
         uses: actions/checkout@v1
 
@@ -83,7 +83,7 @@ jobs:
     name: Publish to the PlayStore
     runs-on: ubuntu-latest
     needs: [build, version]
-    jobs:
+    steps:
       - name: Checkout Project
         uses: actions/checkout@v1
 
@@ -112,7 +112,7 @@ jobs:
     name: Publish to GitHub
     runs-on: ubuntu-latest
     needs: [build, version]
-    jobs:
+    steps:
       - name: Checkout Project
         uses: actions/checkout@v1
 
