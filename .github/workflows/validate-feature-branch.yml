@@ -6,7 +6,7 @@ on:
 jobs:
   decode:
     name: Decode keys
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Decoding keyprop
         run: echo "${{ secrets.KEYPROP }}" | base64 --decode > key.properties
@@ -28,7 +28,7 @@ jobs:
 
   build:
     name: Build APK
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [decode]
     steps:
       - name: Checkout Project
@@ -79,7 +79,7 @@ jobs:
 
   clean:
     name: Clean up
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [build]
     steps:
       - name: Delete artifacts
