@@ -6,7 +6,7 @@ on:
 jobs:
   decode:
     name: Decode keys
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Decoding keyprop
         run: echo "${{ secrets.KEYPROP }}" | base64 --decode > key.properties
@@ -28,7 +28,7 @@ jobs:
 
   build-appbundle:
     name: Build Appbundle
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [decode]
     steps:
       - name: Checkout Project
@@ -79,7 +79,7 @@ jobs:
 
   build-apk:
     name: Build APK
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [decode]
     steps:
       - name: Checkout Project
@@ -124,7 +124,7 @@ jobs:
 
   version:
     name: Get version and changelog
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       version: ${{ steps.get_version.outputs.VERSION }}
       changelog: ${{ steps.build_changelog.outputs.changelog }}
@@ -159,7 +159,7 @@ jobs:
 
   publish-playstore:
     name: Publish to Google Play Store
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [build-appbundle, version]
     steps:
       - name: Get appbundle from artifacts
@@ -185,7 +185,7 @@ jobs:
 
   publish-github:
     name: Publish to GitHub
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [build-apk, version]
     steps:
       - name: Get apk from artifacts
@@ -217,7 +217,7 @@ jobs:
 
   clean:
     name: Clean up
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [build-appbundle, build-apk]
     steps:
       - name: Delete artifacts
