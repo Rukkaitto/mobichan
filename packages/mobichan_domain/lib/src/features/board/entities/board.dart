@@ -18,7 +18,7 @@ class Board extends Equatable with Comparable<Board> {
   final String? metaDescription;
   final int? isArchived;
   final int? forcedAnon;
-  final int? countryFlags;
+  final bool countryFlags;
   final int? userIds;
   final int? spoilers;
   final int? customSpoilers;
@@ -41,7 +41,7 @@ class Board extends Equatable with Comparable<Board> {
     this.metaDescription,
     this.isArchived,
     this.forcedAnon,
-    this.countryFlags,
+    this.countryFlags = false,
     this.userIds,
     this.spoilers,
     this.customSpoilers,

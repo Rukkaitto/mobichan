@@ -57,6 +57,7 @@ class ReplyWidget extends StatelessWidget {
                               Expanded(
                                 child: Row(
                                   children: [
+                                    buildFlag(),
                                     buildName(),
                                     const SizedBox(width: 5),
                                     buildNumber(context),
