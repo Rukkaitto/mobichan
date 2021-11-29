@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class PostModel extends Post {
-  PostModel({
+  const PostModel({
     required int no,
     required String now,
     required int time,
@@ -90,9 +88,7 @@ class PostModel extends Post {
       trip: json['trip'],
       lastModified: json['last_modified'],
       country: json['country'],
-      board: json['board'] != null
-          ? BoardModel.fromJson(jsonDecode(json['board']))
-          : null,
+      board: json['board'] != null ? BoardModel.fromJson(json['board']) : null,
     );
   }
 
@@ -130,14 +126,32 @@ class PostModel extends Post {
 
   Map<String, dynamic> toJson() {
     return {
-      'com': com,
-      'sub': sub,
-      'tim': tim,
       'no': no,
       'now': now,
       'name': name,
       'time': time,
       'resto': resto,
+      'sticky': sticky,
+      'closed': closed,
+      'sub': sub,
+      'com': com,
+      'filename': filename,
+      'ext': ext,
+      'w': w,
+      'h': h,
+      'tn_w': tnW,
+      'tn_h': tnH,
+      'tim': tim,
+      'md5': md5,
+      'fsize': fsize,
+      'capcode': capcode,
+      'semantic_url': semanticUrl,
+      'replies': replies,
+      'images': images,
+      'unique_ips': uniqueIps,
+      'trip': trip,
+      'last_modified': lastModified,
+      'country': country,
       'board': board,
     };
   }

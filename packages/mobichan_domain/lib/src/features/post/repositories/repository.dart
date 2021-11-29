@@ -9,9 +9,7 @@ abstract class PostRepository {
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
-    required String com,
-    String? name,
-    String? subject,
+    required Post post,
     String? filePath,
   });
 
@@ -19,13 +17,12 @@ abstract class PostRepository {
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
+    required Post post,
     required Post resto,
-    String? name,
-    String? com,
     String? filePath,
   });
 
-  Future<void> addThreadToHistory(Post thread, Board board);
+  Future<List<Post>> addThreadToHistory(Post thread, Board board);
 
   Future<List<Post>> getHistory();
 }

@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class Post {
+class Post extends Equatable {
   final int no;
   final String now;
   final String? name;
@@ -29,12 +30,12 @@ class Post {
   final String? country;
   final Board? board;
 
-  Post({
-    required this.no,
-    required this.now,
-    required this.name,
-    required this.time,
-    required this.resto,
+  const Post({
+    this.no = 0,
+    this.now = '',
+    this.name = 'Anonymous',
+    this.time = 0,
+    this.resto = 0,
     this.sticky,
     this.closed,
     this.sub,
@@ -106,8 +107,23 @@ class Post {
     return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
   }
 
+  bool get isWebm {
+    return ext == '.webm';
+  }
+
+  String get displayTitle {
+    return sub ?? com ?? '';
+  }
+
+  String get userName {
+    return name ?? 'Anonymous';
+  }
+
   @override
   String toString() {
     return no.toString();
   }
+
+  @override
+  List<Object?> get props => [no, board];
 }

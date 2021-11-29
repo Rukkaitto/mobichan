@@ -17,11 +17,9 @@
   "comment": "Commentaire",
   "out_of": "sur",
   "search": "Rechercher...",
-  "show_nsfw_warning": "Montrer un avertissement pour les boards NSFW",
   "nsfw_warning": "Attention NSFW",
   "nsfw_warning_message": "Ce board contient du contenu sensible (NSFW)",
   "nsfw_warning_enter": "Continuer",
-  "show_threaded_replies": "Montrer les réponses en cascade (peut ramer)",
   "post_successful": "Posté avec succès !",
   "save_to_gallery": "Enregistrer dans la gallerie",
   "save_to_gallery_success": "Enregistré dans la gallerie.",
@@ -38,9 +36,13 @@
     "other": "{} réponses"
   },
   "quote": "Citer",
-  "high_resolution_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
-  "high_resolution_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
   "gallery": "Gallerie",
   "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à internet ?",
-  "post_network_error": "Impossible d'envoyer le post. Êtes-vous connecté à internet ?"
+  "threads_loading_error": "Impossible de charger les fils. Êtes-vous connecté à internet ?",
+  "post_network_error": "Impossible d'envoyer le post. Êtes-vous connecté à internet ?",
+  "show_nsfw_warning": "Montrer un avertissement pour les boards NSFW",
+  "threaded_replies": "Montrer les réponses en cascade",
+  "high_res_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
+  "high_res_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
+  "report": "Signaler"
 }

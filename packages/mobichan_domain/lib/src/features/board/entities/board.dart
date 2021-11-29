@@ -1,4 +1,6 @@
-class Board {
+import 'package:equatable/equatable.dart';
+
+class Board extends Equatable with Comparable<Board> {
   final String board;
   final String title;
   final int wsBoard;
@@ -21,7 +23,7 @@ class Board {
   final int? spoilers;
   final int? customSpoilers;
 
-  Board({
+  const Board({
     required this.board,
     required this.title,
     required this.wsBoard,
@@ -50,6 +52,14 @@ class Board {
   }
 
   static Board get initial {
-    return Board(board: 'g', title: 'Technology', wsBoard: 1);
+    return const Board(board: 'g', title: 'Technology', wsBoard: 1);
+  }
+
+  @override
+  List<Object?> get props => [board, title];
+
+  @override
+  int compareTo(Board other) {
+    return title.compareTo(other.title);
   }
 }

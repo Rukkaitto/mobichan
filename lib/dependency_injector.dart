@@ -2,10 +2,13 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobichan/pages/boards/cubit/boards_cubit/boards_cubit.dart';
-import 'package:mobichan/pages/boards/cubit/favorite_cubit/favorite_cubit.dart';
-import 'package:mobichan/widgets/drawer/cubit/favorites_cubit/favorites_cubit.dart';
-import 'package:mobichan/widgets/drawer/cubit/package_info_cubit/package_info_cubit.dart';
+import 'package:mobichan/core/core.dart';
+import 'package:mobichan/features/board/cubits/cubits.dart';
+import 'package:mobichan/features/captcha/cubits/cubits.dart';
+import 'package:mobichan/features/post/cubits/cubits.dart';
+import 'package:mobichan/features/release/cubits/cubits.dart';
+import 'package:mobichan/features/sort/cubits/cubits.dart';
+import 'package:mobichan/features/setting/cubits/cubits.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -40,6 +43,18 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<BoardCubit>(
+    () => BoardCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<TabsCubit>(
+    () => TabsCubit(
+      repository: sl(),
+    ),
+  );
+
   sl.registerFactory<FavoritesCubit>(
     () => FavoritesCubit(
       repository: sl(),
@@ -65,6 +80,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<CaptchaCubit>(
+    () => CaptchaCubit(
+      repository: sl(),
+    ),
+  );
+
   // Post
   sl.registerLazySingleton<PostRepository>(
     () => PostRepositoryImpl(
@@ -85,6 +106,24 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<HistoryCubit>(
+    () => HistoryCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<ThreadsCubit>(
+    () => ThreadsCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<RepliesCubit>(
+    () => RepliesCubit(
+      repository: sl(),
+    ),
+  );
+
   // Release
   sl.registerLazySingleton<ReleaseRepository>(
     () => ReleaseRepositoryImpl(
@@ -98,6 +137,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory<ReleaseCubit>(
+    () => ReleaseCubit(
+      repository: sl(),
+    ),
+  );
+
   // Sort
   sl.registerLazySingleton<SortRepository>(
     () => SortRepositoryImpl(
@@ -108,6 +153,43 @@ Future<void> init() async {
   sl.registerLazySingleton<SortLocalDatasource>(
     () => SortLocalDatasourceImpl(
       sharedPreferences: sl(),
+    ),
+  );
+
+  sl.registerFactory<SortCubit>(
+    () => SortCubit(
+      repository: sl(),
+    ),
+  );
+
+  // Setting
+  sl.registerLazySingleton<SettingRepository>(
+    () => SettingRepositoryImpl(
+      localDatasource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<SettingLocalDatasource>(
+    () => SettingLocalDatasourceImpl(
+      sharedPreferences: sl(),
+    ),
+  );
+
+  sl.registerFactory<SettingsCubit>(
+    () => SettingsCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<SettingCubit>(
+    () => SettingCubit(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerFactory<NsfwWarningCubit>(
+    () => NsfwWarningCubit(
+      repository: sl(),
     ),
   );
 

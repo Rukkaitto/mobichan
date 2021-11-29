@@ -20,9 +20,7 @@ abstract class PostRemoteDatasource {
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
-    required String com,
-    String? name,
-    String? subject,
+    required PostModel post,
     String? filePath,
   });
 
@@ -31,8 +29,7 @@ abstract class PostRemoteDatasource {
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel resto,
-    String? name,
-    String? com,
+    required PostModel post,
     String? filePath,
   });
 }
@@ -50,8 +47,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required BoardModel board,
     required PostModel thread,
   }) async {
-    final response =
-        await client.get<String>('$apiUrl/${board.board}/thread/$thread.json');
+    final response = await client
+        .get<String>('$apiUrl/${board.board}/thread/${thread.no}.json');
 
     if (response.statusCode == 200) {
       try {
@@ -103,32 +100,29 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
-    required String com,
-    String? name,
-    String? subject,
+    required PostModel post,
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
 
     FormData formData = FormData.fromMap({
-      "name": name ?? '',
-      "sub": subject ?? '',
+      "name": post.name ?? '',
+      "sub": post.sub ?? '',
       "pwd": '',
       "email": '',
-      "com": com,
+      "com": post.com,
       "mode": 'regist',
       "t-challenge": captchaChallenge,
       "t-response": captchaResponse,
     });
 
     if (filePath != null) {
-      File file = File(filePath);
       formData.files.add(
         MapEntry(
           "upfile",
           await MultipartFile.fromFile(
-            file.path,
-            filename: file.path.split(Platform.pathSeparator).last,
+            filePath,
+            filename: filePath.split(Platform.pathSeparator).last,
           ),
         ),
       );
@@ -166,29 +160,27 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel resto,
-    String? name,
-    String? com,
+    required PostModel post,
     String? filePath,
   }) async {
     String url = "https://sys.4channel.org/${board.board}/post";
 
     FormData formData = FormData.fromMap({
-      "name": name ?? '',
-      "com": com ?? '',
+      "name": post.name ?? '',
+      "com": post.com ?? '',
       "mode": 'regist',
-      "resto": resto.toString(),
+      "resto": resto.no,
       "t-challenge": captchaChallenge,
       "t-response": captchaResponse,
     });
 
     if (filePath != null) {
-      File file = File(filePath);
       formData.files.add(
         MapEntry(
           "upfile",
           await MultipartFile.fromFile(
-            file.path,
-            filename: file.path.split(Platform.pathSeparator).last,
+            filePath,
+            filename: filePath.split(Platform.pathSeparator).last,
           ),
         ),
       );

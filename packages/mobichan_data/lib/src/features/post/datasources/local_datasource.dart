@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class PostLocalDatasource {
-  Future<void> addThreadToHistory(PostModel thread, BoardModel board);
+  Future<List<PostModel>> addThreadToHistory(
+      PostModel thread, BoardModel board);
 
   Future<List<PostModel>> getHistory();
 }
@@ -19,35 +20,37 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   PostLocalDatasourceImpl({required this.sharedPreferences});
 
   @override
-  Future<void> addThreadToHistory(PostModel thread, BoardModel board) async {
+  Future<List<PostModel>> addThreadToHistory(
+      PostModel thread, BoardModel board) async {
     Map<String, dynamic> threadJson = thread.toJson();
-    threadJson['board'] = jsonEncode(board.toJson());
-    String newThread = jsonEncode(threadJson);
+    threadJson['board'] = board.toJson();
+    PostModel newThread = PostModel.fromJson(threadJson);
 
-    List<String> history;
+    // Gets the history strings from the shared preferences
+    List<String> historyStrings;
     if (sharedPreferences.containsKey(threadHistoryKey)) {
-      history = sharedPreferences.getStringList(threadHistoryKey)!;
+      historyStrings = sharedPreferences.getStringList(threadHistoryKey)!;
     } else {
-      history = List.empty(growable: true);
+      historyStrings = List.empty(growable: true);
     }
-    if (await _isThreadInHistory(thread)) {
+
+    // Converts the history string list to a list of PostModel
+    List<PostModel> history = List.generate(historyStrings.length, (index) {
+      return PostModel.fromJson(jsonDecode(historyStrings[index]));
+    });
+
+    if (history.contains(newThread)) {
       history.remove(newThread);
     }
     history.add(newThread);
-    sharedPreferences.setStringList(threadHistoryKey, history);
-  }
 
-  Future<bool> _isThreadInHistory(PostModel thread) async {
-    List<String> history;
-    if (sharedPreferences.containsKey(threadHistoryKey)) {
-      history = sharedPreferences.getStringList(threadHistoryKey)!;
-    } else {
-      history = List.empty(growable: true);
-    }
-    return history.map((e) {
-      PostModel pastThread = PostModel.fromJson(jsonDecode(e));
-      return pastThread.no;
-    }).contains(thread.no);
+    // Converts the history back into a list of strings
+    List<String> historyStringsNew = List.generate(history.length, (index) {
+      return jsonEncode(history[index].toJson());
+    });
+
+    sharedPreferences.setStringList(threadHistoryKey, historyStringsNew);
+    return history;
   }
 
   @override

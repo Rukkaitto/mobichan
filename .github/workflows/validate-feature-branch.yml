@@ -1,0 +1,90 @@
+name: Validate Feature Branch
+on:
+  push:
+    branches:
+      - feature/**
+jobs:
+  decode:
+    name: Decode keys
+    runs-on: self-hosted
+    steps:
+      - name: Decoding keyprop
+        run: echo "${{ secrets.KEYPROP }}" | base64 --decode > key.properties
+
+      - name: Decoding keystore
+        run: echo "${{ secrets.KEYJKS }}" | base64 --decode > upload-keystore.jks
+
+      - name: Upload keyprop
+        uses: actions/upload-artifact@v2
+        with:
+          name: keyprop
+          path: key.properties
+
+      - name: Upload keystore
+        uses: actions/upload-artifact@v2
+        with:
+          name: keystore
+          path: upload-keystore.jks
+
+  build:
+    name: Build APK
+    runs-on: self-hosted
+    needs: [decode]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Get keyprop from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keyprop
+          path: android
+
+      - name: Get keystore from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keystore
+          path: android/app
+
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Running domain layer tests
+        run: flutter test packages/mobichan_domain
+
+      - name: Running data layer tests
+        run: flutter test packages/mobichan_data
+
+      - name: Running presentation layer tests
+        run: flutter test
+
+      - name: Build apk
+        run: flutter build apk --split-per-abi --release
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+  clean:
+    name: Clean up
+    runs-on: self-hosted
+    needs: [build]
+    steps:
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            keyprop
+            keystore

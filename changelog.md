@@ -1,5 +1,0 @@
-- Fixed crash when closing webms
-- Added play icon on webm thumbnails
-- Reduced overall padding and border radius
-- Quoting a post now inserts a quotelink
-- Threaded replies are no longer default because of performance issues
