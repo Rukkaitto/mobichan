@@ -6,6 +6,7 @@ on:
 jobs:
   decode:
     name: Decode keys
+    if: github.event.pull_request.head.repo.full_name != github.repository
     runs-on: self-hosted
     steps:
       - name: Decoding keyprop
@@ -28,6 +29,7 @@ jobs:
 
   build:
     name: Build APK
+    if: github.event.pull_request.head.repo.full_name != github.repository
     runs-on: self-hosted
     needs: [decode]
     steps:
@@ -81,6 +83,7 @@ jobs:
 
   clean:
     name: Clean up
+    if: github.event.pull_request.head.repo.full_name != github.repository
     runs-on: self-hosted
     needs: [build]
     steps:
