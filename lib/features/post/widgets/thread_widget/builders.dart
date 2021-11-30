@@ -19,17 +19,18 @@ extension ThreadWidgetBuilders on ThreadWidget {
     return Padding(
       padding: padding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          buildFlag(),
           Text(
             thread.userName,
             style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold),
           ),
+          const Spacer(),
           SizedBox(
-            width: 160.0,
+            width: 160,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -129,6 +130,17 @@ extension ThreadWidgetBuilders on ThreadWidget {
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.headline2,
         ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget buildFlag() {
+    if (board.countryFlags) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 6),
+        child: Image.network(thread.countryFlagUrl),
       );
     } else {
       return Container();
