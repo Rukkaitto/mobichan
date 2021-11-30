@@ -54,4 +54,22 @@ extension ThreadPageHandlers on ThreadPage {
       arguments: GalleryPageArguments(board: board, imagePosts: imagePosts),
     );
   }
+
+  void handleTapThreadImage({
+    required BuildContext context,
+    required Board board,
+    required List<Post> imagePosts,
+  }) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, _, __) => CarouselPage(
+          board: board,
+          posts: imagePosts,
+          imageIndex: 0,
+          heroTitle: "image0",
+        ),
+      ),
+    );
+  }
 }

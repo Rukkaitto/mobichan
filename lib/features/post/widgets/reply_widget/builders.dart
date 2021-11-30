@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 extension ReplyWidgetBuilders on ReplyWidget {
   Widget buildContent() {
@@ -41,8 +42,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   }
 
   Widget buildImage() {
-    final imagePosts =
-        threadReplies.where((post) => post.filename != null).toList();
+    final imagePosts = threadReplies.imagePosts;
     final imageIndex = imagePosts.indexOf(post);
 
     return Builder(builder: (context) {

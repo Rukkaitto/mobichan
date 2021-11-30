@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
+import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
