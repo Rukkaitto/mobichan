@@ -10,6 +10,7 @@ class ThreadWidget extends StatelessWidget {
   final Board board;
   final bool inThread;
   final Widget? threadContent;
+  final void Function()? onImageTap;
 
   final EdgeInsetsGeometry padding = const EdgeInsets.all(15.0);
   final SizedBox spacingBetweenIcons = const SizedBox(width: 25.0);
@@ -23,6 +24,7 @@ class ThreadWidget extends StatelessWidget {
     required this.board,
     required this.inThread,
     this.threadContent,
+    this.onImageTap,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +38,7 @@ class ThreadWidget extends StatelessWidget {
         child: Wrap(
           children: [
             buildTitle(context),
-            ThumbnailWidget(board: board, post: thread, height: 250),
+            buildImage(),
             if (thread.com != null)
               inThread
                   ? Padding(

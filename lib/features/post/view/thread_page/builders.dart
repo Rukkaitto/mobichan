@@ -208,6 +208,11 @@ extension ThreadPageBuilders on ThreadPage {
                     reply: thread,
                     threadReplies: replies,
                   ),
+                  onImageTap: () => handleTapThreadImage(
+                    context: context,
+                    board: board,
+                    imagePosts: replies.imagePosts,
+                  ),
                 ),
               ),
             );
@@ -262,6 +267,11 @@ extension ThreadPageBuilders on ThreadPage {
                           board: board,
                           reply: thread,
                           threadReplies: replies,
+                        ),
+                        onImageTap: () => handleTapThreadImage(
+                          context: context,
+                          board: board,
+                          imagePosts: replies.imagePosts,
                         ),
                       ),
                     ),

@@ -131,3 +131,9 @@ class Post extends Equatable {
   @override
   List<Object?> get props => [no, board];
 }
+
+extension PostListExtension on List<Post> {
+  List<Post> get imagePosts {
+    return where((post) => post.filename != null).toList();
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
+import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -145,6 +146,17 @@ extension ThreadWidgetBuilders on ThreadWidget {
     } else {
       return Container();
     }
+  }
+
+  Widget buildImage() {
+    return InkWell(
+      onTap: onImageTap,
+      child: ThumbnailWidget(
+        board: board,
+        post: thread,
+        height: 250,
+      ),
+    );
   }
 
   PopupMenuButton<dynamic> buildPopupMenuButton() {
