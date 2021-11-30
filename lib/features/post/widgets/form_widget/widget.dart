@@ -27,31 +27,29 @@ class FormWidget extends StatelessWidget {
           child: AnimatedPositioned(
             duration: animationDuration,
             curve: Curves.easeInOut,
-            top: form.isVisible ? 0 : -form.heightWithImage,
+            top: form.isVisible ? 0 : -400,
             left: 0,
             right: 0,
             child: GestureDetector(
               onVerticalDragUpdate: (details) =>
                   handleVerticalDrag(context, details),
-              child: AnimatedContainer(
-                duration: animationDuration,
-                curve: Curves.easeInOut,
-                width: double.infinity,
-                height: form.heightWithImage,
+              child: Container(
                 color: Theme.of(context).cardColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Row(
+                width: double.infinity,
+                child: AnimatedSize(
+                  duration: animationDuration,
+                  curve: Curves.easeInOut,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: ListView(
-                              physics: const NeverScrollableScrollPhysics(),
+                            child: Column(
                               children: [
                                 if (form.isExpanded)
                                   buildNameTextField(form.nameController),
-                                if (form.isExpanded)
+                                if (form.isExpanded && thread == null)
                                   buildSubjectTextField(form.subjectController),
                                 buildCommentTextField(
                                     context, form.commentController),
@@ -72,42 +70,44 @@ class FormWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.image),
-                                onPressed: () =>
-                                    handlePictureIconPressed(context),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.send,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                          Flexible(
+                            flex: 0,
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.image),
+                                  onPressed: () =>
+                                      handlePictureIconPressed(context),
                                 ),
-                                onPressed: () => handleSendIconPressed(
-                                  context,
-                                  form,
-                                  board,
-                                  thread,
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.send,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  onPressed: () => handleSendIconPressed(
+                                    context,
+                                    form,
+                                    board,
+                                    thread,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        form.isExpanded
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
-                        size: 30,
+                      IconButton(
+                        icon: Icon(
+                          form.isExpanded
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          size: 30,
+                        ),
+                        onPressed: () => handleExpandPressed(context, form),
                       ),
-                      onPressed: () => handleExpandPressed(context, form),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
