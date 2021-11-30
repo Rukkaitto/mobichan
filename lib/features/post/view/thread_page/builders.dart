@@ -119,7 +119,7 @@ extension ThreadPageBuilders on ThreadPage {
     List<Post> rootReplies = args.replies
         .where((reply) =>
             reply.isRootPost ||
-            reply.replyingTo(args.replies).first == args.thread.no)
+            reply.replyingTo(args.replies).first == args.thread)
         .toList();
     for (Post rootReply in rootReplies) {
       if (rootReply.no != args.thread.no) {
@@ -154,7 +154,7 @@ extension ThreadPageBuilders on ThreadPage {
     if (recursion > maxRecursion) return replyWidgets;
     List<Post> postReplies = post
         .getReplies(threadReplies)
-        .where((reply) => reply.replyingTo(threadReplies).first == post.no)
+        .where((reply) => reply.replyingTo(threadReplies).first == post)
         .toList();
     if (postReplies.isEmpty) {
       return replyWidgets;

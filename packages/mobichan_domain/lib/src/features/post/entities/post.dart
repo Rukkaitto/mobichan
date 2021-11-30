@@ -77,13 +77,15 @@ class Post extends Equatable {
     return replies;
   }
 
-  List<int> replyingTo(List<Post> posts) {
+  List<Post> replyingTo(List<Post> posts) {
     final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
     final matches = regExp
         .allMatches(com ?? '')
         .map((match) => int.parse(match.group(0) ?? ""))
         .toList();
-    return matches;
+    return posts
+        .where((post) => matches.where((match) => match == post.no).isNotEmpty)
+        .toList();
   }
 
   bool get isRootPost {
