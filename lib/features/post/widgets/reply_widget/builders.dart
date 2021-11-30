@@ -3,44 +3,11 @@ import 'package:mobichan/localization.dart';
 import 'reply_widget.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 extension ReplyWidgetBuilders on ReplyWidget {
-  Widget buildContent() {
-    return Builder(
-      builder: (context) {
-        return SelectableHtml(
-          selectionControls: PostTextSelectionControls(
-            customButton: (start, end) => handleQuote(context, start, end),
-          ),
-          data: insertATags(post.com),
-          onAnchorTap: (str, renderContext, attributes, element) {
-            if (attributes['class'] == 'quotelink') {
-              handleTapQuotelink(context, str!);
-            } else {
-              handleTapUrl(str!);
-            }
-          },
-          style: {
-            "body": Style(margin: const EdgeInsets.all(0)),
-            "a": Style(
-              color: Colors.lightBlueAccent,
-            ),
-            ".quote": Style(
-              color: Colors.green.shade300,
-            ),
-            ".quotelink": Style(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          },
-        );
-      },
-    );
-  }
-
   Widget buildImage() {
     final imagePosts = threadReplies.imagePosts;
     final imageIndex = imagePosts.indexOf(post);

@@ -69,12 +69,13 @@ class ReplyWidget extends StatelessWidget {
                           ),
                           if (post.filename != null) buildImage(),
                           const SizedBox(height: 5),
-                          ContentWidget(
-                            board: board,
-                            reply: post,
-                            inDialog: inDialog,
-                            threadReplies: threadReplies,
-                          ),
+                          if (post.com != null)
+                            ContentWidget(
+                              board: board,
+                              reply: post,
+                              inDialog: inDialog,
+                              threadReplies: threadReplies,
+                            ),
                           if (showReplies) buildFooter(),
                         ],
                       ),
