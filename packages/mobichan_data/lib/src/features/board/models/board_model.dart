@@ -104,6 +104,26 @@ class BoardModel extends Board {
       'board': board,
       'title': title,
       'ws_board': wsBoard,
+      'per_page': perPage,
+      'pages': pages,
+      'max_filesize': maxFileSize,
+      'max_webm_filesize': maxWebmFileSize,
+      'max_comment_chars': maxCommentChars,
+      'max_webm_duration': maxWebmDuration,
+      'bump_limit': bumpLimit,
+      'image_limit': imageLimit,
+      'cooldowns': {
+        'threads': threadsCooldown,
+        'replies': repliesCooldown,
+        'images': imagesCooldown,
+      },
+      'meta_description': metaDescription,
+      'is_archived': isArchived,
+      'forced_anon': forcedAnon,
+      'country_flags': countryFlags ? 1 : 0,
+      'user_ids': userIds,
+      'spoilers': spoilers,
+      'custom_spoilers': customSpoilers,
     };
   }
 }
