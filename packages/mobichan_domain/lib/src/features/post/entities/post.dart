@@ -129,11 +129,6 @@ class Post extends Equatable {
   }
 
   @override
-  String toString() {
-    return no.toString();
-  }
-
-  @override
   List<Object?> get props => [no, board];
 }
 

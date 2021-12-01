@@ -19,5 +19,12 @@ void main() {
         expect(setting, tSetting);
       });
     });
+
+    group('props', () {
+      test('should return the title, value and type', () {
+        final props = tSetting.props;
+        expect(props, [tSetting.title, tSetting.value, tSetting.type]);
+      });
+    });
   });
 }
