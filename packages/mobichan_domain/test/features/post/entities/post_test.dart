@@ -13,6 +13,7 @@ void main() {
       """,
       tim: 7839789,
       ext: '.png',
+      country: 'FR',
     );
     const tNoFileReply = Post(
       no: 234234,
@@ -166,6 +167,20 @@ void main() {
       test('should return the name of the poster if they have one', () {
         final userName = tOP.userName;
         expect(userName, tOP.name);
+      });
+    });
+
+    group('countryFlagUrl', () {
+      test('should return null if the post has no country', () {
+        final countryFlagUrl = tNoFileReply.countryFlagUrl;
+        expect(countryFlagUrl, null);
+      });
+
+      test('should return the country flag image url if the post has a country',
+          () {
+        final countryFlagUrl = tOP.countryFlagUrl;
+        expect(countryFlagUrl,
+            'https://s.4cdn.org/image/country/${tOP.country?.toLowerCase()}.gif');
       });
     });
   });

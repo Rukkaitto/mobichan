@@ -122,8 +122,10 @@ class Post extends Equatable {
     return name ?? 'Anonymous';
   }
 
-  String get countryFlagUrl {
-    return 'https://s.4cdn.org/image/country/${country?.toLowerCase()}.gif';
+  String? get countryFlagUrl {
+    if (country != null) {
+      return 'https://s.4cdn.org/image/country/${country?.toLowerCase()}.gif';
+    }
   }
 
   @override
