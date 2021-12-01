@@ -6,8 +6,9 @@ void main() {
     const tBoard = Board(board: 'g', title: 'Technology', wsBoard: 1);
     const tFirstPost = Post(
       no: 123123,
+      sub: 'This is a subject',
       com: """
-        this is a comment replying to no one
+        This is an OP
       """,
       tim: 7839789,
       ext: '.png',
@@ -27,6 +28,11 @@ void main() {
       """,
       tim: 4792974,
       ext: '.webm',
+    );
+    const tFourthPost = Post(
+      no: 794794,
+      tim: 9483945,
+      ext: '.png',
     );
 
     List<Post> posts = const [
@@ -128,6 +134,25 @@ void main() {
       test('should return true if the file is a webm', () {
         final isWebm = tThirdPost.isWebm;
         expect(isWebm, true);
+      });
+    });
+
+    group('displayTitle', () {
+      test('should return the subject of the post if there is one', () {
+        final displayTitle = tFirstPost.displayTitle;
+        expect(displayTitle, tFirstPost.sub);
+      });
+
+      test('should return the comment of the post if there is no subject', () {
+        final displayTitle = tSecondPost.displayTitle;
+        expect(displayTitle, tSecondPost.com);
+      });
+
+      test(
+          'should return an empty string if there is no subject and no comment',
+          () {
+        final displayTitle = tFourthPost.displayTitle;
+        expect(displayTitle, '');
       });
     });
   });
