@@ -30,11 +30,11 @@ class ThumbnailWidget extends StatelessWidget {
               CachedNetworkImage(
                 fit: BoxFit.cover,
                 imageUrl: post.isWebm
-                    ? post.getThumbnailUrl(board)
-                    : post.getImageUrl(board),
+                    ? post.getThumbnailUrl(board)!
+                    : post.getImageUrl(board)!,
                 placeholder: (context, url) {
                   return Image.network(
-                    post.getThumbnailUrl(board),
+                    post.getThumbnailUrl(board)!,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, widget, progress) {
                       return Shimmer.fromColors(

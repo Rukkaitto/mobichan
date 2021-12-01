@@ -98,12 +98,16 @@ class Post extends Equatable {
     return matches.isEmpty;
   }
 
-  String getImageUrl(Board board) {
-    return 'https://i.4cdn.org/${board.board}/$tim$ext';
+  String? getImageUrl(Board board) {
+    if (tim != null) {
+      return 'https://i.4cdn.org/${board.board}/$tim$ext';
+    }
   }
 
-  String getThumbnailUrl(Board board) {
-    return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
+  String? getThumbnailUrl(Board board) {
+    if (tim != null) {
+      return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
+    }
   }
 
   bool get isWebm {
