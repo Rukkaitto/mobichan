@@ -67,5 +67,17 @@ void main() {
         expect(isRootPost, false);
       });
     });
+
+    group('getQuotedPost', () {
+      test('should return null if the quotelinked post does not exist', () {
+        final post = posts.getQuotedPost("#p666666");
+        expect(post, null);
+      });
+
+      test('should return a post if given a list of posts and a quotelink', () {
+        final post = posts.getQuotedPost("#p${firstPost.no}");
+        expect(post, firstPost);
+      });
+    });
   });
 }

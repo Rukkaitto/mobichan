@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class Post extends Equatable {
@@ -97,10 +98,6 @@ class Post extends Equatable {
     return matches.isEmpty;
   }
 
-  static Post getQuotedPost(List<Post> posts, int no) {
-    return posts.firstWhere((post) => post.no == no);
-  }
-
   String getImageUrl(Board board) {
     return 'https://i.4cdn.org/${board.board}/$tim$ext';
   }
@@ -137,5 +134,13 @@ class Post extends Equatable {
 extension PostListExtension on List<Post> {
   List<Post> get imagePosts {
     return where((post) => post.filename != null).toList();
+  }
+
+  Post? getQuotedPost(String quotelink) {
+    int? quotedNo = int.tryParse(quotelink.substring(2));
+    if (quotedNo == null) {
+      return null;
+    }
+    return firstWhereOrNull((post) => post.no == quotedNo);
   }
 }
