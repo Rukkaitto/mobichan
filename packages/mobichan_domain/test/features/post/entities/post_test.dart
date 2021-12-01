@@ -25,6 +25,8 @@ void main() {
         <a href="#p123123" class="quotelink">&gt;&gt;123123
         this is another comment replying to the first post
       """,
+      tim: 4792974,
+      ext: '.webm',
     );
 
     List<Post> posts = const [
@@ -109,6 +111,23 @@ void main() {
           imageUrl,
           "https://i.4cdn.org/${tBoard.board}/${tFirstPost.tim}s.jpg",
         );
+      });
+    });
+
+    group('isWebm', () {
+      test('should return false if the post has no file', () {
+        final isWebm = tSecondPost.isWebm;
+        expect(isWebm, false);
+      });
+
+      test('should return false if the post has an image', () {
+        final isWebm = tFirstPost.isWebm;
+        expect(isWebm, false);
+      });
+
+      test('should return true if the file is a webm', () {
+        final isWebm = tThirdPost.isWebm;
+        expect(isWebm, true);
       });
     });
   });
