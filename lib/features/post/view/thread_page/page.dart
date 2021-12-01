@@ -91,7 +91,7 @@ class ThreadPage extends StatelessWidget {
                     builder: (context, settings) {
                       if (settings != null) {
                         final bool threadedReplies =
-                            settings.findByTitle('threaded_replies').value;
+                            settings.findByTitle('threaded_replies')?.value;
                         if (repliesState is RepliesLoaded) {
                           return Stack(
                             children: [
