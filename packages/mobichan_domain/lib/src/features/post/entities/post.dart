@@ -139,7 +139,7 @@ class Post extends Equatable {
 
 extension PostListExtension on List<Post> {
   List<Post> get imagePosts {
-    return where((post) => post.filename != null).toList();
+    return where((post) => post.tim != null).toList();
   }
 
   Post? getQuotedPost(String quotelink) {

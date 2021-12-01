@@ -37,20 +37,21 @@ void main() {
       ext: '.png',
     );
 
-    List<Post> posts = const [
+    List<Post> tPosts = const [
       tOP,
       tNoFileReply,
       tWebmReply,
+      tImagePost,
     ];
 
     group('getReplies', () {
       test('should return empty list if the post has no replies', () {
-        final replies = tNoFileReply.getReplies(posts);
+        final replies = tNoFileReply.getReplies(tPosts);
         expect(replies, []);
       });
 
       test('should return a list of replies to a post', () {
-        final replies = tOP.getReplies(posts);
+        final replies = tOP.getReplies(tPosts);
         expect(replies.isEmpty, false);
         expect(replies, [tNoFileReply, tWebmReply]);
       });
@@ -58,12 +59,12 @@ void main() {
 
     group('replyingTo', () {
       test('should return empty list if the post is replying to no one', () {
-        final replyingTo = tOP.replyingTo(posts);
+        final replyingTo = tOP.replyingTo(tPosts);
         expect(replyingTo, []);
       });
 
       test('should return a list of posts that the post is replying to', () {
-        final replyingTo = tNoFileReply.replyingTo(posts);
+        final replyingTo = tNoFileReply.replyingTo(tPosts);
         expect(replyingTo.isEmpty, false);
         expect(replyingTo.contains(tOP), true);
       });
@@ -81,14 +82,29 @@ void main() {
       });
     });
 
+    group('imagePosts', () {
+      test('should return an empty list if the thread has no image posts', () {
+        final imagePosts = [tNoFileReply].imagePosts;
+        expect(imagePosts, []);
+      });
+
+      test('should return posts that have images/webms in them', () {
+        final imagePosts = tPosts.imagePosts;
+        expect(imagePosts.contains(tNoFileReply), false);
+        expect(imagePosts.contains(tOP), true);
+        expect(imagePosts.contains(tImagePost), true);
+        expect(imagePosts.contains(tWebmReply), true);
+      });
+    });
+
     group('getQuotedPost', () {
       test('should return null if the quotelinked post does not exist', () {
-        final post = posts.getQuotedPost("#p666666");
+        final post = tPosts.getQuotedPost("#p666666");
         expect(post, null);
       });
 
       test('should return a post if given a list of posts and a quotelink', () {
-        final post = posts.getQuotedPost("#p${tOP.no}");
+        final post = tPosts.getQuotedPost("#p${tOP.no}");
         expect(post, tOP);
       });
     });
