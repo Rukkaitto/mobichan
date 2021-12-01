@@ -12,9 +12,7 @@ dependencies:
 
   cupertino_icons: ^1.0.3
   shared_preferences: ^2.0.8
-  flutter_html:
-    git:
-      url: https://github.com/Rukkaitto/flutter_html.git
+  flutter_html: ^2.2.0
   dio: ^4.0.1
   image_picker: ^0.8.4+4
   cached_network_image: ^3.1.0
