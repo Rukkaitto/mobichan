@@ -61,11 +61,8 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleTapQuotelink(BuildContext context, String quotelink) {
-    int? quotedNo = int.tryParse(quotelink.substring(2));
-    if (quotedNo == null) {
-      return;
-    }
-    Post quotedPost = Post.getQuotedPost(threadReplies, quotedNo);
+    Post? quotedPost = threadReplies.getQuotedPost(quotelink);
+    if (quotedPost == null) return;
 
     if (!inDialog) {
       showDialog(

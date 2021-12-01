@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class Post extends Equatable {
@@ -77,13 +78,15 @@ class Post extends Equatable {
     return replies;
   }
 
-  List<int> replyingTo(List<Post> posts) {
+  List<Post> replyingTo(List<Post> posts) {
     final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
     final matches = regExp
         .allMatches(com ?? '')
         .map((match) => int.parse(match.group(0) ?? ""))
         .toList();
-    return matches;
+    return posts
+        .where((post) => matches.where((match) => match == post.no).isNotEmpty)
+        .toList();
   }
 
   bool get isRootPost {
@@ -95,16 +98,16 @@ class Post extends Equatable {
     return matches.isEmpty;
   }
 
-  static Post getQuotedPost(List<Post> posts, int no) {
-    return posts.firstWhere((post) => post.no == no);
+  String? getImageUrl(Board board) {
+    if (tim != null) {
+      return 'https://i.4cdn.org/${board.board}/$tim$ext';
+    }
   }
 
-  String getImageUrl(Board board) {
-    return 'https://i.4cdn.org/${board.board}/$tim$ext';
-  }
-
-  String getThumbnailUrl(Board board) {
-    return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
+  String? getThumbnailUrl(Board board) {
+    if (tim != null) {
+      return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
+    }
   }
 
   bool get isWebm {
@@ -119,13 +122,10 @@ class Post extends Equatable {
     return name ?? 'Anonymous';
   }
 
-  String get countryFlagUrl {
-    return 'https://s.4cdn.org/image/country/${country?.toLowerCase()}.gif';
-  }
-
-  @override
-  String toString() {
-    return no.toString();
+  String? get countryFlagUrl {
+    if (country != null) {
+      return 'https://s.4cdn.org/image/country/${country?.toLowerCase()}.gif';
+    }
   }
 
   @override
@@ -134,6 +134,14 @@ class Post extends Equatable {
 
 extension PostListExtension on List<Post> {
   List<Post> get imagePosts {
-    return where((post) => post.filename != null).toList();
+    return where((post) => post.tim != null).toList();
+  }
+
+  Post? getQuotedPost(String quotelink) {
+    int? quotedNo = int.tryParse(quotelink.substring(2));
+    if (quotedNo == null) {
+      return null;
+    }
+    return firstWhereOrNull((post) => post.no == quotedNo);
   }
 }

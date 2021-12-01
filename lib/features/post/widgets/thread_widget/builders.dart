@@ -141,7 +141,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
     if (board.countryFlags && thread.country != null) {
       return Padding(
         padding: const EdgeInsets.only(right: 6),
-        child: Image.network(thread.countryFlagUrl),
+        child: Image.network(thread.countryFlagUrl!),
       );
     } else {
       return Container();

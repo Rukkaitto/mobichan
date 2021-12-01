@@ -52,7 +52,7 @@ class GalleryPage extends StatelessWidget {
                 tag: "image$index",
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl: args.imagePosts[index].getThumbnailUrl(args.board),
+                  imageUrl: args.imagePosts[index].getThumbnailUrl(args.board)!,
                   placeholder: (context, url) => Center(
                     child: Platform.isAndroid
                         ? const CircularProgressIndicator()
