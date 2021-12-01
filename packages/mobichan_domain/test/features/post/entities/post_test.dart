@@ -55,5 +55,17 @@ void main() {
         expect(replyingTo.contains(firstPost), true);
       });
     });
+
+    group('isRootPost', () {
+      test('should return true if the post is a root post', () {
+        final isRootPost = firstPost.isRootPost;
+        expect(isRootPost, true);
+      });
+
+      test('should return false if the post is not a root post', () {
+        final isRootPost = secondPost.isRootPost;
+        expect(isRootPost, false);
+      });
+    });
   });
 }
