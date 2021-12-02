@@ -60,7 +60,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
-          context.read<ThreadsCubit>().getThreads(board, sort!);
+          context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, postSuccessful.tr()),
           );
