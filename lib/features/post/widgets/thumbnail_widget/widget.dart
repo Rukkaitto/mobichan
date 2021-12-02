@@ -120,12 +120,12 @@ class ThumbnailWidgetState extends State<ThumbnailWidget> {
     final highResolutionThumbnailsWifi =
         settings.findByTitle('high_res_thumbnails_wifi')?.value as bool;
 
-    if (widget.fullRes ||
-        ((connectivityStatus == ConnectivityResult.wifi &&
+    if ((widget.fullRes ||
+            ((connectivityStatus == ConnectivityResult.wifi &&
                     highResolutionThumbnailsWifi) ||
                 (connectivityStatus == ConnectivityResult.mobile &&
-                    highResolutionThumbnailsMobile)) &&
-            !post.isWebm) {
+                    highResolutionThumbnailsMobile))) &&
+        !post.isWebm) {
       return post.getImageUrl(board)!;
     } else {
       return post.getThumbnailUrl(board)!;
