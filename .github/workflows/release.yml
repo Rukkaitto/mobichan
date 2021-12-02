@@ -69,7 +69,7 @@ jobs:
         run: flutter test
 
       - name: Build Android Appbundle
-        run: flutter build appbundle
+        run: flutter build appbundle --dart-define=env=play_store
 
       - name: Upload app bundle
         uses: actions/upload-artifact@v2
@@ -114,7 +114,7 @@ jobs:
         run: flutter test
 
       - name: Build Android APK
-        run: flutter build apk --split-per-abi --release
+        run: flutter build apk --split-per-abi --release --dart-define=env=github
 
       - name: Upload apk
         uses: actions/upload-artifact@v2
