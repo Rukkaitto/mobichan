@@ -60,7 +60,8 @@ extension ThreadsPageBuilders on ThreadsPage {
                     Post thread = threads[index];
                     return ResponsiveWidth(
                       child: InkWell(
-                        onTap: () => handleThreadTap(context, board, thread),
+                        onTap: () =>
+                            handleThreadTap(context, board, thread, sort),
                         child: Hero(
                           tag: thread.no,
                           child: ThreadWidget(

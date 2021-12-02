@@ -38,7 +38,6 @@ class ThreadsCubit extends Cubit<ThreadsState> {
       captchaResponse: response,
       filePath: file?.path,
     );
-    emit(ThreadsLoaded(threads));
   }
 
   void search(String input) {

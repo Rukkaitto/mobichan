@@ -34,6 +34,7 @@ extension FormWidgetHandlers on FormWidget {
     PostFormState form,
     Board board,
     Post? thread,
+    Sort? sort,
   ) async {
     final result = await showDialog<CaptchaPopValues>(
       context: context,
@@ -59,6 +60,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          context.read<ThreadsCubit>().getThreads(board, sort!);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, postSuccessful.tr()),
           );
@@ -78,6 +80,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, postSuccessful.tr()),
           );

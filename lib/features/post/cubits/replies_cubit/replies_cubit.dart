@@ -37,6 +37,5 @@ class RepliesCubit extends Cubit<RepliesState> {
       captchaResponse: response,
       filePath: file?.path,
     );
-    await getReplies(board, resto);
   }
 }
