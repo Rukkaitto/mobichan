@@ -155,6 +155,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
         board: board,
         post: thread,
         height: 250,
+        fullRes: true,
       ),
     );
   }
