@@ -46,6 +46,7 @@ dependencies:
   get_it: ^7.2.0
   firebase_core: ^1.10.0
   firebase_crashlytics: ^2.3.0
+  scrollable_positioned_list: ^0.2.3
 
 dev_dependencies:
   flutter_test:

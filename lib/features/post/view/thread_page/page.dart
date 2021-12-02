@@ -6,6 +6,7 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/core/core.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ThreadPageArguments {
   final Board board;
@@ -29,7 +30,7 @@ class ComputeArgs {
 class ThreadPage extends StatelessWidget {
   static const routeName = '/thread';
 
-  final ScrollController scrollController = ScrollController();
+  final ItemScrollController itemScrollController = ItemScrollController();
 
   ThreadPage({Key? key}) : super(key: key);
 
@@ -78,9 +79,11 @@ class ThreadPage extends StatelessWidget {
                     ),
                     buildPopupMenuButton(
                       context: context,
-                      scrollController: scrollController,
                       board: args.board,
                       thread: args.thread,
+                      replies: repliesState is RepliesLoaded
+                          ? repliesState.replies
+                          : [],
                     ),
                   ],
                 ),
@@ -100,13 +103,11 @@ class ThreadPage extends StatelessWidget {
                                       board: args.board,
                                       thread: args.thread,
                                       replies: repliesState.replies,
-                                      scrollController: scrollController,
                                     )
                                   : buildLinearReplies(
                                       board: args.board,
                                       thread: args.thread,
                                       replies: repliesState.replies,
-                                      scrollController: scrollController,
                                     ),
                               FormWidget(
                                 board: args.board,

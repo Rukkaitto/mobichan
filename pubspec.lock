@@ -933,6 +933,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.3"
+  scrollable_positioned_list:
+    dependency: "direct main"
+    description:
+      name: scrollable_positioned_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   share:
     dependency: "direct main"
     description:

@@ -21,30 +21,20 @@ extension ThreadPageHandlers on ThreadPage {
         'https://boards.4channel.org/${board.board}/thread/${thread.no}');
   }
 
-  void handleScrollTop() {
-    scrollController.jumpTo(scrollController.position.minScrollExtent);
+  void handleScrollTop(List<Post> replies) {
+    itemScrollController.scrollTo(
+      index: 0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 
-  void handleScrollBottom() {
-    scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
-
-  void handleSelectedAction(
-      BuildContext context, String selection, Board board, Post thread) {
-    switch (selection) {
-      case 'refresh':
-        handleRefresh(context, board, thread);
-        break;
-      case 'share':
-        handleShare(board, thread);
-        break;
-      case 'top':
-        handleScrollTop();
-        break;
-      case 'bottom':
-        handleScrollBottom();
-        break;
-    }
+  void handleScrollBottom(List<Post> replies) {
+    itemScrollController.scrollTo(
+      index: replies.length,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 
   void handleGalleryButton(
