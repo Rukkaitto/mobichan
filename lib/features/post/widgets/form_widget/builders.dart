@@ -21,53 +21,67 @@ extension FormWidgetBuilders on FormWidget {
     );
   }
 
-  Widget buildCommentTextField(
-      BuildContext context, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        onChanged: (value) {
-          context.read<PostFormCubit>().setComment(value);
-        },
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: comment.tr(),
+  Widget buildCommentTextField(TextEditingController controller) {
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          onChanged: (value) {
+            context.read<PostFormCubit>().setComment(value);
+          },
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: comment.tr(),
+          ),
+          enableInteractiveSelection: true,
+          maxLines: 5,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+          textCapitalization: TextCapitalization.sentences,
         ),
-        enableInteractiveSelection: true,
-        maxLines: 5,
-        style: const TextStyle(color: Colors.white),
-        textCapitalization: TextCapitalization.sentences,
-      ),
-    );
+      );
+    });
   }
 
   Widget buildNameTextField(TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: name.tr(),
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: name.tr(),
+          ),
+          enableInteractiveSelection: true,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+          textCapitalization: TextCapitalization.sentences,
         ),
-        enableInteractiveSelection: true,
-        style: const TextStyle(color: Colors.white),
-        textCapitalization: TextCapitalization.sentences,
-      ),
-    );
+      );
+    });
   }
 
   Widget buildSubjectTextField(TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: subject.tr(),
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: subject.tr(),
+          ),
+          enableInteractiveSelection: true,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+          textCapitalization: TextCapitalization.sentences,
         ),
-        enableInteractiveSelection: true,
-        style: const TextStyle(color: Colors.white),
-        textCapitalization: TextCapitalization.sentences,
-      ),
-    );
+      );
+    });
   }
 }

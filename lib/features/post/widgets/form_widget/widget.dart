@@ -52,8 +52,7 @@ class FormWidget extends StatelessWidget {
                                   buildNameTextField(form.nameController),
                                 if (form.isExpanded && thread == null)
                                   buildSubjectTextField(form.subjectController),
-                                buildCommentTextField(
-                                    context, form.commentController),
+                                buildCommentTextField(form.commentController),
                                 if (form.file != null)
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
