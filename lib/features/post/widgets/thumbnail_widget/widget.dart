@@ -1,0 +1,134 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/features/setting/setting.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
+
+import 'thumbnail_widget.dart';
+
+class ThumbnailWidget extends StatefulWidget {
+  final Board board;
+  final Post post;
+  final double height;
+  final double borderRadius;
+  final bool fullRes;
+
+  const ThumbnailWidget({
+    Key? key,
+    required this.board,
+    required this.post,
+    required this.height,
+    this.borderRadius = 0,
+    this.fullRes = false,
+  }) : super(key: key);
+
+  @override
+  State<ThumbnailWidget> createState() => ThumbnailWidgetState();
+}
+
+class ThumbnailWidgetState extends State<ThumbnailWidget> {
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.post.filename != null) {
+      return BlocProvider<SettingsCubit>(
+        create: (context) => sl()..getSettings(),
+        child: BlocBuilder<SettingsCubit, List<Setting>?>(
+          builder: (context, settings) {
+            return FutureBuilder<String>(
+              future: _getImageUrl(
+                widget.post,
+                widget.board,
+                settings ?? [],
+                _connectionStatus,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return buildImage(snapshot.data!);
+                } else {
+                  return buildImage(widget.post.getThumbnailUrl(widget.board)!);
+                }
+              },
+            );
+          },
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      log(e.toString());
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+  }
+
+  Future<String> _getImageUrl(
+    Post post,
+    Board board,
+    List<Setting> settings,
+    ConnectivityResult connectivityStatus,
+  ) async {
+    final highResolutionThumbnailsMobile =
+        settings.findByTitle('high_res_thumbnails_mobile')?.value as bool;
+
+    final highResolutionThumbnailsWifi =
+        settings.findByTitle('high_res_thumbnails_wifi')?.value as bool;
+
+    if ((widget.fullRes ||
+            ((connectivityStatus == ConnectivityResult.wifi &&
+                    highResolutionThumbnailsWifi) ||
+                (connectivityStatus == ConnectivityResult.mobile &&
+                    highResolutionThumbnailsMobile))) &&
+        !post.isWebm) {
+      return post.getImageUrl(board)!;
+    } else {
+      return post.getThumbnailUrl(board)!;
+    }
+  }
+}
