@@ -174,13 +174,15 @@ jobs:
         run: echo "${{ needs.version.outputs.changelog }}" > whatsnew/whatsnew-en-US
 
       - name: Release on the Play Store
-        uses: r0adkll/upload-google-play@v1
+        uses: swootte/upload-google-play@V1.1.5
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.lucasgoudin.mobichan
           inAppUpdatePriority: 5
           releaseFiles: app-release.aab
           track: production
+          status: draft # remove this after review
+          changesNotSentForReview: true # remove this after review
           whatsNewDirectory: whatsnew
 
   publish-github:
