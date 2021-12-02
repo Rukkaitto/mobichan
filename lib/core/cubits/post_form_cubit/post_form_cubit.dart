@@ -7,6 +7,7 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 part 'post_form_state.dart';
 
 class PostFormCubit extends Cubit<PostFormState> {
+  String comment = '';
   PostFormCubit() : super(PostFormState());
 
   void toggleVisible() {
@@ -19,7 +20,7 @@ class PostFormCubit extends Cubit<PostFormState> {
         isVisible: isVisible,
         isExpanded: state.isExpanded,
         file: state.file,
-        comment: state.comment,
+        comment: comment,
       ),
     );
   }
@@ -30,7 +31,7 @@ class PostFormCubit extends Cubit<PostFormState> {
         isVisible: state.isVisible,
         isExpanded: isExpanded,
         file: state.file,
-        comment: state.comment,
+        comment: comment,
       ),
     );
   }
@@ -45,7 +46,7 @@ class PostFormCubit extends Cubit<PostFormState> {
         isVisible: state.isVisible,
         isExpanded: state.isExpanded,
         file: file,
-        comment: state.comment,
+        comment: comment,
       ),
     );
   }
@@ -56,12 +57,16 @@ class PostFormCubit extends Cubit<PostFormState> {
         isVisible: state.isVisible,
         isExpanded: state.isExpanded,
         file: null,
-        comment: state.comment,
+        comment: comment,
       ),
     );
   }
 
   void setComment(String value) {
+    comment = value;
+  }
+
+  void emitComment(String value) {
     emit(
       PostFormState(
         isVisible: state.isVisible,
@@ -70,24 +75,25 @@ class PostFormCubit extends Cubit<PostFormState> {
         comment: value,
       ),
     );
+    setComment(value);
   }
 
   void reply(Post post) {
-    var comment = state.comment;
-    comment += '>>${post.no}\n';
+    var newComment = comment;
+    newComment += '>>${post.no}\n';
 
-    setComment(comment);
+    emitComment(newComment);
     setVisible(true);
   }
 
   void quote(String quote, Post reply) {
-    var comment = state.comment;
-    if (comment.isEmpty) {
-      comment += '>>${reply.no}\n';
+    var newComment = comment;
+    if (newComment.isEmpty) {
+      newComment += '>>${reply.no}\n';
     }
-    comment += '>$quote\n';
+    newComment += '>$quote\n';
 
-    setComment(comment);
+    emitComment(newComment);
     setVisible(true);
   }
 }
