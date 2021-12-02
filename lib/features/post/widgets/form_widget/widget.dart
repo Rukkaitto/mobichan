@@ -9,9 +9,10 @@ class FormWidget extends StatelessWidget {
   final Duration animationDuration = const Duration(milliseconds: 300);
 
   final Board board;
+  final Sort? sort;
   final Post? thread;
 
-  const FormWidget({required this.board, this.thread, Key? key})
+  const FormWidget({required this.board, this.sort, this.thread, Key? key})
       : super(key: key);
 
   @override
@@ -90,6 +91,7 @@ class FormWidget extends StatelessWidget {
                                     form,
                                     board,
                                     thread,
+                                    sort,
                                   ),
                                 ),
                               ],

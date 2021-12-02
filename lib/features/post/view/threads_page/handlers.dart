@@ -12,7 +12,11 @@ extension ThreadsPageHandlers on ThreadsPage {
   }
 
   Future<void> handleThreadTap(
-      BuildContext context, Board board, Post thread) async {
+    BuildContext context,
+    Board board,
+    Post thread,
+    Sort sort,
+  ) async {
     await context.read<HistoryCubit>().addToHistory(thread, board);
     Navigator.of(context).pushNamed(
       ThreadPage.routeName,
