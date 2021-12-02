@@ -13,7 +13,7 @@ A 4chan app made with Flutter.
 ## Features
 
 - Browsing boards and threads
-- Creating and responding to threads (with an up to date catpcha)
+- Creating and responding to threads (with an up to date captcha)
 - Viewing images
 - Playing webms at different speeds
 - Sorting and searching threads
