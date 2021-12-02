@@ -24,7 +24,9 @@ A 4chan app made with Flutter.
 ## Screenshots
 
 <img src="./screenshots/board_page.png" width="50%">
+<img src="./screenshots/drawer.png" width="50%">
 <img src="./screenshots/thread_page.png" width="50%">
+<img src="./screenshots/replies_page.png" width="50%">
 
 ## Contributing
 
