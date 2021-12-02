@@ -25,6 +25,7 @@ extension BoardDrawerHandlers on BoardDrawer {
       await favoriteCubit.addToFavorites(board);
       tabsCubit.addTab(board);
     }
+    context.read<FavoritesCubit>().getFavorites();
   }
 
   void handleOnHistoryTap(BuildContext context, Post thread) {
