@@ -5,6 +5,7 @@ import 'package:mobichan/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -13,30 +14,28 @@ import 'thread_page.dart';
 extension ThreadPageBuilders on ThreadPage {
   PopupMenuButton<dynamic> buildPopupMenuButton({
     required BuildContext context,
-    required ScrollController scrollController,
     required Board board,
     required Post thread,
+    required List<Post> replies,
   }) {
     return PopupMenuButton(
-      onSelected: (selection) =>
-          handleSelectedAction(context, selection, board, thread),
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
             child: const Text(refresh).tr(),
-            value: 'refresh',
+            onTap: () => handleRefresh(context, board, thread),
           ),
           PopupMenuItem(
             child: const Text(share).tr(),
-            value: 'share',
+            onTap: () => handleShare(board, thread),
           ),
           PopupMenuItem(
             child: const Text(goTop).tr(),
-            value: 'top',
+            onTap: () => handleScrollTop(replies),
           ),
           PopupMenuItem(
             child: const Text(goBottom).tr(),
-            value: 'bottom',
+            onTap: () => handleScrollBottom(replies),
           ),
         ];
       },
@@ -186,13 +185,11 @@ extension ThreadPageBuilders on ThreadPage {
     required Board board,
     required Post thread,
     required List<Post> replies,
-    required ScrollController scrollController,
   }) {
     return Scrollbar(
-      controller: scrollController,
-      child: ListView.separated(
+      child: ScrollablePositionedList.separated(
         separatorBuilder: (context, index) => const Divider(),
-        controller: scrollController,
+        itemScrollController: itemScrollController,
         itemCount: replies.length,
         itemBuilder: (context, index) {
           if (index == 0) {
@@ -235,7 +232,6 @@ extension ThreadPageBuilders on ThreadPage {
     required Board board,
     required Post thread,
     required List<Post> replies,
-    required ScrollController scrollController,
   }) {
     return FutureBuilder<List<ReplyWidget>>(
       future: compute<ComputeArgs, List<ReplyWidget>>(
@@ -249,9 +245,8 @@ extension ThreadPageBuilders on ThreadPage {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scrollbar(
-            controller: scrollController,
-            child: ListView.builder(
-              controller: scrollController,
+            child: ScrollablePositionedList.builder(
+              itemScrollController: itemScrollController,
               shrinkWrap: true,
               itemCount: snapshot.data!.length + 1,
               itemBuilder: (context, index) {
