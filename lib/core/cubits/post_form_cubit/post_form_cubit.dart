@@ -10,6 +10,11 @@ class PostFormCubit extends Cubit<PostFormState> {
   String comment = '';
   PostFormCubit() : super(PostFormState());
 
+  void clear() {
+    state.subjectController.clear();
+    emitComment('');
+  }
+
   void toggleVisible() {
     setVisible(!state.isVisible);
   }
