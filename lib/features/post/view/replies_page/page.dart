@@ -8,27 +8,17 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'replies_page.dart';
 
-class RepliesPageArguments {
-  final Board board;
-  final List<Post> postReplies;
-  final List<Post> threadReplies;
-
-  RepliesPageArguments({
-    required this.board,
-    required this.postReplies,
-    required this.threadReplies,
-  });
-}
-
 class RepliesPage extends StatelessWidget {
   final Board board;
   final List<Post> postReplies;
   final List<Post> threadReplies;
+  final Post? replyingTo;
 
   const RepliesPage({
     required this.board,
     required this.postReplies,
     required this.threadReplies,
+    this.replyingTo,
     Key? key,
   }) : super(key: key);
 
@@ -36,10 +26,10 @@ class RepliesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: BlocProvider<RepliesDialogCubit>(
-        create: (context) => RepliesDialogCubit(postReplies),
-        child: BlocBuilder<RepliesDialogCubit, List<List<Post>>>(
+        create: (context) => RepliesDialogCubit(postReplies, replyingTo),
+        child: BlocBuilder<RepliesDialogCubit, List<RepliesDialogState>>(
           builder: (context, repliesHistory) {
-            List<Post> lastReplies = repliesHistory.last;
+            List<Post> lastReplies = repliesHistory.last.replies;
             return WillPopScope(
               onWillPop: () async {
                 if (repliesHistory.length > 1) {
@@ -83,6 +73,7 @@ class RepliesPage extends StatelessWidget {
                               child: ReplyWidget(
                                 board: board,
                                 post: reply,
+                                replyingTo: repliesHistory.last.replyingTo,
                                 threadReplies: threadReplies,
                                 inDialog: true,
                                 showReplies: true,

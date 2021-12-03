@@ -11,14 +11,27 @@ class ContentWidget extends StatelessWidget {
   final Post reply;
   final List<Post> threadReplies;
   final bool inDialog;
+  final Post? replyingTo;
 
   const ContentWidget({
     required this.board,
     required this.reply,
     required this.threadReplies,
     this.inDialog = false,
+    this.replyingTo,
     Key? key,
   }) : super(key: key);
+
+  String highlightReplyingTo(String? str, Post? replyingTo) {
+    if (str == null) return '';
+    if (replyingTo == null) return str;
+
+    final newStr = str.replaceAll(
+        '<a href="#p${replyingTo.no}" class="quotelink">',
+        '<a href="#p${replyingTo.no}" class="quotelink-highlight">');
+
+    return newStr;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +41,10 @@ class ContentWidget extends StatelessWidget {
           selectionControls: PostTextSelectionControls(
             customButton: (start, end) => handleQuote(context, start, end),
           ),
-          data: insertATags(reply.com),
+          data: insertATags(highlightReplyingTo(reply.com, replyingTo)),
           onAnchorTap: (str, renderContext, attributes, element) {
-            if (attributes['class'] == 'quotelink') {
+            if (attributes['class'] == 'quotelink' ||
+                attributes['class'] == 'quotelink-highlight') {
               handleTapQuotelink(context, str!);
             } else {
               handleTapUrl(str!);
@@ -46,6 +60,9 @@ class ContentWidget extends StatelessWidget {
             ),
             ".quotelink": Style(
               color: Theme.of(context).colorScheme.secondary,
+            ),
+            ".quotelink-highlight": Style(
+              color: Theme.of(context).colorScheme.secondaryVariant,
             ),
           },
         );

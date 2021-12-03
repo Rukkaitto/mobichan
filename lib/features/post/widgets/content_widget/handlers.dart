@@ -42,7 +42,7 @@ extension ContentWidgetHandlers on ContentWidget {
             threadReplies: threadReplies),
       );
     } else {
-      context.read<RepliesDialogCubit>().setReplies([quotedPost]);
+      context.read<RepliesDialogCubit>().setReplies([quotedPost], null);
     }
   }
 }
