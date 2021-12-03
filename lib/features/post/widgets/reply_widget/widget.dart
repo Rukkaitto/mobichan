@@ -12,6 +12,7 @@ class ReplyWidget extends StatelessWidget {
   final int recursion;
   final bool inDialog;
   final bool showReplies;
+  final Post? replyingTo;
 
   ReplyWidget({
     required this.board,
@@ -20,6 +21,7 @@ class ReplyWidget extends StatelessWidget {
     this.recursion = 0,
     this.inDialog = false,
     this.showReplies = false,
+    this.replyingTo,
     Key? key,
   }) : super(key: key);
 
@@ -73,6 +75,7 @@ class ReplyWidget extends StatelessWidget {
                             ContentWidget(
                               board: board,
                               reply: post,
+                              replyingTo: replyingTo,
                               inDialog: inDialog,
                               threadReplies: threadReplies,
                             ),

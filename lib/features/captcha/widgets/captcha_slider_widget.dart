@@ -68,7 +68,7 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
               suffixIcon: IconButton(
                 icon: Icon(
                   Icons.send_rounded,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => widget.onValidate(
                   _controller.text,

@@ -26,7 +26,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
           Text(
             thread.userName,
             style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
                 fontWeight: FontWeight.bold),
           ),
           const Spacer(),

@@ -52,11 +52,12 @@ extension ReplyWidgetHandlers on ReplyWidget {
         context: context,
         builder: (context) => RepliesPage(
             board: board,
+            replyingTo: post,
             postReplies: postReplies,
             threadReplies: threadReplies),
       );
     } else {
-      context.read<RepliesDialogCubit>().setReplies(postReplies);
+      context.read<RepliesDialogCubit>().setReplies(postReplies, post);
     }
   }
 
@@ -73,7 +74,7 @@ extension ReplyWidgetHandlers on ReplyWidget {
             threadReplies: threadReplies),
       );
     } else {
-      context.read<RepliesDialogCubit>().setReplies([quotedPost]);
+      context.read<RepliesDialogCubit>().setReplies([quotedPost], null);
     }
   }
 
