@@ -36,6 +36,7 @@ class TabsCubit extends Cubit<TabsState> {
 
   Future<void> setCurrentTab(Board board) async {
     await repository.saveLastVisitedBoard(board);
+    boards = _addTab(boards, board);
     current = board;
     emit(TabsLoaded(boards: boards, current: current));
   }

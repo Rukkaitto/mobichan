@@ -9,9 +9,7 @@ import 'board_drawer.dart';
 extension BoardDrawerHandlers on BoardDrawer {
   void handleBoardTap(BuildContext context, Board board) {
     context.read<NsfwWarningCubit>().dismiss();
-    context.read<TabsCubit>().addTab(board);
     context.read<TabsCubit>().setCurrentTab(board);
-    context.read<BoardCubit>().saveLastVisitedBoard(board);
     Navigator.pop(context);
   }
 
