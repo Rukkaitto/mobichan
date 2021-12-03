@@ -19,6 +19,7 @@ class BoardTabs extends StatelessWidget {
                 await context
                     .read<TabsCubit>()
                     .setCurrentTab(state.boards[index]);
+                await context.read<FavoritesCubit>().getFavorites();
               },
               isScrollable: true,
               physics: const BouncingScrollPhysics(
