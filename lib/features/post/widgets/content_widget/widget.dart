@@ -30,7 +30,7 @@ class ContentWidget extends StatelessWidget {
 
     final newStr = str.replaceAllMapped(exp, (match) {
       String matchStr = match.group(0) ?? '';
-      if (matchStr != '<a href="#p${replyingTo.no}" class="quotelink">') {
+      if (!matchStr.contains('${replyingTo.no}')) {
         return matchStr.replaceAll(
             'class="quotelink"', 'class="quotelink-lowlight"');
       }
@@ -51,7 +51,7 @@ class ContentWidget extends StatelessWidget {
           data: insertATags(highlightReplyingTo(reply.com, replyingTo)),
           onAnchorTap: (str, renderContext, attributes, element) {
             if (attributes['class'] == 'quotelink' ||
-                attributes['class'] == 'quotelink-highlight') {
+                attributes['class'] == 'quotelink-lowlight') {
               handleTapQuotelink(context, str!);
             } else {
               handleTapUrl(str!);
