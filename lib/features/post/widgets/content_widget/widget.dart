@@ -59,10 +59,10 @@ class ContentWidget extends StatelessWidget {
               color: Colors.green.shade300,
             ),
             ".quotelink": Style(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.secondaryVariant,
             ),
             ".quotelink-highlight": Style(
-              color: Theme.of(context).colorScheme.secondaryVariant,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           },
         );
