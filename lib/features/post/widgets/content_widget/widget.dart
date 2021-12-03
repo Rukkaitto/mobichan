@@ -26,9 +26,16 @@ class ContentWidget extends StatelessWidget {
     if (str == null) return '';
     if (replyingTo == null) return str;
 
-    final newStr = str.replaceAll(
-        '<a href="#p${replyingTo.no}" class="quotelink">',
-        '<a href="#p${replyingTo.no}" class="quotelink-highlight">');
+    final exp = RegExp(r'<a href="#p\d+" class="quotelink">');
+
+    final newStr = str.replaceAllMapped(exp, (match) {
+      String matchStr = match.group(0) ?? '';
+      if (matchStr != '<a href="#p${replyingTo.no}" class="quotelink">') {
+        return matchStr.replaceAll(
+            'class="quotelink"', 'class="quotelink-lowlight"');
+      }
+      return matchStr;
+    });
 
     return newStr;
   }
@@ -59,10 +66,10 @@ class ContentWidget extends StatelessWidget {
               color: Colors.green.shade300,
             ),
             ".quotelink": Style(
-              color: Theme.of(context).colorScheme.secondaryVariant,
-            ),
-            ".quotelink-highlight": Style(
               color: Theme.of(context).colorScheme.secondary,
+            ),
+            ".quotelink-lowlight": Style(
+              color: Theme.of(context).colorScheme.secondaryVariant,
             ),
           },
         );

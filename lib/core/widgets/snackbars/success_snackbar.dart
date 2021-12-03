@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 SnackBar successSnackbar(BuildContext context, String text) => SnackBar(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),

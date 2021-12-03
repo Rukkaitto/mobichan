@@ -43,9 +43,8 @@ class _AppState extends State<App> {
               },
               theme: theme.copyWith(
                 colorScheme: theme.colorScheme.copyWith(
-                  primary: const Color(0xFF61D3C3),
-                  secondary: const Color(0xFF61D3C3),
-                  secondaryVariant: const Color(0xFF499F95),
+                  secondary: const Color(0xFF6DEFDF),
+                  secondaryVariant: const Color(0xFF54BDB0),
                 ),
               ),
             ),
