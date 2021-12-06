@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
@@ -15,9 +15,9 @@ class RepliesCubit extends Cubit<RepliesState> {
     try {
       List<Post> replies =
           await repository.getPosts(board: board, thread: thread);
-      emit(RepliesLoaded(replies: replies));
+      emit(RepliesLoaded(replies));
     } on NetworkException {
-      emit(RepliesError());
+      emit(RepliesError('Error while loading replies.'));
     }
   }
 

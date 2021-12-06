@@ -54,8 +54,9 @@ class ThreadPage extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return BlocBuilder<RepliesCubit, RepliesState>(
-            builder: (context, repliesState) {
+          return AsyncBlocBuilder<List<Post>, RepliesCubit, RepliesState,
+              RepliesLoading, RepliesLoaded, RepliesError>(
+            builder: (replies) {
               return Scaffold(
                 floatingActionButton: FloatingActionButton(
                   onPressed: () => handleFormButtonPressed(context),
@@ -66,24 +67,19 @@ class ThreadPage extends StatelessWidget {
                       .thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
                   actions: [
                     IconButton(
-                      icon: const Icon(Icons.image),
-                      onPressed: () => repliesState is RepliesLoaded
-                          ? handleGalleryButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: () => handleGalleryButton(
                               context,
                               args.board,
-                              repliesState.replies
+                              replies
                                   .where((element) => element.filename != null)
                                   .toList(),
-                            )
-                          : null,
-                    ),
+                            )),
                     buildPopupMenuButton(
                       context: context,
                       board: args.board,
                       thread: args.thread,
-                      replies: repliesState is RepliesLoaded
-                          ? repliesState.replies
-                          : [],
+                      replies: replies,
                     ),
                   ],
                 ),
@@ -95,29 +91,25 @@ class ThreadPage extends StatelessWidget {
                       if (settings != null) {
                         final bool threadedReplies =
                             settings.findByTitle('threaded_replies')?.value;
-                        if (repliesState is RepliesLoaded) {
-                          return Stack(
-                            children: [
-                              threadedReplies
-                                  ? buildThreadedReplies(
-                                      board: args.board,
-                                      thread: args.thread,
-                                      replies: repliesState.replies,
-                                    )
-                                  : buildLinearReplies(
-                                      board: args.board,
-                                      thread: args.thread,
-                                      replies: repliesState.replies,
-                                    ),
-                              FormWidget(
-                                board: args.board,
-                                thread: args.thread,
-                              ),
-                            ],
-                          );
-                        } else {
-                          return buildLoading(args.board, args.thread);
-                        }
+                        return Stack(
+                          children: [
+                            threadedReplies
+                                ? buildThreadedReplies(
+                                    board: args.board,
+                                    thread: args.thread,
+                                    replies: replies,
+                                  )
+                                : buildLinearReplies(
+                                    board: args.board,
+                                    thread: args.thread,
+                                    replies: replies,
+                                  ),
+                            FormWidget(
+                              board: args.board,
+                              thread: args.thread,
+                            ),
+                          ],
+                        );
                       } else {
                         return buildLoading(args.board, args.thread);
                       }
