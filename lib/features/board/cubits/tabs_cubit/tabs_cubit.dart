@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/core/cubits/cubits.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 part 'tabs_state.dart';
 

@@ -1,30 +1,16 @@
 part of 'sort_cubit.dart';
 
-abstract class SortState extends Equatable {
-  const SortState();
+class SortState extends BaseState {}
 
-  @override
-  List<Object> get props => [];
-}
+class SortInitial extends BaseInitialState with SortState {}
 
-class SortInitial extends SortState {}
+class SortLoading extends BaseLoadingState with SortState {}
 
-class SortLoading extends SortState {}
-
-class SortLoaded extends SortState {
+class SortLoaded extends BaseLoadedState<Sort> with SortState {
   final Sort sort;
-
-  const SortLoaded(this.sort);
-
-  @override
-  List<Object> get props => [sort];
+  SortLoaded(this.sort) : super(sort);
 }
 
-class SortError extends SortState {
-  final String message;
-
-  const SortError(this.message);
-
-  @override
-  List<Object> get props => [message];
+class SortError extends BaseErrorState with SortState {
+  SortError(String message) : super(message);
 }

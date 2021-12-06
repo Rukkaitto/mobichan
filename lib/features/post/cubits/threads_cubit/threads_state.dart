@@ -1,35 +1,15 @@
 part of 'threads_cubit.dart';
 
-abstract class ThreadsState extends Equatable {
-  const ThreadsState();
+class ThreadsState extends BaseState {}
+
+class ThreadsInitial extends BaseInitialState with ThreadsState {}
+
+class ThreadsLoading extends BaseLoadingState with ThreadsState {}
+
+class ThreadsLoaded extends BaseLoadedState<List<Post>> with ThreadsState {
+  ThreadsLoaded(List<Post> data) : super(data);
 }
 
-class ThreadsInitial extends ThreadsState {
-  const ThreadsInitial();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class ThreadsLoading extends ThreadsState {
-  const ThreadsLoading();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class ThreadsLoaded extends ThreadsState {
-  final List<Post> threads;
-  const ThreadsLoaded(this.threads);
-
-  @override
-  List<Object?> get props => [threads];
-}
-
-class ThreadsError extends ThreadsState {
-  final String message;
-  const ThreadsError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+class ThreadsError extends BaseErrorState with ThreadsState {
+  ThreadsError(String message) : super(message);
 }

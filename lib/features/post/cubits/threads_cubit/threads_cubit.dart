@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -12,11 +12,11 @@ class ThreadsCubit extends Cubit<ThreadsState> {
   final PostRepository repository;
   late List<Post> threads;
 
-  ThreadsCubit({required this.repository}) : super(const ThreadsInitial());
+  ThreadsCubit({required this.repository}) : super(ThreadsInitial());
 
   Future<void> getThreads(Board board, Sort sort) async {
     try {
-      emit(const ThreadsLoading());
+      emit(ThreadsLoading());
       threads = await repository.getThreads(board: board, sort: sort);
       emit(ThreadsLoaded(threads));
     } on NetworkException {
