@@ -27,13 +27,15 @@ class HistoryCubit extends Cubit<HistoryState> {
       final filteredHistory = history
           .where((post) =>
               (post.board?.board.contains(input.toLowerCase().trim()) ??
-                  true) ||
+                  false) ||
               (post.board?.title
                       .toLowerCase()
                       .contains(input.toLowerCase().trim()) ??
-                  true) ||
+                  false) ||
               (post.sub?.toLowerCase().contains(input.toLowerCase().trim()) ??
-                  true))
+                  false) ||
+              (post.com?.toLowerCase().contains(input.toLowerCase().trim()) ??
+                  false))
           .toList();
       emit(HistoryLoaded(filteredHistory));
     }

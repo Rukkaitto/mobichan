@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
+import 'package:mobichan/features/post/post.dart';
 
 import 'board_nsfw_check_page.dart';
 
@@ -12,6 +13,9 @@ class BoardNsfwCheckPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<HistoryCubit>(
+          create: (_) => sl<HistoryCubit>()..getHistory(),
+        ),
         BlocProvider<BoardCubit>(
           create: (context) => sl<BoardCubit>()..getLastVisitedBoard(),
         ),
