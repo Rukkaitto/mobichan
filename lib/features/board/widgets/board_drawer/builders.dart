@@ -49,12 +49,15 @@ extension BoardDrawerBuilders on BoardDrawer {
 
   Widget buildSettings() {
     return Builder(builder: (context) {
-      return BoardExpansionTileWidget(
-        onTap: () {
-          Navigator.of(context).pushNamed(SettingsPage.routeName);
-        },
-        title: settings.tr(),
-        icon: Icons.settings,
+      return BlocProvider<SearchCubit>(
+        create: (context) => SearchCubit(),
+        child: BoardExpansionTileWidget(
+          onTap: () {
+            Navigator.of(context).pushNamed(SettingsPage.routeName);
+          },
+          title: settings.tr(),
+          icon: Icons.settings,
+        ),
       );
     });
   }
@@ -186,7 +189,7 @@ extension BoardDrawerBuilders on BoardDrawer {
                   return ListView.builder(
                     itemCount: state.history.length,
                     itemBuilder: (context, index) {
-                      Post thread = state.history[index];
+                      Post thread = state.history.reversed.toList()[index];
                       return buildHistoryListTile(thread);
                     },
                   );
