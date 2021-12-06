@@ -7,6 +7,7 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -19,17 +20,15 @@ extension BoardDrawerBuilders on BoardDrawer {
       width: double.infinity,
       child: BlocProvider<PackageInfoCubit>(
         create: (context) => sl<PackageInfoCubit>()..getPackageInfo(),
-        child: BlocBuilder<PackageInfoCubit, PackageInfoState>(
-          builder: (context, state) {
-            if (state is PackageInfoLoaded) {
-              return Text(
-                'Version ${state.packageInfo.version}',
-                style: Theme.of(context).textTheme.subtitle2,
-              );
-            } else {
-              return Container();
-            }
+        child: AsyncBlocBuilder<PackageInfo, PackageInfoCubit, PackageInfoState,
+            PackageInfoLoading, PackageInfoLoaded, PackageInfoError>(
+          builder: (context, packageInfo) {
+            return Text(
+              'Version ${packageInfo.version}',
+              style: Theme.of(context).textTheme.subtitle2,
+            );
           },
+          loadingBuilder: () => Container(),
         ),
       ),
     );
@@ -84,20 +83,18 @@ extension BoardDrawerBuilders on BoardDrawer {
                       boardsCubit.search('');
                     }
                   },
-                  child: BlocBuilder<BoardsCubit, BoardsState>(
-                    builder: (context, state) {
-                      if (state is BoardsLoaded) {
-                        return ListView.builder(
-                          itemCount: state.boards.length,
-                          itemBuilder: (context, index) {
-                            Board board = state.boards[index];
-                            return buildBoardListTile(board);
-                          },
-                        );
-                      } else {
-                        return buildBoardsLoading();
-                      }
+                  child: AsyncBlocBuilder<List<Board>, BoardsCubit, BoardsState,
+                      BoardsLoading, BoardsLoaded, BoardsError>(
+                    builder: (context, boards) {
+                      return ListView.builder(
+                        itemCount: boards.length,
+                        itemBuilder: (context, index) {
+                          Board board = boards[index];
+                          return buildBoardListTile(board);
+                        },
+                      );
                     },
+                    loadingBuilder: () => buildBoardsLoading(),
                   ),
                 ),
               ),
@@ -183,19 +180,16 @@ extension BoardDrawerBuilders on BoardDrawer {
                 historyCubit.search('');
               }
             },
-            child: BlocBuilder<HistoryCubit, HistoryState>(
-              builder: (context, state) {
-                if (state is HistoryLoaded) {
-                  return ListView.builder(
-                    itemCount: state.history.length,
-                    itemBuilder: (context, index) {
-                      Post thread = state.history.reversed.toList()[index];
-                      return buildHistoryListTile(thread);
-                    },
-                  );
-                } else {
-                  return buildLoading();
-                }
+            child: AsyncBlocBuilder<List<Post>, HistoryCubit, HistoryState,
+                HistoryLoading, HistoryLoaded, HistoryError>(
+              builder: (context, history) {
+                return ListView.builder(
+                  itemCount: history.length,
+                  itemBuilder: (context, index) {
+                    Post thread = history.reversed.toList()[index];
+                    return buildHistoryListTile(thread);
+                  },
+                );
               },
             ),
           ),

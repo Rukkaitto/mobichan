@@ -24,12 +24,6 @@ extension UpdateWidgetBuilders on UpdateWidgetState {
     );
   }
 
-  AlertDialog buildLoading() => const AlertDialog(
-        content: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-
   Widget buildDownloading(BuildContext context) {
     return AlertDialog(
       title: const Text('Downloading update...'),

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
@@ -10,11 +10,11 @@ class BoardsCubit extends Cubit<BoardsState> {
   final BoardRepository repository;
   late List<Board> boards;
 
-  BoardsCubit({required this.repository}) : super(const BoardsInitial());
+  BoardsCubit({required this.repository}) : super(BoardsInitial());
 
   Future<void> getBoards() async {
     try {
-      emit(const BoardsLoading());
+      emit(BoardsLoading());
       boards = await repository.getBoards();
       emit(BoardsLoaded(boards));
     } on NetworkException {

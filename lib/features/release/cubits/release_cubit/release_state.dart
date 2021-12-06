@@ -1,30 +1,15 @@
 part of 'release_cubit.dart';
 
-abstract class ReleaseState extends Equatable {
-  const ReleaseState();
+class ReleaseState extends BaseState {}
 
-  @override
-  List<Object> get props => [];
+class ReleaseInitial extends BaseInitialState with ReleaseState {}
+
+class ReleaseLoading extends BaseLoadingState with ReleaseState {}
+
+class ReleaseLoaded extends BaseLoadedState<Release> with ReleaseState {
+  ReleaseLoaded(Release data) : super(data);
 }
 
-class ReleaseInitial extends ReleaseState {}
-
-class ReleaseLoading extends ReleaseState {}
-
-class ReleaseLoaded extends ReleaseState {
-  final Release release;
-
-  const ReleaseLoaded(this.release);
-
-  @override
-  List<Object> get props => [release];
-}
-
-class ReleaseError extends ReleaseState {
-  final String message;
-
-  const ReleaseError(this.message);
-
-  @override
-  List<Object> get props => [message];
+class ReleaseError extends BaseErrorState with ReleaseState {
+  ReleaseError(String message) : super(message);
 }

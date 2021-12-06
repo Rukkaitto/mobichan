@@ -56,7 +56,7 @@ class ThreadPage extends StatelessWidget {
         builder: (context) {
           return AsyncBlocBuilder<List<Post>, RepliesCubit, RepliesState,
               RepliesLoading, RepliesLoaded, RepliesError>(
-            builder: (replies) {
+            builder: (context, replies) {
               return Scaffold(
                 floatingActionButton: FloatingActionButton(
                   onPressed: () => handleFormButtonPressed(context),
@@ -113,6 +113,7 @@ class ThreadPage extends StatelessWidget {
                 ),
               );
             },
+            loadingBuilder: () => const Scaffold(),
           );
         },
       ),

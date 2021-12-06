@@ -14,20 +14,21 @@ class ThreadsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AsyncBlocBuilder<TabsLoadedArgs, TabsCubit, TabsState, TabsLoading,
         TabsLoaded, TabsError>(
-      builder: (tabs) {
+      builder: (context, tabs) {
         return AsyncBlocBuilder<Sort, SortCubit, SortState, SortLoading,
             SortLoaded, SortError>(
-          builder: (sort) {
+          builder: (context, sort) {
             context.read<ThreadsCubit>().getThreads(tabs.current, sort);
             return AsyncBlocBuilder<List<Post>, ThreadsCubit, ThreadsState,
                 ThreadsLoading, ThreadsLoaded, ThreadsError>(
-              builder: (threads) {
+              builder: (context, threads) {
                 return buildLoaded(
                   board: board,
                   threads: threads,
                   sort: sort,
                 );
               },
+              loadingBuilder: () => buildLoading(),
             );
           },
         );

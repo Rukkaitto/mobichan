@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 part 'history_state.dart';
 
@@ -7,7 +7,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   final PostRepository repository;
   late List<Post> history;
 
-  HistoryCubit({required this.repository}) : super(const HistoryInitial());
+  HistoryCubit({required this.repository}) : super(HistoryInitial());
 
   Future<void> addToHistory(Post thread, Board board) async {
     history = await repository.addThreadToHistory(thread, board);
@@ -15,7 +15,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   }
 
   Future<void> getHistory() async {
-    emit(const HistoryLoading());
+    emit(HistoryLoading());
     history = await repository.getHistory();
     emit(HistoryLoaded(history));
   }

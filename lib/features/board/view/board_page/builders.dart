@@ -79,34 +79,30 @@ extension BoardPageBuilders on BoardPage {
   }
 
   Widget buildPopupMenu() {
-    return BlocBuilder<SortCubit, SortState>(
-      builder: (context, state) {
-        if (state is SortLoaded) {
-          return PopupMenuButton<Sort>(
-            icon: const Icon(Icons.sort),
-            onSelected: (Sort sort) => handleSortSelected(context, sort),
-            itemBuilder: (context) {
-              return [
-                buildPopupMenuItem(
-                    sortBumpOrder, const Sort(order: Order.byBump),
-                    currentSort: state.sort),
-                buildPopupMenuItem(
-                    sortReplies, const Sort(order: Order.byReplies),
-                    currentSort: state.sort),
-                buildPopupMenuItem(
-                    sortImages, const Sort(order: Order.byImages),
-                    currentSort: state.sort),
-                buildPopupMenuItem(sortNewest, const Sort(order: Order.byNew),
-                    currentSort: state.sort),
-                buildPopupMenuItem(sortOldest, const Sort(order: Order.byOld),
-                    currentSort: state.sort),
-              ];
-            },
-          );
-        } else {
-          return Container();
-        }
+    return AsyncBlocBuilder<Sort, SortCubit, SortState, SortLoading, SortLoaded,
+        SortError>(
+      builder: (context, sort) {
+        return PopupMenuButton<Sort>(
+          icon: const Icon(Icons.sort),
+          onSelected: (Sort sort) => handleSortSelected(context, sort),
+          itemBuilder: (context) {
+            return [
+              buildPopupMenuItem(sortBumpOrder, const Sort(order: Order.byBump),
+                  currentSort: sort),
+              buildPopupMenuItem(
+                  sortReplies, const Sort(order: Order.byReplies),
+                  currentSort: sort),
+              buildPopupMenuItem(sortImages, const Sort(order: Order.byImages),
+                  currentSort: sort),
+              buildPopupMenuItem(sortNewest, const Sort(order: Order.byNew),
+                  currentSort: sort),
+              buildPopupMenuItem(sortOldest, const Sort(order: Order.byOld),
+                  currentSort: sort),
+            ];
+          },
+        );
       },
+      loadingBuilder: () => Container(),
     );
   }
 

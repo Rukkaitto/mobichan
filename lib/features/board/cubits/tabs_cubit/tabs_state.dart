@@ -18,8 +18,6 @@ class TabsLoaded extends BaseLoadedState<TabsLoadedArgs> with TabsState {
           ),
         );
 
-  int get currentIndex => boards.indexOf(current);
-
   @override
   List<Object> get props => [boards, current];
 }
@@ -29,6 +27,8 @@ class TabsLoadedArgs {
   final Board current;
 
   TabsLoadedArgs({required this.boards, required this.current});
+
+  int get currentIndex => boards.indexOf(current);
 }
 
 class TabsError extends BaseErrorState with TabsState {

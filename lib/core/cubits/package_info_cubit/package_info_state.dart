@@ -1,35 +1,16 @@
 part of 'package_info_cubit.dart';
 
-abstract class PackageInfoState extends Equatable {
-  const PackageInfoState();
+class PackageInfoState extends BaseState {}
+
+class PackageInfoInitial extends BaseInitialState with PackageInfoState {}
+
+class PackageInfoLoading extends BaseLoadingState with PackageInfoState {}
+
+class PackageInfoLoaded extends BaseLoadedState<PackageInfo>
+    with PackageInfoState {
+  PackageInfoLoaded(PackageInfo data) : super(data);
 }
 
-class PackageInfoInitial extends PackageInfoState {
-  const PackageInfoInitial();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class PackageInfoLoading extends PackageInfoState {
-  const PackageInfoLoading();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class PackageInfoLoaded extends PackageInfoState {
-  final PackageInfo packageInfo;
-  const PackageInfoLoaded(this.packageInfo);
-
-  @override
-  List<Object?> get props => [packageInfo];
-}
-
-class PackageInfoError extends PackageInfoState {
-  final String message;
-  const PackageInfoError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+class PackageInfoError extends BaseErrorState with PackageInfoState {
+  PackageInfoError(String message) : super(message);
 }

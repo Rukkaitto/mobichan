@@ -44,52 +44,50 @@ extension ThreadsPageBuilders on ThreadsPage {
           },
         ),
       ],
-      child: BlocBuilder<SortCubit, SortState>(
-        builder: (context, state) {
-          if (state is SortLoaded) {
-            return RefreshIndicator(
-              onRefresh: () => handleRefresh(context, state),
-              child: Scrollbar(
-                child: SettingProvider(
-                  settingTitle: gridView,
-                  builder: (isGridView) {
-                    return isGridView.value
-                        ? const Center(
-                            child: Text('your grid view here'),
-                          )
-                        : ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: threads.length,
-                            separatorBuilder: (context, index) => const Divider(
-                              height: 0,
-                              thickness: 1,
-                            ),
-                            itemBuilder: (context, index) {
-                              Post thread = threads[index];
-                              return ResponsiveWidth(
-                                child: InkWell(
-                                  onTap: () => handleThreadTap(
-                                      context, board, thread, sort),
-                                  child: Hero(
-                                    tag: thread.no,
-                                    child: ThreadWidget(
-                                      thread: thread,
-                                      board: board,
-                                      inThread: false,
-                                    ),
+      child: AsyncBlocBuilder<Sort, SortCubit, SortState, SortLoading,
+          SortLoaded, SortError>(
+        builder: (context, sort) {
+          return RefreshIndicator(
+            onRefresh: () => handleRefresh(context, sort),
+            child: Scrollbar(
+              child: SettingProvider(
+                settingTitle: gridView,
+                builder: (isGridView) {
+                  return isGridView.value
+                      ? const Center(
+                          child: Text('your grid view here'),
+                        )
+                      : ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: threads.length,
+                          separatorBuilder: (context, index) => const Divider(
+                            height: 0,
+                            thickness: 1,
+                          ),
+                          itemBuilder: (context, index) {
+                            Post thread = threads[index];
+                            return ResponsiveWidth(
+                              child: InkWell(
+                                onTap: () => handleThreadTap(
+                                    context, board, thread, sort),
+                                child: Hero(
+                                  tag: thread.no,
+                                  child: ThreadWidget(
+                                    thread: thread,
+                                    board: board,
+                                    inThread: false,
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                  },
-                ),
+                              ),
+                            );
+                          },
+                        );
+                },
               ),
-            );
-          } else {
-            return Container();
-          }
+            ),
+          );
         },
+        loadingBuilder: () => Container(),
       ),
     );
   }

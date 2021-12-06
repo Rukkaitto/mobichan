@@ -9,7 +9,7 @@ class AsyncBlocBuilder<
     Loading extends BaseLoadingState,
     Loaded extends BaseLoadedState<T>,
     Error extends BaseErrorState> extends StatelessWidget {
-  final Widget Function(T data) builder;
+  final Widget Function(BuildContext context, T data) builder;
   final Widget Function()? loadingBuilder;
 
   const AsyncBlocBuilder({required this.builder, this.loadingBuilder, Key? key})
@@ -32,7 +32,7 @@ class AsyncBlocBuilder<
                 child: CircularProgressIndicator(),
               );
         } else if (state is Loaded) {
-          return builder(state.data);
+          return builder(context, state.data);
         } else {
           return Container();
         }

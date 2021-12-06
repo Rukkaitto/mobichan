@@ -26,29 +26,27 @@ class BoardPage extends StatelessWidget {
           create: (_) => sl<FavoritesCubit>()..getFavorites(),
         ),
       ],
-      child: BlocBuilder<TabsCubit, TabsState>(
-        builder: (context, state) {
-          if (state is TabsLoaded) {
-            return DefaultTabController(
-              length: state.boards.length,
-              initialIndex: state.currentIndex,
-              child: BlocProvider<SearchCubit>(
-                create: (context) => SearchCubit(),
-                child: Scaffold(
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () => handleFormButtonPressed(context),
-                    child: const Icon(Icons.edit),
-                  ),
-                  drawer: const BoardDrawer(),
-                  appBar: buildAppBar(context, state.current),
-                  body: buildTabBarView(state.current, state.boards),
+      child: AsyncBlocBuilder<TabsLoadedArgs, TabsCubit, TabsState, TabsLoading,
+          TabsLoaded, TabsError>(
+        builder: (context, tabs) {
+          return DefaultTabController(
+            length: tabs.boards.length,
+            initialIndex: tabs.currentIndex,
+            child: BlocProvider<SearchCubit>(
+              create: (context) => SearchCubit(),
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => handleFormButtonPressed(context),
+                  child: const Icon(Icons.edit),
                 ),
+                drawer: const BoardDrawer(),
+                appBar: buildAppBar(context, tabs.current),
+                body: buildTabBarView(tabs.current, tabs.boards),
               ),
-            );
-          } else {
-            return Container();
-          }
+            ),
+          );
         },
+        loadingBuilder: () => Container(),
       ),
     );
   }

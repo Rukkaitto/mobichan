@@ -1,19 +1,15 @@
 part of 'board_cubit.dart';
 
-abstract class BoardState extends Equatable {
-  const BoardState();
+class BoardState extends BaseState {}
 
-  @override
-  List<Object> get props => [];
+class BoardInitial extends BaseInitialState with BoardState {}
+
+class BoardLoading extends BaseLoadingState with BoardState {}
+
+class BoardLoaded extends BaseLoadedState<Board> with BoardState {
+  BoardLoaded(Board data) : super(data);
 }
 
-class BoardInitial extends BoardState {}
-
-class BoardLoaded extends BoardState {
-  final Board board;
-
-  const BoardLoaded(this.board);
-
-  @override
-  List<Object> get props => [board];
+class BoardError extends BaseErrorState with BoardState {
+  BoardError(String message) : super(message);
 }
