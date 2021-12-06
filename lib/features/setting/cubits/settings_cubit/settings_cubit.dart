@@ -13,4 +13,9 @@ class SettingsCubit extends Cubit<List<Setting>?> {
     List<Setting> settings = await repository.getSettings();
     emit(settings);
   }
+
+  Future<void> updateSetting(Setting setting) async {
+    await repository.setSetting(setting);
+    getSettings();
+  }
 }

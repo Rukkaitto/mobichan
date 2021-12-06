@@ -44,5 +44,6 @@
   "threaded_replies": "Montrer les réponses en cascade",
   "high_res_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
   "high_res_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
-  "report": "Signaler"
+  "report": "Signaler",
+  "grid_view": "Afficher les threads en grille"
 }
