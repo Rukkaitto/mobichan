@@ -86,33 +86,28 @@ class ThreadPage extends StatelessWidget {
                 body: RefreshIndicator(
                   onRefresh: () async =>
                       handleRefresh(context, args.board, args.thread),
-                  child: BlocBuilder<SettingsCubit, List<Setting>?>(
-                    builder: (context, settings) {
-                      if (settings != null) {
-                        final bool threadedReplies =
-                            settings.findByTitle('threaded_replies')?.value;
-                        return Stack(
-                          children: [
-                            threadedReplies
-                                ? buildThreadedReplies(
-                                    board: args.board,
-                                    thread: args.thread,
-                                    replies: replies,
-                                  )
-                                : buildLinearReplies(
-                                    board: args.board,
-                                    thread: args.thread,
-                                    replies: replies,
-                                  ),
-                            FormWidget(
-                              board: args.board,
-                              thread: args.thread,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return buildLoading(args.board, args.thread);
-                      }
+                  child: SettingProvider(
+                    settingTitle: 'threaded_replies',
+                    builder: (threadedReplies) {
+                      return Stack(
+                        children: [
+                          threadedReplies.value
+                              ? buildThreadedReplies(
+                                  board: args.board,
+                                  thread: args.thread,
+                                  replies: replies,
+                                )
+                              : buildLinearReplies(
+                                  board: args.board,
+                                  thread: args.thread,
+                                  replies: replies,
+                                ),
+                          FormWidget(
+                            board: args.board,
+                            thread: args.thread,
+                          ),
+                        ],
+                      );
                     },
                   ),
                 ),

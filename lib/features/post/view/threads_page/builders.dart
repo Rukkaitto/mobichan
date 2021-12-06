@@ -4,8 +4,8 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
-import 'package:mobichan/features/setting/setting.dart';
 import 'package:mobichan/features/sort/sort.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'threads_page.dart';
@@ -50,14 +50,10 @@ extension ThreadsPageBuilders on ThreadsPage {
             return RefreshIndicator(
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
-                child: BlocBuilder<SettingsCubit, List<Setting>?>(
-                  builder: (context, settings) {
-                    if (settings == null) {
-                      return Container();
-                    }
-                    final isGridView =
-                        settings.findByTitle('grid_view')?.value ?? false;
-                    return isGridView
+                child: SettingProvider(
+                  settingTitle: gridView,
+                  builder: (isGridView) {
+                    return isGridView.value
                         ? const Center(
                             child: Text('your grid view here'),
                           )
