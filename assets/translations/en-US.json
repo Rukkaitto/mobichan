@@ -44,5 +44,6 @@
   "threaded_replies": "Show threaded replies",
   "high_res_thumbnails_mobile": "High resolution thumbnails when using mobile data",
   "high_res_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
-  "report": "Report"
+  "report": "Report",
+  "grid_view": "Show threads as grid"
 }

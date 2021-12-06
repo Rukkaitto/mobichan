@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 extension SettingsPageHandlers on SettingsPage {
   void handleSettingChanged(
       BuildContext context, Setting setting, dynamic value) {
-    context.read<SettingCubit>().updateSetting(setting, value);
+    final newSetting =
+        Setting(title: setting.title, value: value, type: setting.type);
+    context.read<SettingsCubit>().updateSetting(newSetting);
   }
 }
