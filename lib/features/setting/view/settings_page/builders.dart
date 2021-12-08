@@ -7,10 +7,15 @@ import 'settings_page.dart';
 
 extension SettingsPageBuilders on SettingsPage {
   Widget buildListTile(Setting setting) {
-    return ListTile(
-      title: Text(setting.title.tr()),
-      trailing: buildSetter(setting),
-    );
+    return Builder(builder: (context) {
+      return ListTile(
+        title: Text(
+          setting.title.tr(),
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        trailing: buildSetter(setting),
+      );
+    });
   }
 
   Widget buildGroupSeparator(SettingGroup group) {

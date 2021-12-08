@@ -1,30 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
-
-enum SettingType {
-  bool,
-}
-
-enum SettingGroup {
-  general,
-  appearance,
-  media,
-}
-
-extension SettingGroupExtension on SettingGroup {
-  String get title {
-    switch (this) {
-      case SettingGroup.general:
-        return 'general';
-      case SettingGroup.appearance:
-        return 'appearance';
-      case SettingGroup.media:
-        return 'media';
-    }
-  }
-
-  int compareTo(SettingGroup other) => index.compareTo(other.index);
-}
+import 'package:mobichan_domain/mobichan_domain.dart';
 
 class Setting extends Equatable {
   final String title;
