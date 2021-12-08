@@ -33,7 +33,8 @@ void main() {
     group('props', () {
       test('should return the title, value and type', () {
         final props = tSetting.props;
-        expect(props, [tSetting.title, tSetting.value, tSetting.type]);
+        expect(props,
+            [tSetting.title, tSetting.value, tSetting.type, tSetting.group]);
       });
     });
   });
