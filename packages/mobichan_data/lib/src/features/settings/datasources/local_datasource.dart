@@ -68,11 +68,6 @@ class SettingLocalDatasourceImpl implements SettingLocalDatasource {
           value: true,
           type: SettingType.bool,
         ),
-        const SettingModel(
-          title: 'grid_view',
-          value: false,
-          type: SettingType.bool,
-        ),
       ];
     }
   }

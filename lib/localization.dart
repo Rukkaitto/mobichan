@@ -36,4 +36,3 @@ const String boardsLoadingError = 'boards_loading_error';
 const String threadsLoadingError = 'threads_loading_error';
 const String postNetworkError = 'post_network_error';
 const String report = 'report';
-const String gridView = 'grid_view';
