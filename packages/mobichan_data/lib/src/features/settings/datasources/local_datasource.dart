@@ -68,6 +68,11 @@ class SettingLocalDatasourceImpl implements SettingLocalDatasource {
           value: true,
           type: SettingType.bool,
         ),
+        const SettingModel(
+          title: 'mute_webm',
+          value: false,
+          type: SettingType.bool,
+        ),
       ];
     }
   }
