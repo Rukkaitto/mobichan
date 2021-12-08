@@ -27,25 +27,28 @@ class _AppState extends State<App> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return RepositoryProvider<ReleaseRepository>(
-            create: (context) => sl(),
-            child: MaterialApp(
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              title: appTitle,
-              initialRoute: Home.routeName,
-              routes: {
-                Home.routeName: (context) => const Home(),
-                ThreadPage.routeName: (context) => ThreadPage(),
-                SettingsPage.routeName: (context) => const SettingsPage(),
-                GalleryPage.routeName: (context) => const GalleryPage(),
-              },
-              theme: theme.copyWith(
-                colorScheme: theme.colorScheme.copyWith(
-                  primary: const Color(0xFF6DEFDF),
-                  secondary: const Color(0xFF6DEFDF),
-                  secondaryVariant: const Color(0xFF54BDB0),
+          return BlocProvider<SettingsCubit>(
+            create: (context) => sl()..getSettings(),
+            child: RepositoryProvider<ReleaseRepository>(
+              create: (context) => sl(),
+              child: MaterialApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                title: appTitle,
+                initialRoute: Home.routeName,
+                routes: {
+                  Home.routeName: (context) => const Home(),
+                  ThreadPage.routeName: (context) => ThreadPage(),
+                  SettingsPage.routeName: (context) => const SettingsPage(),
+                  GalleryPage.routeName: (context) => const GalleryPage(),
+                },
+                theme: theme.copyWith(
+                  colorScheme: theme.colorScheme.copyWith(
+                    primary: const Color(0xFF6DEFDF),
+                    secondary: const Color(0xFF6DEFDF),
+                    secondaryVariant: const Color(0xFF54BDB0),
+                  ),
                 ),
               ),
             ),

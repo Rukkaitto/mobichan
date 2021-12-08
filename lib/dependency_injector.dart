@@ -181,12 +181,6 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerFactory<SettingCubit>(
-    () => SettingCubit(
-      repository: sl(),
-    ),
-  );
-
   sl.registerFactory<NsfwWarningCubit>(
     () => NsfwWarningCubit(
       repository: sl(),
