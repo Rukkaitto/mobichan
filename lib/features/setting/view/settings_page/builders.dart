@@ -13,6 +13,18 @@ extension SettingsPageBuilders on SettingsPage {
     );
   }
 
+  Widget buildGroupSeparator(SettingGroup group) {
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+        child: Text(
+          group.title,
+          style: Theme.of(context).textTheme.headline6,
+        ).tr(),
+      );
+    });
+  }
+
   Widget buildSetter(Setting setting) {
     return Builder(
       builder: (context) {

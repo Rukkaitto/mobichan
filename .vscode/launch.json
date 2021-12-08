@@ -1,0 +1,45 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "mobichan",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "mobichan (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "mobichan_data",
+      "cwd": "packages/mobichan_data",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "mobichan_data (profile mode)",
+      "cwd": "packages/mobichan_data",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "mobichan_domain",
+      "cwd": "packages/mobichan_domain",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "mobichan_domain (profile mode)",
+      "cwd": "packages/mobichan_domain",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    }
+  ]
+}

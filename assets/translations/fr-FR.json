@@ -45,5 +45,8 @@
   "high_res_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
   "high_res_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
   "mute_webm": "Couper le son des webms par défaut",
-  "report": "Signaler"
+  "report": "Signaler",
+  "general": "Général",
+  "appearance": "Apparence",
+  "media": "Médias"
 }
