@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan/constants.dart';
@@ -29,9 +30,13 @@ class _VideoViewerPageState extends State<WebmViewerPage> {
         child: Center(
           child: Stack(
             children: [
-              VideoPlayerWidget(
-                controller: widget.videoPlayerController!,
-                aspectRatio: widget.post.w! / widget.post.h!,
+              SettingProvider(
+                settingTitle: 'mute_webm',
+                builder: (setting) => VideoPlayerWidget(
+                  controller: widget.videoPlayerController!,
+                  aspectRatio: widget.post.w! / widget.post.h!,
+                  isMuted: setting.value,
+                ),
               ),
               Positioned(
                 top: 50,

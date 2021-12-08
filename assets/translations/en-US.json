@@ -44,5 +44,6 @@
   "threaded_replies": "Show threaded replies",
   "high_res_thumbnails_mobile": "High resolution thumbnails when using mobile data",
   "high_res_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
+  "mute_webm": "Mute webms by default",
   "report": "Report"
 }

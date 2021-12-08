@@ -13,12 +13,14 @@ class VideoPlayerWidget extends StatefulWidget {
   final VlcPlayerController controller;
   final bool showControls;
   final double aspectRatio;
+  final bool isMuted;
 
   const VideoPlayerWidget({
     Key? key,
     required this.controller,
-    this.showControls = true,
     required this.aspectRatio,
+    required this.isMuted,
+    this.showControls = true,
   }) : super(key: key);
 
   @override
@@ -57,6 +59,13 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
     super.initState();
     _controller = widget.controller;
     _controller!.addListener(listener);
+    checkMuted();
+  }
+
+  void checkMuted() {
+    if (widget.isMuted) {
+      _setSoundVolume(0.0);
+    }
   }
 
   @override
