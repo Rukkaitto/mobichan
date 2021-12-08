@@ -25,15 +25,14 @@ class SettingProvider extends StatelessWidget {
         final setting = settings.findByTitle(settingTitle);
 
         if (setting == null) {
-          final closestMatch = settingTitle
-              .bestMatch(settings.map((s) => s.title).toList())
-              .bestMatch
-              .target;
+          final closestMatch =
+              settingTitle.bestMatch(settings.map((s) => s.title).toList());
 
           var errorMessage = 'Setting "$settingTitle" not found.';
 
-          if (closestMatch != null) {
-            errorMessage += '\nDid you mean "$closestMatch"?';
+          if (closestMatch.bestMatch.rating! > 0.3) {
+            errorMessage +=
+                '\nDid you mean "${closestMatch.bestMatch.target}"?';
           }
 
           throw Exception(errorMessage);
