@@ -5,10 +5,12 @@ class SettingModel extends Setting {
     required String title,
     required dynamic value,
     required SettingType type,
+    required SettingGroup group,
   }) : super(
           title: title,
           value: value,
           type: type,
+          group: group,
         );
 
   factory SettingModel.fromEntity(Setting settings) {
@@ -16,6 +18,7 @@ class SettingModel extends Setting {
       title: settings.title,
       value: settings.value,
       type: settings.type,
+      group: settings.group,
     );
   }
 
@@ -24,6 +27,7 @@ class SettingModel extends Setting {
       title: json['title'],
       value: json['value'],
       type: getTypeFromString(json['type']),
+      group: getGroupFromString(json['group']),
     );
   }
 
@@ -32,6 +36,7 @@ class SettingModel extends Setting {
       'title': title,
       'value': value,
       'type': type.toString(),
+      'group': group.toString(),
     };
   }
 
@@ -42,5 +47,14 @@ class SettingModel extends Setting {
       }
     }
     return SettingType.bool;
+  }
+
+  static SettingGroup getGroupFromString(String groupAsString) {
+    for (SettingGroup element in SettingGroup.values) {
+      if (element.toString() == groupAsString) {
+        return element;
+      }
+    }
+    return SettingGroup.general;
   }
 }
