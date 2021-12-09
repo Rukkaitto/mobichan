@@ -54,34 +54,8 @@ extension ThreadsPageBuilders on ThreadsPage {
                   settingTitle: gridView,
                   builder: (isGridView) {
                     return isGridView.value
-                        ? const Center(
-                            child: Text('your grid view here'),
-                          )
-                        : ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: threads.length,
-                            separatorBuilder: (context, index) => const Divider(
-                              height: 0,
-                              thickness: 1,
-                            ),
-                            itemBuilder: (context, index) {
-                              Post thread = threads[index];
-                              return ResponsiveWidth(
-                                child: InkWell(
-                                  onTap: () => handleThreadTap(
-                                      context, board, thread, sort),
-                                  child: Hero(
-                                    tag: thread.no,
-                                    child: ThreadWidget(
-                                      thread: thread,
-                                      board: board,
-                                      inThread: false,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                        ? getGridView(threads, sort)
+                        : getListView(threads, sort);
                   },
                 ),
               ),
@@ -91,6 +65,51 @@ extension ThreadsPageBuilders on ThreadsPage {
           }
         },
       ),
+    );
+  }
+
+  Widget getListView(List<Post> threads, Sort sort) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: threads.length,
+      separatorBuilder: (context, index) => const Divider(
+        height: 0,
+        thickness: 1,
+      ),
+      itemBuilder: (context, index) {
+        return getItemBuilder(context, index, threads, sort);
+      },
+    );
+  }
+
+  Widget getItemBuilder(context, index, List<Post> threads, Sort sort) {
+    Post thread = threads[index];
+    return ResponsiveWidth(
+      child: InkWell(
+        onTap: () => handleThreadTap(context, board, thread, sort),
+        child: Hero(
+          tag: thread.no,
+          child: ThreadWidget(
+            thread: thread,
+            board: board,
+            inThread: false,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getGridView(List<Post> threads, Sort sort) {
+    return GridView.builder(
+      gridDelegate: 
+      SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+           mainAxisSpacing: 16,
+          childAspectRatio: 1.2),
+      itemBuilder: (context, index) {
+        return getItemBuilder(context, index, threads, sort);
+      },
     );
   }
 
