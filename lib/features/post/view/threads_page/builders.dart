@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
@@ -104,7 +105,7 @@ extension ThreadsPageBuilders on ThreadsPage {
       gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
-        crossAxisCount: 2,
+        crossAxisCount: Device.get().isTablet ? 3 : 2,
         staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
       ),
       itemBuilder: (context, index) {

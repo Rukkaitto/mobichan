@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
@@ -155,7 +156,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
       child: ThumbnailWidget(
         board: board,
         post: thread,
-        height: inGrid ? 130 : 250,
+        height: inGrid ? (Device.get().isTablet ? 200 : 130) : 250,
         fullRes: true,
       ),
     );

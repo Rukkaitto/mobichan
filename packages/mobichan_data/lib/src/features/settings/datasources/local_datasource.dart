@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:mobichan_data/mobichan_data.dart';
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingLocalDatasource {
@@ -41,50 +40,17 @@ class SettingLocalDatasourceImpl implements SettingLocalDatasource {
     List<String>? settingsEncoded =
         sharedPreferences.getStringList(settingsKey);
     if (settingsEncoded != null) {
-      return settingsEncoded
-          .map((settingEncoded) =>
-              SettingModel.fromJson(jsonDecode(settingEncoded)))
-          .toList();
+      try {
+        return settingsEncoded
+            .map((settingEncoded) =>
+                SettingModel.fromJson(jsonDecode(settingEncoded)))
+            .toList();
+      } catch (e) {
+        return SettingModel.defaultSettings;
+      }
     } else {
       // Default settings
-      return [
-        const SettingModel(
-          title: 'show_nsfw_warning',
-          value: true,
-          type: SettingType.bool,
-          group: SettingGroup.general,
-        ),
-        const SettingModel(
-          title: 'threaded_replies',
-          value: true,
-          type: SettingType.bool,
-          group: SettingGroup.appearance,
-        ),
-        const SettingModel(
-          title: 'grid_view',
-          value: false,
-          type: SettingType.bool,
-          group: SettingGroup.appearance,
-        ),
-        const SettingModel(
-          title: 'high_res_thumbnails_mobile',
-          value: false,
-          type: SettingType.bool,
-          group: SettingGroup.appearance,
-        ),
-        const SettingModel(
-          title: 'high_res_thumbnails_wifi',
-          value: true,
-          type: SettingType.bool,
-          group: SettingGroup.appearance,
-        ),
-        const SettingModel(
-          title: 'mute_webm',
-          value: false,
-          type: SettingType.bool,
-          group: SettingGroup.media,
-        ),
-      ];
+      return SettingModel.defaultSettings;
     }
   }
 
