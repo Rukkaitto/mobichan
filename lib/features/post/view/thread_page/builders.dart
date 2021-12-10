@@ -22,19 +22,19 @@ extension ThreadPageBuilders on ThreadPage {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: const Text(refresh).tr(),
+            child: const Text(kRefresh).tr(),
             onTap: () => handleRefresh(context, board, thread),
           ),
           PopupMenuItem(
-            child: const Text(share).tr(),
+            child: const Text(kShare).tr(),
             onTap: () => handleShare(board, thread),
           ),
           PopupMenuItem(
-            child: const Text(goTop).tr(),
+            child: const Text(kGoTop).tr(),
             onTap: () => handleScrollTop(replies),
           ),
           PopupMenuItem(
-            child: const Text(goBottom).tr(),
+            child: const Text(kGoBottom).tr(),
             onTap: () => handleScrollBottom(replies),
           ),
         ];

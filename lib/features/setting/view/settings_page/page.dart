@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(settings.tr()),
+        title: Text(kSettings.tr()),
       ),
       body: BlocBuilder<SettingsCubit, List<Setting>?>(
         builder: (context, settings) {

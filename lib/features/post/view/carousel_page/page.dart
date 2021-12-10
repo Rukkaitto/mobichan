@@ -79,7 +79,7 @@ class _CarouselPageState extends State<CarouselPage> {
         ),
       ),
       content: Text(
-        isSuccess ? saveToGallerySuccess : saveToGalleryError,
+        isSuccess ? kSaveToGallerySuccess : kSaveToGalleryError,
         style: snackbarTextStyle(context),
       ).tr(),
     );

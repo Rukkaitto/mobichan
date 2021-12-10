@@ -170,19 +170,19 @@ extension ThreadWidgetBuilders on ThreadWidget {
       itemBuilder: (context) => [
         if (inThread)
           PopupMenuItem(
-            child: const Text(replyToPost).tr(),
+            child: const Text(kReplyToPost).tr(),
             onTap: () => handleReply(context),
           ),
         PopupMenuItem(
-          child: const Text(share).tr(),
+          child: const Text(kShare).tr(),
           onTap: () => handleShare(),
         ),
         PopupMenuItem(
-          child: const Text(saveToGallery).tr(),
+          child: const Text(kSaveToGallery).tr(),
           onTap: () => handleSave(context),
         ),
         PopupMenuItem(
-          child: const Text(report).tr(),
+          child: const Text(kReport).tr(),
           onTap: () => handleReport(),
         ),
       ],

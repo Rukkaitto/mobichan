@@ -63,7 +63,7 @@ extension FormWidgetHandlers on FormWidget {
           context.read<PostFormCubit>().clear();
           context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
-            successSnackbar(context, postSuccessful.tr()),
+            successSnackbar(context, kPostSuccessful.tr()),
           );
         } on ChanException catch (error) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +84,7 @@ extension FormWidgetHandlers on FormWidget {
           context.read<PostFormCubit>().clear();
           context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
-            successSnackbar(context, postSuccessful.tr()),
+            successSnackbar(context, kPostSuccessful.tr()),
           );
         } on ChanException catch (error) {
           ScaffoldMessenger.of(context).showSnackBar(

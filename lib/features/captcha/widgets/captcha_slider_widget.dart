@@ -64,7 +64,7 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
             controller: _controller,
             textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
-              hintText: typeCaptchaHere.tr(),
+              hintText: kTypeCaptchaHere.tr(),
               suffixIcon: IconButton(
                 icon: Icon(
                   Icons.send_rounded,

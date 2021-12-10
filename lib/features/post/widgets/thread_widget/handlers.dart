@@ -35,11 +35,11 @@ extension ThreadWidgetHandlers on ThreadWidget {
     );
     if (result['isSuccess'] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        successSnackbar(context, savePostSuccess.tr()),
+        successSnackbar(context, kSavePostSuccess.tr()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        errorSnackbar(context, savePostError.tr()),
+        errorSnackbar(context, kSavePostError.tr()),
       );
     }
   }

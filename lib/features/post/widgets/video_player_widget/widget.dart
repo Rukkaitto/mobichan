@@ -361,7 +361,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
       await _controller!.castToRenderer(selectedCastDeviceName);
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: const Text(noDisplayDevice).tr()));
+          .showSnackBar(SnackBar(content: const Text(kNoDisplayDevice).tr()));
     }
   }
 

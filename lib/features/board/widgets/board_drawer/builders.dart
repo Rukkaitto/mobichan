@@ -55,7 +55,7 @@ extension BoardDrawerBuilders on BoardDrawer {
           onTap: () {
             Navigator.of(context).pushNamed(SettingsPage.routeName);
           },
-          title: settings.tr(),
+          title: kSettings.tr(),
           icon: Icons.settings,
         ),
       );
@@ -68,7 +68,7 @@ extension BoardDrawerBuilders on BoardDrawer {
         return BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),
           child: BoardExpansionTileWidget(
-            title: boards.tr(),
+            title: kBoards.tr(),
             icon: Icons.list,
             child: SizedBox(
               height: 500.0,
@@ -169,7 +169,7 @@ extension BoardDrawerBuilders on BoardDrawer {
     return BlocProvider<SearchCubit>(
       create: (context) => SearchCubit(),
       child: BoardExpansionTileWidget(
-        title: history.tr(),
+        title: kHistory.tr(),
         icon: Icons.history,
         child: SizedBox(
           height: 500.0,

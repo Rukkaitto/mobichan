@@ -30,7 +30,7 @@ class GalleryPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(gallery).tr(),
+        title: Text(kFile.plural(args.imagePosts.length)),
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GridView.builder(

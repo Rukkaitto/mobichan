@@ -102,7 +102,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   primary: Theme.of(context).disabledColor,
                 ),
-                child: Text('reply'.plural(replies.length)),
+                child: Text(kReply.plural(replies.length)),
               ),
           ],
         );
@@ -115,19 +115,19 @@ extension ReplyWidgetBuilders on ReplyWidget {
       child: const Icon(Icons.more_horiz),
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: const Text(replyToPost).tr(),
+          child: const Text(kReplyToPost).tr(),
           onTap: () => handleReply(context, post),
         ),
         PopupMenuItem(
-          child: const Text(share).tr(),
+          child: const Text(kShare).tr(),
           onTap: () => handleShare(),
         ),
         PopupMenuItem(
-          child: const Text(saveToGallery).tr(),
+          child: const Text(kSaveToGallery).tr(),
           onTap: () => handleSave(context),
         ),
         PopupMenuItem(
-          child: const Text(report).tr(),
+          child: const Text(kReport).tr(),
           onTap: () => handleReport(),
         ),
       ],

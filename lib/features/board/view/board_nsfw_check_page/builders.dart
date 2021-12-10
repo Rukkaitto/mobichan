@@ -16,10 +16,10 @@ extension BoardNsfwCheckPageBuilders on BoardNsfwCheckPage {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(nsfwWarningMessage).tr(),
+            const Text(kNsfwWarningMessage).tr(),
             ElevatedButton(
               onPressed: () => handleOnButtonPressed(cubit),
-              child: const Text(nsfwWarningEnter).tr(),
+              child: const Text(kNsfwWarningEnter).tr(),
             ),
           ],
         ),

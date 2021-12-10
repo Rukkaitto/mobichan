@@ -35,6 +35,13 @@
     "many": "{} replies",
     "other": "{} replies"
   },
+  "file": {
+    "zero": "",
+    "one": "{} file",
+    "two": "{} files",
+    "many": "{} files",
+    "other": "{} files"
+  },
   "quote": "Quote",
   "gallery": "Gallery",
   "boards_loading_error": "Couldn't fetch boards. Is the device online?",
