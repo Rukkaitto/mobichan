@@ -4,8 +4,6 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'board_drawer.dart';
-
 extension BoardDrawerHandlers on BoardDrawer {
   void handleBoardTap(BuildContext context, Board board) {
     context.read<NsfwWarningCubit>().dismiss();

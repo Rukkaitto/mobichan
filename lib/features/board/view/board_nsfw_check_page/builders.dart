@@ -3,8 +3,6 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'board_nsfw_check_page.dart';
-
 extension BoardNsfwCheckPageBuilders on BoardNsfwCheckPage {
   Widget buildWarning(NsfwWarningCubit cubit) {
     return Scaffold(
@@ -16,10 +14,10 @@ extension BoardNsfwCheckPageBuilders on BoardNsfwCheckPage {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(nsfwWarningMessage).tr(),
+            const Text(kNsfwWarningMessage).tr(),
             ElevatedButton(
               onPressed: () => handleOnButtonPressed(cubit),
-              child: const Text(nsfwWarningEnter).tr(),
+              child: const Text(kNsfwWarningEnter).tr(),
             ),
           ],
         ),

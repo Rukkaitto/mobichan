@@ -35,6 +35,13 @@
     "many": "{} réponses",
     "other": "{} réponses"
   },
+  "file": {
+    "zero": "",
+    "one": "{} fichier",
+    "two": "{} fichiers",
+    "many": "{} fichiers",
+    "other": "{} fichiers"
+  },
   "quote": "Citer",
   "gallery": "Gallerie",
   "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à internet ?",

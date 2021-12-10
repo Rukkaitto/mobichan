@@ -10,8 +10,6 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'form_widget.dart';
-
 extension FormWidgetHandlers on FormWidget {
   void handleExpandPressed(BuildContext context, PostFormState form) {
     context.read<PostFormCubit>().toggleExpanded();
@@ -63,7 +61,7 @@ extension FormWidgetHandlers on FormWidget {
           context.read<PostFormCubit>().clear();
           context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
-            successSnackbar(context, postSuccessful.tr()),
+            successSnackbar(context, kPostSuccessful.tr()),
           );
         } on ChanException catch (error) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +82,7 @@ extension FormWidgetHandlers on FormWidget {
           context.read<PostFormCubit>().clear();
           context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
-            successSnackbar(context, postSuccessful.tr()),
+            successSnackbar(context, kPostSuccessful.tr()),
           );
         } on ChanException catch (error) {
           ScaffoldMessenger.of(context).showSnackBar(

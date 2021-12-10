@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:mobichan/constants.dart';
 import 'package:mobichan/features/post/post.dart';
@@ -361,7 +360,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
       await _controller!.castToRenderer(selectedCastDeviceName);
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: const Text(noDisplayDevice).tr()));
+          .showSnackBar(SnackBar(content: const Text(kNoDisplayDevice).tr()));
     }
   }
 

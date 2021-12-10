@@ -6,8 +6,6 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'content_widget.dart';
-
 extension ContentWidgetHandlers on ContentWidget {
   void handleQuote(BuildContext context, int start, int end) {
     final html = insertATags(reply.com!

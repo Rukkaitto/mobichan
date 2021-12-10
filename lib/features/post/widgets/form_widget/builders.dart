@@ -31,7 +31,7 @@ extension FormWidgetBuilders on FormWidget {
           },
           controller: controller,
           decoration: InputDecoration(
-            hintText: comment.tr(),
+            hintText: kComment.tr(),
           ),
           enableInteractiveSelection: true,
           maxLines: 5,
@@ -52,7 +52,7 @@ extension FormWidgetBuilders on FormWidget {
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
-            hintText: name.tr(),
+            hintText: kName.tr(),
           ),
           enableInteractiveSelection: true,
           style: const TextStyle(
@@ -72,7 +72,7 @@ extension FormWidgetBuilders on FormWidget {
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
-            hintText: subject.tr(),
+            hintText: kSubject.tr(),
           ),
           enableInteractiveSelection: true,
           style: const TextStyle(

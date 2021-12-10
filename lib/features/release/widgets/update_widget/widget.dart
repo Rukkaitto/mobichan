@@ -4,8 +4,6 @@ import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/release/release.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'update_widget.dart';
-
 class UpdateWidget extends StatefulWidget {
   const UpdateWidget({Key? key}) : super(key: key);
 

@@ -37,11 +37,11 @@ extension BoardPageBuilders on BoardPage {
                     onChanged: (input) =>
                         handleSearchFieldChanged(context, input),
                     decoration: InputDecoration(
-                      hintText: search.tr(),
+                      hintText: kSearch.tr(),
                     ),
                   )
                 : Text(
-                    boards,
+                    kBoards,
                     style: Theme.of(context).textTheme.headline1,
                   ).tr(),
             bottom: const PreferredSize(
@@ -88,17 +88,17 @@ extension BoardPageBuilders on BoardPage {
             itemBuilder: (context) {
               return [
                 buildPopupMenuItem(
-                    sortBumpOrder, const Sort(order: Order.byBump),
+                    kSortBumpOrder, const Sort(order: Order.byBump),
                     currentSort: state.sort),
                 buildPopupMenuItem(
-                    sortReplies, const Sort(order: Order.byReplies),
+                    kSortReplies, const Sort(order: Order.byReplies),
                     currentSort: state.sort),
                 buildPopupMenuItem(
-                    sortImages, const Sort(order: Order.byImages),
+                    kSortImages, const Sort(order: Order.byImages),
                     currentSort: state.sort),
-                buildPopupMenuItem(sortNewest, const Sort(order: Order.byNew),
+                buildPopupMenuItem(kSortNewest, const Sort(order: Order.byNew),
                     currentSort: state.sort),
-                buildPopupMenuItem(sortOldest, const Sort(order: Order.byOld),
+                buildPopupMenuItem(kSortOldest, const Sort(order: Order.byOld),
                     currentSort: state.sort),
               ];
             },
