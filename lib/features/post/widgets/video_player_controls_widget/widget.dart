@@ -41,37 +41,7 @@ class VideoPlayerControlsWidget extends StatelessWidget {
             case PlayingState.initialized:
             case PlayingState.stopped:
             case PlayingState.paused:
-              return SizedBox.expand(
-                child: Container(
-                  color: Colors.black45,
-                  child: FittedBox(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                          onPressed: () => _seekRelative(_seekStepBackward),
-                          color: _iconColor,
-                          iconSize: _seekButtonIconSize,
-                          icon: const Icon(Icons.replay_10),
-                        ),
-                        IconButton(
-                          onPressed: _play,
-                          color: _iconColor,
-                          iconSize: _playButtonIconSize,
-                          icon: const Icon(Icons.play_arrow),
-                        ),
-                        IconButton(
-                          onPressed: () => _seekRelative(_seekStepForward),
-                          color: _iconColor,
-                          iconSize: _seekButtonIconSize,
-                          icon: const Icon(Icons.forward_10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+              return GestureDetector(onTap: _play);
 
             case PlayingState.buffering:
             case PlayingState.playing:
