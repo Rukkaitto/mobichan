@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
-
-import 'threads_page.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 extension ThreadsPageBuilders on ThreadsPage {
   Widget buildLoaded({
@@ -77,12 +75,13 @@ extension ThreadsPageBuilders on ThreadsPage {
         thickness: 1,
       ),
       itemBuilder: (context, index) {
-        return getItemBuilder(context, index, threads, sort);
+        return getItemBuilder(context, false, index, threads, sort);
       },
     );
   }
 
-  Widget getItemBuilder(context, index, List<Post> threads, Sort sort) {
+  Widget getItemBuilder(
+      context, bool inGrid, index, List<Post> threads, Sort sort) {
     Post thread = threads[index];
     return ResponsiveWidth(
       child: InkWell(
@@ -93,6 +92,7 @@ extension ThreadsPageBuilders on ThreadsPage {
             thread: thread,
             board: board,
             inThread: false,
+            inGrid: inGrid,
           ),
         ),
       ),
@@ -100,15 +100,15 @@ extension ThreadsPageBuilders on ThreadsPage {
   }
 
   Widget getGridView(List<Post> threads, Sort sort) {
-    return GridView.builder(
-      gridDelegate: 
-      SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-           mainAxisSpacing: 16,
-          childAspectRatio: 1.2),
+    return StaggeredGridView.builder(
+      gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        crossAxisCount: 2,
+        staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
+      ),
       itemBuilder: (context, index) {
-        return getItemBuilder(context, index, threads, sort);
+        return getItemBuilder(context, true, index, threads, sort);
       },
     );
   }

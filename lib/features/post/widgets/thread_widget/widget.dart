@@ -9,6 +9,7 @@ class ThreadWidget extends StatelessWidget {
   final Post thread;
   final Board board;
   final bool inThread;
+  final bool inGrid;
   final Widget? threadContent;
   final void Function()? onImageTap;
 
@@ -25,6 +26,7 @@ class ThreadWidget extends StatelessWidget {
     required this.inThread,
     this.threadContent,
     this.onImageTap,
+    this.inGrid = false,
     Key? key,
   }) : super(key: key);
 

@@ -17,32 +17,35 @@ extension ThreadWidgetBuilders on ThreadWidget {
   }
 
   Widget buildFooter(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          buildFlag(),
-          Text(
-            thread.userName,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold),
-          ),
-          const Spacer(),
-          SizedBox(
-            width: 160,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildSticky(context),
-                buildReplies(context),
-                buildImages(context),
-                buildPopupMenuButton()
-              ],
+    return Visibility(
+      visible: !inGrid,
+      child: Padding(
+        padding: padding,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            buildFlag(),
+            Text(
+              thread.userName,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
+            const Spacer(),
+            SizedBox(
+              width: 160,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildSticky(context),
+                  buildReplies(context),
+                  buildImages(context),
+                  buildPopupMenuButton()
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -154,7 +157,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
       child: ThumbnailWidget(
         board: board,
         post: thread,
-        height: 250,
+        height: inGrid ? 130 : 250,
         fullRes: true,
       ),
     );

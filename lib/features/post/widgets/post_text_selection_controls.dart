@@ -60,10 +60,11 @@ class PostTextSelectionControls extends MaterialTextSelectionControls {
             offset: delegate.textEditingValue.selection.baseOffset,
           ),
         );
-        delegate.userUpdateTextEditingValue(textEditingValue, SelectionChangedCause.tap);
+        delegate.userUpdateTextEditingValue(
+            textEditingValue, SelectionChangedCause.tap);
         delegate.hideToolbar();
       },
-      handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate, null) : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
       handleSelectAll:
           canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
