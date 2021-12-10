@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 extension ThreadsPageBuilders on ThreadsPage {
   Widget buildLoaded({
@@ -46,29 +48,12 @@ extension ThreadsPageBuilders on ThreadsPage {
             return RefreshIndicator(
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: threads.length,
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 0,
-                    thickness: 1,
-                  ),
-                  itemBuilder: (context, index) {
-                    Post thread = threads[index];
-                    return ResponsiveWidth(
-                      child: InkWell(
-                        onTap: () =>
-                            handleThreadTap(context, board, thread, sort),
-                        child: Hero(
-                          tag: thread.no,
-                          child: ThreadWidget(
-                            thread: thread,
-                            board: board,
-                            inThread: false,
-                          ),
-                        ),
-                      ),
-                    );
+                child: SettingProvider(
+                  settingTitle: 'grid_view',
+                  builder: (isGridView) {
+                    return isGridView.value
+                        ? getGridView(threads, sort)
+                        : getListView(threads, sort);
                   },
                 ),
               ),
@@ -78,6 +63,54 @@ extension ThreadsPageBuilders on ThreadsPage {
           }
         },
       ),
+    );
+  }
+
+  Widget getListView(List<Post> threads, Sort sort) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: threads.length,
+      separatorBuilder: (context, index) => const Divider(
+        height: 0,
+        thickness: 1,
+      ),
+      itemBuilder: (context, index) {
+        return getItemBuilder(context, false, index, threads, sort);
+      },
+    );
+  }
+
+  Widget getItemBuilder(
+      context, bool inGrid, index, List<Post> threads, Sort sort) {
+    Post thread = threads[index];
+    return ResponsiveWidth(
+      child: InkWell(
+        onTap: () => handleThreadTap(context, board, thread, sort),
+        child: Hero(
+          tag: thread.no,
+          child: ThreadWidget(
+            thread: thread,
+            board: board,
+            inThread: false,
+            inGrid: inGrid,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getGridView(List<Post> threads, Sort sort) {
+    return StaggeredGridView.builder(
+      itemCount: threads.length,
+      gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        crossAxisCount: Device.get().isTablet ? 3 : 2,
+        staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
+      ),
+      itemBuilder: (context, index) {
+        return getItemBuilder(context, true, index, threads, sort);
+      },
     );
   }
 

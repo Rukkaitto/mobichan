@@ -55,5 +55,6 @@
   "report": "Signaler",
   "general": "Général",
   "appearance": "Apparence",
-  "media": "Médias"
+  "media": "Médias",
+  "grid_view": "Afficher les threads en grille"
 }

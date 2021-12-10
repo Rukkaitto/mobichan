@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
@@ -16,29 +17,32 @@ extension ThreadWidgetBuilders on ThreadWidget {
 
   Widget buildFooter(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: inGrid ? gridPadding : padding,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           buildFlag(),
-          Text(
-            thread.userName,
-            style: TextStyle(
+          Visibility(
+            visible: !inGrid,
+            child: Text(
+              thread.userName,
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           const Spacer(),
-          SizedBox(
-            width: 160,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildSticky(context),
-                buildReplies(context),
-                buildImages(context),
-                buildPopupMenuButton()
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildSticky(context),
+              const SizedBox(width: 10),
+              buildReplies(context),
+              const SizedBox(width: 10),
+              buildImages(context),
+              if (!inGrid) const SizedBox(width: 10),
+              if (!inGrid) buildPopupMenuButton()
+            ],
           ),
         ],
       ),
@@ -152,13 +156,15 @@ extension ThreadWidgetBuilders on ThreadWidget {
       child: ThumbnailWidget(
         board: board,
         post: thread,
-        height: 250,
+        height: inGrid
+            ? (Device.get().isTablet ? 200 : 130)
+            : (Device.get().isTablet ? 380 : 250),
         fullRes: true,
       ),
     );
   }
 
-  PopupMenuButton<dynamic> buildPopupMenuButton() {
+  Widget buildPopupMenuButton() {
     return PopupMenuButton(
       child: Icon(
         Icons.more_vert,

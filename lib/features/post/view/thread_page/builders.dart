@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
@@ -41,6 +42,7 @@ extension ThreadPageBuilders on ThreadPage {
 
   Widget buildLoading(Board board, Post thread) {
     return ResponsiveWidth(
+      fullWidth: Device.get().isTablet,
       child: ListView(
         children: [
           Hero(
@@ -191,6 +193,7 @@ extension ThreadPageBuilders on ThreadPage {
         itemBuilder: (context, index) {
           if (index == 0) {
             return ResponsiveWidth(
+              fullWidth: Device.get().isTablet,
               child: Hero(
                 tag: thread.no,
                 child: ThreadWidget(
@@ -213,6 +216,7 @@ extension ThreadPageBuilders on ThreadPage {
           }
           Post reply = replies[index];
           return ResponsiveWidth(
+            fullWidth: Device.get().isTablet,
             child: ReplyWidget(
               board: board,
               post: reply,
@@ -249,6 +253,7 @@ extension ThreadPageBuilders on ThreadPage {
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return ResponsiveWidth(
+                    fullWidth: Device.get().isTablet,
                     child: Hero(
                       tag: thread.no,
                       child: ThreadWidget(
@@ -270,7 +275,10 @@ extension ThreadPageBuilders on ThreadPage {
                   );
                 }
                 ReplyWidget widget = snapshot.data![index - 1];
-                return ResponsiveWidth(child: widget);
+                return ResponsiveWidth(
+                  fullWidth: Device.get().isTablet,
+                  child: widget,
+                );
               },
             ),
           );

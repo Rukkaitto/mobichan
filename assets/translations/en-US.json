@@ -55,5 +55,6 @@
   "report": "Report",
   "general": "General",
   "appearance": "Appearance",
-  "media": "Media"
+  "media": "Media",
+  "grid_view": "Show threads as a grid"
 }

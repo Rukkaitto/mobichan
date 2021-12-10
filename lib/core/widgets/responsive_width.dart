@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 
 class ResponsiveWidth extends StatelessWidget {
   final Widget child;
+  final bool fullWidth;
 
-  const ResponsiveWidth({required this.child, Key? key}) : super(key: key);
+  const ResponsiveWidth({
+    required this.child,
+    this.fullWidth = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 600) {
+        if (constraints.maxWidth < 600 || fullWidth) {
           return child;
         } else {
           return Center(

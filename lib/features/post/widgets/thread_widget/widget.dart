@@ -9,10 +9,12 @@ class ThreadWidget extends StatelessWidget {
   final Post thread;
   final Board board;
   final bool inThread;
+  final bool inGrid;
   final Widget? threadContent;
   final void Function()? onImageTap;
 
   final EdgeInsetsGeometry padding = const EdgeInsets.all(15.0);
+  final EdgeInsetsGeometry gridPadding = const EdgeInsets.all(10.0);
   final SizedBox spacingBetweenIcons = const SizedBox(width: 25.0);
   final SizedBox spacingBetweenIconAndText = const SizedBox(width: 5.0);
   final double iconSize = 20.0;
@@ -25,6 +27,7 @@ class ThreadWidget extends StatelessWidget {
     required this.inThread,
     this.threadContent,
     this.onImageTap,
+    this.inGrid = false,
     Key? key,
   }) : super(key: key);
 
@@ -35,18 +38,31 @@ class ThreadWidget extends StatelessWidget {
     return Screenshot(
       controller: screenshotController,
       child: Material(
-        child: Wrap(
+        child: Stack(
           children: [
-            buildTitle(context),
-            buildImage(),
-            if (thread.com != null)
-              inThread
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: threadContent!,
-                    )
-                  : buildContent(),
-            buildFooter(context),
+            Wrap(
+              children: [
+                buildTitle(context),
+                buildImage(),
+                if (thread.com != null)
+                  inThread
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: threadContent!,
+                        )
+                      : buildContent(),
+                buildFooter(context),
+              ],
+            ),
+            if (inGrid)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildPopupMenuButton(),
+                ),
+              ),
           ],
         ),
       ),
