@@ -156,7 +156,9 @@ extension ThreadWidgetBuilders on ThreadWidget {
       child: ThumbnailWidget(
         board: board,
         post: thread,
-        height: inGrid ? (Device.get().isTablet ? 200 : 130) : 250,
+        height: inGrid
+            ? (Device.get().isTablet ? 200 : 130)
+            : (Device.get().isTablet ? 380 : 250),
         fullRes: true,
       ),
     );
