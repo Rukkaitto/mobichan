@@ -38,18 +38,31 @@ class ThreadWidget extends StatelessWidget {
     return Screenshot(
       controller: screenshotController,
       child: Material(
-        child: Wrap(
+        child: Stack(
           children: [
-            buildTitle(context),
-            buildImage(),
-            if (thread.com != null)
-              inThread
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: threadContent!,
-                    )
-                  : buildContent(),
-            buildFooter(context),
+            Wrap(
+              children: [
+                buildTitle(context),
+                buildImage(),
+                if (thread.com != null)
+                  inThread
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: threadContent!,
+                        )
+                      : buildContent(),
+                buildFooter(context),
+              ],
+            ),
+            if (inGrid)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildPopupMenuButton(),
+                ),
+              ),
           ],
         ),
       ),

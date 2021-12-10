@@ -40,7 +40,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
               const SizedBox(width: 10),
               buildImages(context),
               if (!inGrid) const SizedBox(width: 10),
-              buildPopupMenuButton()
+              if (!inGrid) buildPopupMenuButton()
             ],
           ),
         ],
@@ -162,34 +162,31 @@ extension ThreadWidgetBuilders on ThreadWidget {
   }
 
   Widget buildPopupMenuButton() {
-    return Visibility(
-      visible: !inGrid,
-      child: PopupMenuButton(
-        child: Icon(
-          Icons.more_vert,
-          size: iconSize,
-        ),
-        padding: EdgeInsets.zero,
-        itemBuilder: (context) => [
-          if (inThread)
-            PopupMenuItem(
-              child: const Text(kReplyToPost).tr(),
-              onTap: () => handleReply(context),
-            ),
-          PopupMenuItem(
-            child: const Text(kShare).tr(),
-            onTap: () => handleShare(),
-          ),
-          PopupMenuItem(
-            child: const Text(kSaveToGallery).tr(),
-            onTap: () => handleSave(context),
-          ),
-          PopupMenuItem(
-            child: const Text(kReport).tr(),
-            onTap: () => handleReport(),
-          ),
-        ],
+    return PopupMenuButton(
+      child: Icon(
+        Icons.more_vert,
+        size: iconSize,
       ),
+      padding: EdgeInsets.zero,
+      itemBuilder: (context) => [
+        if (inThread)
+          PopupMenuItem(
+            child: const Text(kReplyToPost).tr(),
+            onTap: () => handleReply(context),
+          ),
+        PopupMenuItem(
+          child: const Text(kShare).tr(),
+          onTap: () => handleShare(),
+        ),
+        PopupMenuItem(
+          child: const Text(kSaveToGallery).tr(),
+          onTap: () => handleSave(context),
+        ),
+        PopupMenuItem(
+          child: const Text(kReport).tr(),
+          onTap: () => handleReport(),
+        ),
+      ],
     );
   }
 }
