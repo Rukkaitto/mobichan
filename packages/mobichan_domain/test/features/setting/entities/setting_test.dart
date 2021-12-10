@@ -3,10 +3,20 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 void main() {
   group('Setting', () {
-    const tSetting = Setting(title: 'Title', value: '', type: SettingType.bool);
+    const tSetting = Setting(
+      title: 'Title',
+      value: '',
+      type: SettingType.bool,
+      group: SettingGroup.general,
+    );
     const tSettings = [
       tSetting,
-      Setting(title: 'Other title', value: '', type: SettingType.bool),
+      Setting(
+        title: 'Other title',
+        value: '',
+        type: SettingType.bool,
+        group: SettingGroup.general,
+      ),
     ];
     group('findByTitle', () {
       test('should return null if no setting is found', () {
@@ -23,7 +33,8 @@ void main() {
     group('props', () {
       test('should return the title, value and type', () {
         final props = tSetting.props;
-        expect(props, [tSetting.title, tSetting.value, tSetting.type]);
+        expect(props,
+            [tSetting.title, tSetting.value, tSetting.type, tSetting.group]);
       });
     });
   });

@@ -10,8 +10,6 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'board_drawer.dart';
-
 extension BoardDrawerBuilders on BoardDrawer {
   Container buildVersionInfo() {
     return Container(
@@ -55,7 +53,7 @@ extension BoardDrawerBuilders on BoardDrawer {
           onTap: () {
             Navigator.of(context).pushNamed(SettingsPage.routeName);
           },
-          title: settings.tr(),
+          title: kSettings.tr(),
           icon: Icons.settings,
         ),
       );
@@ -68,7 +66,7 @@ extension BoardDrawerBuilders on BoardDrawer {
         return BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),
           child: BoardExpansionTileWidget(
-            title: boards.tr(),
+            title: kBoards.tr(),
             icon: Icons.list,
             child: SizedBox(
               height: 500.0,
@@ -169,7 +167,7 @@ extension BoardDrawerBuilders on BoardDrawer {
     return BlocProvider<SearchCubit>(
       create: (context) => SearchCubit(),
       child: BoardExpansionTileWidget(
-        title: history.tr(),
+        title: kHistory.tr(),
         icon: Icons.history,
         child: SizedBox(
           height: 500.0,

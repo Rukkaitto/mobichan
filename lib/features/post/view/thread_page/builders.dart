@@ -1,15 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/widgets/responsive_width.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import 'thread_page.dart';
 
 extension ThreadPageBuilders on ThreadPage {
   PopupMenuButton<dynamic> buildPopupMenuButton({
@@ -22,19 +19,19 @@ extension ThreadPageBuilders on ThreadPage {
       itemBuilder: (context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: const Text(refresh).tr(),
+            child: const Text(kRefresh).tr(),
             onTap: () => handleRefresh(context, board, thread),
           ),
           PopupMenuItem(
-            child: const Text(share).tr(),
+            child: const Text(kShare).tr(),
             onTap: () => handleShare(board, thread),
           ),
           PopupMenuItem(
-            child: const Text(goTop).tr(),
+            child: const Text(kGoTop).tr(),
             onTap: () => handleScrollTop(replies),
           ),
           PopupMenuItem(
-            child: const Text(goBottom).tr(),
+            child: const Text(kGoBottom).tr(),
             onTap: () => handleScrollBottom(replies),
           ),
         ];

@@ -167,7 +167,7 @@ class MyTextSelectionToolbarState extends State<MyTextSelectionToolbar> {
       /// Custom
       _TextSelectionToolbarItemData(
         onPressed: widget.customButton,
-        label: quote.tr(),
+        label: kQuote.tr(),
       ),
     ];
 

@@ -5,8 +5,6 @@ import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-import 'board_page.dart';
-
 extension BoardPageHandlers on BoardPage {
   void handleFormButtonPressed(BuildContext context) {
     context.read<PostFormCubit>().toggleVisible();

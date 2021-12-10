@@ -4,7 +4,6 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
-import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -49,7 +48,7 @@ extension ThreadsPageBuilders on ThreadsPage {
               onRefresh: () => handleRefresh(context, state),
               child: Scrollbar(
                 child: SettingProvider(
-                  settingTitle: gridView,
+                  settingTitle: 'grid_view',
                   builder: (isGridView) {
                     return isGridView.value
                         ? getGridView(threads, sort)

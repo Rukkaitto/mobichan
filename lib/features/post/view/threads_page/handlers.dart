@@ -4,8 +4,6 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-import 'threads_page.dart';
-
 extension ThreadsPageHandlers on ThreadsPage {
   Future<void> handleRefresh(BuildContext context, SortLoaded state) async {
     await context.read<ThreadsCubit>().getThreads(board, state.sort);

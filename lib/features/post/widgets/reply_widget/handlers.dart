@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
@@ -14,8 +13,6 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import 'reply_widget.dart';
 
 extension ReplyWidgetHandlers on ReplyWidget {
   void handleTapImage({
@@ -113,11 +110,11 @@ extension ReplyWidgetHandlers on ReplyWidget {
     );
     if (result['isSuccess'] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        successSnackbar(context, savePostSuccess.tr()),
+        successSnackbar(context, kSavePostSuccess.tr()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        errorSnackbar(context, savePostError.tr()),
+        errorSnackbar(context, kSavePostError.tr()),
       );
     }
   }

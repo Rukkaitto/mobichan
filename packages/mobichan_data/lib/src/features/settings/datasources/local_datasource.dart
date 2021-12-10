@@ -52,26 +52,37 @@ class SettingLocalDatasourceImpl implements SettingLocalDatasource {
           title: 'show_nsfw_warning',
           value: true,
           type: SettingType.bool,
+          group: SettingGroup.general,
         ),
         const SettingModel(
           title: 'threaded_replies',
           value: true,
           type: SettingType.bool,
-        ),
-        const SettingModel(
-          title: 'high_res_thumbnails_mobile',
-          value: false,
-          type: SettingType.bool,
-        ),
-        const SettingModel(
-          title: 'high_res_thumbnails_wifi',
-          value: true,
-          type: SettingType.bool,
+          group: SettingGroup.appearance,
         ),
         const SettingModel(
           title: 'grid_view',
           value: false,
           type: SettingType.bool,
+          group: SettingGroup.appearance,
+        ),
+        const SettingModel(
+          title: 'high_res_thumbnails_mobile',
+          value: false,
+          type: SettingType.bool,
+          group: SettingGroup.appearance,
+        ),
+        const SettingModel(
+          title: 'high_res_thumbnails_wifi',
+          value: true,
+          type: SettingType.bool,
+          group: SettingGroup.appearance,
+        ),
+        const SettingModel(
+          title: 'mute_webm',
+          value: false,
+          type: SettingType.bool,
+          group: SettingGroup.media,
         ),
       ];
     }

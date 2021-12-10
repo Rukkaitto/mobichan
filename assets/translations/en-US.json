@@ -35,6 +35,13 @@
     "many": "{} replies",
     "other": "{} replies"
   },
+  "file": {
+    "zero": "",
+    "one": "{} file",
+    "two": "{} files",
+    "many": "{} files",
+    "other": "{} files"
+  },
   "quote": "Quote",
   "gallery": "Gallery",
   "boards_loading_error": "Couldn't fetch boards. Is the device online?",
@@ -44,6 +51,10 @@
   "threaded_replies": "Show threaded replies",
   "high_res_thumbnails_mobile": "High resolution thumbnails when using mobile data",
   "high_res_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
+  "mute_webm": "Mute webms by default",
   "report": "Report",
-  "grid_view": "Show threads as grid"
+  "general": "General",
+  "appearance": "Appearance",
+  "media": "Media",
+  "grid_view": "Show threads as a grid"
 }

@@ -35,6 +35,13 @@
     "many": "{} réponses",
     "other": "{} réponses"
   },
+  "file": {
+    "zero": "",
+    "one": "{} fichier",
+    "two": "{} fichiers",
+    "many": "{} fichiers",
+    "other": "{} fichiers"
+  },
   "quote": "Citer",
   "gallery": "Gallerie",
   "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à internet ?",
@@ -44,6 +51,10 @@
   "threaded_replies": "Montrer les réponses en cascade",
   "high_res_thumbnails_mobile": "Miniatures haute-résolution en connection cellulaire",
   "high_res_thumbnails_wifi": "Miniatures haute-résolution en connection WiFi",
+  "mute_webm": "Couper le son des webms par défaut",
   "report": "Signaler",
+  "general": "Général",
+  "appearance": "Apparence",
+  "media": "Médias",
   "grid_view": "Afficher les threads en grille"
 }

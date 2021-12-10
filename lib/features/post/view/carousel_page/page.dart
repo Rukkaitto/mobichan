@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -79,7 +78,7 @@ class _CarouselPageState extends State<CarouselPage> {
         ),
       ),
       content: Text(
-        isSuccess ? saveToGallerySuccess : saveToGalleryError,
+        isSuccess ? kSaveToGallerySuccess : kSaveToGalleryError,
         style: snackbarTextStyle(context),
       ).tr(),
     );

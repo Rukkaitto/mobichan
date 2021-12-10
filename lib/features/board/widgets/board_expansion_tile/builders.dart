@@ -32,7 +32,7 @@ extension BoardExpansionTileWidgetBuilders on BoardExpansionTileWidget {
     return TextField(
       onChanged: (input) => handleSearchFieldChanged(context, input),
       decoration: InputDecoration(
-        hintText: search.tr(),
+        hintText: kSearch.tr(),
         isDense: true,
       ),
     );

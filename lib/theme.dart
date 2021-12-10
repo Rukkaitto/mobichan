@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 final ThemeData theme = ThemeData(
   brightness: Brightness.dark,
   textTheme: const TextTheme(
+    bodyText2: TextStyle(
+      color: Colors.white,
+      fontSize: 15.0,
+    ),
     headline1: TextStyle(
       color: Colors.white,
       fontSize: 20,
