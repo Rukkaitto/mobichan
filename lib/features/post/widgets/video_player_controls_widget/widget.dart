@@ -8,12 +8,12 @@ class VideoPlayerControlsWidget extends StatelessWidget {
 
   final VlcPlayerController? controller;
 
-  static const double _playButtonIconSize = 80;
+  //static const double _playButtonIconSize = 80;
   static const double _replayButtonIconSize = 100;
-  static const double _seekButtonIconSize = 48;
+  //static const double _seekButtonIconSize = 48;
 
-  static const Duration _seekStepForward = Duration(seconds: 10);
-  static const Duration _seekStepBackward = Duration(seconds: -10);
+  //static const Duration _seekStepForward = Duration(seconds: 10);
+  //static const Duration _seekStepBackward = Duration(seconds: -10);
 
   static const Color _iconColor = Colors.white;
 
@@ -83,7 +83,7 @@ class VideoPlayerControlsWidget extends StatelessWidget {
   }
 
   /// Returns a callback which seeks the video relative to current playing time.
-  Future<void> _seekRelative(Duration seekStep) async {
-    await controller!.seekTo(controller!.value.position + seekStep);
-  }
+  // Future<void> _seekRelative(Duration seekStep) async {
+  //   await controller!.seekTo(controller!.value.position + seekStep);
+  // }
 }
