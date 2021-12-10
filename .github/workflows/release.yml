@@ -1,0 +1,230 @@
+name: Production Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  decode:
+    name: Decode keys
+    runs-on: self-hosted
+    steps:
+      - name: Decoding keyprop
+        run: echo "${{ secrets.KEYPROP }}" | base64 --decode > key.properties
+
+      - name: Decoding keystore
+        run: echo "${{ secrets.KEYJKS }}" | base64 --decode > upload-keystore.jks
+
+      - name: Upload keyprop
+        uses: actions/upload-artifact@v2
+        with:
+          name: keyprop
+          path: key.properties
+
+      - name: Upload keystore
+        uses: actions/upload-artifact@v2
+        with:
+          name: keystore
+          path: upload-keystore.jks
+
+  build-appbundle:
+    name: Build Appbundle
+    runs-on: self-hosted
+    needs: [decode]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
+      - name: Get keyprop from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keyprop
+          path: android
+
+      - name: Get keystore from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keystore
+          path: android/app
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Running domain layer tests
+        run: flutter test packages/mobichan_domain
+
+      - name: Running data layer tests
+        run: flutter test packages/mobichan_data
+
+      - name: Running presentation layer tests
+        run: flutter test
+
+      - name: Build Android Appbundle
+        run: flutter build appbundle --dart-define=env=play_store
+
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  build-apk:
+    name: Build APK
+    runs-on: self-hosted
+    needs: [decode]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
+      - name: Get keyprop from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keyprop
+          path: android
+
+      - name: Get keystore from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: keystore
+          path: android/app
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Running presentation layer tests
+        run: flutter test
+
+      - name: Build Android APK
+        run: flutter build apk --split-per-abi --release --dart-define=env=github
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+  version:
+    name: Get version and changelog
+    runs-on: self-hosted
+    outputs:
+      version: ${{ steps.get_version.outputs.VERSION }}
+      changelog: ${{ steps.build_changelog.outputs.changelog }}
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Get App Version
+        id: get_version
+        run: echo "::set-output name=VERSION::v$(flutter pub run cider version | grep -o "[0-9]\.[0-9]\.[0-9]")"
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v2.5.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          configuration: ./changelog-config.json
+
+  publish-playstore:
+    name: Publish to Google Play Store
+    runs-on: self-hosted
+    needs: [build-appbundle, version]
+    steps:
+      - name: Get appbundle from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+
+      - name: Create whatsnew directory
+        run: mkdir whatsnew
+
+      - name: Put changelog in whatsnew directory
+        run: echo "${{ needs.version.outputs.changelog }}" > whatsnew/whatsnew-en-US
+
+      - name: Release on the Play Store
+        uses: swootte/upload-google-play@V1.1.5
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.lucasgoudin.mobichan
+          inAppUpdatePriority: 5
+          releaseFiles: app-release.aab
+          track: production
+          status: draft # remove this after review
+          changesNotSentForReview: true # remove this after review
+          whatsNewDirectory: whatsnew
+
+  publish-github:
+    name: Publish to GitHub
+    runs-on: self-hosted
+    needs: [build-apk, version]
+    steps:
+      - name: Get apk from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: apk
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.version.outputs.version }}
+          release_name: ${{ needs.version.outputs.version }}
+          body: ${{ needs.version.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset to GitHub
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app-armeabi-v7a-release.apk
+          asset_name: mobichan${{ needs.version.outputs.version }}.apk
+          asset_content_type: application/vnd.android.package-archive
+
+  clean:
+    name: Clean up
+    runs-on: self-hosted
+    needs: [build-appbundle, build-apk]
+    steps:
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            keyprop
+            keystore

@@ -1,46 +1,45 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-const String APP_TITLE = "Mobichan";
-const String CAPTCHA_SITE_KEY = "6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
+const String appTitle = "Mobichan";
+const String captchaSiteKey = "6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
 
 // RegExps
 RegExp filenameRegExp = RegExp(r"[^/\\&\?]+\.\w{3,4}(?=([\?&].*$|$))");
 
 // Api endpoints
-const String API_URL = "https://a.4cdn.org";
-const String API_IMAGES_URL = "https://i.4cdn.org";
-const String API_BOARDS_URL = "https://a.4cdn.org/boards.json";
-const String API_RELEASES_URL =
+const String apiUrl = "https://a.4cdn.org";
+const String apiImagesUrl = "https://i.4cdn.org";
+const String apiReleasesUrl =
     "https://api.github.com/repos/Rukkaitto/mobichan/releases";
-const String API_CAPTCHA_URL = "https://sys.4channel.org/captcha";
-const String API_FLAGS_URL = "https://s.4cdn.org/image/country";
+const String apiCaptchaUrl = "https://sys.4channel.org/captcha";
+const String apiFlagsUrl = "https://s.4cdn.org/image/country";
 
 // Routes
-const String BOARDS_LIST_ROUTE = "/boards";
-const String SETTINGS_ROUTE = "/settings";
-const String THREAD_ROUTE = "/thread";
+const String homeRoute = "/";
+const String boardListRoute = "/boards";
+const String settingsRoute = "/settings";
+const String threadRoute = "/thread";
 
 // Misc
-const String LAST_VISITED_BOARD = 'last_visited_board';
-const String LAST_VISITED_BOARD_TITLE = 'last_visited_board_title';
-const String LAST_VISITED_BOARD_WS = "last_visited_board_ws";
-const String DEFAULT_BOARD = 'g';
-const String DEFAULT_BOARD_TITLE = 'Technology';
-const int DEFAULT_BOARD_WS = 1;
-const String THREAD_HISTORY = 'thread_history';
-const String LAST_SORTING_ORDER = 'last_sorting_order';
-const String ENVIRONMENT = 'env';
-const String GITHUB = 'github';
-const String PLAY_STORE = 'play_store';
-const String BOARD_FAVORITES = 'board_favorites';
+const String lastVisitedBoard = 'last_visited_board';
+const String lastVisitedBoardTitle = 'last_visited_board_title';
+const String lastVisitedBoardWs = "last_visited_board_ws";
+const String defaultBoard = 'g';
+const String defaultBoardTitle = 'Technology';
+const int defaultBoardWs = 1;
+const String threadHistory = 'thread_history';
+const String lastSortingOrder = 'last_sorting_order';
+const String environement = 'env';
+const String github = 'github';
+const String playStore = 'play_store';
+const String boardFavorites = 'board_favorites';
 
-const double FORM_MIN_HEIGHT = 175;
-const double THREAD_FORM_MAX_HEIGHT = 315;
-const double REPLY_FORM_MAX_HEIGHT = 250;
-const double IMAGE_PREVIEW_HEIGHT = 120;
+const double formMinHeight = 175;
+const double threadFormMaxHeight = 315;
+const double replyFormMaxHeight = 250;
+const double imagePreviewHeight = 120;
 
-const Color TRANSPARENT_COLOR = Color(0xaa000000);
+const Color transparentColor = Color(0xaa000000);
 
 // Text styles
 const threadTitleTextStyle = TextStyle(
@@ -57,7 +56,7 @@ const threadNumbersTextStyle = TextStyle(
 
 TextStyle postNameTextStyle(BuildContext context) {
   return TextStyle(
-    color: Theme.of(context).colorScheme.primary,
+    color: Theme.of(context).colorScheme.secondary,
     fontWeight: FontWeight.w600,
   );
 }

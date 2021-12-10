@@ -17,11 +17,9 @@
   "comment": "Comment",
   "out_of": "out of",
   "search": "Search...",
-  "show_nsfw_warning": "Show warning for NSFW boards",
   "nsfw_warning": "NSFW Warning",
   "nsfw_warning_message": "This board contains Not Safe For Work content.",
   "nsfw_warning_enter": "Enter anyway",
-  "show_threaded_replies": "Show threaded replies (Can be laggy)",
   "post_successful": "Post successful!",
   "save_to_gallery": "Save to Gallery",
   "save_to_gallery_success": "Image saved to gallery.",
@@ -37,8 +35,26 @@
     "many": "{} replies",
     "other": "{} replies"
   },
+  "file": {
+    "zero": "",
+    "one": "{} file",
+    "two": "{} files",
+    "many": "{} files",
+    "other": "{} files"
+  },
   "quote": "Quote",
-  "high_resolution_thumbnails_mobile": "High resolution thumbnails when using mobile data",
-  "high_resolution_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "boards_loading_error": "Couldn't fetch boards. Is the device online?",
+  "threads_loading_error": "Couldn't fetch threads. Is the device online?",
+  "post_network_error": "Could not send post. Is the device online?",
+  "show_nsfw_warning": "Show warning for NSFW boards",
+  "threaded_replies": "Show threaded replies",
+  "high_res_thumbnails_mobile": "High resolution thumbnails when using mobile data",
+  "high_res_thumbnails_wifi": "High resolution thumbnails when connected to WiFi",
+  "mute_webm": "Mute webms by default",
+  "report": "Report",
+  "general": "General",
+  "appearance": "Appearance",
+  "media": "Media",
+  "grid_view": "Show threads as a grid"
 }

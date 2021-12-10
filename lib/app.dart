@@ -1,38 +1,61 @@
-// ignore: implementation_imports
-import 'package:easy_localization/src/public_ext.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobichan/dependency_injector.dart';
+import 'package:mobichan/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/constants.dart';
-import 'package:mobichan/pages/history_page.dart';
-import 'package:mobichan/pages/settings_page.dart';
-import 'package:mobichan/routes/routes.router.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:mobichan/home.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 
-class App extends StatelessWidget {
-  const App({
-    Key? key,
-  }) : super(key: key);
+import 'features/setting/setting.dart';
+import 'features/post/post.dart';
+
+class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: APP_TITLE,
-      navigatorKey: StackedService.navigatorKey,
-      initialRoute: Routes.home,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      routes: {
-        SettingsPage.routeName: (context) => SettingsPage(),
-        HistoryPage.routeName: (context) => HistoryPage(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return BlocProvider<SettingsCubit>(
+            create: (context) => sl()..getSettings(),
+            child: RepositoryProvider<ReleaseRepository>(
+              create: (context) => sl(),
+              child: MaterialApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                title: appTitle,
+                initialRoute: Home.routeName,
+                routes: {
+                  Home.routeName: (context) => const Home(),
+                  ThreadPage.routeName: (context) => ThreadPage(),
+                  SettingsPage.routeName: (context) => const SettingsPage(),
+                  GalleryPage.routeName: (context) => const GalleryPage(),
+                },
+                theme: theme.copyWith(
+                  colorScheme: theme.colorScheme.copyWith(
+                    primary: const Color(0xFF6DEFDF),
+                    secondary: const Color(0xFF6DEFDF),
+                    secondaryVariant: const Color(0xFF54BDB0),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+        return Container();
       },
-      theme: ThemeData.dark().copyWith(
-        pageTransitionsTheme: PageTransitionsTheme(builders: {
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        }),
-        colorScheme: ColorScheme.dark(primary: Colors.tealAccent),
-      ),
     );
   }
 }
