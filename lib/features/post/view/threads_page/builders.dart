@@ -100,6 +100,7 @@ extension ThreadsPageBuilders on ThreadsPage {
 
   Widget getGridView(List<Post> threads, Sort sort) {
     return StaggeredGridView.builder(
+      itemCount: threads.length,
       gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,

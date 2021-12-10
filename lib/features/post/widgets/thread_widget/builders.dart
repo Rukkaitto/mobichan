@@ -15,35 +15,35 @@ extension ThreadWidgetBuilders on ThreadWidget {
   }
 
   Widget buildFooter(BuildContext context) {
-    return Visibility(
-      visible: !inGrid,
-      child: Padding(
-        padding: padding,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            buildFlag(),
-            Text(
+    return Padding(
+      padding: inGrid ? gridPadding : padding,
+      child: Row(
+        children: [
+          buildFlag(),
+          Visibility(
+            visible: !inGrid,
+            child: Text(
               thread.userName,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Spacer(),
-            SizedBox(
-              width: 160,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildSticky(context),
-                  buildReplies(context),
-                  buildImages(context),
-                  buildPopupMenuButton()
-                ],
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-        ),
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildSticky(context),
+              const SizedBox(width: 10),
+              buildReplies(context),
+              const SizedBox(width: 10),
+              buildImages(context),
+              if (!inGrid) const SizedBox(width: 10),
+              buildPopupMenuButton()
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -161,32 +161,35 @@ extension ThreadWidgetBuilders on ThreadWidget {
     );
   }
 
-  PopupMenuButton<dynamic> buildPopupMenuButton() {
-    return PopupMenuButton(
-      child: Icon(
-        Icons.more_vert,
-        size: iconSize,
-      ),
-      padding: EdgeInsets.zero,
-      itemBuilder: (context) => [
-        if (inThread)
+  Widget buildPopupMenuButton() {
+    return Visibility(
+      visible: !inGrid,
+      child: PopupMenuButton(
+        child: Icon(
+          Icons.more_vert,
+          size: iconSize,
+        ),
+        padding: EdgeInsets.zero,
+        itemBuilder: (context) => [
+          if (inThread)
+            PopupMenuItem(
+              child: const Text(kReplyToPost).tr(),
+              onTap: () => handleReply(context),
+            ),
           PopupMenuItem(
-            child: const Text(kReplyToPost).tr(),
-            onTap: () => handleReply(context),
+            child: const Text(kShare).tr(),
+            onTap: () => handleShare(),
           ),
-        PopupMenuItem(
-          child: const Text(kShare).tr(),
-          onTap: () => handleShare(),
-        ),
-        PopupMenuItem(
-          child: const Text(kSaveToGallery).tr(),
-          onTap: () => handleSave(context),
-        ),
-        PopupMenuItem(
-          child: const Text(kReport).tr(),
-          onTap: () => handleReport(),
-        ),
-      ],
+          PopupMenuItem(
+            child: const Text(kSaveToGallery).tr(),
+            onTap: () => handleSave(context),
+          ),
+          PopupMenuItem(
+            child: const Text(kReport).tr(),
+            onTap: () => handleReport(),
+          ),
+        ],
+      ),
     );
   }
 }

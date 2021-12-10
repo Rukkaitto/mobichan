@@ -14,6 +14,7 @@ class ThreadWidget extends StatelessWidget {
   final void Function()? onImageTap;
 
   final EdgeInsetsGeometry padding = const EdgeInsets.all(15.0);
+  final EdgeInsetsGeometry gridPadding = const EdgeInsets.all(10.0);
   final SizedBox spacingBetweenIcons = const SizedBox(width: 25.0);
   final SizedBox spacingBetweenIconAndText = const SizedBox(width: 5.0);
   final double iconSize = 20.0;
