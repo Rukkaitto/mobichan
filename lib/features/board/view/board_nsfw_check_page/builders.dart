@@ -3,8 +3,6 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'board_nsfw_check_page.dart';
-
 extension BoardNsfwCheckPageBuilders on BoardNsfwCheckPage {
   Widget buildWarning(NsfwWarningCubit cubit) {
     return Scaffold(

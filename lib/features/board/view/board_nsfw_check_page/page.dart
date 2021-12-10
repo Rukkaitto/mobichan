@@ -4,8 +4,6 @@ import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/features/post/post.dart';
 
-import 'board_nsfw_check_page.dart';
-
 class BoardNsfwCheckPage extends StatelessWidget {
   const BoardNsfwCheckPage({Key? key}) : super(key: key);
 

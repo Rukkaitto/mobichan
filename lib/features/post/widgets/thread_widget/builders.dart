@@ -5,8 +5,6 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'thread_widget.dart';
-
 extension ThreadWidgetBuilders on ThreadWidget {
   Widget buildContent() {
     if (inThread && thread.com != null) {

@@ -4,8 +4,6 @@ import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-import 'content_widget.dart';
-
 class ContentWidget extends StatelessWidget {
   final Board board;
   final Post reply;
