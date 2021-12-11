@@ -100,18 +100,23 @@ extension ThreadsPageBuilders on ThreadsPage {
   }
 
   Widget getGridView(List<Post> threads, Sort sort) {
-    return StaggeredGridView.builder(
-      itemCount: threads.length,
-      gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-        crossAxisCount: Device.get().isTablet ? 3 : 2,
-        staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
-      ),
-      itemBuilder: (context, index) {
-        return getItemBuilder(context, true, index, threads, sort);
-      },
-    );
+    return Builder(builder: (context) {
+      return Container(
+        color: Theme.of(context).dividerColor,
+        child: StaggeredGridView.builder(
+          itemCount: threads.length,
+          gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 1,
+            crossAxisSpacing: 1,
+            crossAxisCount: Device.get().isTablet ? 3 : 2,
+            staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
+          ),
+          itemBuilder: (context, index) {
+            return getItemBuilder(context, true, index, threads, sort);
+          },
+        ),
+      );
+    });
   }
 
   Widget buildLoading() {
