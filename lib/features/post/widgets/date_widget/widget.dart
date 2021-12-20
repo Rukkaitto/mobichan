@@ -6,9 +6,14 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 class DateWidget extends StatelessWidget {
   final Post post;
+  final bool inDialog;
   final bool inGrid;
 
-  const DateWidget({required this.post, this.inGrid = false, Key? key})
+  const DateWidget(
+      {required this.post,
+      this.inDialog = false,
+      this.inGrid = false,
+      Key? key})
       : super(key: key);
 
   @override
@@ -29,8 +34,10 @@ class DateWidget extends StatelessWidget {
                     .add_Hm()
                     .format(date);
               } else {
-                formattedDate =
-                    timeago.format(date, locale: context.locale.languageCode);
+                formattedDate = timeago.format(
+                  date,
+                  locale: inDialog ? 'en_short' : context.locale.languageCode,
+                );
               }
               return Text(
                 formattedDate,
