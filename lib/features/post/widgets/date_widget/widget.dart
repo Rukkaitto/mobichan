@@ -1,0 +1,45 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:mobichan/core/core.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:mobichan_domain/mobichan_domain.dart';
+
+class DateWidget extends StatelessWidget {
+  final Post post;
+  final bool inGrid;
+
+  const DateWidget({required this.post, this.inGrid = false, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: !inGrid,
+      child: SettingProvider(
+        settingTitle: 'full_dates',
+        builder: (fullDatesSetting) {
+          return Builder(
+            builder: (context) {
+              final date =
+                  DateTime.fromMillisecondsSinceEpoch(post.time * 1000);
+
+              String formattedDate;
+              if (fullDatesSetting.value) {
+                formattedDate = DateFormat.Md(context.locale.languageCode)
+                    .add_Hm()
+                    .format(date);
+              } else {
+                formattedDate =
+                    timeago.format(date, locale: context.locale.languageCode);
+              }
+              return Text(
+                formattedDate,
+                style: Theme.of(context).textTheme.caption,
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}

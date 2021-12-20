@@ -67,7 +67,7 @@ class ReplyWidget extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              buildDate(),
+                              DateWidget(post: post),
                               const SizedBox(width: 5),
                               buildPopupMenuButton(),
                             ],

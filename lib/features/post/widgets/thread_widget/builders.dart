@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 extension ThreadWidgetBuilders on ThreadWidget {
   Widget buildContent() {
@@ -26,7 +26,10 @@ extension ThreadWidgetBuilders on ThreadWidget {
           buildFlag(),
           buildName(),
           const SizedBox(width: 5),
-          buildDate(),
+          DateWidget(
+            post: thread,
+            inGrid: inGrid,
+          ),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,21 +189,6 @@ extension ThreadWidgetBuilders on ThreadWidget {
           onTap: () => handleReport(),
         ),
       ],
-    );
-  }
-
-  Widget buildDate() {
-    return Visibility(
-      visible: !inGrid,
-      child: Builder(
-        builder: (context) {
-          final date = DateTime.fromMillisecondsSinceEpoch(thread.time * 1000);
-          return Text(
-            timeago.format(date, locale: context.locale.languageCode),
-            style: Theme.of(context).textTheme.caption,
-          );
-        },
-      ),
     );
   }
 

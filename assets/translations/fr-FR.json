@@ -56,5 +56,6 @@
   "general": "Général",
   "appearance": "Apparence",
   "media": "Médias",
-  "grid_view": "Afficher les threads en grille"
+  "grid_view": "Afficher les threads en grille",
+  "full_dates": "Afficher les dates en entier"
 }
