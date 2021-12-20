@@ -9,6 +9,13 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+class PostWithDepth {
+  final int depth;
+  final Post post;
+
+  PostWithDepth({required this.depth, required this.post});
+}
+
 extension ThreadPageBuilders on ThreadPage {
   PopupMenuButton<dynamic> buildPopupMenuButton({
     required BuildContext context,
@@ -112,8 +119,8 @@ extension ThreadPageBuilders on ThreadPage {
     );
   }
 
-  static List<ReplyWidget> buildRootReplies(ComputeArgs args) {
-    List<ReplyWidget> widgets = [];
+  static List<PostWithDepth> buildRootReplies(ComputeArgs args) {
+    List<PostWithDepth> postsWithDepth = [];
     List<Post> rootReplies = args.replies
         .where((reply) =>
             reply.isRootPost ||
@@ -121,57 +128,57 @@ extension ThreadPageBuilders on ThreadPage {
         .toList();
     for (Post rootReply in rootReplies) {
       if (rootReply.no != args.thread.no) {
-        widgets.add(
-          ReplyWidget(
-            board: args.board,
-            post: rootReply,
-            threadReplies: args.replies,
-            recursion: 0,
-          ),
+        postsWithDepth.add(
+          PostWithDepth(depth: 0, post: rootReply),
+          // ReplyWidget(
+          //   board: args.board,
+          //   post: rootReply,
+          //   threadReplies: args.replies,
+          //   recursion: 0,
+          // ),
         );
-        widgets.addAll(buildSubReplies(
+        postsWithDepth.addAll(buildSubReplies(
           board: args.board,
           post: rootReply,
-          replyWidgets: [],
+          postsWithDepth: [],
           threadReplies: args.replies,
           recursion: 1,
         ));
       }
     }
-    return widgets;
+    return postsWithDepth;
   }
 
-  static List<ReplyWidget> buildSubReplies({
+  static List<PostWithDepth> buildSubReplies({
     required Board board,
     required Post post,
-    required List<ReplyWidget> replyWidgets,
+    required List<PostWithDepth> postsWithDepth,
     required List<Post> threadReplies,
     required int recursion,
   }) {
     const maxRecursion = 7;
-    if (recursion > maxRecursion) return replyWidgets;
+    if (recursion > maxRecursion) return postsWithDepth;
     List<Post> postReplies = post
         .getReplies(threadReplies)
         .where((reply) => reply.replyingTo(threadReplies).first == post)
         .toList();
     if (postReplies.isEmpty) {
-      return replyWidgets;
+      return postsWithDepth;
     } else {
-      List<ReplyWidget> result = [];
+      List<PostWithDepth> result = [];
       for (Post reply in postReplies) {
         result = buildSubReplies(
           board: board,
           post: reply,
-          replyWidgets: replyWidgets
-            ..add(
-              ReplyWidget(
-                board: board,
-                post: reply,
-                threadReplies: threadReplies,
-                recursion: recursion,
-                showReplies: recursion == maxRecursion,
-              ),
-            ),
+          postsWithDepth: postsWithDepth..add(
+              // ReplyWidget(
+              //   board: board,
+              //   post: reply,
+              //   threadReplies: threadReplies,
+              //   recursion: recursion,
+              //   showReplies: recursion == maxRecursion,
+              // ),
+              PostWithDepth(depth: recursion, post: reply)),
           threadReplies: threadReplies,
           recursion: recursion + 1,
         );
@@ -234,8 +241,8 @@ extension ThreadPageBuilders on ThreadPage {
     required Post thread,
     required List<Post> replies,
   }) {
-    return FutureBuilder<List<ReplyWidget>>(
-      future: compute<ComputeArgs, List<ReplyWidget>>(
+    return FutureBuilder<List<PostWithDepth>>(
+      future: compute<ComputeArgs, List<PostWithDepth>>(
         buildRootReplies,
         ComputeArgs(
           board: board,
@@ -274,10 +281,15 @@ extension ThreadPageBuilders on ThreadPage {
                     ),
                   );
                 }
-                ReplyWidget widget = snapshot.data![index - 1];
+                PostWithDepth postWithDepth = snapshot.data![index - 1];
                 return ResponsiveWidth(
                   fullWidth: Device.get().isTablet,
-                  child: widget,
+                  child: ReplyWidget(
+                    board: board,
+                    post: postWithDepth.post,
+                    threadReplies: replies,
+                    recursion: postWithDepth.depth,
+                  ),
                 );
               },
             ),
