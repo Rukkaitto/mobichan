@@ -196,7 +196,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
         builder: (context) {
           final date = DateTime.fromMillisecondsSinceEpoch(thread.time * 1000);
           return Text(
-            timeago.format(date),
+            timeago.format(date, locale: context.locale.languageCode),
             style: Theme.of(context).textTheme.caption,
           );
         },

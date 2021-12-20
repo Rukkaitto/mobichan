@@ -52,7 +52,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
     return Builder(builder: (context) {
       final date = DateTime.fromMillisecondsSinceEpoch(post.time * 1000);
       return Text(
-        timeago.format(date),
+        timeago.format(date, locale: context.locale.languageCode),
         style: Theme.of(context).textTheme.caption,
       );
     });
