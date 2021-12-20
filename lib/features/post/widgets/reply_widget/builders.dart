@@ -1,9 +1,11 @@
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter_html/style.dart';
 import 'package:mobichan/localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 extension ReplyWidgetBuilders on ReplyWidget {
@@ -45,6 +47,16 @@ extension ReplyWidgetBuilders on ReplyWidget {
         style: Theme.of(context).textTheme.caption,
       ),
     );
+  }
+
+  Widget buildDate() {
+    return Builder(builder: (context) {
+      final date = DateTime.fromMillisecondsSinceEpoch(post.time * 1000);
+      return Text(
+        timeago.format(date),
+        style: Theme.of(context).textTheme.caption,
+      );
+    });
   }
 
   Widget buildFlag() {
