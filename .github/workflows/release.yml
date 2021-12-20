@@ -177,7 +177,7 @@ jobs:
           releaseFiles: app-release.aab
           track: production
           # status: draft
-          # changesNotSentForReview: true
+          changesNotSentForReview: true
           whatsNewDirectory: whatsnew
 
   publish-github:
