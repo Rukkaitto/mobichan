@@ -5,6 +5,7 @@ import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 extension ThreadWidgetBuilders on ThreadWidget {
   Widget buildContent() {
@@ -19,18 +20,13 @@ extension ThreadWidgetBuilders on ThreadWidget {
     return Padding(
       padding: inGrid ? gridPadding : padding,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           buildFlag(),
-          Visibility(
-            visible: !inGrid,
-            child: Text(
-              thread.userName,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          buildName(),
+          const SizedBox(width: 5),
+          buildDate(),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,6 +186,38 @@ extension ThreadWidgetBuilders on ThreadWidget {
           onTap: () => handleReport(),
         ),
       ],
+    );
+  }
+
+  Widget buildDate() {
+    return Visibility(
+      visible: !inGrid,
+      child: Builder(
+        builder: (context) {
+          final date = DateTime.fromMillisecondsSinceEpoch(thread.time * 1000);
+          return Text(
+            timeago.format(date),
+            style: Theme.of(context).textTheme.caption,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildName() {
+    return Builder(
+      builder: (context) {
+        return Visibility(
+          visible: !inGrid,
+          child: Text(
+            thread.userName,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      },
     );
   }
 }

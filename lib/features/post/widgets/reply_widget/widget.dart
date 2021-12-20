@@ -56,6 +56,9 @@ class ReplyWidget extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     buildFlag(),
                                     buildName(),

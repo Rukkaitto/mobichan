@@ -1,5 +1,4 @@
 import 'package:flutter_device_type/flutter_device_type.dart';
-import 'package:flutter_html/style.dart';
 import 'package:mobichan/localization.dart';
 
 import 'package:flutter/material.dart';
