@@ -48,7 +48,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
   }
 
   Widget buildFlag() {
-    if (board.countryFlags) {
+    if (board.countryFlags && post.country != null) {
       return Padding(
         padding: const EdgeInsets.only(right: 6),
         child: Image.network(post.countryFlagUrl!),

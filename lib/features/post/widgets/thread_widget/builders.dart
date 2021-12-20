@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan/core/extensions/string_extension.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
@@ -19,17 +20,15 @@ extension ThreadWidgetBuilders on ThreadWidget {
     return Padding(
       padding: inGrid ? gridPadding : padding,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           buildFlag(),
-          Visibility(
-            visible: !inGrid,
-            child: Text(
-              thread.userName,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          buildName(),
+          const SizedBox(width: 5),
+          DateWidget(
+            post: thread,
+            inGrid: inGrid,
           ),
           const Spacer(),
           Row(
@@ -190,6 +189,23 @@ extension ThreadWidgetBuilders on ThreadWidget {
           onTap: () => handleReport(),
         ),
       ],
+    );
+  }
+
+  Widget buildName() {
+    return Builder(
+      builder: (context) {
+        return Visibility(
+          visible: !inGrid,
+          child: Text(
+            thread.userName,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      },
     );
   }
 }

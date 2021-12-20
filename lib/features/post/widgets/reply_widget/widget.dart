@@ -53,10 +53,12 @@ class ReplyWidget extends StatelessWidget {
                       child: Column(
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     buildFlag(),
                                     buildName(),
@@ -65,6 +67,11 @@ class ReplyWidget extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              DateWidget(
+                                post: post,
+                                inDialog: inDialog,
+                              ),
+                              const SizedBox(width: 5),
                               buildPopupMenuButton(),
                             ],
                           ),

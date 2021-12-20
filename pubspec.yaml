@@ -1,7 +1,7 @@
 name: mobichan
 description: A 4chan app made with Flutter.
 publish_to: 'none'
-version: 2.0.0+20
+version: 2.0.1+21
 
 environment:
   sdk: ">=2.14.0 <3.0.0"
@@ -51,6 +51,8 @@ dependencies:
   string_similarity: ^2.0.0
   grouped_list: ^4.1.0
   flutter_device_type: ^0.4.0
+  timeago: ^3.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
