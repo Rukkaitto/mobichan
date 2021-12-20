@@ -123,12 +123,6 @@ extension ThreadPageBuilders on ThreadPage {
       if (rootReply.no != args.thread.no) {
         postsWithDepth.add(
           PostWithDepth(depth: 0, post: rootReply),
-          // ReplyWidget(
-          //   board: args.board,
-          //   post: rootReply,
-          //   threadReplies: args.replies,
-          //   recursion: 0,
-          // ),
         );
         postsWithDepth.addAll(buildSubReplies(
           board: args.board,
@@ -149,8 +143,7 @@ extension ThreadPageBuilders on ThreadPage {
     required List<Post> threadReplies,
     required int recursion,
   }) {
-    const maxRecursion = 7;
-    if (recursion > maxRecursion) return postsWithDepth;
+    if (recursion > ThreadPage.maxRecursion) return postsWithDepth;
     List<Post> postReplies = post
         .getReplies(threadReplies)
         .where((reply) => reply.replyingTo(threadReplies).first == post)
@@ -163,15 +156,10 @@ extension ThreadPageBuilders on ThreadPage {
         result = buildSubReplies(
           board: board,
           post: reply,
-          postsWithDepth: postsWithDepth..add(
-              // ReplyWidget(
-              //   board: board,
-              //   post: reply,
-              //   threadReplies: threadReplies,
-              //   recursion: recursion,
-              //   showReplies: recursion == maxRecursion,
-              // ),
-              PostWithDepth(depth: recursion, post: reply)),
+          postsWithDepth: postsWithDepth
+            ..add(
+              PostWithDepth(depth: recursion, post: reply),
+            ),
           threadReplies: threadReplies,
           recursion: recursion + 1,
         );
@@ -282,6 +270,7 @@ extension ThreadPageBuilders on ThreadPage {
                     post: postWithDepth.post,
                     threadReplies: replies,
                     recursion: postWithDepth.depth,
+                    showReplies: postWithDepth.depth == ThreadPage.maxRecursion,
                   ),
                 );
               },
