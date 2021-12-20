@@ -9,13 +9,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class PostWithDepth {
-  final int depth;
-  final Post post;
-
-  PostWithDepth({required this.depth, required this.post});
-}
-
 extension ThreadPageBuilders on ThreadPage {
   PopupMenuButton<dynamic> buildPopupMenuButton({
     required BuildContext context,
