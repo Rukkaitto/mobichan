@@ -176,8 +176,8 @@ jobs:
           inAppUpdatePriority: 5
           releaseFiles: app-release.aab
           track: production
-          status: draft # remove this after review
-          changesNotSentForReview: true # remove this after review
+          # status: draft
+          # changesNotSentForReview: true
           whatsNewDirectory: whatsnew
 
   publish-github:
