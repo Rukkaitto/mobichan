@@ -176,7 +176,7 @@ jobs:
           inAppUpdatePriority: 5
           releaseFiles: app-release.aab
           track: production
-          # status: draft
+          status: draft
           changesNotSentForReview: true
           whatsNewDirectory: whatsnew
 
