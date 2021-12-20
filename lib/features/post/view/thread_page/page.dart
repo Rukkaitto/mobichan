@@ -28,6 +28,7 @@ class ComputeArgs {
 
 class ThreadPage extends StatelessWidget {
   static const routeName = '/thread';
+  static const maxRecursion = 7;
 
   final ItemScrollController itemScrollController = ItemScrollController();
 
