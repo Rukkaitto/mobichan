@@ -40,8 +40,7 @@ class Home extends StatelessWidget {
   }
 
   void checkForUpdates(BuildContext context) {
-    if (const String.fromEnvironment(environement, defaultValue: github) ==
-            github &&
+    if (const String.fromEnvironment(environment, defaultValue: '') == github &&
         Platform.isAndroid) {
       Updater.checkForUpdates(context).then((needsUpdate) {
         if (needsUpdate) {
