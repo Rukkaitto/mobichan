@@ -63,6 +63,7 @@ class _CaptchaSliderWidgetState extends State<CaptchaSliderWidget> {
           child: TextField(
             controller: _controller,
             textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               hintText: kTypeCaptchaHere.tr(),
               suffixIcon: IconButton(
