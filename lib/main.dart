@@ -11,7 +11,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();
   timeago.setLocaleMessages('fr', timeago.FrMessages());
-  Analytics.sendDeviceInfo(active: true, updateLastLogin: true);
+  Analytics.sendDeviceInfo(active: true, started: true);
 
   runApp(
     EasyLocalization(

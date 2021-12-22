@@ -16,7 +16,7 @@ class Analytics {
   /// [active] indicates if the user is currently using the app.
   static void sendDeviceInfo({
     required bool active,
-    bool updateLastLogin = false,
+    bool started = false,
   }) async {
     // Checks if analytics are enabled and platorm is Android
     final analytics = await sl<SettingRepository>().getSetting('analytics');
@@ -33,7 +33,7 @@ class Analytics {
       'active': active,
     };
 
-    if (updateLastLogin) {
+    if (started) {
       data['started'] = DateTime.now().toUtc().toIso8601String();
     }
 
