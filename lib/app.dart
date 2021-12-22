@@ -34,7 +34,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    Analytics.sendDevice(active: state == AppLifecycleState.resumed);
+    Analytics.sendDeviceInfo(active: state == AppLifecycleState.resumed);
   }
 
   @override
