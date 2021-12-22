@@ -9,6 +9,7 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'features/setting/setting.dart';
 import 'features/post/post.dart';
+import 'core/core.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -17,7 +18,25 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    Analytics.sendDevice(active: state == AppLifecycleState.resumed);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingsCubit>(

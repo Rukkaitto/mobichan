@@ -5,7 +5,7 @@ on:
       - v*.*.*
 jobs:
   decode:
-    name: Decode keys
+    name: Decode secrets
     runs-on: self-hosted
     steps:
       - name: Decoding keyprop
@@ -13,6 +13,9 @@ jobs:
 
       - name: Decoding keystore
         run: echo "${{ secrets.KEYJKS }}" | base64 --decode > upload-keystore.jks
+
+      - name: Decoding secrets
+        run: echo "${{ secrets.SECRETS }}" | base64 --decode > secrets.dart
 
       - name: Upload keyprop
         uses: actions/upload-artifact@v2
@@ -25,6 +28,12 @@ jobs:
         with:
           name: keystore
           path: upload-keystore.jks
+
+      - name: Upload secrets
+        uses: actions/upload-artifact@v2
+        with:
+          name: secrets
+          path: secrets.dart
 
   build-appbundle:
     name: Build Appbundle
@@ -45,6 +54,12 @@ jobs:
         with:
           name: keystore
           path: android/app
+
+      - name: Get secrets from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: secrets
+          path: lib
 
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -96,6 +111,12 @@ jobs:
         with:
           name: keystore
           path: android/app
+
+      - name: Get secrets from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: secrets
+          path: lib
 
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -223,3 +244,4 @@ jobs:
           name: |
             keyprop
             keystore
+            secrets
