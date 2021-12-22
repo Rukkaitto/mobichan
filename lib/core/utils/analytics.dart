@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobichan/core/extensions/device_info_extension.dart';
@@ -17,9 +18,9 @@ class Analytics {
     required bool active,
     bool updateLastLogin = false,
   }) async {
-    // // Checks if analytics are enabled
-    // final analytics = await sl<SettingRepository>().getSetting('analytics');
-    // if (!analytics?.value) return;
+    // Checks if analytics are enabled and platorm is Android
+    final analytics = await sl<SettingRepository>().getSetting('analytics');
+    if (!analytics?.value || !Platform.isAndroid) return;
 
     // Gets device info
     final uuid = await DeviceInfoPlugin().getUUID();
@@ -28,23 +29,24 @@ class Analytics {
     Map<String, dynamic> data = {
       'uuid': uuid,
       'device_info': deviceInfo.toMap(),
+      'updated': DateTime.now().toUtc().toIso8601String(),
       'active': active,
     };
 
     if (updateLastLogin) {
-      data['last_login'] = DateTime.now().toUtc().toIso8601String();
+      data['started'] = DateTime.now().toUtc().toIso8601String();
     }
 
     // Sends device info to supabase
     final result = await sl<SupabaseClient>()
         .from('Devices')
-        .upsert(
-          data,
-          onConflict: 'uuid',
-        )
+        .upsert(data, onConflict: 'uuid')
         .execute();
     if (result.hasError) {
-      log(result.error.toString());
+      log(
+        'Error sending device info to supabase',
+        error: result.error?.message,
+      );
     }
   }
 }
