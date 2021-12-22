@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobichan/core/extensions/device_info_extension.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase/supabase.dart';
 
 import '../../dependency_injector.dart';
@@ -25,11 +26,13 @@ class Analytics {
     // Gets device info
     final uuid = await DeviceInfoPlugin().getUUID();
     final deviceInfo = await DeviceInfoPlugin().androidInfo;
+    final packageInfo = await PackageInfo.fromPlatform();
 
     Map<String, dynamic> data = {
       'uuid': uuid,
       'device_info': deviceInfo.toMap(),
       'updated': DateTime.now().toUtc().toIso8601String(),
+      'version': packageInfo.version,
       'active': active,
     };
 
