@@ -17,9 +17,9 @@ class Analytics {
     required bool active,
     bool updateLastLogin = false,
   }) async {
-    // Checks if analytics are enabled
-    final analytics = await sl<SettingRepository>().getSetting('analytics');
-    if (!analytics?.value) return;
+    // // Checks if analytics are enabled
+    // final analytics = await sl<SettingRepository>().getSetting('analytics');
+    // if (!analytics?.value) return;
 
     // Gets device info
     final uuid = await DeviceInfoPlugin().getUUID();
