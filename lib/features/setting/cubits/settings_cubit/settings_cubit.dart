@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mobichan/core/core.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 part 'settings_state.dart';
@@ -15,6 +16,9 @@ class SettingsCubit extends Cubit<List<Setting>?> {
   }
 
   Future<void> updateSetting(Setting setting) async {
+    if (setting.title == 'analytics') {
+      Analytics.sendDeviceInfo(active: setting.value);
+    }
     await repository.setSetting(setting);
     getSettings();
   }

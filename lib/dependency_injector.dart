@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobichan/core/core.dart';
+import 'package:mobichan/secrets.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/captcha/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
@@ -13,6 +14,7 @@ import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase/supabase.dart';
 
 final sl = GetIt.instance;
 
@@ -202,6 +204,13 @@ Future<void> init() async {
   sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 
   sl.registerLazySingleton<Dio>(() => Dio());
+
+  sl.registerLazySingleton<SupabaseClient>(
+    () => SupabaseClient(
+      Secrets.supabaseUrl,
+      Secrets.supabaseKey,
+    ),
+  );
 
   log('Injected dependencies.', name: "Dependency Injector");
 }
