@@ -31,9 +31,13 @@ class PostRepositoryImpl implements PostRepository {
         thread: PostModel.fromEntity(thread),
       );
     } catch (e) {
-      return localDatasource.getCachedPosts(
+      final posts = await localDatasource.getCachedPosts(
         PostModel.fromEntity(thread),
       );
+      if (posts.isNotEmpty) {
+        return posts;
+      }
+      rethrow;
     }
   }
 
@@ -46,9 +50,13 @@ class PostRepositoryImpl implements PostRepository {
         sort: sort,
       );
     } catch (e) {
-      return localDatasource.getCachedThreads(
+      final threads = await localDatasource.getCachedThreads(
         BoardModel.fromEntity(board),
       );
+      if (threads.isNotEmpty) {
+        return threads;
+      }
+      rethrow;
     }
   }
 

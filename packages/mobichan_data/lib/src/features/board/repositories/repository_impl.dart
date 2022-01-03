@@ -20,7 +20,11 @@ class BoardRepositoryImpl extends BoardRepository {
     try {
       return remoteDatasource.getBoards();
     } catch (e) {
-      return localDatasource.getCachedBoards();
+      final boards = await localDatasource.getCachedBoards();
+      if (boards.isNotEmpty) {
+        return boards;
+      }
+      rethrow;
     }
   }
 
