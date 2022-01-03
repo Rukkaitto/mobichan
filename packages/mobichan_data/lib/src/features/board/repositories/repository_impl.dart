@@ -17,7 +17,11 @@ class BoardRepositoryImpl extends BoardRepository {
 
   @override
   Future<List<Board>> getBoards() async {
-    return remoteDatasource.getBoards();
+    try {
+      return remoteDatasource.getBoards();
+    } catch (e) {
+      return localDatasource.getCachedBoards();
+    }
   }
 
   @override
@@ -44,5 +48,10 @@ class BoardRepositoryImpl extends BoardRepository {
   @override
   Future<void> saveLastVisitedBoard(Board board) async {
     return localDatasource.saveLastVisitedBoard(BoardModel.fromEntity(board));
+  }
+
+  @override
+  Future<void> insertBoard(Board board) {
+    return localDatasource.insertBoard(BoardModel.fromEntity(board));
   }
 }

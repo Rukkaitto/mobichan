@@ -12,9 +12,6 @@ class Board extends Equatable with Comparable<Board> {
   final int? maxWebmDuration;
   final int? bumpLimit;
   final int? imageLimit;
-  final int? threadsCooldown;
-  final int? repliesCooldown;
-  final int? imagesCooldown;
   final String? metaDescription;
   final int? isArchived;
   final int? forcedAnon;
@@ -35,9 +32,6 @@ class Board extends Equatable with Comparable<Board> {
     this.maxWebmDuration,
     this.bumpLimit,
     this.imageLimit,
-    this.threadsCooldown,
-    this.repliesCooldown,
-    this.imagesCooldown,
     this.metaDescription,
     this.isArchived,
     this.forcedAnon,
