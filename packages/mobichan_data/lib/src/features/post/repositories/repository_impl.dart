@@ -25,18 +25,12 @@ class PostRepositoryImpl implements PostRepository {
     required Board board,
     required Post thread,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        return remoteDatasource.getPosts(
-          board: BoardModel.fromEntity(board),
-          thread: PostModel.fromEntity(thread),
-        );
-      } catch (e) {
-        return localDatasource.getCachedPosts(
-          PostModel.fromEntity(thread),
-        );
-      }
-    } else {
+    try {
+      return remoteDatasource.getPosts(
+        board: BoardModel.fromEntity(board),
+        thread: PostModel.fromEntity(thread),
+      );
+    } catch (e) {
       return localDatasource.getCachedPosts(
         PostModel.fromEntity(thread),
       );
@@ -46,14 +40,10 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<List<Post>> getThreads(
       {required Board board, required Sort sort}) async {
-    if (await networkInfo.isConnected) {
-      return remoteDatasource.getThreads(
-        board: BoardModel.fromEntity(board),
-        sort: sort,
-      );
-    } else {
-      throw NetworkException();
-    }
+    return remoteDatasource.getThreads(
+      board: BoardModel.fromEntity(board),
+      sort: sort,
+    );
   }
 
   @override
