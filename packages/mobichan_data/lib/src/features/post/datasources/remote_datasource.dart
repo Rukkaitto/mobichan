@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class PostRemoteDatasource {
@@ -14,7 +13,7 @@ abstract class PostRemoteDatasource {
   });
 
   Future<List<PostModel>> getThreads(
-      {required BoardModel board, required Sort sort});
+      {required BoardModel board, required SortModel sort});
 
   Future<void> postThread({
     required BoardModel board,
@@ -73,7 +72,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   Future<List<PostModel>> getThreads({
     required BoardModel board,
-    required Sort sort,
+    required SortModel sort,
   }) async {
     if (await networkInfo.isConnected) {
       final response =
@@ -91,9 +90,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
             }
           }
 
-          List<PostModel> sortedThreads = _sortThreads(threads, sort);
-
-          return sortedThreads;
+          return threads.sortedBySort(sort);
         } on Exception {
           throw JsonDecodeException();
         }
@@ -227,36 +224,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     Element? errMsg = document.getElementById('errmsg');
     if (errMsg != null) {
       return errMsg.innerHtml;
-    }
-  }
-
-  List<PostModel> _sortThreads(List<PostModel> threads, Sort sort) {
-    switch (sort.order) {
-      case Order.byBump:
-        return threads
-          ..sort((a, b) {
-            return a.lastModified!.compareTo(b.lastModified!);
-          });
-      case Order.byReplies:
-        return threads
-          ..sort((a, b) {
-            return b.replies!.compareTo(a.replies!);
-          });
-      case Order.byImages:
-        return threads
-          ..sort((a, b) {
-            return b.images!.compareTo(a.images!);
-          });
-      case Order.byNew:
-        return threads
-          ..sort((a, b) {
-            return b.time.compareTo(a.time);
-          });
-      case Order.byOld:
-        return threads
-          ..sort((a, b) {
-            return a.time.compareTo(b.time);
-          });
     }
   }
 }

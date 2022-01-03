@@ -15,7 +15,8 @@ abstract class PostLocalDatasource {
 
   Future<List<PostModel>> getCachedPosts(PostModel thread);
 
-  Future<List<PostModel>> getCachedThreads(BoardModel board);
+  Future<List<PostModel>> getCachedThreads(
+      {required BoardModel board, required SortModel sort});
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -103,7 +104,10 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   }
 
   @override
-  Future<List<PostModel>> getCachedThreads(BoardModel board) async {
+  Future<List<PostModel>> getCachedThreads({
+    required BoardModel board,
+    required SortModel sort,
+  }) async {
     final maps = await database.query(
       'posts',
       where: 'resto = 0 AND board_id = ?',
@@ -112,6 +116,6 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
     final threads = List.generate(maps.length, (index) {
       return PostModel.fromJson(maps[index]);
     });
-    return threads;
+    return threads.sortedBySort(sort);
   }
 }

@@ -47,11 +47,12 @@ class PostRepositoryImpl implements PostRepository {
     try {
       return remoteDatasource.getThreads(
         board: BoardModel.fromEntity(board),
-        sort: sort,
+        sort: SortModel.fromEntity(sort),
       );
     } catch (e) {
       final threads = await localDatasource.getCachedThreads(
-        BoardModel.fromEntity(board),
+        board: BoardModel.fromEntity(board),
+        sort: SortModel.fromEntity(sort),
       );
       if (threads.isNotEmpty) {
         return threads;

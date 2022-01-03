@@ -1,3 +1,4 @@
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class PostModel extends Post {
@@ -163,5 +164,37 @@ class PostModel extends Post {
       'board_title': boardTitle,
       'board_ws': boardWs,
     };
+  }
+}
+
+extension PostModelListExtension on List<PostModel> {
+  List<PostModel> sortedBySort(SortModel sort) {
+    switch (sort.order) {
+      case Order.byBump:
+        return this
+          ..sort((a, b) {
+            return a.lastModified!.compareTo(b.lastModified!);
+          });
+      case Order.byReplies:
+        return this
+          ..sort((a, b) {
+            return b.replies!.compareTo(a.replies!);
+          });
+      case Order.byImages:
+        return this
+          ..sort((a, b) {
+            return b.images!.compareTo(a.images!);
+          });
+      case Order.byNew:
+        return this
+          ..sort((a, b) {
+            return b.time.compareTo(a.time);
+          });
+      case Order.byOld:
+        return this
+          ..sort((a, b) {
+            return a.time.compareTo(b.time);
+          });
+    }
   }
 }
