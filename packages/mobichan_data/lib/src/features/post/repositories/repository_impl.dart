@@ -40,10 +40,16 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<List<Post>> getThreads(
       {required Board board, required Sort sort}) async {
-    return remoteDatasource.getThreads(
-      board: BoardModel.fromEntity(board),
-      sort: sort,
-    );
+    try {
+      return remoteDatasource.getThreads(
+        board: BoardModel.fromEntity(board),
+        sort: sort,
+      );
+    } catch (e) {
+      return localDatasource.getCachedThreads(
+        BoardModel.fromEntity(board),
+      );
+    }
   }
 
   @override
@@ -88,7 +94,10 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<void> insertPost(Post post) {
-    return localDatasource.insertPost(PostModel.fromEntity(post));
+  Future<void> insertPost(Board board, Post post) {
+    return localDatasource.insertPost(
+      BoardModel.fromEntity(board),
+      PostModel.fromEntity(post),
+    );
   }
 }

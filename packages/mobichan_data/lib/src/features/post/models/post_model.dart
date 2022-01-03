@@ -1,4 +1,3 @@
-import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 class PostModel extends Post {
@@ -29,7 +28,9 @@ class PostModel extends Post {
     String? trip,
     int? lastModified,
     String? country,
-    BoardModel? board,
+    String? boardId,
+    String? boardTitle,
+    int? boardWs,
   }) : super(
           no: no,
           now: now,
@@ -57,7 +58,9 @@ class PostModel extends Post {
           trip: trip,
           lastModified: lastModified,
           country: country,
-          board: board,
+          boardId: boardId,
+          boardTitle: boardTitle,
+          boardWs: boardWs,
         );
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -88,7 +91,9 @@ class PostModel extends Post {
       trip: json['trip'],
       lastModified: json['last_modified'],
       country: json['country'],
-      board: json['board'] != null ? BoardModel.fromJson(json['board']) : null,
+      boardId: json['board_id'],
+      boardTitle: json['board_title'],
+      boardWs: json['board_ws'],
     );
   }
 
@@ -120,7 +125,9 @@ class PostModel extends Post {
       trip: post.trip,
       lastModified: post.lastModified,
       country: post.country,
-      board: post.board != null ? BoardModel.fromEntity(post.board!) : null,
+      boardId: post.boardId,
+      boardTitle: post.boardTitle,
+      boardWs: post.boardWs,
     );
   }
 
@@ -152,7 +159,9 @@ class PostModel extends Post {
       'trip': trip,
       'last_modified': lastModified,
       'country': country,
-      'board': board,
+      'board_id': boardId,
+      'board_title': boardTitle,
+      'board_ws': boardWs,
     };
   }
 }

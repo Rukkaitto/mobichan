@@ -29,7 +29,9 @@ class Post extends Equatable {
   final String? trip;
   final int? lastModified;
   final String? country;
-  final Board? board;
+  final String? boardId;
+  final String? boardTitle;
+  final int? boardWs;
 
   const Post({
     this.no = 0,
@@ -58,7 +60,9 @@ class Post extends Equatable {
     this.trip,
     this.lastModified,
     this.country,
-    this.board,
+    this.boardId,
+    this.boardTitle,
+    this.boardWs,
   });
 
   List<Post> getReplies(List<Post> posts) {
@@ -129,7 +133,7 @@ class Post extends Equatable {
   }
 
   @override
-  List<Object?> get props => [no, board];
+  List<Object?> get props => [no, boardId];
 }
 
 extension PostListExtension on List<Post> {

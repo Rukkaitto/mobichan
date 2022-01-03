@@ -20,10 +20,11 @@ class BoardRemoteDatasourceImpl implements BoardRemoteDatasource {
       final response = await client.get<String>(apiUrl);
 
       if (response.statusCode == 200) {
-        List<BoardModel> boards = (jsonDecode(response.data!)['boards'] as List)
-            .map((model) => BoardModel.fromJson(model))
-            .toList();
-        return boards;
+        final maps = json.decode(response.data!)['boards'] as List;
+        return List.generate(
+          maps.length,
+          (index) => BoardModel.fromJson(maps[index]),
+        );
       } else {
         throw ServerException(
             message: response.data, code: response.statusCode);

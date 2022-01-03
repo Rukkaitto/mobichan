@@ -16,7 +16,7 @@ class RepliesCubit extends Cubit<RepliesState> {
       List<Post> replies =
           await repository.getPosts(board: board, thread: thread);
       for (Post post in replies) {
-        await repository.insertPost(post);
+        await repository.insertPost(board, post);
       }
       emit(RepliesLoaded(replies: replies));
     } on NetworkException {

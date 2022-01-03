@@ -236,7 +236,7 @@ extension BoardDrawerBuilders on BoardDrawer {
         minVerticalPadding: 0,
         horizontalTitleGap: 0,
         trailing: Text(
-          '/${thread.board!.board}/',
+          '/${thread.boardId}/',
           style: Theme.of(context).textTheme.caption,
         ),
         title: Text(

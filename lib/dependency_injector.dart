@@ -240,7 +240,9 @@ Future<void> init() async {
         trip TEXT,
         last_modified INTEGER,
         country TEXT,
-        board TEXT
+        board_id TEXT,
+        board_title TEXT,
+        board_ws INTEGER
       )
       ''');
     },

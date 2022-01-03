@@ -36,7 +36,6 @@ abstract class PostRemoteDatasource {
 
 class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   final String apiUrl = 'https://a.4cdn.org';
-  final String threadHistoryKey = 'thread_history';
 
   final Dio client;
   final NetworkInfo networkInfo;
@@ -54,10 +53,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
       if (response.statusCode == 200) {
         try {
-          List<PostModel> posts = (jsonDecode(response.data!)['posts'] as List)
-              .map((model) => PostModel.fromJson(model))
-              .toList();
-          return posts;
+          final maps = jsonDecode(response.data!)['posts'] as List;
+          return List.generate(
+            maps.length,
+            (index) => PostModel.fromJson(maps[index]),
+          );
         } on Exception {
           throw JsonDecodeException();
         }
