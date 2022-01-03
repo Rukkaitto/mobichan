@@ -15,6 +15,7 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:supabase/supabase.dart';
 
@@ -32,6 +33,7 @@ Future<void> init() async {
   sl.registerLazySingleton<BoardRemoteDatasource>(
     () => BoardRemoteDatasourceImpl(
       client: sl(),
+      networkInfo: sl(),
     ),
   );
 
@@ -81,6 +83,7 @@ Future<void> init() async {
   sl.registerLazySingleton<CaptchaRemoteDatasource>(
     () => CaptchaRemoteDatasourceImpl(
       client: sl(),
+      networkInfo: sl(),
     ),
   );
 
@@ -95,12 +98,14 @@ Future<void> init() async {
     () => PostRepositoryImpl(
       localDatasource: sl(),
       remoteDatasource: sl(),
+      networkInfo: sl(),
     ),
   );
 
   sl.registerLazySingleton<PostRemoteDatasource>(
     () => PostRemoteDatasourceImpl(
       client: sl(),
+      networkInfo: sl(),
     ),
   );
 
@@ -139,6 +144,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ReleaseRemoteDatasource>(
     () => ReleaseRemoteDatasourceImpl(
       client: sl(),
+      networkInfo: sl(),
     ),
   );
 
@@ -246,6 +252,12 @@ Future<void> init() async {
   sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 
   sl.registerLazySingleton<Dio>(() => Dio());
+
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(
+      connectionChecker: DataConnectionChecker(),
+    ),
+  );
 
   sl.registerLazySingleton<SupabaseClient>(
     () => SupabaseClient(

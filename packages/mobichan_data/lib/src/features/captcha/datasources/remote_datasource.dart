@@ -13,28 +13,37 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
   final String errorKey = 'error';
 
   final Dio client;
+  final NetworkInfo networkInfo;
 
-  CaptchaRemoteDatasourceImpl({required this.client});
+  CaptchaRemoteDatasourceImpl(
+      {required this.client, required this.networkInfo});
 
   @override
   Future<CaptchaChallengeModel> getCaptchaChallenge(
     BoardModel board,
     PostModel? thread,
   ) async {
-    String url = '$apiUrl?board=${board.board}';
-    if (thread != null) {
-      url += '&thread_id=${thread.no}';
-    }
-    final response = await client.get<String>(url);
+    if (await networkInfo.isConnected) {
+      String url = '$apiUrl?board=${board.board}';
+      if (thread != null) {
+        url += '&thread_id=${thread.no}';
+      }
+      final response = await client.get<String>(url);
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> responseJson = jsonDecode(response.data!);
-      if (responseJson.containsKey(errorKey)) {
-        throw CaptchaChallengeException.fromJson(responseJson);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseJson = jsonDecode(response.data!);
+        if (responseJson.containsKey(errorKey)) {
+          throw CaptchaChallengeException.fromJson(responseJson);
+        } else {
+          CaptchaChallengeModel captchaChallenge =
+              CaptchaChallengeModel.fromJson(responseJson);
+          return captchaChallenge;
+        }
       } else {
-        CaptchaChallengeModel captchaChallenge =
-            CaptchaChallengeModel.fromJson(responseJson);
-        return captchaChallenge;
+        throw ServerException(
+          message: response.data,
+          code: response.statusCode,
+        );
       }
     } else {
       throw NetworkException();

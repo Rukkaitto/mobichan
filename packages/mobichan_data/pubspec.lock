@@ -50,6 +50,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.1"
+  data_connection_checker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "7c1f1e6dfab9a22cdd47285f7d43ec86d693ab33"
+      url: "https://github.com/chornthorn/data_connection_checker.git"
+    source: git
+    version: "0.3.4"
   dio:
     dependency: "direct main"
     description:

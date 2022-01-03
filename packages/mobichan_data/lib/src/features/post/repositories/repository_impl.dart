@@ -1,15 +1,15 @@
-import 'dart:developer';
-
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 class PostRepositoryImpl implements PostRepository {
   final PostLocalDatasource localDatasource;
   final PostRemoteDatasource remoteDatasource;
+  final NetworkInfo networkInfo;
 
   PostRepositoryImpl({
     required this.localDatasource,
     required this.remoteDatasource,
+    required this.networkInfo,
   });
 
   @override
@@ -25,13 +25,18 @@ class PostRepositoryImpl implements PostRepository {
     required Board board,
     required Post thread,
   }) async {
-    try {
-      return remoteDatasource.getPosts(
-        board: BoardModel.fromEntity(board),
-        thread: PostModel.fromEntity(thread),
-      );
-    } catch (e) {
-      log('Error while fetching posts, loading from cache...');
+    if (await networkInfo.isConnected) {
+      try {
+        return remoteDatasource.getPosts(
+          board: BoardModel.fromEntity(board),
+          thread: PostModel.fromEntity(thread),
+        );
+      } catch (e) {
+        return localDatasource.getCachedPosts(
+          PostModel.fromEntity(thread),
+        );
+      }
+    } else {
       return localDatasource.getCachedPosts(
         PostModel.fromEntity(thread),
       );
@@ -39,11 +44,16 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<Post>> getThreads({required Board board, required Sort sort}) {
-    return remoteDatasource.getThreads(
-      board: BoardModel.fromEntity(board),
-      sort: sort,
-    );
+  Future<List<Post>> getThreads(
+      {required Board board, required Sort sort}) async {
+    if (await networkInfo.isConnected) {
+      return remoteDatasource.getThreads(
+        board: BoardModel.fromEntity(board),
+        sort: sort,
+      );
+    } else {
+      throw NetworkException();
+    }
   }
 
   @override
