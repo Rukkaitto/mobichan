@@ -53,6 +53,8 @@ dependencies:
   intl: ^0.17.0
   supabase: ^0.2.10
   device_info_plus: ^3.2.0
+  path: ^1.8.0
+  sqflite: ^2.0.1
 
 dev_dependencies:
   flutter_test:

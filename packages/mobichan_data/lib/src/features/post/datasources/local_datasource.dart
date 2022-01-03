@@ -3,12 +3,17 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobichan_data/mobichan_data.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class PostLocalDatasource {
   Future<List<PostModel>> addThreadToHistory(
       PostModel thread, BoardModel board);
 
   Future<List<PostModel>> getHistory();
+
+  Future<void> insertPost(PostModel post);
+
+  Future<List<PostModel>> getCachedPosts(PostModel thread);
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -16,8 +21,12 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   final String threadHistoryKey = 'thread_history';
 
   final SharedPreferences sharedPreferences;
+  final Database database;
 
-  PostLocalDatasourceImpl({required this.sharedPreferences});
+  PostLocalDatasourceImpl({
+    required this.sharedPreferences,
+    required this.database,
+  });
 
   @override
   Future<List<PostModel>> addThreadToHistory(
@@ -64,5 +73,23 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       return history;
     }
     return [];
+  }
+
+  @override
+  Future<void> insertPost(PostModel post) async {
+    await database.insert(
+      'posts',
+      post.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<List<PostModel>> getCachedPosts(PostModel thread) async {
+    final maps = await database
+        .query('posts', where: 'resto = ?', whereArgs: [thread.no]);
+    return List.generate(maps.length, (index) {
+      return PostModel.fromJson(maps[index]);
+    });
   }
 }

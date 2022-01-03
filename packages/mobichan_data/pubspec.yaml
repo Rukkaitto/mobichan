@@ -17,6 +17,8 @@ dependencies:
     path: ../mobichan_domain
   dio: ^4.0.1
   html: ^0.15.0
+  sqflite: ^2.0.1
+  path: ^1.8.0
 
 dev_dependencies:
   flutter_test:
