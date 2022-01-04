@@ -109,4 +109,12 @@ class PostRepositoryImpl implements PostRepository {
       PostModel.fromEntity(post),
     );
   }
+
+  @override
+  Future<void> insertPosts(Board board, List<Post> posts) {
+    return localDatasource.insertPosts(
+      BoardModel.fromEntity(board),
+      posts.map((post) => PostModel.fromEntity(post)).toList(),
+    );
+  }
 }

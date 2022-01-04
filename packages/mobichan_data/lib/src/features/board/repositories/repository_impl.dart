@@ -58,4 +58,10 @@ class BoardRepositoryImpl extends BoardRepository {
   Future<void> insertBoard(Board board) {
     return localDatasource.insertBoard(BoardModel.fromEntity(board));
   }
+
+  @override
+  Future<void> insertBoards(List<Board> boards) {
+    return localDatasource
+        .insertBoards(boards.map((e) => BoardModel.fromEntity(e)).toList());
+  }
 }
