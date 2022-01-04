@@ -32,8 +32,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<BoardRemoteDatasource>(
     () => BoardRemoteDatasourceImpl(
-      client: sl(),
-      networkInfo: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -83,8 +82,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<CaptchaRemoteDatasource>(
     () => CaptchaRemoteDatasourceImpl(
-      client: sl(),
-      networkInfo: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -105,8 +103,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PostRemoteDatasource>(
     () => PostRemoteDatasourceImpl(
-      client: sl(),
-      networkInfo: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -144,8 +141,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ReleaseRemoteDatasource>(
     () => ReleaseRemoteDatasourceImpl(
-      client: sl(),
-      networkInfo: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -283,6 +279,13 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(
       connectionChecker: DataConnectionChecker(),
+    ),
+  );
+
+  sl.registerLazySingleton<NetworkManager>(
+    () => NetworkManagerImpl(
+      client: sl(),
+      networkInfo: sl(),
     ),
   );
 

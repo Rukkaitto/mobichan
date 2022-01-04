@@ -26,4 +26,6 @@ export './src/features/settings/repositories/repository_impl.dart';
 
 export './src/core/exceptions/exceptions.dart';
 export './src/core/network/network_info.dart';
+export './src/core/network/network_manager.dart';
+export './src/core/model/model.dart';
 export './src/features/captcha/exceptions/exceptions.dart';

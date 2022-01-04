@@ -1,6 +1,7 @@
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class BoardModel extends Board {
+class BoardModel extends Board with Model {
   const BoardModel({
     required String board,
     required String title,
@@ -41,7 +42,7 @@ class BoardModel extends Board {
           customSpoilers: customSpoilers,
         );
 
-  factory BoardModel.fromJson(Map<String, dynamic> json) {
+  static BoardModel fromJson(Map<String, dynamic> json) {
     return BoardModel(
       board: json['board'],
       title: json['title'],

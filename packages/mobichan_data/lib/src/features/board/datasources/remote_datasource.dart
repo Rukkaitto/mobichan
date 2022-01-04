@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class BoardRemoteDatasource {
@@ -8,29 +5,20 @@ abstract class BoardRemoteDatasource {
 }
 
 class BoardRemoteDatasourceImpl implements BoardRemoteDatasource {
-  final Dio client;
-  final NetworkInfo networkInfo;
+  final NetworkManager networkManager;
   final String apiUrl = 'https://a.4cdn.org/boards.json';
 
-  BoardRemoteDatasourceImpl({required this.client, required this.networkInfo});
+  BoardRemoteDatasourceImpl({required this.networkManager});
 
   @override
   Future<List<BoardModel>> getBoards() async {
-    if (await networkInfo.isConnected) {
-      final response = await client.get<String>(apiUrl);
+    final responseJson =
+        await networkManager.makeRequest<Map<String, dynamic>>(url: apiUrl);
 
-      if (response.statusCode == 200) {
-        final maps = json.decode(response.data!)['boards'] as List;
-        return List.generate(
-          maps.length,
-          (index) => BoardModel.fromJson(maps[index]),
-        );
-      } else {
-        throw ServerException(
-            message: response.data, code: response.statusCode);
-      }
-    } else {
-      throw NetworkException();
-    }
+    final maps = responseJson['boards'] as List;
+    return List.generate(
+      maps.length,
+      (index) => BoardModel.fromJson(maps[index]),
+    );
   }
 }
