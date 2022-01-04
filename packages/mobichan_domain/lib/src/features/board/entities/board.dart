@@ -49,6 +49,32 @@ class Board extends Equatable with Comparable<Board> {
     return const Board(board: 'g', title: 'Technology', wsBoard: 1);
   }
 
+  static String databaseQuery(String tableName) {
+    return '''
+      CREATE TABLE $tableName(
+        board TEXT PRIMARY KEY,
+        title TEXT,
+        ws_board INTEGER,
+        per_page INTEGER,
+        pages INTEGER,
+        max_filesize INTEGER,
+        max_webm_filesize INTEGER,
+        max_comment_chars INTEGER,
+        max_webm_duration INTEGER,
+        bump_limit INTEGER,
+        image_limit INTEGER,
+        meta_description TEXT,
+        is_archived INTEGER,
+        forced_anon INTEGER,
+        country_flags INTEGER,
+        user_ids INTEGER,
+        spoilers INTEGER,
+        custom_spoilers INTEGER,
+        cooldowns JSON1
+      )
+    ''';
+  }
+
   @override
   List<Object?> get props => [board, title];
 

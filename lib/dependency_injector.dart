@@ -109,7 +109,6 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PostLocalDatasource>(
     () => PostLocalDatasourceImpl(
-      sharedPreferences: sl(),
       database: sl(),
     ),
   );
@@ -209,63 +208,9 @@ Future<void> init() async {
   final database = await openDatabase(
     join(await getDatabasesPath(), 'mobichan_database.db'),
     onCreate: (db, version) async {
-      await db.execute('''
-        CREATE TABLE boards(
-          board TEXT PRIMARY KEY,
-          title TEXT,
-          ws_board INTEGER,
-          per_page INTEGER,
-          pages INTEGER,
-          max_filesize INTEGER,
-          max_webm_filesize INTEGER,
-          max_comment_chars INTEGER,
-          max_webm_duration INTEGER,
-          bump_limit INTEGER,
-          image_limit INTEGER,
-          meta_description TEXT,
-          is_archived INTEGER,
-          forced_anon INTEGER,
-          country_flags INTEGER,
-          user_ids INTEGER,
-          spoilers INTEGER,
-          custom_spoilers INTEGER,
-          cooldowns JSON1
-        )
-      ''');
-
-      await db.execute('''
-      CREATE TABLE posts(
-        no INTEGER PRIMARY KEY,
-        now TEXT,
-        time INTEGER,
-        resto INTEGER,
-        name STRING,
-        sticky INTEGER,
-        closed INTEGER,
-        sub TEXT,
-        com TEXT,
-        filename TEXT,
-        ext TEXT,
-        w INTEGER,
-        h INTEGER,
-        tn_w INTEGER,
-        tn_h INTEGER,
-        tim INTEGER,
-        md5 TEXT,
-        fsize INTEGER,
-        capcode TEXT,
-        semantic_url TEXT,
-        replies INTEGER,
-        images INTEGER,
-        unique_ips INTEGER,
-        trip TEXT,
-        last_modified INTEGER,
-        country TEXT,
-        board_id TEXT,
-        board_title TEXT,
-        board_ws INTEGER
-      )
-      ''');
+      await db.execute(Board.databaseQuery('boards'));
+      await db.execute(Post.databaseQuery('posts'));
+      await db.execute(Post.databaseQuery('history'));
     },
     version: 1,
   );

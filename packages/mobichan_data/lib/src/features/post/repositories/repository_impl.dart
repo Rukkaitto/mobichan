@@ -31,7 +31,7 @@ class PostRepositoryImpl implements PostRepository {
         thread: PostModel.fromEntity(thread),
       );
     } catch (e) {
-      final posts = await localDatasource.getCachedPosts(
+      final posts = await localDatasource.getCachedReplies(
         PostModel.fromEntity(thread),
       );
       if (posts.isNotEmpty) {
@@ -105,6 +105,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<void> insertPost(Board board, Post post) {
     return localDatasource.insertPost(
+      'posts',
       BoardModel.fromEntity(board),
       PostModel.fromEntity(post),
     );
@@ -113,6 +114,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<void> insertPosts(Board board, List<Post> posts) {
     return localDatasource.insertPosts(
+      'posts',
       BoardModel.fromEntity(board),
       posts.map((post) => PostModel.fromEntity(post)).toList(),
     );

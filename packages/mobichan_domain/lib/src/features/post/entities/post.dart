@@ -132,6 +132,42 @@ class Post extends Equatable {
     }
   }
 
+  static String databaseQuery(String tableName) {
+    return '''
+      CREATE TABLE $tableName(
+        no INTEGER PRIMARY KEY,
+        now TEXT,
+        time INTEGER,
+        resto INTEGER,
+        name STRING,
+        sticky INTEGER,
+        closed INTEGER,
+        sub TEXT,
+        com TEXT,
+        filename TEXT,
+        ext TEXT,
+        w INTEGER,
+        h INTEGER,
+        tn_w INTEGER,
+        tn_h INTEGER,
+        tim INTEGER,
+        md5 TEXT,
+        fsize INTEGER,
+        capcode TEXT,
+        semantic_url TEXT,
+        replies INTEGER,
+        images INTEGER,
+        unique_ips INTEGER,
+        trip TEXT,
+        last_modified INTEGER,
+        country TEXT,
+        board_id TEXT,
+        board_title TEXT,
+        board_ws INTEGER
+      )
+    ''';
+  }
+
   @override
   List<Object?> get props => [no, boardId];
 }
