@@ -26,12 +26,12 @@ class PostRepositoryImpl implements PostRepository {
     required Post thread,
   }) async {
     try {
-      return remoteDatasource.getPosts(
+      return await remoteDatasource.getPosts(
         board: BoardModel.fromEntity(board),
         thread: PostModel.fromEntity(thread),
       );
     } catch (e) {
-      final posts = await localDatasource.getCachedReplies(
+      final posts = await localDatasource.getCachedPosts(
         PostModel.fromEntity(thread),
       );
       if (posts.isNotEmpty) {
@@ -42,10 +42,12 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<Post>> getThreads(
-      {required Board board, required Sort sort}) async {
+  Future<List<Post>> getThreads({
+    required Board board,
+    required Sort sort,
+  }) async {
     try {
-      return remoteDatasource.getThreads(
+      return await remoteDatasource.getThreads(
         board: BoardModel.fromEntity(board),
         sort: SortModel.fromEntity(sort),
       );
@@ -105,18 +107,8 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<void> insertPost(Board board, Post post) {
     return localDatasource.insertPost(
-      'posts',
       BoardModel.fromEntity(board),
       PostModel.fromEntity(post),
-    );
-  }
-
-  @override
-  Future<void> insertPosts(Board board, List<Post> posts) {
-    return localDatasource.insertPosts(
-      'posts',
-      BoardModel.fromEntity(board),
-      posts.map((post) => PostModel.fromEntity(post)).toList(),
     );
   }
 }

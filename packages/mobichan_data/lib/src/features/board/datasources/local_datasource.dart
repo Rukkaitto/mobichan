@@ -21,8 +21,6 @@ abstract class BoardLocalDatasource {
 
   Future<void> insertBoard(BoardModel board);
 
-  Future<void> insertBoards(List<BoardModel> board);
-
   Future<List<BoardModel>> getCachedBoards();
 }
 
@@ -135,18 +133,5 @@ class BoardLocalDatasourceImpl implements BoardLocalDatasource {
     return List.generate(maps.length, (index) {
       return BoardModel.fromJson(maps[index]);
     });
-  }
-
-  @override
-  Future<void> insertBoards(List<BoardModel> boards) async {
-    final batch = database.batch();
-    for (BoardModel board in boards) {
-      batch.insert(
-        'boards',
-        board.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    await batch.commit(noResult: true);
   }
 }

@@ -109,6 +109,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PostLocalDatasource>(
     () => PostLocalDatasourceImpl(
+      sharedPreferences: sl(),
       database: sl(),
     ),
   );
@@ -210,7 +211,6 @@ Future<void> init() async {
     onCreate: (db, version) async {
       await db.execute(Board.databaseQuery('boards'));
       await db.execute(Post.databaseQuery('posts'));
-      await db.execute(Post.databaseQuery('history'));
     },
     version: 1,
   );

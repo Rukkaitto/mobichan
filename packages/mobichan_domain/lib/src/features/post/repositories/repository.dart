@@ -27,6 +27,4 @@ abstract class PostRepository {
   Future<List<Post>> getHistory();
 
   Future<void> insertPost(Board board, Post post);
-
-  Future<void> insertPosts(Board board, List<Post> posts);
 }

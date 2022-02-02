@@ -16,6 +16,4 @@ abstract class BoardRepository {
   Future<void> saveLastVisitedBoard(Board board);
 
   Future<void> insertBoard(Board board);
-
-  Future<void> insertBoards(List<Board> boards);
 }
