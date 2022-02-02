@@ -13,6 +13,7 @@ const String apiReleasesUrl =
     "https://api.github.com/repos/Rukkaitto/mobichan/releases";
 const String apiCaptchaUrl = "https://sys.4channel.org/captcha";
 const String apiFlagsUrl = "https://s.4cdn.org/image/country";
+const String reverseImageSearchUrl = "https://images.google.com/searchbyimage";
 
 // Routes
 const String homeRoute = "/";

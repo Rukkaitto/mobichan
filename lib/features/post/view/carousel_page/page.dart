@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CarouselPage extends StatefulWidget {
   final String heroTitle;
@@ -112,6 +113,11 @@ class _CarouselPageState extends State<CarouselPage> {
     await Share.shareFiles([imagePath.path]);
   }
 
+  void _searchImage() async {
+    final url = "$reverseImageSearchUrl?image_url=$imageUrl";
+    if (!await launch(url)) throw 'Could not launch $url';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +127,10 @@ class _CarouselPageState extends State<CarouselPage> {
           '${currentPost.filename}${currentPost.ext}',
         ),
         actions: [
+          IconButton(
+            onPressed: _searchImage,
+            icon: const Icon(Icons.image_search_rounded),
+          ),
           IconButton(
             onPressed: _shareImage,
             icon: const Icon(Icons.share_rounded),
