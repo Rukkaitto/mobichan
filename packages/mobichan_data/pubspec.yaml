@@ -17,6 +17,12 @@ dependencies:
     path: ../mobichan_domain
   dio: ^4.0.1
   html: ^0.15.0
+  sqflite: ^2.0.1
+  path: ^1.8.0
+  data_connection_checker:
+    git:
+      url: https://github.com/chornthorn/data_connection_checker.git
+      ref: master
 
 dev_dependencies:
   flutter_test:

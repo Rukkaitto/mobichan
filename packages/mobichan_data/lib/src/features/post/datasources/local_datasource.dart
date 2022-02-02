@@ -3,12 +3,20 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobichan_data/mobichan_data.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class PostLocalDatasource {
   Future<List<PostModel>> addThreadToHistory(
       PostModel thread, BoardModel board);
 
   Future<List<PostModel>> getHistory();
+
+  Future<void> insertPost(BoardModel board, PostModel post);
+
+  Future<List<PostModel>> getCachedPosts(PostModel thread);
+
+  Future<List<PostModel>> getCachedThreads(
+      {required BoardModel board, required SortModel sort});
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -16,14 +24,20 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
   final String threadHistoryKey = 'thread_history';
 
   final SharedPreferences sharedPreferences;
+  final Database database;
 
-  PostLocalDatasourceImpl({required this.sharedPreferences});
+  PostLocalDatasourceImpl({
+    required this.sharedPreferences,
+    required this.database,
+  });
 
   @override
   Future<List<PostModel>> addThreadToHistory(
       PostModel thread, BoardModel board) async {
     Map<String, dynamic> threadJson = thread.toJson();
-    threadJson['board'] = board.toJson();
+    threadJson['board_id'] = board.board;
+    threadJson['board_title'] = board.title;
+    threadJson['board_ws'] = board.wsBoard;
     PostModel newThread = PostModel.fromJson(threadJson);
 
     // Gets the history strings from the shared preferences
@@ -64,5 +78,44 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       return history;
     }
     return [];
+  }
+
+  @override
+  Future<void> insertPost(BoardModel board, PostModel post) async {
+    final postJson = post.toJson();
+    postJson['board_id'] = board.board;
+    postJson['board_title'] = board.title;
+    postJson['board_ws'] = board.wsBoard;
+
+    await database.insert(
+      'posts',
+      postJson,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<List<PostModel>> getCachedPosts(PostModel thread) async {
+    final maps = await database
+        .query('posts', where: 'resto = ?', whereArgs: [thread.no]);
+    return List.generate(maps.length, (index) {
+      return PostModel.fromJson(maps[index]);
+    });
+  }
+
+  @override
+  Future<List<PostModel>> getCachedThreads({
+    required BoardModel board,
+    required SortModel sort,
+  }) async {
+    final maps = await database.query(
+      'posts',
+      where: 'resto = 0 AND board_id = ?',
+      whereArgs: [board.board],
+    );
+    final threads = List.generate(maps.length, (index) {
+      return PostModel.fromJson(maps[index]);
+    });
+    return threads.sortedBySort(sort);
   }
 }

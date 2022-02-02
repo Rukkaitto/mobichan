@@ -4,10 +4,12 @@ import 'package:mobichan_data/mobichan_data.dart';
 class PostRepositoryImpl implements PostRepository {
   final PostLocalDatasource localDatasource;
   final PostRemoteDatasource remoteDatasource;
+  final NetworkInfo networkInfo;
 
   PostRepositoryImpl({
     required this.localDatasource,
     required this.remoteDatasource,
+    required this.networkInfo,
   });
 
   @override
@@ -19,20 +21,46 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<Post>> getPosts(
-      {required Board board, required Post thread}) async {
-    return remoteDatasource.getPosts(
-      board: BoardModel.fromEntity(board),
-      thread: PostModel.fromEntity(thread),
-    );
+  Future<List<Post>> getPosts({
+    required Board board,
+    required Post thread,
+  }) async {
+    try {
+      return await remoteDatasource.getPosts(
+        board: BoardModel.fromEntity(board),
+        thread: PostModel.fromEntity(thread),
+      );
+    } catch (e) {
+      final posts = await localDatasource.getCachedPosts(
+        PostModel.fromEntity(thread),
+      );
+      if (posts.isNotEmpty) {
+        return posts;
+      }
+      rethrow;
+    }
   }
 
   @override
-  Future<List<Post>> getThreads({required Board board, required Sort sort}) {
-    return remoteDatasource.getThreads(
-      board: BoardModel.fromEntity(board),
-      sort: sort,
-    );
+  Future<List<Post>> getThreads({
+    required Board board,
+    required Sort sort,
+  }) async {
+    try {
+      return await remoteDatasource.getThreads(
+        board: BoardModel.fromEntity(board),
+        sort: SortModel.fromEntity(sort),
+      );
+    } catch (e) {
+      final threads = await localDatasource.getCachedThreads(
+        board: BoardModel.fromEntity(board),
+        sort: SortModel.fromEntity(sort),
+      );
+      if (threads.isNotEmpty) {
+        return threads;
+      }
+      rethrow;
+    }
   }
 
   @override
@@ -74,5 +102,13 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<List<Post>> getHistory() async {
     return localDatasource.getHistory();
+  }
+
+  @override
+  Future<void> insertPost(Board board, Post post) {
+    return localDatasource.insertPost(
+      BoardModel.fromEntity(board),
+      PostModel.fromEntity(post),
+    );
   }
 }

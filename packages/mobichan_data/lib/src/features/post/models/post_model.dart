@@ -29,7 +29,9 @@ class PostModel extends Post {
     String? trip,
     int? lastModified,
     String? country,
-    BoardModel? board,
+    String? boardId,
+    String? boardTitle,
+    int? boardWs,
   }) : super(
           no: no,
           now: now,
@@ -57,7 +59,9 @@ class PostModel extends Post {
           trip: trip,
           lastModified: lastModified,
           country: country,
-          board: board,
+          boardId: boardId,
+          boardTitle: boardTitle,
+          boardWs: boardWs,
         );
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -88,7 +92,9 @@ class PostModel extends Post {
       trip: json['trip'],
       lastModified: json['last_modified'],
       country: json['country'],
-      board: json['board'] != null ? BoardModel.fromJson(json['board']) : null,
+      boardId: json['board_id'],
+      boardTitle: json['board_title'],
+      boardWs: json['board_ws'],
     );
   }
 
@@ -120,7 +126,9 @@ class PostModel extends Post {
       trip: post.trip,
       lastModified: post.lastModified,
       country: post.country,
-      board: post.board != null ? BoardModel.fromEntity(post.board!) : null,
+      boardId: post.boardId,
+      boardTitle: post.boardTitle,
+      boardWs: post.boardWs,
     );
   }
 
@@ -152,7 +160,41 @@ class PostModel extends Post {
       'trip': trip,
       'last_modified': lastModified,
       'country': country,
-      'board': board,
+      'board_id': boardId,
+      'board_title': boardTitle,
+      'board_ws': boardWs,
     };
+  }
+}
+
+extension PostModelListExtension on List<PostModel> {
+  List<PostModel> sortedBySort(SortModel sort) {
+    switch (sort.order) {
+      case Order.byBump:
+        return this
+          ..sort((a, b) {
+            return a.lastModified!.compareTo(b.lastModified!);
+          });
+      case Order.byReplies:
+        return this
+          ..sort((a, b) {
+            return b.replies!.compareTo(a.replies!);
+          });
+      case Order.byImages:
+        return this
+          ..sort((a, b) {
+            return b.images!.compareTo(a.images!);
+          });
+      case Order.byNew:
+        return this
+          ..sort((a, b) {
+            return b.time.compareTo(a.time);
+          });
+      case Order.byOld:
+        return this
+          ..sort((a, b) {
+            return a.time.compareTo(b.time);
+          });
+    }
   }
 }

@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
-import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class PostRemoteDatasource {
@@ -14,7 +12,7 @@ abstract class PostRemoteDatasource {
   });
 
   Future<List<PostModel>> getThreads(
-      {required BoardModel board, required Sort sort});
+      {required BoardModel board, required SortModel sort});
 
   Future<void> postThread({
     required BoardModel board,
@@ -36,63 +34,46 @@ abstract class PostRemoteDatasource {
 
 class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   final String apiUrl = 'https://a.4cdn.org';
-  final String threadHistoryKey = 'thread_history';
 
-  final Dio client;
+  final NetworkManager networkManager;
 
-  PostRemoteDatasourceImpl({required this.client});
+  PostRemoteDatasourceImpl({
+    required this.networkManager,
+  });
 
   @override
   Future<List<PostModel>> getPosts({
     required BoardModel board,
     required PostModel thread,
   }) async {
-    final response = await client
-        .get<String>('$apiUrl/${board.board}/thread/${thread.no}.json');
-
-    if (response.statusCode == 200) {
-      try {
-        List<PostModel> posts = (jsonDecode(response.data!)['posts'] as List)
-            .map((model) => PostModel.fromJson(model))
-            .toList();
-        return posts;
-      } on Exception {
-        throw JsonDecodeException();
-      }
-    } else {
-      throw NetworkException();
-    }
+    final responseJson = await networkManager.makeRequest<Map<String, dynamic>>(
+      url: '$apiUrl/${board.board}/thread/${thread.no}.json',
+    );
+    final maps = responseJson['posts'] as List;
+    return List.generate(
+      maps.length,
+      (index) => PostModel.fromJson(maps[index]),
+    );
   }
 
   @override
   Future<List<PostModel>> getThreads({
     required BoardModel board,
-    required Sort sort,
+    required SortModel sort,
   }) async {
-    final response =
-        await client.get<String>('$apiUrl/${board.board}/catalog.json');
+    final responseJson = await networkManager.makeRequest<List>(
+      url: '$apiUrl/${board.board}/catalog.json',
+    );
+    List<PostModel> threads = List.empty(growable: true);
 
-    if (response.statusCode == 200) {
-      try {
-        List<PostModel> threads = List.empty(growable: true);
-        List pages = jsonDecode(response.data!);
-
-        for (var page in pages) {
-          List opsInPage = page['threads'];
-          for (var opInPage in opsInPage) {
-            threads.add(PostModel.fromJson(opInPage));
-          }
-        }
-
-        List<PostModel> sortedThreads = _sortThreads(threads, sort);
-
-        return sortedThreads;
-      } on Exception {
-        throw JsonDecodeException();
+    for (var page in responseJson) {
+      List opsInPage = page['threads'];
+      for (var opInPage in opsInPage) {
+        threads.add(PostModel.fromJson(opInPage));
       }
-    } else {
-      throw NetworkException();
     }
+
+    return threads.sortedBySort(sort);
   }
 
   @override
@@ -103,55 +84,13 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel post,
     String? filePath,
   }) async {
-    String url = "https://sys.4channel.org/${board.board}/post";
-
-    FormData formData = FormData.fromMap({
-      "name": post.name ?? '',
-      "sub": post.sub ?? '',
-      "pwd": '',
-      "email": '',
-      "com": post.com,
-      "mode": 'regist',
-      "t-challenge": captchaChallenge,
-      "t-response": captchaResponse,
-    });
-
-    if (filePath != null) {
-      formData.files.add(
-        MapEntry(
-          "upfile",
-          await MultipartFile.fromFile(
-            filePath,
-            filename: filePath.split(Platform.pathSeparator).last,
-          ),
-        ),
-      );
-    }
-
-    Map<String, String> headers = {
-      "origin": "https://board.4channel.org",
-      "referer": "https://board.4channel.org/",
-    };
-
-    Response<String>? response;
-
-    try {
-      response = await client.post(
-        url,
-        data: formData,
-        options: Options(
-          headers: headers,
-        ),
-      );
-    } on Exception {
-      throw NetworkException();
-    }
-
-    String? error = _getErrorMessage(response);
-
-    if (error != null) {
-      throw ChanException(error);
-    }
+    _post(
+      board: board,
+      captchaChallenge: captchaChallenge,
+      captchaResponse: captchaResponse,
+      post: post,
+      filePath: filePath,
+    );
   }
 
   @override
@@ -163,16 +102,41 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel post,
     String? filePath,
   }) async {
-    String url = "https://sys.4channel.org/${board.board}/post";
+    _post(
+      board: board,
+      captchaChallenge: captchaChallenge,
+      captchaResponse: captchaResponse,
+      resto: resto,
+      post: post,
+      filePath: filePath,
+    );
+  }
 
+  void _post({
+    required BoardModel board,
+    required String captchaChallenge,
+    required String captchaResponse,
+    required PostModel post,
+    PostModel? resto,
+    String? filePath,
+  }) async {
     FormData formData = FormData.fromMap({
       "name": post.name ?? '',
-      "com": post.com ?? '',
+      "com": post.com,
       "mode": 'regist',
-      "resto": resto.no,
       "t-challenge": captchaChallenge,
       "t-response": captchaResponse,
     });
+
+    if (resto != null) {
+      formData.fields.add(
+        MapEntry('resto', '${resto.no}'),
+      );
+    } else {
+      formData.fields.add(
+        MapEntry('sub', '${post.sub}'),
+      );
+    }
 
     if (filePath != null) {
       formData.files.add(
@@ -190,62 +154,26 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       "origin": "https://board.4channel.org",
       "referer": "https://board.4channel.org/",
     };
-    Response<String>? response;
 
-    try {
-      response = await client.post(
-        url,
-        data: formData,
-        options: Options(
-          headers: headers,
-        ),
-      );
-    } on Exception {
-      throw NetworkException();
-    }
+    final response = await networkManager.makeRequest<String>(
+      url: 'https://sys.4channel.org/${board.board}/post',
+      method: 'POST',
+      data: formData,
+      headers: headers,
+    );
 
-    String? error = _getErrorMessage(response);
+    final error = _getErrorMessage(response);
 
     if (error != null) {
       throw ChanException(error);
     }
   }
 
-  String? _getErrorMessage(Response<String>? response) {
-    var document = parse(response?.data);
+  String? _getErrorMessage(String data) {
+    var document = parse(data);
     Element? errMsg = document.getElementById('errmsg');
     if (errMsg != null) {
       return errMsg.innerHtml;
-    }
-  }
-
-  List<PostModel> _sortThreads(List<PostModel> threads, Sort sort) {
-    switch (sort.order) {
-      case Order.byBump:
-        return threads
-          ..sort((a, b) {
-            return a.lastModified!.compareTo(b.lastModified!);
-          });
-      case Order.byReplies:
-        return threads
-          ..sort((a, b) {
-            return b.replies!.compareTo(a.replies!);
-          });
-      case Order.byImages:
-        return threads
-          ..sort((a, b) {
-            return b.images!.compareTo(a.images!);
-          });
-      case Order.byNew:
-        return threads
-          ..sort((a, b) {
-            return b.time.compareTo(a.time);
-          });
-      case Order.byOld:
-        return threads
-          ..sort((a, b) {
-            return a.time.compareTo(b.time);
-          });
     }
   }
 }

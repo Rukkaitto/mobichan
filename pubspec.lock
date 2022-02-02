@@ -288,6 +288,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  data_connection_checker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "7c1f1e6dfab9a22cdd47285f7d43ec86d693ab33"
+      url: "https://github.com/chornthorn/data_connection_checker.git"
+    source: git
+    version: "0.3.4"
   dbus:
     dependency: transitive
     description:
@@ -808,7 +817,7 @@ packages:
     source: hosted
     version: "1.0.4"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
@@ -1079,12 +1088,12 @@ packages:
     source: hosted
     version: "1.8.1"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+4"
+    version: "2.0.1"
   sqflite_common:
     dependency: transitive
     description:
