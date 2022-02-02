@@ -18,7 +18,7 @@ class BoardRepositoryImpl extends BoardRepository {
   @override
   Future<List<Board>> getBoards() async {
     try {
-      return remoteDatasource.getBoards();
+      return await remoteDatasource.getBoards();
     } catch (e) {
       final boards = await localDatasource.getCachedBoards();
       if (boards.isNotEmpty) {
