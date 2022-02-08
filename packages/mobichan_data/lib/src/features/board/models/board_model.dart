@@ -1,6 +1,7 @@
+import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class BoardModel extends Board {
+class BoardModel extends Board with Model {
   const BoardModel({
     required String board,
     required String title,
@@ -14,9 +15,6 @@ class BoardModel extends Board {
     int? maxWebmDuration,
     int? bumpLimit,
     int? imageLimit,
-    int? threadsCooldown,
-    int? repliesCooldown,
-    int? imagesCooldown,
     String? metaDescription,
     int? isArchived,
     int? forcedAnon,
@@ -35,9 +33,6 @@ class BoardModel extends Board {
           maxWebmDuration: maxWebmDuration,
           bumpLimit: bumpLimit,
           imageLimit: imageLimit,
-          threadsCooldown: threadsCooldown,
-          repliesCooldown: repliesCooldown,
-          imagesCooldown: imagesCooldown,
           metaDescription: metaDescription,
           isArchived: isArchived,
           forcedAnon: forcedAnon,
@@ -47,7 +42,7 @@ class BoardModel extends Board {
           customSpoilers: customSpoilers,
         );
 
-  factory BoardModel.fromJson(Map<String, dynamic> json) {
+  static BoardModel fromJson(Map<String, dynamic> json) {
     return BoardModel(
       board: json['board'],
       title: json['title'],
@@ -60,9 +55,6 @@ class BoardModel extends Board {
       maxWebmDuration: json['max_webm_duration'],
       bumpLimit: json['bump_limit'],
       imageLimit: json['image_limit'],
-      threadsCooldown: json['cooldowns']?['threads'],
-      repliesCooldown: json['cooldowns']?['replies'],
-      imagesCooldown: json['cooldowns']?['images'],
       metaDescription: json['meta_description'],
       isArchived: json['is_archived'],
       forcedAnon: json['forced_anon'],
@@ -86,9 +78,6 @@ class BoardModel extends Board {
       maxWebmDuration: board.maxWebmDuration,
       bumpLimit: board.bumpLimit,
       imageLimit: board.imageLimit,
-      threadsCooldown: board.threadsCooldown,
-      repliesCooldown: board.repliesCooldown,
-      imagesCooldown: board.imagesCooldown,
       metaDescription: board.metaDescription,
       isArchived: board.isArchived,
       forcedAnon: board.forcedAnon,
@@ -112,11 +101,6 @@ class BoardModel extends Board {
       'max_webm_duration': maxWebmDuration,
       'bump_limit': bumpLimit,
       'image_limit': imageLimit,
-      'cooldowns': {
-        'threads': threadsCooldown,
-        'replies': repliesCooldown,
-        'images': imagesCooldown,
-      },
       'meta_description': metaDescription,
       'is_archived': isArchived,
       'forced_anon': forcedAnon,

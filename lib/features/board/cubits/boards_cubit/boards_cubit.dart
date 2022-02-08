@@ -16,6 +16,9 @@ class BoardsCubit extends Cubit<BoardsState> {
     try {
       emit(const BoardsLoading());
       boards = await repository.getBoards();
+      for (Board board in boards) {
+        await repository.insertBoard(board);
+      }
       emit(BoardsLoaded(boards));
     } on NetworkException {
       emit(BoardsError(kBoardsLoadingError.tr()));

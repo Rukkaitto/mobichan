@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class CaptchaRemoteDatasource {
@@ -12,9 +9,11 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
   final String apiUrl = 'https://sys.4channel.org/captcha';
   final String errorKey = 'error';
 
-  final Dio client;
+  final NetworkManager networkManager;
 
-  CaptchaRemoteDatasourceImpl({required this.client});
+  CaptchaRemoteDatasourceImpl({
+    required this.networkManager,
+  });
 
   @override
   Future<CaptchaChallengeModel> getCaptchaChallenge(
@@ -25,19 +24,15 @@ class CaptchaRemoteDatasourceImpl implements CaptchaRemoteDatasource {
     if (thread != null) {
       url += '&thread_id=${thread.no}';
     }
-    final response = await client.get<String>(url);
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> responseJson = jsonDecode(response.data!);
-      if (responseJson.containsKey(errorKey)) {
-        throw CaptchaChallengeException.fromJson(responseJson);
-      } else {
-        CaptchaChallengeModel captchaChallenge =
-            CaptchaChallengeModel.fromJson(responseJson);
-        return captchaChallenge;
-      }
+    final responseJson = await networkManager.makeRequest<Map<String, dynamic>>(
+      url: url,
+    );
+    if (responseJson.containsKey(errorKey)) {
+      throw CaptchaChallengeException.fromJson(responseJson);
     } else {
-      throw NetworkException();
+      CaptchaChallengeModel captchaChallenge =
+          CaptchaChallengeModel.fromJson(responseJson);
+      return captchaChallenge;
     }
   }
 }

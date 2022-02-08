@@ -13,6 +13,7 @@ const String apiReleasesUrl =
     "https://api.github.com/repos/Rukkaitto/mobichan/releases";
 const String apiCaptchaUrl = "https://sys.4channel.org/captcha";
 const String apiFlagsUrl = "https://s.4cdn.org/image/country";
+const String reverseImageSearchUrl = "https://images.google.com/searchbyimage";
 
 // Routes
 const String homeRoute = "/";
@@ -29,7 +30,7 @@ const String defaultBoardTitle = 'Technology';
 const int defaultBoardWs = 1;
 const String threadHistory = 'thread_history';
 const String lastSortingOrder = 'last_sorting_order';
-const String environement = 'env';
+const String environment = 'env';
 const String github = 'github';
 const String playStore = 'play_store';
 const String boardFavorites = 'board_favorites';

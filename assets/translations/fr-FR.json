@@ -57,5 +57,6 @@
   "appearance": "Apparence",
   "media": "Médias",
   "grid_view": "Afficher les threads en grille",
-  "full_dates": "Afficher les dates en entier"
+  "full_dates": "Afficher les dates en entier",
+  "analytics": "Envoyer des données d'analyse"
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobichan/core/core.dart';
+import 'package:mobichan/secrets.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/captcha/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
@@ -12,7 +13,11 @@ import 'package:mobichan/features/setting/cubits/cubits.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:supabase/supabase.dart';
 
 final sl = GetIt.instance;
 
@@ -27,13 +32,14 @@ Future<void> init() async {
 
   sl.registerLazySingleton<BoardRemoteDatasource>(
     () => BoardRemoteDatasourceImpl(
-      client: sl(),
+      networkManager: sl(),
     ),
   );
 
   sl.registerLazySingleton<BoardLocalDatasource>(
     () => BoardLocalDatasourceImpl(
       sharedPreferences: sl(),
+      database: sl(),
     ),
   );
 
@@ -76,7 +82,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<CaptchaRemoteDatasource>(
     () => CaptchaRemoteDatasourceImpl(
-      client: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -91,18 +97,20 @@ Future<void> init() async {
     () => PostRepositoryImpl(
       localDatasource: sl(),
       remoteDatasource: sl(),
+      networkInfo: sl(),
     ),
   );
 
   sl.registerLazySingleton<PostRemoteDatasource>(
     () => PostRemoteDatasourceImpl(
-      client: sl(),
+      networkManager: sl(),
     ),
   );
 
   sl.registerLazySingleton<PostLocalDatasource>(
     () => PostLocalDatasourceImpl(
       sharedPreferences: sl(),
+      database: sl(),
     ),
   );
 
@@ -133,7 +141,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ReleaseRemoteDatasource>(
     () => ReleaseRemoteDatasourceImpl(
-      client: sl(),
+      networkManager: sl(),
     ),
   );
 
@@ -198,10 +206,40 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
+  final database = await openDatabase(
+    join(await getDatabasesPath(), 'mobichan_database.db'),
+    onCreate: (db, version) async {
+      await db.execute(Board.databaseQuery('boards'));
+      await db.execute(Post.databaseQuery('posts'));
+    },
+    version: 1,
+  );
+  sl.registerLazySingleton<Database>(() => database);
+
   final packageInfo = await PackageInfo.fromPlatform();
   sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 
   sl.registerLazySingleton<Dio>(() => Dio());
+
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(
+      connectionChecker: DataConnectionChecker(),
+    ),
+  );
+
+  sl.registerLazySingleton<NetworkManager>(
+    () => NetworkManagerImpl(
+      client: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<SupabaseClient>(
+    () => SupabaseClient(
+      Secrets.supabaseUrl,
+      Secrets.supabaseKey,
+    ),
+  );
 
   log('Injected dependencies.', name: "Dependency Injector");
 }

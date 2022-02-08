@@ -27,7 +27,13 @@ extension BoardDrawerHandlers on BoardDrawer {
   void handleOnHistoryTap(BuildContext context, Post thread) {
     Navigator.of(context).pushNamed(
       ThreadPage.routeName,
-      arguments: ThreadPageArguments(board: thread.board!, thread: thread),
+      arguments: ThreadPageArguments(
+          board: Board(
+            board: thread.boardId!,
+            title: thread.boardTitle!,
+            wsBoard: thread.boardWs!,
+          ),
+          thread: thread),
     );
   }
 }

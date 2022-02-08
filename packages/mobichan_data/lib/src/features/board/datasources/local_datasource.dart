@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:mobichan_data/mobichan_data.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class BoardLocalDatasource {
   Future<List<BoardModel>> getFavoriteBoards();
@@ -17,6 +18,10 @@ abstract class BoardLocalDatasource {
   Future<BoardModel> getLastVisitedBoard();
 
   Future<void> saveLastVisitedBoard(BoardModel board);
+
+  Future<void> insertBoard(BoardModel board);
+
+  Future<List<BoardModel>> getCachedBoards();
 }
 
 class BoardLocalDatasourceImpl implements BoardLocalDatasource {
@@ -24,8 +29,12 @@ class BoardLocalDatasourceImpl implements BoardLocalDatasource {
   final String lastVisitedBoardKey = 'last_visited_board';
 
   final SharedPreferences sharedPreferences;
+  final Database database;
 
-  BoardLocalDatasourceImpl({required this.sharedPreferences});
+  BoardLocalDatasourceImpl({
+    required this.sharedPreferences,
+    required this.database,
+  });
 
   @override
   Future<void> addBoardToFavorites(BoardModel board) async {
@@ -105,5 +114,24 @@ class BoardLocalDatasourceImpl implements BoardLocalDatasource {
   Future<void> saveLastVisitedBoard(BoardModel board) async {
     await sharedPreferences.setString(
         lastVisitedBoardKey, jsonEncode(board.toJson()));
+  }
+
+  @override
+  Future<void> insertBoard(BoardModel board) async {
+    final boardJson = board.toJson();
+
+    await database.insert(
+      'boards',
+      boardJson,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<List<BoardModel>> getCachedBoards() async {
+    final maps = await database.query('boards');
+    return List.generate(maps.length, (index) {
+      return BoardModel.fromJson(maps[index]);
+    });
   }
 }

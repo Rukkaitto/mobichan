@@ -26,10 +26,9 @@ class HistoryCubit extends Cubit<HistoryState> {
     } else {
       final filteredHistory = history
           .where((post) =>
-              (post.board?.board.contains(input.toLowerCase().trim()) ??
-                  false) ||
-              (post.board?.title
-                      .toLowerCase()
+              (post.boardId?.contains(input.toLowerCase().trim()) ?? false) ||
+              (post.boardTitle
+                      ?.toLowerCase()
                       .contains(input.toLowerCase().trim()) ??
                   false) ||
               (post.sub?.toLowerCase().contains(input.toLowerCase().trim()) ??

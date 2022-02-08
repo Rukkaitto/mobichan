@@ -67,6 +67,12 @@ class SettingModel extends Setting {
         group: SettingGroup.general,
       ),
       const SettingModel(
+        title: 'analytics',
+        value: true,
+        type: SettingType.bool,
+        group: SettingGroup.general,
+      ),
+      const SettingModel(
         title: 'full_dates',
         value: false,
         type: SettingType.bool,
