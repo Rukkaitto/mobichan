@@ -74,15 +74,6 @@ jobs:
       - name: Pub Get Packages
         run: flutter pub get
 
-      - name: Running domain layer tests
-        run: flutter test packages/mobichan_domain
-
-      - name: Running data layer tests
-        run: flutter test packages/mobichan_data
-
-      - name: Running presentation layer tests
-        run: flutter test
-
       - name: Build Android Appbundle
         run: flutter build appbundle --dart-define=env=play_store
 
@@ -130,9 +121,6 @@ jobs:
 
       - name: Pub Get Packages
         run: flutter pub get
-
-      - name: Running presentation layer tests
-        run: flutter test
 
       - name: Build Android APK
         run: flutter build apk --split-per-abi --release --dart-define=env=github
