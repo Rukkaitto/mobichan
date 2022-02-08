@@ -41,7 +41,7 @@ jobs:
     needs: [decode]
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Get keyprop from artifacts
         uses: actions/download-artifact@v2
@@ -98,7 +98,7 @@ jobs:
     needs: [decode]
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Get keyprop from artifacts
         uses: actions/download-artifact@v2
