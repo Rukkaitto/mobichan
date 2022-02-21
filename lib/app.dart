@@ -59,7 +59,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             colorScheme: theme.colorScheme.copyWith(
               primary: const Color(0xFF6DEFDF),
               secondary: const Color(0xFF6DEFDF),
-              secondaryVariant: const Color(0xFF54BDB0),
+              secondaryContainer: const Color(0xFF54BDB0),
             ),
           ),
         ),
