@@ -106,12 +106,14 @@ class Post extends Equatable {
     if (tim != null) {
       return 'https://i.4cdn.org/${board.board}/$tim$ext';
     }
+    return null;
   }
 
   String? getThumbnailUrl(Board board) {
     if (tim != null) {
       return 'https://i.4cdn.org/${board.board}/${tim}s.jpg';
     }
+    return null;
   }
 
   bool get isWebm {
@@ -130,6 +132,7 @@ class Post extends Equatable {
     if (country != null) {
       return 'https://s.4cdn.org/image/country/${country?.toLowerCase()}.gif';
     }
+    return null;
   }
 
   static String databaseQuery(String tableName) {

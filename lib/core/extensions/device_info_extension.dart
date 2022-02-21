@@ -8,5 +8,6 @@ extension DeviceInfoExtension on DeviceInfoPlugin {
       var androidDeviceInfo = await androidInfo;
       return androidDeviceInfo.androidId?.toLowerCase();
     }
+    return null;
   }
 }

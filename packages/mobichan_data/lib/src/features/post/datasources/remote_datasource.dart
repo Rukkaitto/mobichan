@@ -175,5 +175,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     if (errMsg != null) {
       return errMsg.innerHtml;
     }
+    return null;
   }
 }

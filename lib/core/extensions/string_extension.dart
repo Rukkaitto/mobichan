@@ -9,6 +9,7 @@ extension StringExtension on String {
     if (errMsg != null) {
       return errMsg.innerHtml;
     }
+    return null;
   }
 
   String get removeHtmlTags {
