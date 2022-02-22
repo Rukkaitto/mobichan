@@ -141,4 +141,23 @@ extension BoardPageBuilders on BoardPage {
       },
     );
   }
+
+  Widget buildWarning() {
+    return Builder(
+      builder: (context) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(kNsfwWarningMessage).tr(),
+              ElevatedButton(
+                onPressed: () => handleOnDismissWarning(context),
+                child: const Text(kNsfwWarningEnter).tr(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

@@ -35,4 +35,8 @@ extension BoardPageHandlers on BoardPage {
     }
     context.read<FavoritesCubit>().getFavorites();
   }
+
+  void handleOnDismissWarning(BuildContext context) {
+    context.read<NsfwWarningCubit>().dismiss();
+  }
 }

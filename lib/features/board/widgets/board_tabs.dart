@@ -16,6 +16,7 @@ class BoardTabs extends StatelessWidget {
             DefaultTabController.of(context)?.animateTo(state.currentIndex);
             return TabBar(
               onTap: (index) async {
+                context.read<NsfwWarningCubit>().dismiss();
                 await context
                     .read<TabsCubit>()
                     .setCurrentTab(state.boards[index]);
