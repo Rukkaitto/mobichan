@@ -7,7 +7,9 @@ import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan/features/board/board.dart';
 
 class BoardPage extends StatelessWidget {
-  const BoardPage({Key? key}) : super(key: key);
+  final bool showWarning;
+
+  const BoardPage({this.showWarning = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,9 @@ class BoardPage extends StatelessWidget {
                   ),
                   drawer: const BoardDrawer(),
                   appBar: buildAppBar(context, state.current),
-                  body: buildTabBarView(state.current, state.boards),
+                  body: showWarning
+                      ? buildWarning()
+                      : buildTabBarView(state.current, state.boards),
                 ),
               ),
             );
