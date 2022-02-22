@@ -18,9 +18,7 @@ class ThreadsPage extends StatelessWidget {
           return BlocBuilder<SortCubit, SortState>(
             builder: (context, sortState) {
               if (sortState is SortLoaded) {
-                context
-                    .read<ThreadsCubit>()
-                    .getThreads(tabsState.current, sortState.sort);
+                context.read<ThreadsCubit>().getThreads(board, sortState.sort);
                 return BlocConsumer<ThreadsCubit, ThreadsState>(
                   listener: (context, threadsState) {
                     if (threadsState is ThreadsError) {

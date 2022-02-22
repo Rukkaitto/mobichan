@@ -66,7 +66,6 @@ extension BoardPageBuilders on BoardPage {
     return Stack(
       children: [
         TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
           children: boards
               .map(
                 (board) => ThreadsPage(board),
