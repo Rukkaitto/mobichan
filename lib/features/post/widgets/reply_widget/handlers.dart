@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -102,6 +103,7 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleSave(BuildContext context) async {
+    FirebaseAnalytics.instance.logEvent(name: 'screenshot_post');
     final image = await screenshotController.capture();
     final result = await ImageGallerySaver.saveImage(
       image!,
@@ -120,6 +122,7 @@ extension ReplyWidgetHandlers on ReplyWidget {
   }
 
   void handleShare() async {
+    FirebaseAnalytics.instance.logEvent(name: 'screenshot_post');
     final image = await screenshotController.capture();
     if (image != null) {
       final directory = await getTemporaryDirectory();

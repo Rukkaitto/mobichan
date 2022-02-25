@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -40,5 +41,6 @@ class RepliesCubit extends Cubit<RepliesState> {
       captchaResponse: response,
       filePath: file?.path,
     );
+    FirebaseAnalytics.instance.logEvent(name: 'post_reply');
   }
 }

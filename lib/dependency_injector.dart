@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/secrets.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/captcha/cubits/cubits.dart';
 import 'package:mobichan/features/post/cubits/cubits.dart';
@@ -17,7 +16,6 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:supabase/supabase.dart';
 
 final sl = GetIt.instance;
 
@@ -231,13 +229,6 @@ Future<void> init() async {
     () => NetworkManagerImpl(
       client: sl(),
       networkInfo: sl(),
-    ),
-  );
-
-  sl.registerLazySingleton<SupabaseClient>(
-    () => SupabaseClient(
-      Secrets.supabaseUrl,
-      Secrets.supabaseKey,
     ),
   );
 

@@ -51,7 +51,6 @@ dependencies:
   flutter_device_type: ^0.4.0
   timeago: ^3.1.0
   intl: ^0.17.0
-  supabase: ^0.2.10
   device_info_plus: ^3.2.0
   path: ^1.8.0
   sqflite: ^2.0.1
@@ -59,6 +58,9 @@ dependencies:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
+  firebase_core: ^1.13.0
+  firebase_analytics: ^9.1.1
+  firebase_crashlytics: ^2.5.2
 
 dev_dependencies:
   flutter_test:

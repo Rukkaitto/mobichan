@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/localization.dart';
@@ -41,6 +42,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
       captchaResponse: response,
       filePath: file?.path,
     );
+    FirebaseAnalytics.instance.logEvent(name: 'post_thread');
   }
 
   void search(String input) {
