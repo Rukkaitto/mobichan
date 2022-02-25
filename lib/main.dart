@@ -8,6 +8,7 @@ import 'package:mobichan/dependency_injector.dart' as dependency_injector;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PaintingBinding.instance!.imageCache!.maximumSizeBytes = 1024 * 1024 * 300;
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();
   timeago.setLocaleMessages('fr', timeago.FrMessages());
@@ -15,7 +16,11 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
+        Locale('nb', 'NO'),
+      ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
       child: const App(),

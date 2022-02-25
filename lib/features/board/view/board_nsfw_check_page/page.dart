@@ -29,11 +29,7 @@ class BoardNsfwCheckPage extends StatelessWidget {
                   sl<NsfwWarningCubit>()..checkNsfw(state.board),
               child: BlocBuilder<NsfwWarningCubit, bool>(
                 builder: (context, showWarning) {
-                  if (showWarning) {
-                    return buildWarning(context.read<NsfwWarningCubit>());
-                  } else {
-                    return const BoardPage();
-                  }
+                  return BoardPage(showWarning: showWarning);
                 },
               ),
             );

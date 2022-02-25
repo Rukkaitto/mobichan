@@ -67,7 +67,7 @@ class ContentWidget extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
             ),
             ".quotelink-lowlight": Style(
-              color: Theme.of(context).colorScheme.secondaryVariant,
+              color: Theme.of(context).colorScheme.secondaryContainer,
             ),
           },
         );

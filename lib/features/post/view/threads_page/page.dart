@@ -6,10 +6,15 @@ import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class ThreadsPage extends StatelessWidget {
+class ThreadsPage extends StatefulWidget {
   final Board board;
   const ThreadsPage(this.board, {Key? key}) : super(key: key);
 
+  @override
+  State<ThreadsPage> createState() => _ThreadsPageState();
+}
+
+class _ThreadsPageState extends State<ThreadsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TabsCubit, TabsState>(
@@ -34,13 +39,13 @@ class ThreadsPage extends StatelessWidget {
                   },
                   builder: (context, threadsState) {
                     if (threadsState is ThreadsLoaded) {
-                      return buildLoaded(
-                        board: board,
+                      return widget.buildLoaded(
+                        board: widget.board,
                         threads: threadsState.threads,
                         sort: sortState.sort,
                       );
                     } else {
-                      return buildLoading();
+                      return widget.buildLoading();
                     }
                   },
                 );
