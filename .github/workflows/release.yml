@@ -187,7 +187,7 @@ jobs:
         run: mkdir whatsnew
 
       - name: Put changelog in whatsnew directory
-        run: echo "${{ needs.version.outputs.changelog }}" > whatsnew/whatsnew-en-US
+        run: echo "${{ needs.changelog.outputs.changelog }}" > whatsnew/whatsnew-en-US
 
       - name: Release on the Play Store
         uses: swootte/upload-google-play@V1.1.5
