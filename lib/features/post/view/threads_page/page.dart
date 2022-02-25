@@ -14,11 +14,9 @@ class ThreadsPage extends StatefulWidget {
   State<ThreadsPage> createState() => _ThreadsPageState();
 }
 
-class _ThreadsPageState extends State<ThreadsPage>
-    with AutomaticKeepAliveClientMixin {
+class _ThreadsPageState extends State<ThreadsPage> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return BlocBuilder<TabsCubit, TabsState>(
       builder: (context, tabsState) {
         if (tabsState is TabsLoaded) {
@@ -62,7 +60,4 @@ class _ThreadsPageState extends State<ThreadsPage>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

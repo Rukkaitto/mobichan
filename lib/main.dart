@@ -8,6 +8,7 @@ import 'package:mobichan/dependency_injector.dart' as dependency_injector;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PaintingBinding.instance!.imageCache!.maximumSizeBytes = 1024 * 1024 * 300;
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();
   timeago.setLocaleMessages('fr', timeago.FrMessages());
