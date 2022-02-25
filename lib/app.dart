@@ -9,7 +9,6 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 import 'features/setting/setting.dart';
 import 'features/post/post.dart';
-import 'core/core.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -29,12 +28,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    Analytics.sendDeviceInfo(active: state == AppLifecycleState.resumed);
   }
 
   @override
