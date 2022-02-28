@@ -35,13 +35,14 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     required String response,
     required XFile? file,
   }) async {
-    await repository.postThread(
+    final thread = await repository.postThread(
       board: board,
       post: post,
       captchaChallenge: captcha.challenge,
       captchaResponse: response,
       filePath: file?.path,
     );
+    await repository.insertUserPost(thread);
     FirebaseAnalytics.instance.logEvent(name: 'post_thread');
   }
 

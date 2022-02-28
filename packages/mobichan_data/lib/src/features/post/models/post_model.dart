@@ -1,13 +1,14 @@
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
+// ignore: must_be_immutable
 class PostModel extends Post {
-  const PostModel({
-    required int no,
-    required String now,
-    required int time,
-    required int resto,
-    String? name,
+  PostModel({
+    int no = 0,
+    String now = '',
+    String? name = 'Anonymous',
+    int time = 0,
+    int resto = 0,
     int? sticky,
     int? closed,
     String? sub,

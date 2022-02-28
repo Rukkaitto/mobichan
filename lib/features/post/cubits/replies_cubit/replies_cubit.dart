@@ -16,6 +16,12 @@ class RepliesCubit extends Cubit<RepliesState> {
     try {
       List<Post> replies =
           await repository.getPosts(board: board, thread: thread);
+      List<Post> userPosts = await repository.getUserPosts();
+      for (var reply in replies) {
+        if (userPosts.map((post) => post.no).contains(reply.no)) {
+          reply.isMine = true;
+        }
+      }
       for (Post post in replies) {
         await repository.insertPost(board, post);
       }
@@ -33,7 +39,7 @@ class RepliesCubit extends Cubit<RepliesState> {
     required String response,
     required XFile? file,
   }) async {
-    await repository.postReply(
+    final reply = await repository.postReply(
       board: board,
       post: post,
       resto: resto,
@@ -41,6 +47,7 @@ class RepliesCubit extends Cubit<RepliesState> {
       captchaResponse: response,
       filePath: file?.path,
     );
+    await repository.insertUserPost(reply);
     FirebaseAnalytics.instance.logEvent(name: 'post_reply');
   }
 }
