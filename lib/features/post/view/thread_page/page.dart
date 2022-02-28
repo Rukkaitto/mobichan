@@ -56,36 +56,27 @@ class ThreadPage extends StatelessWidget {
         builder: (context) {
           return BlocBuilder<RepliesCubit, RepliesState>(
             builder: (context, repliesState) {
+              if (repliesState is! RepliesLoaded) {
+                return Scaffold(
+                  appBar: buildAppBar(
+                    args: args,
+                    context: context,
+                    thread: args.thread,
+                    replies: [],
+                  ),
+                  body: buildLoading(args.board, args.thread),
+                );
+              }
               return Scaffold(
                 floatingActionButton: FloatingActionButton(
                   onPressed: () => handleFormButtonPressed(context),
                   child: const Icon(Icons.edit),
                 ),
-                appBar: AppBar(
-                  title: Text(args
-                      .thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.image),
-                      onPressed: () => repliesState is RepliesLoaded
-                          ? handleGalleryButton(
-                              context,
-                              args.board,
-                              repliesState.replies
-                                  .where((element) => element.filename != null)
-                                  .toList(),
-                            )
-                          : null,
-                    ),
-                    buildPopupMenuButton(
-                      context: context,
-                      board: args.board,
-                      thread: args.thread,
-                      replies: repliesState is RepliesLoaded
-                          ? repliesState.replies
-                          : [],
-                    ),
-                  ],
+                appBar: buildAppBar(
+                  args: args,
+                  context: context,
+                  thread: repliesState.replies.first,
+                  replies: repliesState.replies,
                 ),
                 body: RefreshIndicator(
                   onRefresh: () async =>
@@ -93,29 +84,25 @@ class ThreadPage extends StatelessWidget {
                   child: SettingProvider(
                     settingTitle: 'threaded_replies',
                     builder: (threadedReplies) {
-                      if (repliesState is RepliesLoaded) {
-                        return Stack(
-                          children: [
-                            threadedReplies.value
-                                ? buildThreadedReplies(
-                                    board: args.board,
-                                    thread: args.thread,
-                                    replies: repliesState.replies,
-                                  )
-                                : buildLinearReplies(
-                                    board: args.board,
-                                    thread: args.thread,
-                                    replies: repliesState.replies,
-                                  ),
-                            FormWidget(
-                              board: args.board,
-                              thread: args.thread,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return buildLoading(args.board, args.thread);
-                      }
+                      return Stack(
+                        children: [
+                          threadedReplies.value
+                              ? buildThreadedReplies(
+                                  board: args.board,
+                                  thread: repliesState.replies.first,
+                                  replies: repliesState.replies,
+                                )
+                              : buildLinearReplies(
+                                  board: args.board,
+                                  thread: repliesState.replies.first,
+                                  replies: repliesState.replies,
+                                ),
+                          FormWidget(
+                            board: args.board,
+                            thread: args.thread,
+                          ),
+                        ],
+                      );
                     },
                   ),
                 ),
