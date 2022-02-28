@@ -71,8 +71,8 @@ class PostRepositoryImpl implements PostRepository {
     required Post resto,
     required Post post,
     String? filePath,
-  }) {
-    return remoteDatasource.postReply(
+  }) async {
+    final reply = await remoteDatasource.postReply(
       board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
@@ -80,6 +80,10 @@ class PostRepositoryImpl implements PostRepository {
       post: PostModel.fromEntity(post),
       filePath: filePath,
     );
+    await remoteDatasource.saveToFirestore(
+      post: PostModel.fromEntity(reply),
+    );
+    return reply;
   }
 
   @override
@@ -89,14 +93,18 @@ class PostRepositoryImpl implements PostRepository {
     required String captchaResponse,
     required Post post,
     String? filePath,
-  }) {
-    return remoteDatasource.postThread(
+  }) async {
+    final thread = await remoteDatasource.postThread(
       board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       post: PostModel.fromEntity(post),
       filePath: filePath,
     );
+    await remoteDatasource.saveToFirestore(
+      post: PostModel.fromEntity(thread),
+    );
+    return thread;
   }
 
   @override

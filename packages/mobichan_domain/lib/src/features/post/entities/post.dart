@@ -85,6 +85,15 @@ class Post extends Equatable {
     return replies;
   }
 
+  List<int> replyingToNo() {
+    final regExp = RegExp(r'(?<=>>)\d+');
+    final matches = regExp
+        .allMatches(com ?? '')
+        .map((match) => int.parse(match.group(0) ?? ""))
+        .toList();
+    return matches;
+  }
+
   List<Post> replyingTo(List<Post> posts) {
     final regExp = RegExp(r'(?<=href="#p)\d+(?=")');
     final matches = regExp

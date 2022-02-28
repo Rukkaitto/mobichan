@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
@@ -29,6 +31,10 @@ abstract class PostRemoteDatasource {
     required PostModel resto,
     required PostModel post,
     String? filePath,
+  });
+
+  Future<void> saveToFirestore({
+    required PostModel post,
   });
 }
 
@@ -193,5 +199,16 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     final regExp = RegExp(r'(?<=no:)\d+');
     final match = regExp.firstMatch(data)?.group(0);
     return int.parse(match!);
+  }
+
+  @override
+  Future<void> saveToFirestore({required PostModel post}) async {
+    final token = await FirebaseMessaging.instance.getToken();
+    FirebaseFirestore.instance.collection('users').doc(post.no.toString()).set({
+      'token': token,
+      'replyTo': post.replyingToNo(),
+      'post': post.toJson(),
+      'notification_sent': false,
+    });
   }
 }
