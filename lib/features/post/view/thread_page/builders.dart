@@ -14,7 +14,7 @@ extension ThreadPageBuilders on ThreadPage {
     required ThreadPageArguments args,
     required BuildContext context,
     required Post thread,
-    required List<Post> replies,
+    List<Post> replies = const [],
   }) {
     return AppBar(
       title: Text(args.thread.displayTitle.replaceBrWithSpace.removeHtmlTags),

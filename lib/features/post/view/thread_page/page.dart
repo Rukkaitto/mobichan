@@ -62,7 +62,6 @@ class ThreadPage extends StatelessWidget {
                     args: args,
                     context: context,
                     thread: args.thread,
-                    replies: [],
                   ),
                   body: buildLoading(args.board, args.thread),
                 );
