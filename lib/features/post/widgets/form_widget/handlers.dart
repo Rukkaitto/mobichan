@@ -50,7 +50,7 @@ extension FormWidgetHandlers on FormWidget {
     if (result != null) {
       if (thread == null) {
         try {
-          await context.read<ThreadsCubit>().postThread(
+          final newThread = await context.read<ThreadsCubit>().postThread(
                 board: board,
                 post: post,
                 captcha: result.captcha,
@@ -62,6 +62,10 @@ extension FormWidgetHandlers on FormWidget {
           context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, kPostSuccessful.tr()),
+          );
+          Navigator.of(context).pushNamed(
+            ThreadPage.routeName,
+            arguments: ThreadPageArguments(board: board, thread: newThread),
           );
         } on ChanException catch (error) {
           ScaffoldMessenger.of(context).showSnackBar(

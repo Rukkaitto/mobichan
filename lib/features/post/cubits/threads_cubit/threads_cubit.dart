@@ -28,7 +28,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     }
   }
 
-  Future<void> postThread({
+  Future<Post> postThread({
     required Board board,
     required Post post,
     required CaptchaChallenge captcha,
@@ -44,6 +44,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     );
     await repository.insertUserPost(thread);
     FirebaseAnalytics.instance.logEvent(name: 'post_thread');
+    return thread;
   }
 
   void search(String input) {
