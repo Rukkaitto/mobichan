@@ -64,7 +64,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<void> postReply({
+  Future<Post> postReply({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -83,7 +83,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<void> postThread({
+  Future<Post> postThread({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -108,6 +108,18 @@ class PostRepositoryImpl implements PostRepository {
   Future<void> insertPost(Board board, Post post) {
     return localDatasource.insertPost(
       BoardModel.fromEntity(board),
+      PostModel.fromEntity(post),
+    );
+  }
+
+  @override
+  Future<List<Post>> getUserPosts() {
+    return localDatasource.getUserPosts();
+  }
+
+  @override
+  Future<void> insertUserPost(Post post) {
+    return localDatasource.insertUserPost(
       PostModel.fromEntity(post),
     );
   }

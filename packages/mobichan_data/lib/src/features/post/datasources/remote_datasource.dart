@@ -14,7 +14,7 @@ abstract class PostRemoteDatasource {
   Future<List<PostModel>> getThreads(
       {required BoardModel board, required SortModel sort});
 
-  Future<void> postThread({
+  Future<PostModel> postThread({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -22,7 +22,7 @@ abstract class PostRemoteDatasource {
     String? filePath,
   });
 
-  Future<void> postReply({
+  Future<PostModel> postReply({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -77,14 +77,14 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<void> postThread({
+  Future<PostModel> postThread({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
     required PostModel post,
     String? filePath,
   }) async {
-    _post(
+    return _post(
       board: board,
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
@@ -94,7 +94,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<void> postReply({
+  Future<PostModel> postReply({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -102,7 +102,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel post,
     String? filePath,
   }) async {
-    _post(
+    return _post(
       board: board,
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
@@ -112,7 +112,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     );
   }
 
-  void _post({
+  Future<PostModel> _post({
     required BoardModel board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -167,6 +167,17 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     if (error != null) {
       throw ChanException(error);
     }
+
+    return PostModel(
+      no: _getCreatedPostNo(response),
+      resto: resto?.no ?? 0,
+      boardId: board.board,
+      boardTitle: board.title,
+      boardWs: board.wsBoard,
+      sub: post.sub,
+      com: post.com,
+      name: post.name,
+    );
   }
 
   String? _getErrorMessage(String data) {
@@ -176,5 +187,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       return errMsg.innerHtml;
     }
     return null;
+  }
+
+  int _getCreatedPostNo(String data) {
+    final regExp = RegExp(r'(?<=no:)\d+');
+    final match = regExp.firstMatch(data)?.group(0);
+    return int.parse(match!);
   }
 }

@@ -209,6 +209,7 @@ Future<void> init() async {
     onCreate: (db, version) async {
       await db.execute(Board.databaseQuery('boards'));
       await db.execute(Post.databaseQuery('posts'));
+      await db.execute(Post.databaseQuery('user_posts'));
     },
     version: 1,
   );

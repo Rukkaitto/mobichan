@@ -39,6 +39,7 @@ class ReplyWidget extends StatelessWidget {
     return Screenshot(
       controller: screenshotController,
       child: Material(
+        color: post.isMine ? Colors.white.withOpacity(0.05) : null,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

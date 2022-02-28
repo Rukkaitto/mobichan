@@ -17,6 +17,10 @@ abstract class PostLocalDatasource {
 
   Future<List<PostModel>> getCachedThreads(
       {required BoardModel board, required SortModel sort});
+
+  Future<List<PostModel>> getUserPosts();
+
+  Future<void> insertUserPost(PostModel post);
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -117,5 +121,24 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       return PostModel.fromJson(maps[index]);
     });
     return threads.sortedBySort(sort);
+  }
+
+  @override
+  Future<List<PostModel>> getUserPosts() async {
+    final maps = await database.query('user_posts');
+    final posts = List.generate(maps.length, (index) {
+      return PostModel.fromJson(maps[index]);
+    });
+    return posts;
+  }
+
+  @override
+  Future<void> insertUserPost(PostModel post) async {
+    final postJson = post.toJson();
+    await database.insert(
+      'user_posts',
+      postJson,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }

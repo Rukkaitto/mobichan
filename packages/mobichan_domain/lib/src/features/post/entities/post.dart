@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
+// ignore: must_be_immutable
 class Post extends Equatable {
   final int no;
   final String now;
@@ -32,8 +33,9 @@ class Post extends Equatable {
   final String? boardId;
   final String? boardTitle;
   final int? boardWs;
+  bool isMine;
 
-  const Post({
+  Post({
     this.no = 0,
     this.now = '',
     this.name = 'Anonymous',
@@ -63,6 +65,7 @@ class Post extends Equatable {
     this.boardId,
     this.boardTitle,
     this.boardWs,
+    this.isMine = false,
   });
 
   List<Post> getReplies(List<Post> posts) {
