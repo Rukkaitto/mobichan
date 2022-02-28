@@ -20,6 +20,18 @@ class ContentWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  String insertYous(String? str) {
+    final quoting = reply.replyingTo(threadReplies);
+    String result = str ?? '';
+    for (Post post in quoting) {
+      if (post.isMine) {
+        result =
+            result.replaceAll('&gt;&gt;${post.no}', '&gt;&gt;${post.no}(You)');
+      }
+    }
+    return result;
+  }
+
   String highlightReplyingTo(String? str, Post? replyingTo) {
     if (str == null) return '';
     if (replyingTo == null) return str;
@@ -46,7 +58,8 @@ class ContentWidget extends StatelessWidget {
           selectionControls: PostTextSelectionControls(
             customButton: (start, end) => handleQuote(context, start, end),
           ),
-          data: insertATags(highlightReplyingTo(reply.com, replyingTo)),
+          data: insertYous(
+              insertATags(highlightReplyingTo(reply.com, replyingTo))),
           onAnchorTap: (str, renderContext, attributes, element) {
             if (attributes['class'] == 'quotelink' ||
                 attributes['class'] == 'quotelink-lowlight') {
