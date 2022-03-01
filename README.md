@@ -34,6 +34,7 @@ A 4chan app made with Flutter.
 
 - You can add a missing language by creating a json file in `assets/translations`.
 - The json file must be named `{languageCode}-{countryCode}.json`.
+- Finally, add the line `Locale('{languageCode}', '{countryCode}'),` to the `supportedLocales` array in `main.dart`.
 - For further documentation, read [this](https://pub.dev/packages/easy_localization).
 
 ## Roadmap
