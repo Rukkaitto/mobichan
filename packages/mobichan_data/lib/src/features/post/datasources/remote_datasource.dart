@@ -206,8 +206,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel post,
   }) async {
     final token = await FirebaseMessaging.instance.getToken();
-    FirebaseFirestore.instance.collection('posts').doc(post.no.toString()).set({
+    FirebaseFirestore.instance.collection('posts').doc().set({
       'token': token,
+      'replies': [],
       'post': post.toJson(),
     });
   }
