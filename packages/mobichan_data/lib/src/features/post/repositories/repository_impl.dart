@@ -82,7 +82,6 @@ class PostRepositoryImpl implements PostRepository {
     );
     await remoteDatasource.saveToFirestore(
       post: PostModel.fromEntity(reply),
-      resto: PostModel.fromEntity(resto),
     );
     return reply;
   }
@@ -104,7 +103,6 @@ class PostRepositoryImpl implements PostRepository {
     );
     await remoteDatasource.saveToFirestore(
       post: PostModel.fromEntity(thread),
-      resto: PostModel(no: 0),
     );
     return thread;
   }
