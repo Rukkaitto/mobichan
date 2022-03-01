@@ -35,6 +35,7 @@ abstract class PostRemoteDatasource {
 
   Future<void> saveToFirestore({
     required PostModel post,
+    required PostModel resto,
   });
 }
 
@@ -202,10 +203,14 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<void> saveToFirestore({required PostModel post}) async {
+  Future<void> saveToFirestore({
+    required PostModel post,
+    required PostModel resto,
+  }) async {
     final token = await FirebaseMessaging.instance.getToken();
     FirebaseFirestore.instance.collection('users').doc(post.no.toString()).set({
       'token': token,
+      'thread': resto.no,
       'replyTo': post.replyingToNo(),
       'post': post.toJson(),
       'notification_sent': false,
