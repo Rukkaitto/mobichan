@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/app.dart';
@@ -10,7 +9,6 @@ import 'package:mobichan/dependency_injector.dart' as dependency_injector;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAuth.instance.signInAnonymously();
   PaintingBinding.instance!.imageCache!.maximumSizeBytes = 1024 * 1024 * 300;
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();
