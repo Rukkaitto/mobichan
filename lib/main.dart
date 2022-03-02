@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobichan/app.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mobichan/core/core.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:mobichan/dependency_injector.dart' as dependency_injector;
 
@@ -12,7 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseAuth.instance.signInAnonymously();
-  await Notifications.setup();
   PaintingBinding.instance!.imageCache!.maximumSizeBytes = 1024 * 1024 * 300;
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();

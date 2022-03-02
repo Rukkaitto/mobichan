@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/dependency_injector.dart';
 import 'package:mobichan/theme.dart';
@@ -8,6 +7,7 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
+import 'core/core.dart';
 import 'features/setting/setting.dart';
 import 'features/post/post.dart';
 
@@ -19,9 +19,15 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
+  final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: 'Main Navigator');
   @override
   void initState() {
     super.initState();
+
+    final notificationManager = NotificationManager(navigatorKey: navigatorKey);
+    notificationManager.setup();
+    notificationManager.setupInteractedMessage();
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -38,6 +44,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       child: RepositoryProvider<ReleaseRepository>(
         create: (context) => sl(),
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
