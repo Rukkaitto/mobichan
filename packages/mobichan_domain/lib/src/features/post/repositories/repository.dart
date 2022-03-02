@@ -5,7 +5,7 @@ abstract class PostRepository {
 
   Future<List<Post>> getThreads({required Board board, required Sort sort});
 
-  Future<void> postThread({
+  Future<Post> postThread({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -13,7 +13,7 @@ abstract class PostRepository {
     String? filePath,
   });
 
-  Future<void> postReply({
+  Future<Post> postReply({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
@@ -27,4 +27,8 @@ abstract class PostRepository {
   Future<List<Post>> getHistory();
 
   Future<void> insertPost(Board board, Post post);
+
+  Future<void> insertUserPost(Post post);
+
+  Future<List<Post>> getUserPosts();
 }

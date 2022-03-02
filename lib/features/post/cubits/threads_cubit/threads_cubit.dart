@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/localization.dart';
@@ -27,20 +28,23 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     }
   }
 
-  Future<void> postThread({
+  Future<Post> postThread({
     required Board board,
     required Post post,
     required CaptchaChallenge captcha,
     required String response,
     required XFile? file,
   }) async {
-    await repository.postThread(
+    final thread = await repository.postThread(
       board: board,
       post: post,
       captchaChallenge: captcha.challenge,
       captchaResponse: response,
       filePath: file?.path,
     );
+    await repository.insertUserPost(thread);
+    FirebaseAnalytics.instance.logEvent(name: 'post_thread');
+    return thread;
   }
 
   void search(String input) {

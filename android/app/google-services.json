@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "106190369207",
+    "project_id": "mobichan-5858e",
+    "storage_bucket": "mobichan-5858e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106190369207:android:811949fb9908c36f71b832",
+        "android_client_info": {
+          "package_name": "com.lucasgoudin.mobichan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106190369207-cs3jf45cjjtueptcl9sq82dupck90s4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD3pt_UWRFtvMwbWgPrAjxWS7AX67dLG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106190369207-cs3jf45cjjtueptcl9sq82dupck90s4e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "106190369207-nt2lmoqvvjaqkgdnfqefslnhhk07a925.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lucasgoudin.mobichan.mobichan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

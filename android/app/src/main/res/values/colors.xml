@@ -1,3 +1,4 @@
 <resources>
     <color name="splashBackground">#202020</color>
+    <color name="notificationColor">#00DAC6</color>
 </resources>

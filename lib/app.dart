@@ -7,9 +7,9 @@ import 'package:mobichan/constants.dart';
 import 'package:mobichan/home.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
+import 'core/core.dart';
 import 'features/setting/setting.dart';
 import 'features/post/post.dart';
-import 'core/core.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -19,9 +19,15 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
+  final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: 'Main Navigator');
   @override
   void initState() {
     super.initState();
+
+    final notificationManager = NotificationManager(navigatorKey: navigatorKey);
+    notificationManager.setup();
+    notificationManager.setupInteractedMessage();
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -32,18 +38,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    Analytics.sendDeviceInfo(active: state == AppLifecycleState.resumed);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingsCubit>(
       create: (context) => sl()..getSettings(),
       child: RepositoryProvider<ReleaseRepository>(
         create: (context) => sl(),
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

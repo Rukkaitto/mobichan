@@ -4,7 +4,7 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 void main() {
   group('Post', () {
     const tBoard = Board(board: 'g', title: 'Technology', wsBoard: 1);
-    const tOP = Post(
+    Post tOP = Post(
       no: 123123,
       sub: 'This is a subject',
       name: 'Name',
@@ -15,14 +15,14 @@ void main() {
       ext: '.png',
       country: 'FR',
     );
-    const tNoFileReply = Post(
+    Post tNoFileReply = Post(
       no: 234234,
       com: """
         <a href="#p123123" class="quotelink">&gt;&gt;123123
         this is a comment replying to the first post
       """,
     );
-    const tWebmReply = Post(
+    Post tWebmReply = Post(
       no: 345345,
       com: """
         <a href="#p123123" class="quotelink">&gt;&gt;123123
@@ -31,13 +31,22 @@ void main() {
       tim: 4792974,
       ext: '.webm',
     );
-    const tImagePost = Post(
+    Post tImagePost = Post(
       no: 794794,
       tim: 9483945,
       ext: '.png',
     );
+    Post tCreatedPost = Post(
+      boardId: 'g',
+      boardTitle: 'Technology',
+      no: 4798274,
+      com: """
+        >>123123
+        quoting first post
+      """,
+    );
 
-    List<Post> tPosts = const [
+    List<Post> tPosts = [
       tOP,
       tNoFileReply,
       tWebmReply,
@@ -67,6 +76,20 @@ void main() {
         final replyingTo = tNoFileReply.replyingTo(tPosts);
         expect(replyingTo.isEmpty, false);
         expect(replyingTo.contains(tOP), true);
+      });
+    });
+
+    group('replyingToNo', () {
+      test('should return empty list if the post is replying to no one', () {
+        final replyingTo = tOP.replyingToNo();
+        expect(replyingTo, []);
+      });
+
+      test('should return a list of post numbers that the post is replying to',
+          () {
+        final replyingTo = tCreatedPost.replyingToNo();
+        expect(replyingTo.isEmpty, false);
+        expect(replyingTo.contains(tOP.no), true);
       });
     });
 

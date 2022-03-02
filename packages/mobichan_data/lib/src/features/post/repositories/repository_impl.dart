@@ -64,15 +64,15 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<void> postReply({
+  Future<Post> postReply({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
     required Post resto,
     required Post post,
     String? filePath,
-  }) {
-    return remoteDatasource.postReply(
+  }) async {
+    final reply = await remoteDatasource.postReply(
       board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
@@ -80,23 +80,31 @@ class PostRepositoryImpl implements PostRepository {
       post: PostModel.fromEntity(post),
       filePath: filePath,
     );
+    await remoteDatasource.saveToFirestore(
+      post: PostModel.fromEntity(reply),
+    );
+    return reply;
   }
 
   @override
-  Future<void> postThread({
+  Future<Post> postThread({
     required Board board,
     required String captchaChallenge,
     required String captchaResponse,
     required Post post,
     String? filePath,
-  }) {
-    return remoteDatasource.postThread(
+  }) async {
+    final thread = await remoteDatasource.postThread(
       board: BoardModel.fromEntity(board),
       captchaChallenge: captchaChallenge,
       captchaResponse: captchaResponse,
       post: PostModel.fromEntity(post),
       filePath: filePath,
     );
+    await remoteDatasource.saveToFirestore(
+      post: PostModel.fromEntity(thread),
+    );
+    return thread;
   }
 
   @override
@@ -108,6 +116,18 @@ class PostRepositoryImpl implements PostRepository {
   Future<void> insertPost(Board board, Post post) {
     return localDatasource.insertPost(
       BoardModel.fromEntity(board),
+      PostModel.fromEntity(post),
+    );
+  }
+
+  @override
+  Future<List<Post>> getUserPosts() {
+    return localDatasource.getUserPosts();
+  }
+
+  @override
+  Future<void> insertUserPost(Post post) {
+    return localDatasource.insertUserPost(
       PostModel.fromEntity(post),
     );
   }

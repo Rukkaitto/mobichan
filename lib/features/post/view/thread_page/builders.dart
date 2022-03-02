@@ -10,6 +10,33 @@ import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension ThreadPageBuilders on ThreadPage {
+  AppBar buildAppBar({
+    required BuildContext context,
+    required Board board,
+    required Post thread,
+    List<Post> replies = const [],
+  }) {
+    return AppBar(
+      title: Text(thread.displayTitle.replaceBrWithSpace.removeHtmlTags),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.image),
+          onPressed: () => handleGalleryButton(
+            context,
+            board,
+            replies.where((element) => element.filename != null).toList(),
+          ),
+        ),
+        buildPopupMenuButton(
+          context: context,
+          board: board,
+          thread: thread,
+          replies: replies,
+        ),
+      ],
+    );
+  }
+
   PopupMenuButton<dynamic> buildPopupMenuButton({
     required BuildContext context,
     required Board board,

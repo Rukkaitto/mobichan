@@ -58,5 +58,6 @@
   "media": "Media",
   "grid_view": "Show threads as a grid",
   "full_dates": "Show full dates",
-  "analytics": "Send analytics"
+  "analytics": "Send analytics",
+  "notifications": "Enable notifications"
 }
