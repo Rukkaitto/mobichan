@@ -1,8 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Notifications {
   static Future<void> setup() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = await FirebaseMessaging.instance.getToken();
+    FirebaseFirestore.instance.collection('users').doc(token).set(
+      {
+        'getsNotifications': prefs.getBool('notifications') ?? true,
+      },
+      SetOptions(merge: true),
+    );
+
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
