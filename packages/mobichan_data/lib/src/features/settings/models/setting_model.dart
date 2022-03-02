@@ -73,6 +73,12 @@ class SettingModel extends Setting {
         group: SettingGroup.general,
       ),
       const SettingModel(
+        title: 'notifications',
+        value: true,
+        type: SettingType.bool,
+        group: SettingGroup.general,
+      ),
+      const SettingModel(
         title: 'full_dates',
         value: false,
         type: SettingType.bool,

@@ -20,6 +20,7 @@ A 4chan app made with Flutter.
 - Gallery mode
 - Threading
 - Localization
+- Reply push notifications
 
 ## Screenshots
 

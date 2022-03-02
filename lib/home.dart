@@ -7,20 +7,29 @@ import 'package:mobichan/features/board/board.dart';
 
 import 'features/release/release.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   static String routeName = '/';
 
   const Home({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    setOptimalDisplayMode();
-    checkForUpdates(context);
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    _setOptimalDisplayMode();
+    _checkForUpdates();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return const BoardNsfwCheckPage();
   }
 
-  Future<void> setOptimalDisplayMode() async {
+  Future<void> _setOptimalDisplayMode() async {
     if (Platform.isAndroid) {
       final List<DisplayMode> supported = await FlutterDisplayMode.supported;
       final DisplayMode active = await FlutterDisplayMode.active;
@@ -39,7 +48,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  void checkForUpdates(BuildContext context) {
+  void _checkForUpdates() {
     if (const String.fromEnvironment(environment) == github &&
         Platform.isAndroid) {
       Updater.checkForUpdates(context).then((needsUpdate) {

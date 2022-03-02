@@ -25,6 +25,7 @@ class DateWidget extends StatelessWidget {
         builder: (fullDatesSetting) {
           return Builder(
             builder: (context) {
+              if (post.time == 0) return Container();
               final date =
                   DateTime.fromMillisecondsSinceEpoch(post.time * 1000);
 

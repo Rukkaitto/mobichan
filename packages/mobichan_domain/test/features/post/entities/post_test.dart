@@ -36,6 +36,15 @@ void main() {
       tim: 9483945,
       ext: '.png',
     );
+    Post tCreatedPost = Post(
+      boardId: 'g',
+      boardTitle: 'Technology',
+      no: 4798274,
+      com: """
+        >>123123
+        quoting first post
+      """,
+    );
 
     List<Post> tPosts = [
       tOP,
@@ -67,6 +76,20 @@ void main() {
         final replyingTo = tNoFileReply.replyingTo(tPosts);
         expect(replyingTo.isEmpty, false);
         expect(replyingTo.contains(tOP), true);
+      });
+    });
+
+    group('replyingToNo', () {
+      test('should return empty list if the post is replying to no one', () {
+        final replyingTo = tOP.replyingToNo();
+        expect(replyingTo, []);
+      });
+
+      test('should return a list of post numbers that the post is replying to',
+          () {
+        final replyingTo = tCreatedPost.replyingToNo();
+        expect(replyingTo.isEmpty, false);
+        expect(replyingTo.contains(tOP.no), true);
       });
     });
 

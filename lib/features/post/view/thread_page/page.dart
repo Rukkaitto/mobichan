@@ -59,8 +59,8 @@ class ThreadPage extends StatelessWidget {
               if (repliesState is! RepliesLoaded) {
                 return Scaffold(
                   appBar: buildAppBar(
-                    args: args,
                     context: context,
+                    board: args.board,
                     thread: args.thread,
                   ),
                   body: buildLoading(args.board, args.thread),
@@ -72,8 +72,8 @@ class ThreadPage extends StatelessWidget {
                   child: const Icon(Icons.edit),
                 ),
                 appBar: buildAppBar(
-                  args: args,
                   context: context,
+                  board: args.board,
                   thread: repliesState.replies.first,
                   replies: repliesState.replies,
                 ),
