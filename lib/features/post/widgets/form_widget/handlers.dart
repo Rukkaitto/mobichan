@@ -83,7 +83,7 @@ extension FormWidgetHandlers on FormWidget {
               );
           context.read<PostFormCubit>().setVisible(false);
           context.read<PostFormCubit>().clear();
-          context.read<RepliesCubit>().getReplies(board, thread);
+          await context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, kPostSuccessful.tr()),
           );
