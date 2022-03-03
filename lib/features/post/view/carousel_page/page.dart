@@ -127,10 +127,11 @@ class _CarouselPageState extends State<CarouselPage> {
           '${currentPost.filename}${currentPost.ext}',
         ),
         actions: [
-          IconButton(
-            onPressed: _searchImage,
-            icon: const Icon(Icons.image_search_rounded),
-          ),
+          if (!currentPost.isWebm)
+            IconButton(
+              onPressed: _searchImage,
+              icon: const Icon(Icons.image_search_rounded),
+            ),
           IconButton(
             onPressed: _shareImage,
             icon: const Icon(Icons.share_rounded),
