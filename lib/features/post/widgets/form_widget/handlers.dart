@@ -57,6 +57,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          FocusScope.of(context).unfocus();
           context.read<PostFormCubit>().clear();
           context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -82,6 +83,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          FocusScope.of(context).unfocus();
           context.read<PostFormCubit>().clear();
           await context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -103,6 +105,7 @@ extension FormWidgetHandlers on FormWidget {
     }
     if (form.isVisible) {
       context.read<PostFormCubit>().setVisible(false);
+      FocusScope.of(context).unfocus();
       return false;
     }
     return true;

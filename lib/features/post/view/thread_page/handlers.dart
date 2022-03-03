@@ -11,6 +11,9 @@ extension ThreadPageHandlers on ThreadPage {
   }
 
   void handleFormButtonPressed(BuildContext context) {
+    if (context.read<PostFormCubit>().state.isVisible) {
+      FocusScope.of(context).unfocus();
+    }
     context.read<PostFormCubit>().toggleVisible();
   }
 
