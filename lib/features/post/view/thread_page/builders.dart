@@ -22,7 +22,7 @@ extension ThreadPageBuilders on ThreadPage {
           board: args.board,
           thread: args.thread,
         ),
-        body: buildLoading(args.board, args.thread),
+        body: buildLoading(),
       );
     }
     return Scaffold(
@@ -40,6 +40,7 @@ extension ThreadPageBuilders on ThreadPage {
         onRefresh: () async => handleRefresh(context, args.board, args.thread),
         child: SettingProvider(
           settingTitle: 'threaded_replies',
+          loadingWidget: buildLoading(),
           builder: (threadedReplies) {
             return Stack(
               children: [
@@ -138,7 +139,7 @@ extension ThreadPageBuilders on ThreadPage {
     );
   }
 
-  Widget buildLoading(Board board, Post thread) {
+  Widget buildLoading() {
     return ResponsiveWidth(
       fullWidth: Device.get().isTablet,
       child: Shimmer.fromColors(
@@ -395,7 +396,7 @@ extension ThreadPageBuilders on ThreadPage {
             ),
           );
         } else {
-          return buildLoading(board, thread);
+          return buildLoading();
         }
       },
     );
