@@ -6,7 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share/share.dart';
 
 extension ThreadPageHandlers on ThreadPage {
-  void handleRefresh(BuildContext context, Board board, Post thread) async {
+  void handleRefresh({
+    required BuildContext context,
+    required Board board,
+    required Post thread,
+  }) async {
     await context.read<RepliesCubit>().getReplies(board, thread);
   }
 

@@ -37,7 +37,11 @@ extension ThreadPageBuilders on ThreadPage {
         replies: repliesState.replies,
       ),
       body: RefreshIndicator(
-        onRefresh: () async => handleRefresh(context, args.board, args.thread),
+        onRefresh: () async => handleRefresh(
+          context: context,
+          board: args.board,
+          thread: repliesState.replies.first,
+        ),
         child: SettingProvider(
           settingTitle: 'threaded_replies',
           loadingWidget: buildLoading(),
@@ -120,7 +124,11 @@ extension ThreadPageBuilders on ThreadPage {
         return <PopupMenuEntry>[
           PopupMenuItem(
             child: const Text(kRefresh).tr(),
-            onTap: () => handleRefresh(context, board, thread),
+            onTap: () => handleRefresh(
+              context: context,
+              board: board,
+              thread: thread,
+            ),
           ),
           PopupMenuItem(
             child: const Text(kShare).tr(),
