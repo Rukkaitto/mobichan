@@ -19,9 +19,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     try {
       emit(const ThreadsLoading());
       threads = await repository.getThreads(board: board, sort: sort);
-      for (Post thread in threads) {
-        await repository.insertPost(board, thread);
-      }
+      await repository.insertPosts(board, threads);
       emit(ThreadsLoaded(threads));
     } on NetworkException {
       emit(ThreadsError(kThreadsLoadingError.tr()));
