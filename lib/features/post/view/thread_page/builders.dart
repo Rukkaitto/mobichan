@@ -71,6 +71,7 @@ extension ThreadPageBuilders on ThreadPage {
       final replies = repliesState.replies;
       repliesCountHistory.add(replies.length);
       final repliesCount = handleNewRepliesCount(replies);
+      if (repliesCount == 0) return;
       ScaffoldMessenger.of(context).showSnackBar(
         successSnackbar(
           context,

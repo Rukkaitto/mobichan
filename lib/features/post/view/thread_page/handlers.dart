@@ -63,12 +63,12 @@ extension ThreadPageHandlers on ThreadPage {
 
   int handleNewRepliesCount(List<Post> replies) {
     if (repliesCountHistory.isEmpty || repliesCountHistory.length == 1) {
-      return replies.length;
+      return replies.length - 1; // Omits the OP
     }
     final last = repliesCountHistory.last;
     final beforeLast =
         repliesCountHistory.elementAt(repliesCountHistory.length - 2);
     final newRepliesCount = last - beforeLast;
-    return newRepliesCount;
+    return newRepliesCount - 1; // Omits the OP
   }
 }
