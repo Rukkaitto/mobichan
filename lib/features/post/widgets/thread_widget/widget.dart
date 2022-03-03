@@ -85,22 +85,12 @@ class ThreadWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    TextShimmer(
                       width: deviceWidth,
-                      height: 15.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
-                      ),
                     ),
-                    const SizedBox(height: 10.0),
-                    Container(
+                    const SizedBox(height: 12.0),
+                    TextShimmer(
                       width: RandomUtils.randomDouble(100, deviceWidth),
-                      height: 15.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
-                      ),
                     ),
                   ],
                 ),
@@ -115,34 +105,15 @@ class ThreadWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 15.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
-                      ),
-                    ),
+                    const TextShimmer(width: 100),
                     SizedBox(
                       width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Icon(
-                            Icons.reply,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            Icons.image,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            Icons.more_vert,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
+                          IconShimmer(icon: Icons.reply),
+                          IconShimmer(icon: Icons.image),
+                          IconShimmer(icon: Icons.more_vert),
                         ],
                       ),
                     ),

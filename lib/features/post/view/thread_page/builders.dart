@@ -141,72 +141,88 @@ extension ThreadPageBuilders on ThreadPage {
   Widget buildLoading(Board board, Post thread) {
     return ResponsiveWidth(
       fullWidth: Device.get().isTablet,
-      child: ListView(
-        children: [
-          Hero(
-            tag: thread.no,
-            child: ThreadWidget(
-              thread: thread,
-              board: board,
-              inThread: true,
-              threadContent: ContentWidget(
-                board: board,
-                reply: thread,
-                threadReplies: const [],
-              ),
-            ),
-          ),
-          Shimmer.fromColors(
-            baseColor: Colors.grey.shade700,
-            highlightColor: Colors.grey.shade600,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
-                      top: 8.0,
-                      bottom: 8.0,
-                      right: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Container(
-                        width: 300,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Container(
-                        width: 250,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade700,
+        highlightColor: Colors.grey.shade600,
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return buildLoadingOP();
+            }
+            return buildLoadingReplies(index - 1);
+          },
+        ),
       ),
+    );
+  }
+
+  Widget buildLoadingReplies(int index) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Padding(
+        padding: EdgeInsets.only(left: 15.0 * (index % 3)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            TextShimmer(width: 100),
+            SizedBox(height: 10.0),
+            TextShimmer(width: 300),
+            SizedBox(height: 8.0),
+            TextShimmer(width: 250),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoadingOP() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TextShimmer(width: 200),
+        ),
+        Container(
+          height: 250,
+          color: Colors.white,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
+          ),
+          child: TextShimmer(),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TextShimmer(width: 200),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TextShimmer(width: 100),
+              SizedBox(
+                width: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    IconShimmer(icon: Icons.reply),
+                    IconShimmer(icon: Icons.image),
+                    IconShimmer(icon: Icons.reply),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
