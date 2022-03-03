@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';

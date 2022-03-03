@@ -12,7 +12,9 @@ class RepliesCubit extends Cubit<RepliesState> {
   RepliesCubit({required this.repository}) : super(RepliesInitial());
 
   Future<void> getReplies(Board board, Post thread) async {
-    emit(RepliesLoading());
+    if (state is RepliesInitial) {
+      emit(RepliesLoading());
+    }
     try {
       List<Post> replies =
           await repository.getPosts(board: board, thread: thread);

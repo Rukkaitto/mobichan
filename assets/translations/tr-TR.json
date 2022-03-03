@@ -58,5 +58,13 @@
   "media": "Ortam",
   "grid_view": "Mesaj dizilerini ızgara olarak göster",
   "full_dates": "Tam tarihleri göster",
-  "analytics": "Kullanım verileri gönder"
+  "analytics": "Kullanım verileri gönder",
+  "notifications": "Bildirimler",
+  "loaded_replies": {
+    "zero": "",
+    "one": "{} yanıt yüklendi",
+    "two": "{} yanıt yüklendi",
+    "many": "{} yanıt yüklendi",
+    "other": "{} yanıt yüklendi"
+  }
 }

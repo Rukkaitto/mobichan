@@ -10,6 +10,76 @@ import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension ThreadPageBuilders on ThreadPage {
+  Widget buildBuilder({
+    required BuildContext context,
+    required RepliesState repliesState,
+    required ThreadPageArguments args,
+  }) {
+    if (repliesState is! RepliesLoaded) {
+      return Scaffold(
+        appBar: buildAppBar(
+          context: context,
+          board: args.board,
+          thread: args.thread,
+        ),
+        body: buildLoading(args.board, args.thread),
+      );
+    }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => handleFormButtonPressed(context),
+        child: const Icon(Icons.edit),
+      ),
+      appBar: buildAppBar(
+        context: context,
+        board: args.board,
+        thread: repliesState.replies.first,
+        replies: repliesState.replies,
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async => handleRefresh(context, args.board, args.thread),
+        child: SettingProvider(
+          settingTitle: 'threaded_replies',
+          builder: (threadedReplies) {
+            return Stack(
+              children: [
+                threadedReplies.value
+                    ? buildThreadedReplies(
+                        board: args.board,
+                        thread: repliesState.replies.first,
+                        replies: repliesState.replies,
+                      )
+                    : buildLinearReplies(
+                        board: args.board,
+                        thread: repliesState.replies.first,
+                        replies: repliesState.replies,
+                      ),
+                FormWidget(
+                  board: args.board,
+                  thread: args.thread,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void buildListener(context, repliesState) {
+    if (repliesState is RepliesLoaded) {
+      final replies = repliesState.replies;
+      repliesCountHistory.add(replies.length);
+      final repliesCount = handleNewRepliesCount(replies);
+      ScaffoldMessenger.of(context).showSnackBar(
+        successSnackbar(
+          context,
+          kLoadedReplies.plural(repliesCount),
+        ),
+      );
+    }
+  }
+
   AppBar buildAppBar({
     required BuildContext context,
     required Board board,
