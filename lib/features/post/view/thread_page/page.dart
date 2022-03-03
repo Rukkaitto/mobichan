@@ -29,6 +29,7 @@ class ComputeArgs {
 class ThreadPage extends StatelessWidget {
   static const routeName = '/thread';
   static const maxRecursion = 7;
+  final List<int> repliesCountHistory = [];
 
   final ItemScrollController itemScrollController = ItemScrollController();
 
@@ -54,59 +55,13 @@ class ThreadPage extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return BlocBuilder<RepliesCubit, RepliesState>(
-            builder: (context, repliesState) {
-              if (repliesState is! RepliesLoaded) {
-                return Scaffold(
-                  appBar: buildAppBar(
-                    context: context,
-                    board: args.board,
-                    thread: args.thread,
-                  ),
-                  body: buildLoading(args.board, args.thread),
-                );
-              }
-              return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () => handleFormButtonPressed(context),
-                  child: const Icon(Icons.edit),
-                ),
-                appBar: buildAppBar(
-                  context: context,
-                  board: args.board,
-                  thread: repliesState.replies.first,
-                  replies: repliesState.replies,
-                ),
-                body: RefreshIndicator(
-                  onRefresh: () async =>
-                      handleRefresh(context, args.board, args.thread),
-                  child: SettingProvider(
-                    settingTitle: 'threaded_replies',
-                    builder: (threadedReplies) {
-                      return Stack(
-                        children: [
-                          threadedReplies.value
-                              ? buildThreadedReplies(
-                                  board: args.board,
-                                  thread: repliesState.replies.first,
-                                  replies: repliesState.replies,
-                                )
-                              : buildLinearReplies(
-                                  board: args.board,
-                                  thread: repliesState.replies.first,
-                                  replies: repliesState.replies,
-                                ),
-                          FormWidget(
-                            board: args.board,
-                            thread: args.thread,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              );
-            },
+          return BlocConsumer<RepliesCubit, RepliesState>(
+            listener: buildListener,
+            builder: (context, repliesState) => buildBuilder(
+              context: context,
+              repliesState: repliesState,
+              args: args,
+            ),
           );
         },
       ),

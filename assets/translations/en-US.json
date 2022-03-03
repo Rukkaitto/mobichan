@@ -59,5 +59,12 @@
   "grid_view": "Show threads as a grid",
   "full_dates": "Show full dates",
   "analytics": "Send analytics",
-  "notifications": "Enable notifications"
+  "notifications": "Enable notifications",
+  "loaded_replies": {
+    "zero": "",
+    "one": "Loaded {} reply",
+    "two": "Loaded {} replies",
+    "many": "Loaded {} replies",
+    "other": "Loaded {} replies"
+  }
 }

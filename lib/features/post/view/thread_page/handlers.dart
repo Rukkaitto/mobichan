@@ -6,11 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share/share.dart';
 
 extension ThreadPageHandlers on ThreadPage {
-  void handleRefresh(BuildContext context, Board board, Post thread) async {
+  void handleRefresh({
+    required BuildContext context,
+    required Board board,
+    required Post thread,
+  }) async {
     await context.read<RepliesCubit>().getReplies(board, thread);
   }
 
   void handleFormButtonPressed(BuildContext context) {
+    if (context.read<PostFormCubit>().state.isVisible) {
+      FocusScope.of(context).unfocus();
+    }
     context.read<PostFormCubit>().toggleVisible();
   }
 
@@ -59,5 +66,16 @@ extension ThreadPageHandlers on ThreadPage {
         ),
       ),
     );
+  }
+
+  int handleNewRepliesCount(List<Post> replies) {
+    if (repliesCountHistory.isEmpty || repliesCountHistory.length == 1) {
+      return replies.length - 1; // Omits the OP
+    }
+    final last = repliesCountHistory.last;
+    final beforeLast =
+        repliesCountHistory.elementAt(repliesCountHistory.length - 2);
+    final newRepliesCount = last - beforeLast;
+    return newRepliesCount - 1; // Omits the OP
   }
 }

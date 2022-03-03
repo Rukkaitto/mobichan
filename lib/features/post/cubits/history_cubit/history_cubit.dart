@@ -17,7 +17,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   Future<void> getHistory() async {
     emit(const HistoryLoading());
     history = await repository.getHistory();
-    emit(HistoryLoaded(history));
+    emit(HistoryLoaded(history.reversed.toList()));
   }
 
   void search(String input) {

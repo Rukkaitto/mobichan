@@ -69,7 +69,7 @@ extension BoardDrawerBuilders on BoardDrawer {
             title: kBoards.tr(),
             icon: Icons.list,
             child: SizedBox(
-              height: 500.0,
+              height: 450.0,
               child: BlocProvider<BoardsCubit>(
                 create: (context) => sl<BoardsCubit>()..getBoards(),
                 child: BlocListener<SearchCubit, SearchState>(
@@ -170,7 +170,7 @@ extension BoardDrawerBuilders on BoardDrawer {
         title: kHistory.tr(),
         icon: Icons.history,
         child: SizedBox(
-          height: 500.0,
+          height: 450.0,
           child: BlocListener<SearchCubit, SearchState>(
             listener: (context, state) {
               final historyCubit = context.read<HistoryCubit>();

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
@@ -58,6 +57,7 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          FocusScope.of(context).unfocus();
           context.read<PostFormCubit>().clear();
           context.read<ThreadsCubit>().getThreads(board, sort ?? Sort.initial);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -83,8 +83,9 @@ extension FormWidgetHandlers on FormWidget {
                 file: form.file,
               );
           context.read<PostFormCubit>().setVisible(false);
+          FocusScope.of(context).unfocus();
           context.read<PostFormCubit>().clear();
-          context.read<RepliesCubit>().getReplies(board, thread);
+          await context.read<RepliesCubit>().getReplies(board, thread);
           ScaffoldMessenger.of(context).showSnackBar(
             successSnackbar(context, kPostSuccessful.tr()),
           );
@@ -104,6 +105,7 @@ extension FormWidgetHandlers on FormWidget {
     }
     if (form.isVisible) {
       context.read<PostFormCubit>().setVisible(false);
+      FocusScope.of(context).unfocus();
       return false;
     }
     return true;

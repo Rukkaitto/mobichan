@@ -12,7 +12,9 @@ class RepliesCubit extends Cubit<RepliesState> {
   RepliesCubit({required this.repository}) : super(RepliesInitial());
 
   Future<void> getReplies(Board board, Post thread) async {
-    emit(RepliesLoading());
+    if (state is RepliesInitial) {
+      emit(RepliesLoading());
+    }
     try {
       List<Post> replies =
           await repository.getPosts(board: board, thread: thread);
@@ -22,9 +24,7 @@ class RepliesCubit extends Cubit<RepliesState> {
           reply.isMine = true;
         }
       }
-      for (Post post in replies) {
-        await repository.insertPost(board, post);
-      }
+      await repository.insertPosts(board, replies);
       emit(RepliesLoaded(replies: replies));
     } on NetworkException {
       emit(RepliesError());
