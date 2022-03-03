@@ -273,6 +273,7 @@ extension ThreadPageBuilders on ThreadPage {
   }) {
     return Scrollbar(
       child: ScrollablePositionedList.separated(
+        physics: const AlwaysScrollableScrollPhysics(),
         separatorBuilder: (context, index) => const Divider(),
         itemScrollController: itemScrollController,
         itemCount: replies.length,
@@ -333,6 +334,7 @@ extension ThreadPageBuilders on ThreadPage {
         if (snapshot.hasData) {
           return Scrollbar(
             child: ScrollablePositionedList.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
               itemScrollController: itemScrollController,
               shrinkWrap: true,
               itemCount: snapshot.data!.length + 1,
