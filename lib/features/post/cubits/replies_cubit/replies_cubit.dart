@@ -24,9 +24,7 @@ class RepliesCubit extends Cubit<RepliesState> {
           reply.isMine = true;
         }
       }
-      for (Post post in replies) {
-        await repository.insertPost(board, post);
-      }
+      await repository.insertPosts(board, replies);
       emit(RepliesLoaded(replies: replies));
     } on NetworkException {
       emit(RepliesError());
