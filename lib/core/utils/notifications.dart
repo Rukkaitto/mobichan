@@ -36,9 +36,22 @@ class NotificationManager {
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat_name');
-    const InitializationSettings initializationSettings =
+    final IOSInitializationSettings initializationSettingsIos =
+        IOSInitializationSettings(
+      onDidReceiveLocalNotification: (id, title, body, payload) {
+        flutterLocalNotificationsPlugin.show(
+          id,
+          title,
+          body,
+          const NotificationDetails(),
+          payload: payload,
+        );
+      },
+    );
+    final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsIos,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
