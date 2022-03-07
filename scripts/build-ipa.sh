@@ -1,0 +1,2 @@
+BUILD_DIR=build/ios
+flutter build ios --release && mkdir $BUILD_DIR/Payload && mv $BUILD_DIR/iphoneos/Runner.app $BUILD_DIR/Payload && mkdir $BUILD_DIR/ipa && tar -czf $BUILD_DIR/ipa/Mobichan.ipa $BUILD_DIR/Payload 
