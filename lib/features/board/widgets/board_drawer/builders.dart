@@ -5,6 +5,7 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/setting/setting.dart';
+import 'package:mobichan/features/theme/view/view.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
@@ -40,22 +41,32 @@ extension BoardDrawerBuilders on BoardDrawer {
       children: [
         buildBoards(),
         buildHistory(),
+        buildThemes(),
         buildSettings(),
       ],
     );
   }
 
+  Widget buildThemes() {
+    return Builder(
+      builder: (context) {
+        return BoardExpansionTileWidget(
+          onTap: () => Navigator.pushNamed(context, ThemePage.routeName),
+          title: 'Themes',
+          icon: Icons.brush_rounded,
+        );
+      },
+    );
+  }
+
   Widget buildSettings() {
     return Builder(builder: (context) {
-      return BlocProvider<SearchCubit>(
-        create: (context) => SearchCubit(),
-        child: BoardExpansionTileWidget(
-          onTap: () {
-            Navigator.of(context).pushNamed(SettingsPage.routeName);
-          },
-          title: kSettings.tr(),
-          icon: Icons.settings,
-        ),
+      return BoardExpansionTileWidget(
+        onTap: () {
+          Navigator.of(context).pushNamed(SettingsPage.routeName);
+        },
+        title: kSettings.tr(),
+        icon: Icons.settings,
       );
     });
   }

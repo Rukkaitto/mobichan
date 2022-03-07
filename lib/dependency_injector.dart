@@ -9,6 +9,7 @@ import 'package:mobichan/features/post/cubits/cubits.dart';
 import 'package:mobichan/features/release/cubits/cubits.dart';
 import 'package:mobichan/features/sort/cubits/cubits.dart';
 import 'package:mobichan/features/setting/cubits/cubits.dart';
+import 'package:mobichan/features/theme/theme.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -198,6 +199,10 @@ Future<void> init() async {
     () => PackageInfoCubit(
       packageInfo: sl(),
     ),
+  );
+
+  sl.registerLazySingleton<ThemeCubit>(
+    () => ThemeCubit(),
   );
 
   // External

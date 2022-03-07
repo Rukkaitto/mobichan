@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 final ThemeData theme = ThemeData(
+  colorScheme: const ColorScheme.dark().copyWith(
+    primary: const Color(0xFF6DEFDF),
+    secondary: const Color(0xFF6DEFDF),
+    secondaryContainer: const Color(0xFF54BDB0),
+  ),
   brightness: Brightness.dark,
   textTheme: const TextTheme(
     bodyText2: TextStyle(
