@@ -66,5 +66,12 @@
     "two": "{} yanıt yüklendi",
     "many": "{} yanıt yüklendi",
     "other": "{} yanıt yüklendi"
+  },
+  "loaded_threads": {
+    "zero": "",
+    "one": "{} mesaj dizisi yüklendi",
+    "two": "{} mesaj dizisi yüklendi",
+    "many": "{} mesaj dizisi yüklendi",
+    "other": "{} mesaj dizisi yüklendi"
   }
 }

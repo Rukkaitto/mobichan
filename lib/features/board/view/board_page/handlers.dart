@@ -7,6 +7,9 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 
 extension BoardPageHandlers on BoardPage {
   void handleFormButtonPressed(BuildContext context) {
+    if (context.read<PostFormCubit>().state.isVisible) {
+      FocusScope.of(context).unfocus();
+    }
     context.read<PostFormCubit>().toggleVisible();
   }
 

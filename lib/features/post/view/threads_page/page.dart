@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/features/board/board.dart';
-import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -15,6 +14,8 @@ class ThreadsPage extends StatefulWidget {
 }
 
 class _ThreadsPageState extends State<ThreadsPage> {
+  final List<int> threadsCountHistory = [];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TabsCubit, TabsState>(
@@ -27,16 +28,11 @@ class _ThreadsPageState extends State<ThreadsPage> {
                     .read<ThreadsCubit>()
                     .getThreads(tabsState.current, sortState.sort);
                 return BlocConsumer<ThreadsCubit, ThreadsState>(
-                  listener: (context, threadsState) {
-                    if (threadsState is ThreadsError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        errorSnackbar(
-                          context,
-                          threadsState.message,
-                        ),
-                      );
-                    }
-                  },
+                  listener: (context, threadsState) => widget.buildListener(
+                    context,
+                    threadsState,
+                    threadsCountHistory,
+                  ),
                   builder: (context, threadsState) {
                     if (threadsState is ThreadsLoaded) {
                       return widget.buildLoaded(

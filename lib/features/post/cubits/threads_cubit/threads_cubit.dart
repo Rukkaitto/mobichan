@@ -17,7 +17,9 @@ class ThreadsCubit extends Cubit<ThreadsState> {
 
   Future<void> getThreads(Board board, Sort sort) async {
     try {
-      emit(const ThreadsLoading());
+      if (state is ThreadsInitial) {
+        emit(const ThreadsLoading());
+      }
       threads = await repository.getThreads(board: board, sort: sort);
       await repository.insertPosts(board, threads);
       emit(ThreadsLoaded(threads));

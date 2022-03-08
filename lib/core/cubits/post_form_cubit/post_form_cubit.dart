@@ -12,6 +12,9 @@ class PostFormCubit extends Cubit<PostFormState> {
 
   void clear() {
     state.subjectController.clear();
+    state.nameController.clear();
+    state.commentController.clear();
+    state.file = null;
     emitComment('');
   }
 
