@@ -27,13 +27,14 @@ extension UpdateWidgetHandlers on UpdateWidgetState {
   }
 
   void handleDownload(Release latestRelease) async {
+    if (latestRelease.apkUrl == null) return;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     if (await Permission.storage.request().isGranted) {
       Directory? storageDir = await getExternalStorageDirectory();
       String filePath = '${storageDir!.path}/apk-release.apk';
       await Dio().download(
-        latestRelease.browserDownloadUrl,
+        latestRelease.apkUrl!,
         filePath,
         onReceiveProgress: (received, total) => handleProgress(received, total),
       );
