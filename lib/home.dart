@@ -49,17 +49,25 @@ class _HomeState extends State<Home> {
   }
 
   void _checkForUpdates() {
-    if (const String.fromEnvironment(environment) == github &&
-        Platform.isAndroid) {
-      Updater.checkForUpdates(context).then((needsUpdate) {
-        if (needsUpdate) {
+    Updater.checkForUpdates(context).then((needsUpdate) {
+      if (needsUpdate) {
+        if (const String.fromEnvironment(environment) == github &&
+            Platform.isAndroid) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) => const UpdateWidget(),
           );
+        } else {
+          if (Platform.isIOS) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => const UpdateWidgetIos(),
+            );
+          }
         }
-      });
-    }
+      }
+    });
   }
 }

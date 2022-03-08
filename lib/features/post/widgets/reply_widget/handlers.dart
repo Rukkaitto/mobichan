@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mobichan/core/core.dart';
-import 'package:mobichan/core/widgets/snackbars/success_snackbar.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';

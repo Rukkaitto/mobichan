@@ -28,6 +28,8 @@ abstract class PostRepository {
 
   Future<void> insertPost(Board board, Post post);
 
+  Future<void> insertPosts(Board board, List<Post> posts);
+
   Future<void> insertUserPost(Post post);
 
   Future<List<Post>> getUserPosts();

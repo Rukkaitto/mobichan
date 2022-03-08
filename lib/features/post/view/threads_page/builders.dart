@@ -103,13 +103,12 @@ extension ThreadsPageBuilders on ThreadsPage {
     return Builder(builder: (context) {
       return Container(
         color: Theme.of(context).dividerColor,
-        child: StaggeredGridView.builder(
+        child: MasonryGridView.builder(
           itemCount: threads.length,
-          gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 1,
-            crossAxisSpacing: 1,
+          mainAxisSpacing: 1,
+          crossAxisSpacing: 1,
+          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: Device.get().isTablet ? 3 : 2,
-            staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
           ),
           itemBuilder: (context, index) {
             return getItemBuilder(context, true, index, threads, sort);

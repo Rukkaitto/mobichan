@@ -6,11 +6,13 @@ import 'package:string_similarity/string_similarity.dart';
 
 class SettingProvider extends StatelessWidget {
   final String settingTitle;
+  final Widget? loadingWidget;
   final Function(Setting setting) builder;
 
   const SettingProvider({
     required this.settingTitle,
     required this.builder,
+    this.loadingWidget,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +21,7 @@ class SettingProvider extends StatelessWidget {
     return BlocBuilder<SettingsCubit, List<Setting>?>(
       builder: (context, settings) {
         if (settings == null) {
-          return Container();
+          return loadingWidget ?? Container();
         }
 
         final setting = settings.findByTitle(settingTitle);

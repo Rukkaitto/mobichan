@@ -10,6 +10,82 @@ import 'package:shimmer/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension ThreadPageBuilders on ThreadPage {
+  Widget buildBuilder({
+    required BuildContext context,
+    required RepliesState repliesState,
+    required ThreadPageArguments args,
+  }) {
+    if (repliesState is! RepliesLoaded) {
+      return Scaffold(
+        appBar: buildAppBar(
+          context: context,
+          board: args.board,
+          thread: args.thread,
+        ),
+        body: buildLoading(),
+      );
+    }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => handleFormButtonPressed(context),
+        child: const Icon(Icons.edit),
+      ),
+      appBar: buildAppBar(
+        context: context,
+        board: args.board,
+        thread: repliesState.replies.first,
+        replies: repliesState.replies,
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async => handleRefresh(
+          context: context,
+          board: args.board,
+          thread: repliesState.replies.first,
+        ),
+        child: SettingProvider(
+          settingTitle: 'threaded_replies',
+          loadingWidget: buildLoading(),
+          builder: (threadedReplies) {
+            return Stack(
+              children: [
+                threadedReplies.value
+                    ? buildThreadedReplies(
+                        board: args.board,
+                        thread: repliesState.replies.first,
+                        replies: repliesState.replies,
+                      )
+                    : buildLinearReplies(
+                        board: args.board,
+                        thread: repliesState.replies.first,
+                        replies: repliesState.replies,
+                      ),
+                FormWidget(
+                  board: args.board,
+                  thread: args.thread,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void buildListener(context, repliesState) {
+    if (repliesState is RepliesLoaded) {
+      final replies = repliesState.replies;
+      repliesCountHistory.add(replies.length);
+      final repliesCount = handleNewRepliesCount(replies);
+      if (repliesCount == 0) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        successSnackbar(
+          context,
+          kLoadedReplies.plural(repliesCount),
+        ),
+      );
+    }
+  }
+
   AppBar buildAppBar({
     required BuildContext context,
     required Board board,
@@ -48,7 +124,11 @@ extension ThreadPageBuilders on ThreadPage {
         return <PopupMenuEntry>[
           PopupMenuItem(
             child: const Text(kRefresh).tr(),
-            onTap: () => handleRefresh(context, board, thread),
+            onTap: () => handleRefresh(
+              context: context,
+              board: board,
+              thread: thread,
+            ),
           ),
           PopupMenuItem(
             child: const Text(kShare).tr(),
@@ -67,75 +147,91 @@ extension ThreadPageBuilders on ThreadPage {
     );
   }
 
-  Widget buildLoading(Board board, Post thread) {
+  Widget buildLoading() {
     return ResponsiveWidth(
       fullWidth: Device.get().isTablet,
-      child: ListView(
-        children: [
-          Hero(
-            tag: thread.no,
-            child: ThreadWidget(
-              thread: thread,
-              board: board,
-              inThread: true,
-              threadContent: ContentWidget(
-                board: board,
-                reply: thread,
-                threadReplies: const [],
-              ),
-            ),
-          ),
-          Shimmer.fromColors(
-            baseColor: Colors.grey.shade700,
-            highlightColor: Colors.grey.shade600,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      left: RandomUtils.randomInt(0, 6) * 15.0 + 8.0,
-                      top: 8.0,
-                      bottom: 8.0,
-                      right: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Container(
-                        width: 300,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Container(
-                        width: 250,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade700,
+        highlightColor: Colors.grey.shade600,
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return buildLoadingOP();
+            }
+            return buildLoadingReplies(index - 1);
+          },
+        ),
       ),
+    );
+  }
+
+  Widget buildLoadingReplies(int index) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Padding(
+        padding: EdgeInsets.only(left: 15.0 * (index % 3)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            TextShimmer(width: 100),
+            SizedBox(height: 10.0),
+            TextShimmer(width: 300),
+            SizedBox(height: 8.0),
+            TextShimmer(width: 250),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoadingOP() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TextShimmer(width: 200),
+        ),
+        Container(
+          height: 250,
+          color: Colors.white,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
+          ),
+          child: TextShimmer(),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TextShimmer(width: 200),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TextShimmer(width: 100),
+              SizedBox(
+                width: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    IconShimmer(icon: Icons.reply),
+                    IconShimmer(icon: Icons.image),
+                    IconShimmer(icon: Icons.reply),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -202,6 +298,8 @@ extension ThreadPageBuilders on ThreadPage {
   }) {
     return Scrollbar(
       child: ScrollablePositionedList.separated(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 120.0),
         separatorBuilder: (context, index) => const Divider(),
         itemScrollController: itemScrollController,
         itemCount: replies.length,
@@ -262,6 +360,8 @@ extension ThreadPageBuilders on ThreadPage {
         if (snapshot.hasData) {
           return Scrollbar(
             child: ScrollablePositionedList.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 120.0),
               itemScrollController: itemScrollController,
               shrinkWrap: true,
               itemCount: snapshot.data!.length + 1,
@@ -304,7 +404,7 @@ extension ThreadPageBuilders on ThreadPage {
             ),
           );
         } else {
-          return buildLoading(board, thread);
+          return buildLoading();
         }
       },
     );

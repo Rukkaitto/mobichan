@@ -37,3 +37,4 @@ const String kBoardsLoadingError = 'boards_loading_error';
 const String kThreadsLoadingError = 'threads_loading_error';
 const String kPostNetworkError = 'post_network_error';
 const String kReport = 'report';
+const String kLoadedReplies = 'loaded_replies';

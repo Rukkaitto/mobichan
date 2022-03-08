@@ -21,6 +21,8 @@ abstract class PostLocalDatasource {
   Future<List<PostModel>> getUserPosts();
 
   Future<void> insertUserPost(PostModel post);
+
+  Future<void> insertPosts(BoardModel board, List<PostModel> posts);
 }
 
 class PostLocalDatasourceImpl implements PostLocalDatasource {
@@ -140,5 +142,23 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       postJson,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  @override
+  Future<void> insertPosts(BoardModel board, List<PostModel> posts) async {
+    final batch = database.batch();
+    for (PostModel post in posts) {
+      final postJson = post.toJson();
+      postJson['board_id'] = board.board;
+      postJson['board_title'] = board.title;
+      postJson['board_ws'] = board.wsBoard;
+      batch.insert(
+        'posts',
+        postJson,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+
+    await batch.commit(noResult: true);
   }
 }
