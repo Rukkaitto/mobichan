@@ -1,5 +1,6 @@
 part of 'post_form_cubit.dart';
 
+// ignore: must_be_immutable
 class PostFormState extends Equatable {
   final TextEditingController commentController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -10,7 +11,7 @@ class PostFormState extends Equatable {
   final String comment;
   final bool isVisible;
   final bool isExpanded;
-  final XFile? file;
+  XFile? file;
 
   PostFormState({
     this.comment = '',

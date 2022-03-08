@@ -66,5 +66,12 @@
     "two": "{} réponses chargées.",
     "many": "{} réponses chargées.",
     "other": "{} réponses chargées."
+  },
+  "loaded_threads": {
+    "zero": "",
+    "one": "{} fil chargé.",
+    "two": "{} fils chargés.",
+    "many": "{} fils chargés.",
+    "other": "{} fils chargés."
   }
 }

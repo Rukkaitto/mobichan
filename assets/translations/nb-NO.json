@@ -66,5 +66,12 @@
     "two": "Lastet {} svar",
     "many": "Lastet {} svar",
     "other": "Lastet {} svar"
+  },
+  "loaded_threads": {
+    "zero": "",
+    "one": "Lastet {} tråd",
+    "two": "Lastet {} tråder",
+    "many": "Lastet {} tråder",
+    "other": "Lastet {} tråder"
   }
 }
