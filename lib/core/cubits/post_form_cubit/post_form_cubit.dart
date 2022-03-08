@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
 part 'post_form_state.dart';
@@ -48,7 +49,7 @@ class PostFormCubit extends Cubit<PostFormState> {
     setExpanded(!state.isExpanded);
   }
 
-  void setFile(XFile file) {
+  void setFile(File file) {
     emit(
       PostFormState(
         isVisible: state.isVisible,

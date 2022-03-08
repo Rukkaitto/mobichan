@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/localization.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
@@ -33,7 +34,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
     required Post post,
     required CaptchaChallenge captcha,
     required String response,
-    required XFile? file,
+    required File? file,
   }) async {
     final thread = await repository.postThread(
       board: board,
@@ -41,6 +42,7 @@ class ThreadsCubit extends Cubit<ThreadsState> {
       captchaChallenge: captcha.challenge,
       captchaResponse: response,
       filePath: file?.path,
+      fileName: file?.uri.pathSegments.last,
     );
     await repository.insertUserPost(thread);
     FirebaseAnalytics.instance.logEvent(name: 'post_thread');

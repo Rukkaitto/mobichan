@@ -11,7 +11,7 @@ class PostFormState extends Equatable {
   final String comment;
   final bool isVisible;
   final bool isExpanded;
-  XFile? file;
+  File? file;
 
   PostFormState({
     this.comment = '',

@@ -71,6 +71,7 @@ class PostRepositoryImpl implements PostRepository {
     required Post resto,
     required Post post,
     String? filePath,
+    String? fileName,
   }) async {
     final reply = await remoteDatasource.postReply(
       board: BoardModel.fromEntity(board),
@@ -79,6 +80,7 @@ class PostRepositoryImpl implements PostRepository {
       resto: PostModel.fromEntity(resto),
       post: PostModel.fromEntity(post),
       filePath: filePath,
+      fileName: fileName,
     );
     await remoteDatasource.saveToFirestore(
       post: PostModel.fromEntity(reply),
@@ -93,6 +95,7 @@ class PostRepositoryImpl implements PostRepository {
     required String captchaResponse,
     required Post post,
     String? filePath,
+    String? fileName,
   }) async {
     final thread = await remoteDatasource.postThread(
       board: BoardModel.fromEntity(board),
@@ -100,6 +103,7 @@ class PostRepositoryImpl implements PostRepository {
       captchaResponse: captchaResponse,
       post: PostModel.fromEntity(post),
       filePath: filePath,
+      fileName: fileName,
     );
     await remoteDatasource.saveToFirestore(
       post: PostModel.fromEntity(thread),
