@@ -79,14 +79,15 @@ extension ThreadsPageBuilders on ThreadsPage {
       );
     }
     if (threadsState is ThreadsLoaded) {
+      if (!threadsState.shouldRefresh) return;
       final threads = threadsState.threads;
       threadsCountHistory.add(threads.length);
-      final repliesCount = handleNewRepliesCount(threads, threadsCountHistory);
-      if (repliesCount == 0) return;
+      final threadsCount = handleNewRepliesCount(threads, threadsCountHistory);
+      if (threadsCount <= 0) return;
       ScaffoldMessenger.of(context).showSnackBar(
         successSnackbar(
           context,
-          kLoadedThreads.plural(repliesCount),
+          kLoadedThreads.plural(threadsCount),
         ),
       );
     }

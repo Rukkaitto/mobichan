@@ -62,7 +62,10 @@ class ThreadsCubit extends Cubit<ThreadsState> {
                   .toLowerCase()
                   .contains(input.toLowerCase().trim()))
           .toList();
-      emit(ThreadsLoaded(filteredThreads));
+      emit(ThreadsLoaded(
+        filteredThreads,
+        shouldRefresh: false,
+      ));
     }
   }
 }
