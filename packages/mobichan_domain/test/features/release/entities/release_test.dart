@@ -6,7 +6,8 @@ void main() {
     test('should have a constructor', () {
       expect(
           Release(
-            browserDownloadUrl: 'browserDownloadUrl',
+            apkUrl: 'apkUrl',
+            ipaUrl: 'ipaUrl',
             tagName: 'tagName',
             name: 'name',
             body: 'body',

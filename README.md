@@ -29,6 +29,12 @@ A 4chan app made with Flutter.
 <img src="./screenshots/thread.png" width="50%">
 <img src="./screenshots/replies.png" width="50%">
 
+## Installing on iOS
+
+* Install [Altstore](https://altstore.io).
+* Download the .ipa file from the [latest release](https://github.com/Rukkaitto/mobichan/releases/latest).
+* Open Altstore and select the .ipa to install it on your device.
+
 ## Contributing
 
 ### Localization
