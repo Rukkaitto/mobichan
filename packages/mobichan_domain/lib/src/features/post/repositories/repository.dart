@@ -11,6 +11,7 @@ abstract class PostRepository {
     required String captchaResponse,
     required Post post,
     String? filePath,
+    String? fileName,
   });
 
   Future<Post> postReply({
@@ -20,6 +21,7 @@ abstract class PostRepository {
     required Post post,
     required Post resto,
     String? filePath,
+    String? fileName,
   });
 
   Future<List<Post>> addThreadToHistory(Post thread, Board board);

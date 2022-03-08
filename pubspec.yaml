@@ -14,7 +14,6 @@ dependencies:
   shared_preferences: ^2.0.8
   flutter_html: ^2.2.0
   dio: ^4.0.1
-  image_picker: ^0.8.4+4
   cached_network_image: ^3.1.0
   html_unescape: ^2.0.0
   video_player: ^2.2.6
@@ -66,6 +65,7 @@ dependencies:
   flutter_local_notifications: ^9.3.3
   firebase_app_check: ^0.0.6+7
   firebase_auth: ^3.3.9
+  file_picker: ^4.5.0
 
 dev_dependencies:
   flutter_test:

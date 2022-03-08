@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
@@ -37,7 +38,7 @@ class RepliesCubit extends Cubit<RepliesState> {
     required Post resto,
     required CaptchaChallenge captcha,
     required String response,
-    required XFile? file,
+    required File? file,
   }) async {
     final reply = await repository.postReply(
       board: board,
@@ -46,6 +47,7 @@ class RepliesCubit extends Cubit<RepliesState> {
       captchaChallenge: captcha.challenge,
       captchaResponse: response,
       filePath: file?.path,
+      fileName: file?.uri.pathSegments.last,
     );
     await repository.insertUserPost(reply);
     FirebaseAnalytics.instance.logEvent(name: 'post_reply');

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,6 +21,7 @@ abstract class PostRemoteDatasource {
     required String captchaResponse,
     required PostModel post,
     String? filePath,
+    String? fileName,
   });
 
   Future<PostModel> postReply({
@@ -31,6 +31,7 @@ abstract class PostRemoteDatasource {
     required PostModel resto,
     required PostModel post,
     String? filePath,
+    String? fileName,
   });
 
   Future<void> saveToFirestore({
@@ -89,6 +90,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required String captchaResponse,
     required PostModel post,
     String? filePath,
+    String? fileName,
   }) async {
     return _post(
       board: board,
@@ -96,6 +98,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       captchaResponse: captchaResponse,
       post: post,
       filePath: filePath,
+      fileName: fileName,
     );
   }
 
@@ -107,6 +110,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel resto,
     required PostModel post,
     String? filePath,
+    String? fileName,
   }) async {
     return _post(
       board: board,
@@ -115,6 +119,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       resto: resto,
       post: post,
       filePath: filePath,
+      fileName: fileName,
     );
   }
 
@@ -125,6 +130,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     required PostModel post,
     PostModel? resto,
     String? filePath,
+    String? fileName,
   }) async {
     FormData formData = FormData.fromMap({
       "name": post.name ?? '',
@@ -150,7 +156,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           "upfile",
           await MultipartFile.fromFile(
             filePath,
-            filename: filePath.split(Platform.pathSeparator).last,
+            filename: fileName,
           ),
         ),
       );
