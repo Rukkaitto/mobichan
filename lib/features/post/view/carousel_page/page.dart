@@ -155,7 +155,7 @@ class _CarouselPageState extends State<CarouselPage> {
                 if (videoPlayerControllers[index] == null) {
                   videoPlayerControllers[index] = VlcPlayerController.network(
                     currentPost.getImageUrl(widget.board)!,
-                    hwAcc: HwAcc.FULL,
+                    hwAcc: HwAcc.full,
                     autoPlay: true,
                     options: VlcPlayerOptions(),
                   );
