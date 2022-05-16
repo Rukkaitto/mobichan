@@ -13,7 +13,7 @@ void main() async {
   await Firebase.initializeApp();
   await FirebaseAuth.instance.signInAnonymously();
   await FirebaseAppCheck.instance.activate();
-  PaintingBinding.instance!.imageCache!.maximumSizeBytes = 1024 * 1024 * 300;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 1024 * 1024 * 300;
   await EasyLocalization.ensureInitialized();
   await dependency_injector.init();
   timeago.setLocaleMessages('fr', timeago.FrMessages());
