@@ -24,7 +24,7 @@ class PostTextSelectionControls extends MaterialTextSelectionControls {
     Offset selectionMidpoint,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
-    ClipboardStatusNotifier clipboardStatus,
+    ClipboardStatusNotifier? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
@@ -89,7 +89,7 @@ class MyTextSelectionToolbar extends StatefulWidget {
 
   final Offset anchorAbove;
   final Offset anchorBelow;
-  final ClipboardStatusNotifier clipboardStatus;
+  final ClipboardStatusNotifier? clipboardStatus;
   final VoidCallback? handleCopy;
   final VoidCallback? handleCut;
   final VoidCallback? handlePaste;
@@ -112,25 +112,27 @@ class MyTextSelectionToolbarState extends State<MyTextSelectionToolbar> {
   @override
   void initState() {
     super.initState();
-    widget.clipboardStatus.addListener(_onChangedClipboardStatus);
-    widget.clipboardStatus.update();
+    widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
+    widget.clipboardStatus?.update();
   }
 
   @override
   void didUpdateWidget(MyTextSelectionToolbar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.clipboardStatus != oldWidget.clipboardStatus) {
-      widget.clipboardStatus.addListener(_onChangedClipboardStatus);
-      oldWidget.clipboardStatus.removeListener(_onChangedClipboardStatus);
+      widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
+      oldWidget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
     }
-    widget.clipboardStatus.update();
+    widget.clipboardStatus?.update();
   }
 
   @override
   void dispose() {
     super.dispose();
-    if (!widget.clipboardStatus.disposed) {
-      widget.clipboardStatus.removeListener(_onChangedClipboardStatus);
+    if (widget.clipboardStatus != null) {
+      if (!widget.clipboardStatus!.disposed) {
+        widget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
+      }
     }
   }
 
@@ -153,7 +155,7 @@ class MyTextSelectionToolbarState extends State<MyTextSelectionToolbar> {
           onPressed: widget.handleCopy!,
         ),
       if (widget.handlePaste != null &&
-          widget.clipboardStatus.value == ClipboardStatus.pasteable)
+          widget.clipboardStatus?.value == ClipboardStatus.pasteable)
         _TextSelectionToolbarItemData(
           label: localizations.pasteButtonLabel,
           onPressed: widget.handlePaste!,

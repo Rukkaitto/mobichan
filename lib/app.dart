@@ -28,12 +28,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     final notificationManager = NotificationManager(navigatorKey: navigatorKey);
     notificationManager.setup();
     notificationManager.setupInteractedMessage();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
