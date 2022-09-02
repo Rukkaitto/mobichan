@@ -58,13 +58,13 @@ dependencies:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
   firebase_core: ^1.21.1
-  firebase_analytics: ^9.1.8
-  firebase_crashlytics: ^2.8.0
-  firebase_messaging: ^11.4.0
-  cloud_firestore: ^3.1.15
-  flutter_local_notifications: ^9.5.3+1
-  firebase_app_check: ^0.0.6+12
-  firebase_auth: ^3.3.18
+  firebase_analytics: ^9.3.3
+  firebase_crashlytics: ^2.8.9
+  firebase_messaging: ^11.4.4
+  cloud_firestore: ^3.4.6
+  flutter_local_notifications: ^9.9.0
+  firebase_app_check: ^0.0.7
+  firebase_auth: ^3.7.0
   file_picker: ^5.0.1
 
 dev_dependencies:

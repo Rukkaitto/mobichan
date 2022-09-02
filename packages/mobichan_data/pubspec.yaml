@@ -23,8 +23,8 @@ dependencies:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
-  firebase_messaging: ^11.2.8
-  cloud_firestore: ^3.1.10
+  firebase_messaging: ^11.4.4
+  cloud_firestore: ^3.4.6
 
 dev_dependencies:
   flutter_test:
