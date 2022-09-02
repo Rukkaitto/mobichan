@@ -11,14 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.4
-  shared_preferences: ^2.0.8
+  http: ^0.13.5
+  shared_preferences: ^2.0.15
   mobichan_domain:
     path: ../mobichan_domain
-  dio: ^4.0.1
+  dio: ^4.0.6
   html: ^0.15.0
-  sqflite: ^2.0.1
-  path: ^1.8.0
+  sqflite: ^2.0.3+1
+  path: ^1.8.2
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
