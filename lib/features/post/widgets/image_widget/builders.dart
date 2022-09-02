@@ -20,7 +20,7 @@ extension ImageWidgetBuilders on ImageWidgetState {
       fit: StackFit.expand,
       children: [
         CachedNetworkImage(
-          fit: BoxFit.cover,
+          fit: BoxFit.fitHeight,
           imageUrl: imageUrl,
           placeholder: (context, url) {
             return Image.network(
