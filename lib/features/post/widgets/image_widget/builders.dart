@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/widgets/setting_provider.dart';
 import 'image_widget.dart';
 
 extension ImageWidgetBuilders on ImageWidgetState {
@@ -19,19 +20,22 @@ extension ImageWidgetBuilders on ImageWidgetState {
     return Stack(
       fit: StackFit.expand,
       children: [
-        CachedNetworkImage(
-          fit: BoxFit.fitHeight,
-          imageUrl: imageUrl,
-          placeholder: (context, url) {
-            return Image.network(
-              widget.post.getThumbnailUrl(widget.board)!,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, widget, progress) {
-                return buildLoading();
-              },
-            );
-          },
-          fadeInDuration: Duration.zero,
+        SettingProvider(
+          settingTitle: 'center_crop_image',
+          builder: (setting) => CachedNetworkImage(
+            fit: setting.value ? BoxFit.fitHeight : BoxFit.cover,
+            imageUrl: imageUrl,
+            placeholder: (context, url) {
+              return Image.network(
+                widget.post.getThumbnailUrl(widget.board)!,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, widget, progress) {
+                  return buildLoading();
+                },
+              );
+            },
+            fadeInDuration: Duration.zero,
+          ),
         ),
         if (widget.post.isWebm)
           const Center(
