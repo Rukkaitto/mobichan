@@ -65,7 +65,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             debuggable false
