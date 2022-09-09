@@ -34,7 +34,7 @@ dependencies:
   easy_localization: ^3.0.1
   html: ^0.15.0
   connectivity_plus: ^2.3.0
-  flutter_bloc: ^8.0.1
+  flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   mobichan_domain:
     path: packages/mobichan_domain
