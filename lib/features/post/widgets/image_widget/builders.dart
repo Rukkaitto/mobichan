@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'image_widget.dart';
@@ -15,12 +16,14 @@ extension ImageWidgetBuilders on ImageWidgetState {
     );
   }
 
-  Widget buildImage(String imageUrl) {
+  Widget buildImage(String imageUrl,  List<Setting> settings) {
+     bool crop = settings.findByTitle('center_crop_image')?.value as bool;
+
     return Stack(
       fit: StackFit.expand,
       children: [
         CachedNetworkImage(
-          fit: BoxFit.cover,
+          fit: crop ? BoxFit.fitHeight :  BoxFit.cover,
           imageUrl: imageUrl,
           placeholder: (context, url) {
             return Image.network(

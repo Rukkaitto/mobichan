@@ -1,42 +1,41 @@
 name: mobichan
 description: A 4chan app made with Flutter.
 publish_to: 'none'
-version: 2.0.5+26
+version: 2.0.6+27
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.14.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.3
-  shared_preferences: ^2.0.8
-  flutter_html: ^2.2.0
-  dio: ^4.0.1
-  image_picker: ^0.8.4+4
-  cached_network_image: ^3.1.0
+  cupertino_icons: ^1.0.5
+  shared_preferences: ^2.0.15
+  flutter_html: ^3.0.0-alpha.5
+  dio: ^4.0.6
+  cached_network_image: ^3.2.2
   html_unescape: ^2.0.0
-  video_player: ^2.2.6
+  video_player: ^2.4.7
   image_gallery_saver: ^1.7.1
-  permission_handler: ^8.2.5
-  path_provider: ^2.0.6
-  flutter_vlc_player: ^6.0.5
-  package_info_plus: ^1.3.0
-  flutter_displaymode: ^0.3.2
-  version: ^2.0.0
-  photo_view: ^0.13.0
+  permission_handler: ^10.0.1
+  path_provider: ^2.0.11
+  flutter_vlc_player: ^7.1.5
+  package_info_plus: ^1.4.3+1
+  flutter_displaymode: ^0.4.0
+  version: ^3.0.2
+  photo_view: ^0.14.0
   install_plugin:
     git:
       url: https://github.com/mitchross/flutter_install_plugin.git
-  url_launcher: ^6.0.12
+  url_launcher: ^6.1.5
   screenshot: ^1.2.3
   share: ^2.0.4
-  easy_localization: ^3.0.0
+  easy_localization: ^3.0.1
   html: ^0.15.0
-  connectivity_plus: ^1.4.0
-  flutter_bloc: ^8.0.1
-  equatable: ^2.0.3
+  connectivity_plus: ^2.3.0
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
   mobichan_domain:
     path: packages/mobichan_domain
   mobichan_data:
@@ -44,36 +43,37 @@ dependencies:
   configurable_expansion_tile_null_safety: ^2.0.0
   shimmer: ^2.0.0
   get_it: ^7.2.0
-  scrollable_positioned_list: ^0.2.3
-  flutter_staggered_grid_view: ^0.6.1
+  scrollable_positioned_list: ^0.3.4
+  flutter_staggered_grid_view: ^0.6.2
   string_similarity: ^2.0.0
-  grouped_list: ^4.1.0
+  grouped_list: ^5.1.2
   flutter_device_type: ^0.4.0
-  timeago: ^3.1.0
+  timeago: ^3.3.0
   intl: ^0.17.0
-  device_info_plus: ^3.2.0
-  path: ^1.8.0
-  sqflite: ^2.0.1
+  device_info_plus: ^4.1.2
+  path: ^1.8.2
+  sqflite: ^2.1.0
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
-  firebase_core: ^1.13.0
-  firebase_analytics: ^9.1.1
-  firebase_crashlytics: ^2.5.2
-  firebase_messaging: ^11.2.8
-  cloud_firestore: ^3.1.10
-  flutter_local_notifications: ^9.3.3
-  firebase_app_check: ^0.0.6+7
-  firebase_auth: ^3.3.9
+  firebase_core: ^1.21.1
+  firebase_analytics: ^9.3.3
+  firebase_crashlytics: ^2.8.9
+  firebase_messaging: ^11.4.4
+  cloud_firestore: ^3.4.6
+  flutter_local_notifications: ^9.9.0
+  firebase_app_check: ^0.0.7
+  firebase_auth: ^3.7.0
+  file_picker: ^5.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  cider: ^0.1.0
-  build_runner: ^2.1.4
-  flutter_lints: ^1.0.4
-  flutter_launcher_icons: "^0.9.2"
+  cider: ^0.1.1
+  build_runner: ^2.1.10
+  flutter_lints: ^2.0.1
+  flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
   android: "ic_launcher"

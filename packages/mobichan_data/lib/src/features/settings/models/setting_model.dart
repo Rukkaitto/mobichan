@@ -114,6 +114,12 @@ class SettingModel extends Setting {
         type: SettingType.bool,
         group: SettingGroup.media,
       ),
+         const SettingModel(
+        title: 'center_crop_image',
+        value: false,
+        type: SettingType.bool,
+        group: SettingGroup.media,
+      ),
     ];
   }
 }

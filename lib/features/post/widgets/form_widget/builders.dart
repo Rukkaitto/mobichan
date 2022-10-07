@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/core/cubits/cubits.dart';
 import 'package:mobichan/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,13 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'form_widget.dart';
 
 extension FormWidgetBuilders on FormWidget {
-  Widget buildImagePreview(XFile file) {
+  Widget buildImagePreview(File file) {
     return Flexible(
       child: SizedBox(
         height: PostFormState.imageHeight,
-        child: Image.file(
-          File(file.path),
-        ),
+        child: Image.file(file),
       ),
     );
   }

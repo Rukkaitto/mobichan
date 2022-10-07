@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
@@ -5,6 +6,7 @@ import 'package:mobichan/features/board/board.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
 import 'package:mobichan/features/sort/sort.dart';
+import 'package:mobichan/localization.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -64,6 +66,31 @@ extension ThreadsPageBuilders on ThreadsPage {
         },
       ),
     );
+  }
+
+  void buildListener(BuildContext context, ThreadsState threadsState,
+      List<int> threadsCountHistory) {
+    if (threadsState is ThreadsError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        errorSnackbar(
+          context,
+          threadsState.message,
+        ),
+      );
+    }
+    if (threadsState is ThreadsLoaded) {
+      if (!threadsState.shouldRefresh) return;
+      final threads = threadsState.threads;
+      threadsCountHistory.add(threads.length);
+      final threadsCount = handleNewRepliesCount(threads, threadsCountHistory);
+      if (threadsCount <= 0) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        successSnackbar(
+          context,
+          kLoadedThreads.plural(threadsCount),
+        ),
+      );
+    }
   }
 
   Widget getListView(List<Post> threads, Sort sort) {

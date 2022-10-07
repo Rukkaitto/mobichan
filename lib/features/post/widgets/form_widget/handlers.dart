@@ -1,5 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobichan/features/captcha/captcha.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/post/post.dart';
@@ -15,10 +17,10 @@ extension FormWidgetHandlers on FormWidget {
   }
 
   void handlePictureIconPressed(BuildContext context) async {
-    XFile? pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      context.read<PostFormCubit>().setFile(pickedFile);
+    final result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      final file = File(result.files.single.path!);
+      context.read<PostFormCubit>().setFile(file);
     }
   }
 

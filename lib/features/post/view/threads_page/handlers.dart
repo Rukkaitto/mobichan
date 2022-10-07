@@ -21,4 +21,15 @@ extension ThreadsPageHandlers on ThreadsPage {
       arguments: ThreadPageArguments(board: board, thread: thread),
     );
   }
+
+  int handleNewRepliesCount(List<Post> threads, List<int> threadsCountHistory) {
+    if (threadsCountHistory.isEmpty || threadsCountHistory.length == 1) {
+      return threads.length;
+    }
+    final last = threadsCountHistory.last;
+    final beforeLast =
+        threadsCountHistory.elementAt(threadsCountHistory.length - 2);
+    final newRepliesCount = last - beforeLast;
+    return newRepliesCount;
+  }
 }
