@@ -1,4 +1,4 @@
-import 'package:configurable_expansion_tile_null_safety/configurable_expansion_tile.dart';
+import 'package:configurable_expansion_tile_null_safety/configurable_expansion_tile_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobichan/core/core.dart';

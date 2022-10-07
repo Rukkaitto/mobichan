@@ -43,28 +43,32 @@ class ImageWidgetState extends State<ImageWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.post.filename != null) {
-      return BlocProvider<SettingsCubit>(
-        create: (context) => sl()..getSettings(),
-        child: BlocBuilder<SettingsCubit, List<Setting>?>(
+      return BlocBuilder<SettingsCubit, List<Setting>?>(
           builder: (context, settings) {
-            return FutureBuilder<String>(
-              future: _getImageUrl(
-                widget.post,
-                widget.board,
-                settings ?? [],
-                _connectionStatus,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return buildImage(snapshot.data!);
-                } else {
-                  return buildImage(widget.post.getThumbnailUrl(widget.board)!);
-                }
-              },
-            );
+            if (settings != null) {
+              return FutureBuilder<String>(
+                future: _getImageUrl(
+                  widget.post,
+                  widget.board,
+                  settings,
+                  _connectionStatus,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return buildImage(snapshot.data!, settings);
+                  } else {
+                    return buildImage(
+                        widget.post.getThumbnailUrl(widget.board)!,settings);
+                  }
+                },
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
           },
-        ),
-      );
+        );
     } else {
       return Container();
     }
