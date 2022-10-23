@@ -52,6 +52,7 @@
   "high_res_thumbnails_mobile": "Mobil veri kullanırken yüksek çözünürlüklü küçük resimler",
   "high_res_thumbnails_wifi": "Wi-Fi'ye bağlıyken yüksek çözünürlüklü küçük resimler",
   "mute_webm": "Öntanımlı olarak WebM'lerin sesini kıs",
+  "center_crop_image": "Resimleri ortalayarak kırp",
   "report": "Bildir",
   "general": "Genel",
   "appearance": "Görünüm",
