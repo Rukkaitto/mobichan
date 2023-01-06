@@ -45,8 +45,8 @@ extension BoardPageBuilders on BoardPage {
                     style: Theme.of(context).textTheme.headline1,
                   ).tr(),
             bottom: const PreferredSize(
-              child: BoardTabs(),
               preferredSize: Size.fromHeight(40.0),
+              child: BoardTabs(),
             ),
             actions: [
               buildFavoriteButton(context, board),

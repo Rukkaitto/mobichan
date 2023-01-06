@@ -165,10 +165,6 @@ extension ThreadWidgetBuilders on ThreadWidget {
 
   Widget buildPopupMenuButton() {
     return PopupMenuButton(
-      child: Icon(
-        Icons.more_vert,
-        size: iconSize,
-      ),
       padding: EdgeInsets.zero,
       itemBuilder: (context) => [
         if (inThread)
@@ -189,6 +185,10 @@ extension ThreadWidgetBuilders on ThreadWidget {
           onTap: () => handleReport(),
         ),
       ],
+      child: Icon(
+        Icons.more_vert,
+        size: iconSize,
+      ),
     );
   }
 
