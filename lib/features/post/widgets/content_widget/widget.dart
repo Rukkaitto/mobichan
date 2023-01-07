@@ -69,7 +69,7 @@ class ContentWidget extends StatelessWidget {
             }
           },
           style: {
-            "body": Style(margin: const EdgeInsets.all(0)),
+            "body": Style(),
             "a": Style(
               color: Colors.lightBlueAccent,
             ),
