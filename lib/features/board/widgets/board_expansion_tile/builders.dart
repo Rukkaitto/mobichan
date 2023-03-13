@@ -24,7 +24,7 @@ extension BoardExpansionTileWidgetBuilders on BoardExpansionTileWidget {
   Widget buildTitle(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.headline1,
+      style: Theme.of(context).textTheme.displayLarge,
     );
   }
 

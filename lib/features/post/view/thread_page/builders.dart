@@ -172,9 +172,9 @@ extension ThreadPageBuilders on ThreadPage {
       padding: const EdgeInsets.all(10.0),
       child: Padding(
         padding: EdgeInsets.only(left: 15.0 * (index % 3)),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             TextShimmer(width: 100),
             SizedBox(height: 10.0),
             TextShimmer(width: 300),
@@ -211,17 +211,17 @@ extension ThreadPageBuilders on ThreadPage {
           padding: EdgeInsets.all(10.0),
           child: TextShimmer(width: 200),
         ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
+        const Padding(
+          padding: EdgeInsets.all(15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const TextShimmer(width: 100),
+              TextShimmer(width: 100),
               SizedBox(
                 width: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     IconShimmer(icon: Icons.reply),
                     IconShimmer(icon: Icons.image),
                     IconShimmer(icon: Icons.reply),

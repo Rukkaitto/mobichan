@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 final ThemeData theme = ThemeData(
   brightness: Brightness.dark,
   textTheme: const TextTheme(
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: Colors.white,
       fontSize: 15.0,
     ),
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       color: Colors.white,
       fontSize: 15,
       fontWeight: FontWeight.w600,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: Color(0xFF888888),
       fontWeight: FontWeight.w600,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: Color(0xFF888888),
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       color: Color(0xFF646464),
     ),
   ),

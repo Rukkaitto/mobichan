@@ -11,7 +11,7 @@ extension SettingsPageBuilders on SettingsPage {
       return ListTile(
         title: Text(
           setting.title.tr(),
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         trailing: buildSetter(setting),
       );
@@ -24,7 +24,7 @@ extension SettingsPageBuilders on SettingsPage {
         padding: const EdgeInsets.only(top: 8.0, left: 8.0),
         child: Text(
           group.title,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ).tr(),
       );
     });

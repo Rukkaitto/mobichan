@@ -42,7 +42,7 @@ extension BoardPageBuilders on BoardPage {
                   )
                 : Text(
                     kBoards,
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ).tr(),
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(40.0),

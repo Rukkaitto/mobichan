@@ -364,7 +364,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
     var snapshot = await _controller!.takeSnapshot();
     _overlayEntry?.remove();
     _overlayEntry = _createSnapshotThumbnail(snapshot);
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   OverlayEntry _createSnapshotThumbnail(Uint8List snapshot) {

@@ -42,7 +42,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
       onTap: () => handleReply(context, post),
       child: Text(
         '${post.no}',
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }

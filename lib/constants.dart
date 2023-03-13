@@ -70,6 +70,6 @@ TextStyle postNoTextStyle(BuildContext context) {
 
 TextStyle snackbarTextStyle(BuildContext context) {
   return TextStyle(
-    color: Theme.of(context).textTheme.bodyText1!.color,
+    color: Theme.of(context).textTheme.bodyLarge!.color,
   );
 }

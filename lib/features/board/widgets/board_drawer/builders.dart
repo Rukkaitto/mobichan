@@ -22,7 +22,7 @@ extension BoardDrawerBuilders on BoardDrawer {
             if (state is PackageInfoLoaded) {
               return Text(
                 'Version ${state.packageInfo.version}',
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               );
             } else {
               return Container();
@@ -121,7 +121,7 @@ extension BoardDrawerBuilders on BoardDrawer {
               children: <TextSpan>[
                 TextSpan(
                   text: ' /${board.board}/',
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
@@ -237,7 +237,7 @@ extension BoardDrawerBuilders on BoardDrawer {
         horizontalTitleGap: 0,
         trailing: Text(
           '/${thread.boardId}/',
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         title: Text(
           thread.displayTitle.removeHtmlTags,

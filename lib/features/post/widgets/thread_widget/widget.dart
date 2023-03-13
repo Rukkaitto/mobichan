@@ -100,17 +100,17 @@ class ThreadWidget extends StatelessWidget {
                 height: 250.0,
                 color: Colors.white,
               ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
+              const Padding(
+                padding: EdgeInsets.all(15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const TextShimmer(width: 100),
+                    TextShimmer(width: 100),
                     SizedBox(
                       width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           IconShimmer(icon: Icons.reply),
                           IconShimmer(icon: Icons.image),
                           IconShimmer(icon: Icons.more_vert),

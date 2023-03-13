@@ -6,7 +6,7 @@ extension DeviceInfoExtension on DeviceInfoPlugin {
   Future<String?> getUUID() async {
     if (Platform.isAndroid) {
       var androidDeviceInfo = await androidInfo;
-      return androidDeviceInfo.id?.toLowerCase();
+      return androidDeviceInfo.id.toLowerCase();
     }
     return null;
   }
