@@ -66,7 +66,7 @@ class _BoardExpansionTileWidgetState extends State<BoardExpansionTileWidget> {
           ),
         ),
       ),
-      children: widget.child != null ? [widget.child!] : [],
+      childrenBody: widget.child != null ? Column(children: [widget.child!]) : null, // Change this line
     );
   }
 }

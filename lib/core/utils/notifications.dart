@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,8 @@ class NotificationManager {
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat_name');
-    final IOSInitializationSettings initializationSettingsIos =
-        IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIos =
+    DarwinInitializationSettings(
       onDidReceiveLocalNotification: (id, title, body, payload) {
         flutterLocalNotificationsPlugin.show(
           id,
@@ -55,7 +56,7 @@ class NotificationManager {
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: _onSelectNotification,
+      onDidReceiveBackgroundNotificationResponse: _onSelectNotification,
     );
 
     await flutterLocalNotificationsPlugin
@@ -104,7 +105,8 @@ class NotificationManager {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
-  void _onSelectNotification(String? payload) {
+  void _onSelectNotification(NotificationResponse notificationResponse) {
+    var payload = notificationResponse.payload;
     if (payload == null) return;
     final data = Map<String, dynamic>.from(jsonDecode(payload));
     _handleNotificationTap(data);

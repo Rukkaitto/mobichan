@@ -48,7 +48,7 @@ dependencies:
   string_similarity: ^2.0.0
   grouped_list: ^5.1.2
   flutter_device_type: ^0.4.0
-  timeago: ^3.3.0
+  timeago: ^3.4.0
 
   device_info_plus: ^8.1.0
   path: ^1.8.3
