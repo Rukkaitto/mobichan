@@ -5,7 +5,7 @@ homepage:
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0-218.1.beta <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,21 +15,21 @@ dependencies:
   shared_preferences: ^2.0.18
   mobichan_domain:
     path: ../mobichan_domain
-  dio: ^5.0.2
+  dio: ^5.0.3
   html: ^0.15.2
-  sqflite: ^2.2.5
+  sqflite: ^2.2.6
   path: ^1.8.3
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
-  firebase_messaging: ^14.2.6
-  cloud_firestore: ^4.4.4
+  firebase_messaging: ^14.3.0
+  cloud_firestore: ^4.4.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
