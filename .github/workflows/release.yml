@@ -66,6 +66,9 @@ jobs:
         with:
           java-version: "12.x"
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
@@ -122,6 +125,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: "12.x"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
