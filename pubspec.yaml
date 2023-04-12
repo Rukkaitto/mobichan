@@ -5,7 +5,7 @@ version: 2.0.6+27
 
 environment:
 
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: ">=2.19.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -52,7 +52,7 @@ dependencies:
   timeago: ^3.4.0
 
   device_info_plus: ^8.1.0
-  path: ^1.8.3
+  path: ^1.8.2
   sqflite: ^2.2.6
   data_connection_checker:
     git:
@@ -72,7 +72,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   cider: ^0.1.4
-  build_runner: ^2.4.1
+  build_runner: ^2.3.3
   flutter_lints: ^2.0.1
   flutter_launcher_icons: ^0.12.0
 

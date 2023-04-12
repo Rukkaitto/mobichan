@@ -172,7 +172,7 @@ extension ThreadPageBuilders on ThreadPage {
       padding: const EdgeInsets.all(10.0),
       child: Padding(
         padding: EdgeInsets.only(left: 15.0 * (index % 3)),
-        child: const Column(
+        child:  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextShimmer(width: 100),
@@ -211,9 +211,9 @@ extension ThreadPageBuilders on ThreadPage {
           padding: EdgeInsets.all(10.0),
           child: TextShimmer(width: 200),
         ),
-        const Padding(
+         Padding(
           padding: EdgeInsets.all(15.0),
-          child: Row(
+          child:  Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextShimmer(width: 100),

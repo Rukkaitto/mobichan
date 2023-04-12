@@ -100,7 +100,7 @@ class ThreadWidget extends StatelessWidget {
                 height: 250.0,
                 color: Colors.white,
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

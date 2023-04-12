@@ -18,7 +18,7 @@ dependencies:
   dio: ^5.0.3
   html: ^0.15.2
   sqflite: ^2.2.6
-  path: ^1.8.3
+  path: ^1.8.2
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
