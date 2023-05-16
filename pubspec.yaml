@@ -5,74 +5,74 @@ version: 2.0.6+27
 
 environment:
 
-  sdk: ">=2.19.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.5
-  shared_preferences: ^2.0.18
+  shared_preferences: ^2.1.1
   flutter_html: 3.0.0-alpha.6
-  dio: ^5.0.3
+  dio: ^5.1.2
   cached_network_image: ^3.2.3
   html_unescape: ^2.0.0
-  video_player: ^2.6.0
+  video_player: ^2.6.1
   image_gallery_saver: ^1.7.1
   permission_handler: ^10.2.0
-  path_provider: ^2.0.13
+  path_provider: ^2.0.15
   flutter_vlc_player: ^7.2.0
-  package_info_plus: ^3.0.3
-  flutter_displaymode: ^0.5.0
+  package_info_plus: ^4.0.0
+  flutter_displaymode: ^0.6.0
   version: ^3.0.2
   photo_view: ^0.14.0
   install_plugin:
     git:
       url: https://github.com/mitchross/flutter_install_plugin.git
-  url_launcher: ^6.1.10
-  screenshot: ^1.3.0
+  url_launcher: ^6.1.11
+  screenshot: ^2.1.0
   share: ^2.0.4
   easy_localization: ^3.0.1
-  html: ^0.15.2
-  connectivity_plus: ^3.0.3
+  html: ^0.15.3
+  connectivity_plus: ^4.0.0
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
   mobichan_domain:
     path: packages/mobichan_domain
   mobichan_data:
     path: packages/mobichan_data
-  configurable_expansion_tile_null_safety: ^3.1.1
+  configurable_expansion_tile_null_safety: ^3.2.0
   shimmer: ^2.0.0
-  get_it: ^7.2.0
-  scrollable_positioned_list: ^0.3.5
+  get_it: ^7.6.0
+  scrollable_positioned_list: ^0.3.8
   flutter_staggered_grid_view: ^0.6.2
   string_similarity: ^2.0.0
   grouped_list: ^5.1.2
   flutter_device_type: ^0.4.0
   timeago: ^3.4.0
 
-  device_info_plus: ^8.1.0
-  path: ^1.8.2
-  sqflite: ^2.2.6
+  device_info_plus: ^9.0.0
+  path: ^1.8.3
+  sqflite: ^2.2.8+3
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
-  firebase_core: ^2.8.0
-  firebase_analytics: ^10.1.6
-  firebase_crashlytics: ^3.0.17
-  firebase_messaging: ^14.3.0
-  cloud_firestore: ^4.4.5
-  flutter_local_notifications: ^13.0.0
-  firebase_app_check: ^0.1.1+14
-  firebase_auth: ^4.3.0
-  file_picker: ^5.2.6
+  firebase_core: ^2.12.0
+  firebase_analytics: ^10.4.0
+  firebase_crashlytics: ^3.3.0
+  firebase_messaging: ^14.6.0
+  cloud_firestore: ^4.7.0
+  flutter_local_notifications: ^14.0.0+2
+  firebase_app_check: ^0.1.4
+  firebase_auth: ^4.6.0
+  file_picker: ^5.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  cider: ^0.1.4
-  build_runner: ^2.3.3
+  cider: ^0.1.5
+  build_runner: ^2.4.4
   flutter_lints: ^2.0.1
   flutter_launcher_icons: ^0.12.0
 
