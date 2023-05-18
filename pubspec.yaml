@@ -53,7 +53,7 @@ dependencies:
 
   device_info_plus: ^9.0.0
   path: ^1.8.3
-  sqflite: ^2.2.8+3
+  sqflite: ^2.2.8+4
   data_connection_checker:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
