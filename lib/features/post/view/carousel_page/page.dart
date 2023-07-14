@@ -70,7 +70,7 @@ class _CarouselPageState extends State<CarouselPage> {
     return SnackBar(
       backgroundColor: isSuccess
           ? Theme.of(context).cardColor
-          : Theme.of(context).errorColor,
+          : Theme.of(context).colorScheme.error,
       elevation: 5,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

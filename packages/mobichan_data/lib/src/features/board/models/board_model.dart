@@ -1,7 +1,7 @@
 import 'package:mobichan_data/mobichan_data.dart';
 import 'package:mobichan_domain/mobichan_domain.dart';
 
-class BoardModel extends Board with Model {
+class BoardModel extends Board implements Model  {
   const BoardModel({
     required String board,
     required String title,

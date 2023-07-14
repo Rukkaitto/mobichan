@@ -42,11 +42,11 @@ extension BoardPageBuilders on BoardPage {
                   )
                 : Text(
                     kBoards,
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ).tr(),
             bottom: const PreferredSize(
-              child: BoardTabs(),
               preferredSize: Size.fromHeight(40.0),
+              child: BoardTabs(),
             ),
             actions: [
               buildFavoriteButton(context, board),

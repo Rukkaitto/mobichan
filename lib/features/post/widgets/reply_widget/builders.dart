@@ -42,7 +42,7 @@ extension ReplyWidgetBuilders on ReplyWidget {
       onTap: () => handleReply(context, post),
       child: Text(
         '${post.no}',
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }
@@ -96,10 +96,9 @@ extension ReplyWidgetBuilders on ReplyWidget {
               TextButton(
                 onPressed: () => handleTapReplies(context, post),
                 style: TextButton.styleFrom(
-                  minimumSize: Size.zero,
+                  foregroundColor: Theme.of(context).disabledColor, minimumSize: Size.zero,
                   padding: const EdgeInsets.only(top: 8),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  primary: Theme.of(context).disabledColor,
                 ),
                 child: Text(kReply.plural(replies.length)),
               ),

@@ -74,7 +74,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
           spacingBetweenIconAndText,
           Text(
             '${thread.replies}',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
       );
@@ -94,7 +94,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
           spacingBetweenIconAndText,
           Text(
             '${thread.images}',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
       );
@@ -130,7 +130,7 @@ extension ThreadWidgetBuilders on ThreadWidget {
           softWrap: true,
           maxLines: maxLines,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.headline2,
+          style: Theme.of(context).textTheme.displayMedium,
         ),
       );
     } else {
@@ -165,10 +165,6 @@ extension ThreadWidgetBuilders on ThreadWidget {
 
   Widget buildPopupMenuButton() {
     return PopupMenuButton(
-      child: Icon(
-        Icons.more_vert,
-        size: iconSize,
-      ),
       padding: EdgeInsets.zero,
       itemBuilder: (context) => [
         if (inThread)
@@ -189,6 +185,10 @@ extension ThreadWidgetBuilders on ThreadWidget {
           onTap: () => handleReport(),
         ),
       ],
+      child: Icon(
+        Icons.more_vert,
+        size: iconSize,
+      ),
     );
   }
 

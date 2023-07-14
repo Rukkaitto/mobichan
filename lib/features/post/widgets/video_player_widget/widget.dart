@@ -165,10 +165,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Size: ' +
-                            (_controller!.value.size.width.toInt()).toString() +
-                            'x' +
-                            (_controller!.value.size.height.toInt()).toString(),
+                        'Size: ${_controller!.value.size.width.toInt()}x${_controller!.value.size.height.toInt()}',
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style:
@@ -176,10 +173,9 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        'Status: ' +
-                            _controller!.value.playingState
+                        'Status: ${_controller!.value.playingState
                                 .toString()
-                                .split('.')[1],
+                                .split('.')[1]}',
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style:
@@ -368,7 +364,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget>
     var snapshot = await _controller!.takeSnapshot();
     _overlayEntry?.remove();
     _overlayEntry = _createSnapshotThumbnail(snapshot);
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   OverlayEntry _createSnapshotThumbnail(Uint8List snapshot) {

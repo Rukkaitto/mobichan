@@ -1,7 +1,6 @@
 /// From https://ktuusj.medium.com/flutter-custom-selection-toolbar-3acbe7937dd3
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:mobichan/localization.dart';
 
 typedef OffsetValue = void Function(int start, int end);

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Board extends Equatable with Comparable<Board> {
+class Board extends Equatable implements Comparable<Board> {
   final String board;
   final String title;
   final int wsBoard;
