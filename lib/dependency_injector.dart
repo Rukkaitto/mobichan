@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 import 'package:mobichan/core/core.dart';
 import 'package:mobichan/features/board/cubits/cubits.dart';
 import 'package:mobichan/features/captcha/cubits/cubits.dart';
@@ -85,9 +86,7 @@ Future<void> init() async {
   );
 
   sl.registerFactory<CaptchaCubit>(
-    () => CaptchaCubit(
-      repository: sl(),
-    ),
+    () => CaptchaCubit(),
   );
 
   // Post
@@ -218,7 +217,18 @@ Future<void> init() async {
   final packageInfo = await PackageInfo.fromPlatform();
   sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 
-  sl.registerLazySingleton<Dio>(() => Dio());
+  sl.registerLazySingleton<Dio>(
+    () => Dio(
+      BaseOptions(
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.2 Safari/605.1.15',
+          'Origin': 'https://sys.4channel.org',
+        }
+      )
+    )
+  );
+
+  sl.registerLazySingleton<Logger>(() => Logger());
 
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(
@@ -230,6 +240,7 @@ Future<void> init() async {
     () => NetworkManagerImpl(
       client: sl(),
       networkInfo: sl(),
+      logger: sl(),
     ),
   );
 

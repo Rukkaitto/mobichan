@@ -9,6 +9,8 @@ abstract class CaptchaState extends Equatable {
 
 class CaptchaInitial extends CaptchaState {}
 
+class CaptchaCloudflareChecking extends CaptchaState {}
+
 class CaptchaLoading extends CaptchaState {}
 
 class CaptchaLoaded extends CaptchaState {

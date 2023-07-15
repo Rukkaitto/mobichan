@@ -47,6 +47,8 @@
   "boards_loading_error": "Panolar alınamadı. İnternete bağlı mısınız?",
   "threads_loading_error": "Mesaj dizileri alınamadı. İnternete bağlı mısınız?",
   "post_network_error": "Mesaj gönderilemedi. İnternete bağlı mısınız?",
+  "captcha_network_error": "Captcha gönderilemedi. İnternete bağlı mısınız?",
+  "internal_server_error": "Sunucu hatası. Lütfen daha sonra tekrar deneyin.",
   "show_nsfw_warning": "Uygunsuz panolar için uyarı göster",
   "threaded_replies": "Mesaj dizili yanıtları göster",
   "high_res_thumbnails_mobile": "Mobil veri kullanırken yüksek çözünürlüklü küçük resimler",

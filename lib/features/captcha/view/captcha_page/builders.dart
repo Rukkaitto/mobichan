@@ -14,6 +14,21 @@ extension CaptchaPageBuilders on CaptchaPage {
     );
   }
 
+  Widget buildCloudflareChecking() {
+    return const SizedBox(
+      width: 100.0,
+      height: 100.0,
+      child: Column(
+        children: [
+          Center(
+            child: CircularProgressIndicator(),
+          ),
+          Text('Checking Cloudflare...'),
+        ],
+      ),
+    );
+  }
+
   Widget buildLoading() {
     return const SizedBox(
       width: 100.0,
