@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:mobichan_data/mobichan_data.dart';
 
 abstract class NetworkManager {
@@ -13,8 +14,9 @@ abstract class NetworkManager {
 class NetworkManagerImpl implements NetworkManager {
   final NetworkInfo networkInfo;
   final Dio client;
+  final Logger logger;
 
-  NetworkManagerImpl({required this.networkInfo, required this.client});
+  NetworkManagerImpl({required this.networkInfo, required this.client, required this.logger});
 
   @override
   Future<T> makeRequest<T>({
@@ -24,21 +26,30 @@ class NetworkManagerImpl implements NetworkManager {
     Map<String, dynamic>? headers,
   }) async {
     if (await networkInfo.isConnected) {
-      final response = await client.request(
-        url,
-        data: data,
-        options: Options(
-          method: method,
-          headers: headers,
-        ),
-      );
+      try {
+        final response = await client.request(
+            url,
+            data: data,
+            options: Options(
+              method: method,
+              headers: headers,
+              ),
+            );
 
-      if (response.statusCode == 200) {
-        return response.data as T;
-      } else {
+        if (response.statusCode == 200) {
+          return response.data as T;
+        } else {
+          logger.e(response.statusCode, response.data);
+          throw ServerException(
+            message: response.data,
+            code: response.statusCode,
+          );
+        }
+      } on DioError catch (e) {
+        logger.e(e.response?.statusCode, e.response?.data);
         throw ServerException(
-          message: response.data,
-          code: response.statusCode,
+          message: e.response?.data,
+          code: e.response?.statusCode,
         );
       }
     } else {

@@ -67,6 +67,8 @@ dependencies:
   firebase_app_check: ^0.1.4
   firebase_auth: ^4.6.0
   file_picker: ^5.3.0
+  logger: ^1.4.0
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

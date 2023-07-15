@@ -47,6 +47,8 @@
   "boards_loading_error": "Impossible de charger les boards. Êtes-vous connecté à Internet ?",
   "threads_loading_error": "Impossible de charger les fils. Êtes-vous connecté à Internet ?",
   "post_network_error": "Impossible d'envoyer le post. Êtes-vous connecté à Internet ?",
+  "captcha_network_error": "Impossible de récupérer la captcha. Êtes-vous connecté à Internet ?",
+  "internal_server_error": "Erreur interne du serveur. Veuillez réessayer plus tard.",
   "show_nsfw_warning": "Montrer un avertissement pour les boards NSFW",
   "threaded_replies": "Montrer les réponses en cascade",
   "high_res_thumbnails_mobile": "Miniatures haute-résolution en connexion cellulaire",

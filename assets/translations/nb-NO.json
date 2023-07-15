@@ -47,6 +47,8 @@
   "boards_loading_error": "Kunne ikke hente tavler. Er enheten tilkoblet Internett?",
   "threads_loading_error": "Kunne ikke hente tråder. Er enheten tilkoblet Internett?",
   "post_network_error": "Kunne ikke poste. Er enheten tilkoblet Internett?",
+  "captcha_network_error": "Kunne ikke captcha. Er enheten tilkoblet Internett?",
+  "internal_server_error": "Intern serverfeil. Prøv igjen senere.",
   "show_nsfw_warning": "Vis advarsel om obskønt innhold",
   "threaded_replies": "Vis trådvise svar",
   "high_res_thumbnails_mobile": "Miniatyrbilder i høy oppløsning på mobildata",

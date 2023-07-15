@@ -25,6 +25,7 @@ dependencies:
       ref: master
   firebase_messaging: ^14.6.0
   cloud_firestore: ^4.7.0
+  logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

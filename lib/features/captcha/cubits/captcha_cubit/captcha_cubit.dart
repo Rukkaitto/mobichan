@@ -6,17 +6,21 @@ import 'package:mobichan_domain/mobichan_domain.dart';
 part 'captcha_state.dart';
 
 class CaptchaCubit extends Cubit<CaptchaState> {
-  final CaptchaRepository repository;
+  CaptchaCubit() : super(CaptchaLoading());
 
-  CaptchaCubit({required this.repository}) : super(CaptchaInitial());
+  void emitCaptchaLoaded(CaptchaChallenge captcha) {
+    emit(CaptchaLoaded(captcha: captcha));
+  }
 
-  void getCaptchaChallenge(Board board, Post? thread) async {
+  void emitCaptchaError(CaptchaChallengeException exception) {
+    emit(CaptchaError('${exception.error} (wait for ${exception.refreshTime} seconds)'));
+  }
+
+  void emitCaptchaLoading() {
     emit(CaptchaLoading());
-    try {
-      final captcha = await repository.getCaptchaChallenge(board, thread);
-      emit(CaptchaLoaded(captcha: captcha));
-    } on CaptchaChallengeException catch (e) {
-      emit(CaptchaError(e.error));
-    }
+  }
+
+  void emitCaptchaCloudflareChecking() {
+    emit(CaptchaCloudflareChecking());
   }
 }
